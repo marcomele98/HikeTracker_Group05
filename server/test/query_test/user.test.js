@@ -13,7 +13,7 @@ function User (id, name, surname, role, password, email, salt, phone_number) {
     this.phone_number = phone_number;
 }
 
-test('Testing getUser', async()=>{
+test('Test getUser', async()=>{
 
     const email = 'lg1@p.it';
     let data = await user.getUser(email);
@@ -52,6 +52,7 @@ test('Test getUserById', async()=>{
     );
 
     expect(user1).toEqual(user_check);
+    
     data = await user.getUserById(-1);
     expect(data).toBe(undefined);
 });
