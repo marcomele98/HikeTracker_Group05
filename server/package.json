@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon index.js",
-    "resetDB": "node deleteDB; node initDB"
+    "resetDB": "node deleteDB; node initDB",
+    "test": "jest"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -21,5 +22,16 @@
     "passport-local": "^1.0.0",
     "pug": "2.0.0-beta11",
     "sqlite3": "^5.1.2"
-  }
+  },
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "jest": "^29.2.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
