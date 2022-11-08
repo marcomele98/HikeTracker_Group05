@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "resetDB": "node deleteDB; node initDB",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
