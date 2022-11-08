@@ -8,6 +8,10 @@ const passport = require('passport'); // auth middleware
 const LocalStrategy = require('passport-local').Strategy; // username and password for login
 const session = require('express-session'); // enable sessions
 
+const fileUpload = require('express-fileupload');
+const bodyParser = require('body-parser');
+const _ = require('lodash');
+
 const User = require('./Services/user');
 const user = new User;
 
@@ -50,6 +54,11 @@ const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {
 const app = express();
 const port = 3001;
 
+// enable files upload
+app.use(fileUpload({
+  createParentPath: true
+}));
+
 // set-up the middlewares
 app.use(morgan('dev'));
 app.use(express.json());
@@ -58,6 +67,11 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
+
+//add other middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
 
 // custom middleware: check if a given request is coming from an authenticated user
 const isLoggedIn = (req, res, next) => {
@@ -128,6 +142,36 @@ app.get('/api/hello', (req, res) => {
   return res.status(200).json(message);
 });
 
+
+app.post('/upload-avatar', async (req, res) => {
+  try {
+      if(!req.files) {
+          res.send({
+              status: false,
+              message: 'No file uploaded'
+          });
+      } else {
+          //Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
+          let avatar = req.files.avatar;
+          
+          //Use the mv() method to place the file in the upload directory (i.e. "uploads")
+          avatar.mv('./uploads/' + avatar.name);
+
+          //send response
+          res.send({
+              status: true,
+              message: 'File is uploaded',
+              data: {
+                  name: avatar.name,
+                  mimetype: avatar.mimetype,
+                  size: avatar.size
+              }
+          });
+      }
+  } catch (err) {
+      res.status(500).send(err);
+  }
+});
 
 
 // activate the server
