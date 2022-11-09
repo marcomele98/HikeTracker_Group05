@@ -19,34 +19,34 @@
             "difficulty": "Professional Hiker",
             "region": "TO",
             "city": "Mompantero",
-            "gpx": "gpx content"
+            "gpx": "gpx content",
             "end_point" : {
-                            "latitude" : ""
-                            "longitude" : ""
-                            "altitude" : ""
-                            "name" : "" (if present)
-                            "address" : "" (if present)
-                        }
+                            "latitude" : "",
+                            "longitude" : "",
+                            "altitude" : "",
+                            "name" : "", (if present)
+                            "address" : "", (if present)
+                        },
             "start_point" : {
-                            "latitude" : ""
-                            "longitude" : ""
-                            "altitude" : ""
-                            "name" : "" (if present)
-                            "address" : "" (if present)
-            }
+                            "latitude" : "",
+                            "longitude" : "",
+                            "altitude" : "",
+                            "name" : "", (if present)
+                            "address" : "", (if present)
+                        },
             "reference_points" : [{
-                            "latitude" : ""
-                            "longitude" : ""
-                            "altitude" : ""
-                            "name" : "" (if present)
-                            "address" : "" (if present)
+                            "latitude" : "",
+                            "longitude" : "",
+                            "altitude" : "",
+                            "name" : "", (if present)
+                            "address" : "", (if present)
                         }, 
                         {
-                            "latitude" : ""
-                            "longitude" : ""
-                            "altitude" : ""
-                            "name" : "" (if present)
-                            "address" : "" (if present)
+                            "latitude" : "",
+                            "longitude" : "",
+                            "altitude" : "",
+                            "name" : "", (if present)
+                            "address" : "", (if present)
                         }, ... ] if no reference points the array will be empty []
         }       
 ```
