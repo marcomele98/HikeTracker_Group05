@@ -25,28 +25,28 @@
                             "longitude" : "",
                             "altitude" : "",
                             "name" : "", (if present)
-                            "address" : "", (if present)
+                            "address" : "" (if present)
                         },
             "start_point" : {
                             "latitude" : "",
                             "longitude" : "",
                             "altitude" : "",
                             "name" : "", (if present)
-                            "address" : "", (if present)
+                            "address" : "" (if present)
                         },
             "reference_points" : [{
                             "latitude" : "",
                             "longitude" : "",
                             "altitude" : "",
                             "name" : "", (if present)
-                            "address" : "", (if present)
+                            "address" : "" (if present)
                         }, 
                         {
                             "latitude" : "",
                             "longitude" : "",
                             "altitude" : "",
                             "name" : "", (if present)
-                            "address" : "", (if present)
+                            "address" : "" (if present)
                         }, ... ] if no reference points the array will be empty []
         }       
 ```
