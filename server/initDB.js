@@ -102,12 +102,24 @@ db.serialize(function () {
       PRIMARY KEY("email","role")\
       );'
     );
-
+  
+     db.run(
+      "INSERT OR IGNORE INTO NAMED_LOCATION(id, name, point_id)\
+       VALUES (1, 'Mompantero', 1),\
+              (2, 'Usseglio', 2),\
+              (3, 'Garessio', 3)"
+     );
     db.run(
       "INSERT OR IGNORE INTO USER(id, name, surname, role, password, email, salt, phone_number)\
        VALUES (1, 'Mario', 'Rossi', 'local guide', \
               'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
-              'lg1@p.it', '4783473632662333', '3334567980')"
+              'lg1@p.it', '4783473632662333', '3334567980'),\
+              (2, 'Joey', 'Tribbiani', 'hiker', \
+              'df0cefa167765d3030518dc0fa8a2111077a5bd44e2c194967ed8483c0444614', \
+              's123457@polito.it', '804c0ce51e', '3477252610'),\
+              (3, 'Monica', 'Geller', 'local guide', \
+              '386ea0c539b3ca2d3dad3a52796ef01157adcbe2ea4d43b89b55ff006e1c0385', \
+              's123452@polito.it', 'ca8e5f941b', '3488137219')"
     );
 
     db.run(
@@ -154,6 +166,15 @@ db.serialize(function () {
             (2, 'Rifugio Savona', 6),\
             (3, 'Gallo di monte', 16)"    
    );
+  
+  db.run(
+    "INSERT OR IGNORE INTO ADDRES(id,address,point_id)\
+     VALUES (1, 'Pian Bersi, 12075 Garessio CN', 6),\
+            (2, 'Strada Provinciale 178, 12084 Mondovì', 8),\
+            (3, '12075 Colle di Casotto, Province of Cuneo', 16),\
+            (4, '17030 Colletta di Castelbianco, Province of Savona', 11)" 
+    
+  );
 
    db.run(
     "INSERT OR IGNORE INTO HIKE_POINTS(hike_id,point_id,point_position_in_hike)\
