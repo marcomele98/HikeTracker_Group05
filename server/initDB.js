@@ -69,6 +69,9 @@ db.serialize(function () {
     'CREATE TABLE IF NOT EXISTS "HUT" (\
        "id"	INTEGER NOT NULL,\
        "name" TEXT NOT NULL UNIQUE,\
+       "latitude" TEXT NOT NULL,\
+       "longitude" TEXT NOT NULL,\
+       "altitude" TEXT NOT NULL,\
         PRIMARY KEY("id" AUTOINCREMENT)\
     );'
   );
@@ -78,6 +81,9 @@ db.serialize(function () {
     'CREATE TABLE IF NOT EXISTS "PARKING_LOT" (\
         "id"	INTEGER NOT NULL,\
         "name" TEXT NOT NULL UNIQUE,\
+        "latitude" TEXT NOT NULL,\
+        "longitude" TEXT NOT NULL,\
+        "altitude" TEXT NOT NULL,\
          PRIMARY KEY("id" AUTOINCREMENT)\
     );'
   );
