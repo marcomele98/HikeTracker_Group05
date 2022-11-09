@@ -24,7 +24,7 @@ db.serialize(function () {
     "email" TEXT NOT NULL UNIQUE,\
     "salt" TEXT NOT NULL,\
     "phone_number" TEXT,\
-    PRIMARY KEY("id")\
+    PRIMARY KEY("id" AUTOINCREMENT)\
     );'
   );
 
@@ -112,8 +112,8 @@ db.serialize(function () {
 
 
   db.run(
-    "INSERT OR IGNORE INTO USER(id, name, surname, role, password, email, salt, phone_number)\
-       VALUES (1, 'Mario', 'Rossi', 'local guide', \
+    "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
+       VALUES ('Mario', 'Rossi', 'local guide', \
               'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
               'lg1@p.it', '4783473632662333', '3334567980')"
   );
