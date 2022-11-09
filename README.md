@@ -4,7 +4,6 @@
 
 ### POST
 
-
 #### **/api/hike**
 - **Creates a new hike.**
 - **Request header** has a line: `Content-Type: application/json`.
