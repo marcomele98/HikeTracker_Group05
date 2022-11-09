@@ -12,7 +12,7 @@ class HikeDescription {
 
     async newHikeDescription(req, res) {
         let hike = req.body;
-        let lg_id = 1 /*req.user.id;*/
+        let lg_id = req.user.id;
         // let end_point = hike.end_point
         try {
             let hike_id = await db.newHike(hike, lg_id);

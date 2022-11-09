@@ -139,7 +139,7 @@ app.get('/api/hello', (req, res) => {
 
 
 
-app.post('/api/hike', /*isLoggedIn,*/ (req, res) => {
+app.post('/api/hike', isLoggedIn, (req, res) => {
     return hike.newHikeDescription(req, res);
 });
 
