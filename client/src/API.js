@@ -37,6 +37,25 @@
      throw userInfo;  // an object with the error coming from the server
    }
  }
+
+ async function newHikeDescription(hike) {
+  console.log(hike);
+  let response = await fetch(new URL('hike', APIURL), {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({hike: hike}),
+  });
+  if (response.ok) {
+    const hikeAdded = await response.json();
+    return hikeAdded;
+  } else {
+    const errDetail = await response.json();
+    throw errDetail.message;
+  }
+}
  
- const API = { logIn, logOut, getUserInfo };
+ const API = { logIn, logOut, getUserInfo, newHikeDescription };
  export default API;

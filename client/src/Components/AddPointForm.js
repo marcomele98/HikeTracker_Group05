@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Form, Col} from "react-bootstrap";
+import {Form, Col, Button} from "react-bootstrap";
 
 const AddPointForm = (props) => {
 
@@ -7,12 +7,36 @@ const AddPointForm = (props) => {
     const [long, setLong] = useState("");
     const [height, setHeight] = useState("");
     const [name, setName] = useState("");
-    const [address, setAddress] = useState(""); 
+    const [address, setAddress] = useState("");
+
+	function confirmPoint(){
+		//TODO: validityCheck
+
+		const point = {
+			lat,
+			long,
+			height,
+			name,
+			address
+		}
+
+		console.log(point);
+
+		if (props.type === "Start point"){
+			props.setStartPoint(point);
+		}
+		else if(props.type === "End point"){
+			props.setEndPoint(point);
+		}
+		else{
+
+		}
+	}
 
     return(
         <>
         <Col className="m-3">
-            <h3>{props.type}</h3>
+            <h2>{props.type}</h2>
             <Form>
 
             <Form.Group className ={"mb-3"} as={Col} md="4" controlId="validationCustom01">
@@ -73,6 +97,7 @@ const AddPointForm = (props) => {
 				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
 			</Form.Group>
 
+			<Button onClick={confirmPoint}>Confirm</Button>
         </Form>
         </Col>
         </>
