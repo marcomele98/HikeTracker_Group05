@@ -39,18 +39,16 @@
  }
 
  async function newHikeDescription(hike) {
-  console.log(hike);
   let response = await fetch(new URL('hike', APIURL), {
     method: 'POST',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({hike: hike}),
+    body: JSON.stringify(hike),
   });
   if (response.ok) {
-    const hikeAdded = await response.json();
-    return hikeAdded;
+    return null;
   } else {
     const errDetail = await response.json();
     throw errDetail.message;

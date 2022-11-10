@@ -9,28 +9,29 @@ const HikeForm = () => {
 
     const [GPX, setGPX] = useState("");
 	const [fileGPX, setFileGPX] = useState(null);
-    const [title, setTitle] = useState("Posto di prova");
-    const [length, setLength] = useState("14");
-    const [expectedTime, setExpectedTime] = useState("14");
-    const [ascent, setAscent] = useState("13");
-    const [difficulty, setDifficulty] = useState("Medium");
-    const [region, setRegion] = useState("Piemonte");
-    const [city, setCity] = useState("Bardonecchia");
+    const [title, setTitle] = useState("ROCCIAMELONE");
+    const [length, setLength] = useState(9);
+    const [expectedTime, setExpectedTime] = useState(420);
+    const [ascent, setAscent] = useState(3538);
+    const [difficulty, setDifficulty] = useState("Professional Hiker");
+    const [region, setRegion] = useState("TO");
+    const [city, setCity] = useState("Mompantero");
 	const [startPoint, setStartPoint] = useState(null);
 	const [endPoint, setEndPoint] = useState(null);
 	const [referencePoints, setReferencePoints] = useState([]);
+	const [showForm,setShowForm] = useState(false);
 
 	const reader = new FileReader();
 	const navigate = useNavigate();
 
-	function loadContent() {
+	const loadContent = () => {
 		return new Promise(resolve => {
 			reader.readAsText(fileGPX[0]);
 			reader.onloadend = () => {
 				resolve(reader.result);
 			}
 		});
-	  }
+	}
 
 	const sendForm = async () => {
 
@@ -60,8 +61,8 @@ const HikeForm = () => {
         } catch {
             toast.error("Error during adding hike. Try Again.", { position: "top-center" }, { toastId: 4 });
         }
-        
-        //navigate("/");
+
+		navigate("/");
     };
 
     return (
@@ -174,15 +175,40 @@ const HikeForm = () => {
             </Form>
             
         </Col>
-        <AddPointForm setStartPoint = {setStartPoint} type = {"Start point"}></AddPointForm>
-        <AddPointForm setEndPoint = {setEndPoint} type = {"End point"}></AddPointForm>
-		
-		<Row className={"m-2"}>
+        
+		<Row>
+		<AddPointForm setStartPoint = {setStartPoint} type = {"Start point"}></AddPointForm>
+		</Row>
+
+		<Row>
+		<AddPointForm setEndPoint = {setEndPoint} type = {"End point"}></AddPointForm>
+		</Row>
+
+		<Row>
 			<Col>
-				<Button variant = "outline-success" onClick={sendForm}>New Hike</Button>
-				<Button className = "mx-4" variant = "outline-danger">Cancel</Button>
+				{showForm?
+				<Col>
+					<AddPointForm setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"}></AddPointForm>
+				</Col>
+				:
+				<Col>
+					<Button className="mx-3" variant = "outline-primary" onClick={() => setShowForm(true)}>Add new point</Button>
+				</Col>
+				}
 			</Col>
 		</Row>
+
+		<Row className="fs-5 mx-3">Points added: {referencePoints.length}</Row>
+
+		<Col className="mx-4 mt-3">
+			<Row xs={3}>
+				<Button variant = "outline-success" onClick={sendForm}>Create new hike</Button>
+			</Row>
+
+			<Row xs={3} className="my-3">
+				<Button variant = "outline-danger" onClick={()=> navigate("/")}>Cancel</Button>
+			</Row>
+		</Col>
         </>
     )
 }

@@ -5,6 +5,7 @@ import { NavigationBar } from "./Components/Navbar";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { LoginForm } from "./Components/LoginComponents";
 import { ToastContainer } from "react-toastify";
+import HikeForm from "./HikeForm";
 
 
 
@@ -37,6 +38,13 @@ const RoutesManager = ({
                     <Route path="/*" 
                     element={<Navigate to="/home" />} />
                     {" "}
+                    
+                    <Route
+                        path="/new-hike"
+                        element={<HikeForm/>}
+                    >
+
+                    </Route>
                 </Routes>
             </Row>
         </div>

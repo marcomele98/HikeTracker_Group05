@@ -1,21 +1,44 @@
 import React, {useState} from "react";
-import {Form, Col, Button} from "react-bootstrap";
+import {Form, Row, Col, Button} from "react-bootstrap";
 
 const AddPointForm = (props) => {
 
-    const [lat, setLat] = useState("");
-    const [long, setLong] = useState("");
-    const [height, setHeight] = useState("");
-    const [name, setName] = useState("");
-    const [address, setAddress] = useState("");
+    const [lat, setLat] = useState(45.17778);
+    const [long, setLong] = useState(7.08337);
+    const [height, setHeight] = useState(2147.107666);
+    const [name, setName] = useState("prova");
+    const [address, setAddress] = useState("prova");
+
+	function addReferencePoint(){
+
+		const point = {
+			latitude: lat,
+			longitude: long,
+			altitude: height,
+			name,
+			address
+		}
+
+		let referencePoints = props.referencePoints;
+		referencePoints.push(point);
+
+		props.setReferencePoints(referencePoints);
+
+		setLat("");
+		setLong("");
+		setHeight("");
+		setName("");
+		setAddress("");
+		props.setShowForm(false);
+	}
 
 	function confirmPoint(){
 		//TODO: validityCheck
 
 		const point = {
-			lat,
-			long,
-			height,
+			latitude: lat,
+			longitude: long,
+			altitude: height,
 			name,
 			address
 		}
@@ -29,7 +52,7 @@ const AddPointForm = (props) => {
 			props.setEndPoint(point);
 		}
 		else{
-
+			
 		}
 	}
 
@@ -46,7 +69,10 @@ const AddPointForm = (props) => {
 					type="text"
 					placeholder="Insert latitude"
 					value={lat}
-					onChange={(e) => setLat(e.target.value)}
+					onChange={(e) =>{
+						setLat(e.target.value);
+						confirmPoint();
+					}}
 				/>
 				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
 			</Form.Group>
@@ -58,7 +84,10 @@ const AddPointForm = (props) => {
 					type="text"
 					placeholder="Insert longitude"
 					value={long}
-					onChange={(e) => setLong(e.target.value)}
+					onChange={(e) =>{
+						setLong(e.target.value);
+						confirmPoint();
+					}}
 				/>
 				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
 			</Form.Group>
@@ -70,7 +99,10 @@ const AddPointForm = (props) => {
 					type="text"
 					placeholder="Insert height"
 					value={height}
-					onChange={(e) => setHeight(e.target.value)}
+					onChange={(e) =>{
+						setHeight(e.target.value);
+						confirmPoint();
+					}}
 				/>
 				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
 			</Form.Group>
@@ -81,7 +113,10 @@ const AddPointForm = (props) => {
 					type="text"
 					placeholder="Insert name"
 					value={name}
-					onChange={(e) => setName(e.target.value)}
+					onChange={(e) =>{
+						setName(e.target.value);
+						confirmPoint();
+					}}
 				/>
 				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
 			</Form.Group>
@@ -92,12 +127,25 @@ const AddPointForm = (props) => {
 					type="text"
 					placeholder="Insert address"
 					value={address}
-					onChange={(e) => setAddress(e.target.value)}
+					onChange={(e) =>{
+						setAddress(e.target.value);
+						confirmPoint();
+					}}
 				/>
 				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
 			</Form.Group>
 
-			<Button onClick={confirmPoint}>Confirm</Button>
+			{props.type==="New point"?
+			<Row>
+				<Col>
+					<Button variant = "outline-primary" onClick={addReferencePoint}>Confirm</Button>
+					<Button className = "mx-4" variant = "outline-dark" onClick={() => props.setShowForm(false)}>Cancel new point</Button>		
+				</Col>
+			</Row>
+			:
+			null
+			}
+
         </Form>
         </Col>
         </>
