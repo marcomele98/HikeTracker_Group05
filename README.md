@@ -72,7 +72,7 @@
 
 ```
         {
-            hikes: [
+            [
               {
                 "id": 1,
                 "title": "ROCCIAMELONE",
