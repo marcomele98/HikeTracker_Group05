@@ -93,7 +93,6 @@ db.serialize(function () {
     );'
   );
 
-
   db.run(
     'CREATE TABLE IF NOT EXISTS "PARKING_LOT" (\
         "id"	INTEGER NOT NULL,\
@@ -184,7 +183,7 @@ var values =
              (3, 'Parking Colletta di Castelbianco','44.11318', '8.06597','235')"
 
    );
-
+  
    db.run(
      "INSERT INTO HUT(id,name,latitude, longitude, altitude)\
       VALUES (1, 'Refuge La Riposa','45.17778', '7.08337', '2185'),\
@@ -200,7 +199,6 @@ var values =
             (4, 2 ),\
             (5, 3 )"
   );
-
 
   db.run(
     "INSERT INTO HIKE_HUT(hike_id,hut_id)\
