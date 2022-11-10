@@ -150,7 +150,7 @@
                                   "latitude" : "",
                                   "longitude" : "",
                                   "altitude" : "",
-                                  "name" : "", (if present)
+                                  "name" : "", 
                                },
                "huts": [
                   {
@@ -158,14 +158,14 @@
                       "latitude" : "",
                       "longitude" : "",
                       "altitude" : "",
-                      "name" : "", (if present)
+                      "name" : "", 
                    },
                    {
                       "id": 5,
                       "latitude" : "",
                       "longitude" : "",
                       "altitude" : "",
-                      "name" : "", (if present)
+                      "name" : "", 
                    },
                    ...
                ],
@@ -175,14 +175,14 @@
                       "latitude" : "",
                       "longitude" : "",
                       "altitude" : "",
-                      "name" : "", (if present)
+                      "name" : "",
                    },
                    {
                       "id": 5,
                       "latitude" : "",
                       "longitude" : "",
                       "altitude" : "",
-                      "name" : "", (if present)
+                      "name" : "",
                    },
                    ...
                ],
