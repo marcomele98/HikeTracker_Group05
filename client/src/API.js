@@ -37,6 +37,22 @@
      throw userInfo;  // an object with the error coming from the server
    }
  }
+
+ async function registerUser(data) {
+  const response = await fetch(new URL('register', APIURL), {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  if(!response.ok) {
+    const errMessage = await response.json();
+    throw errMessage;
+  }
+  else return null;
+ }
  
- const API = { logIn, logOut, getUserInfo };
+ const API = { logIn, logOut, getUserInfo, registerUser };
  export default API;
