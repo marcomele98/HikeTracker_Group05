@@ -12,13 +12,15 @@ const session = require('express-session'); // enable sessions
 const User = require('./Services/user');
 const user = new User;
 
+const HikeDescription = require('./Services/hike');
+const hike = new HikeDescription;
+
 /*** Set up Passport ***/
 // set up the "username and password" login strategy
 // by setting a function to verify username and password
 passport.use(new LocalStrategy(
   function (username, password, done) {
     user.getUser(username, password).then((user) => {
-      console.log(user)
       if (!user)
         return done(null, false, { message: 'Username and/or password wrong. Try again.' });
       return done(null, user);
@@ -131,9 +133,15 @@ app.get('/api/hello', (req, res) => {
   let message = {
     message: 'Hello World!'
   }
+  console.log(123)
   return res.status(200).json(message);
 });
 
+
+
+app.post('/api/hike', isLoggedIn, (req, res) => {
+    return hike.newHikeDescription(req, res);
+});
 
 
 

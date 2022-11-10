@@ -31,11 +31,26 @@ exports.get = (stmt, params) => {
 
 exports.run = (stmt, params) => {
     return new Promise((res, rej) => {
-        db.run(stmt, params, (error, result) => {
+        db.run(stmt, params, (error) => {
             if (error) {
                 return rej(error.message);
             }
-            return res(result);
+            return res(true);
         });
+    })
+}
+
+
+exports.insert = (stmt, params) => {
+    return new Promise((res, rej) => {
+        db.run(stmt, params, function (err) {
+            if (err) {
+              rej(err);
+              return;
+            }
+            if (this.changes === 0) rej("operation failed");
+            res(this.lastID);
+          }
+        );
     })
 }
