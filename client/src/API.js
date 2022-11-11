@@ -37,6 +37,26 @@
      throw userInfo;  // an object with the error coming from the server
    }
  }
+
+ async function getHikes() {
+  const response = await fetch(new URL('hikes', APIURL));
+  const hikes = await response.json();
+  if (response.ok) {
+    return hikes;
+  } else {
+    throw hikes;  // an object with the error coming from the server
+  }
+}
+
+async function getHikeById(id) {
+  const response = await fetch(new URL('hike/' + id, APIURL));
+  const hike = await response.json();
+  if (response.ok) {
+    return hike;
+  } else {
+    throw hike;  // an object with the error coming from the server
+  }
+}
  
- const API = { logIn, logOut, getUserInfo };
+ const API = { logIn, logOut, getUserInfo, getHikes, getHikeById };
  export default API;

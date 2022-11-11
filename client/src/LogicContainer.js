@@ -8,6 +8,7 @@ const LogicContainer = () => {
 
     const [loggedIn, setLoggedIn] = useState();
     const [user, setUser] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -15,10 +16,13 @@ const LogicContainer = () => {
         const checkAuth = async () => {
             try {
                 // here you have the user info, if already logged in
+                setIsLoading(true);
                 const user = await API.getUserInfo();
                 setLoggedIn(true);
                 setUser(user);
-            } catch (err) { }
+            } catch (err) {
+                setIsLoading(false);
+             }
         };
         checkAuth();
     }, []);
@@ -26,13 +30,16 @@ const LogicContainer = () => {
 
     const doLogin = async (credentials) => {
         try {
+            setIsLoading(true);
             const user = await API.logIn(credentials);
             toast.success(`Welcome ${user.name}!`, { position: "top-center" }, { toastId: 1 });
             setLoggedIn(true);
             setUser(user)
             navigate('/');
+            setIsLoading(false);
         } catch (err) {
             toast.error(err, { position: "top-center" }, { toastId: 2 });
+            setIsLoading(false);
         }
     };
 
@@ -55,6 +62,8 @@ const LogicContainer = () => {
             doLogin={doLogin}
             loggedIn={loggedIn}
             doLogout={doLogout}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
         />
     );
 };
