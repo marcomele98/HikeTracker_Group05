@@ -13,6 +13,7 @@ const RoutesManager = ({
     doLogin,
     loggedIn,
     doLogout,
+    user
 }) => {
 
     return (
@@ -41,7 +42,7 @@ const RoutesManager = ({
                     
                     <Route
                         path="/new-hike"
-                        element={<HikeForm/>}
+                        element={<HikeForm user={user}/>}
                     >
 
                     </Route>

@@ -3,11 +3,11 @@ import {Form, Row, Col, Button} from "react-bootstrap";
 
 const AddPointForm = (props) => {
 
-    const [lat, setLat] = useState(45.17778);
-    const [long, setLong] = useState(7.08337);
-    const [height, setHeight] = useState(2147.107666);
-    const [name, setName] = useState("prova");
-    const [address, setAddress] = useState("prova");
+    const [lat, setLat] = useState("");
+    const [long, setLong] = useState("");
+    const [height, setHeight] = useState("");
+    const [name, setName] = useState("");
+    const [address, setAddress] = useState("");
 
 	function addReferencePoint(){
 
@@ -32,7 +32,7 @@ const AddPointForm = (props) => {
 		props.setShowForm(false);
 	}
 
-	function confirmPoint(){
+	const confirmPoint = (lat, long, height, name, address) => {
 		//TODO: validityCheck
 
 		const point = {
@@ -58,53 +58,52 @@ const AddPointForm = (props) => {
 
     return(
         <>
-        <Col className="m-3">
+        <Col>
             <h2>{props.type}</h2>
-            <Form>
 
             <Form.Group className ={"mb-3"} as={Col} md="4" controlId="validationCustom01">
 				<Form.Label className = {"fs-4"}>Latitude</Form.Label>
 				<Form.Control
 					required
-					type="text"
+					type="number"
 					placeholder="Insert latitude"
 					value={lat}
 					onChange={(e) =>{
 						setLat(e.target.value);
-						confirmPoint();
+						confirmPoint(e.target.value, long, height, name, address);
 					}}
 				/>
-				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
+				<Form.Control.Feedback type="invalid">Please insert correct latitude</Form.Control.Feedback>
 			</Form.Group>
 
             <Form.Group className ={"mb-3"} as={Col} md="4" controlId="validationCustom02">
 				<Form.Label className = {"fs-4"}>Longitude</Form.Label>
 				<Form.Control
 					required
-					type="text"
+					type="number"
 					placeholder="Insert longitude"
 					value={long}
 					onChange={(e) =>{
 						setLong(e.target.value);
-						confirmPoint();
+						confirmPoint(lat, e.target.value, height, name, address);
 					}}
 				/>
-				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
+				<Form.Control.Feedback type="invalid">Please insert correct longitude</Form.Control.Feedback>
 			</Form.Group>
 
             <Form.Group className ={"mb-3"} as={Col} md="4" controlId="validationCustom03">
 				<Form.Label className = {"fs-4"}>Height</Form.Label>
 				<Form.Control
 					required
-					type="text"
+					type="number"
 					placeholder="Insert height"
 					value={height}
 					onChange={(e) =>{
 						setHeight(e.target.value);
-						confirmPoint();
+						confirmPoint(lat, long, e.target.value, name, address);
 					}}
 				/>
-				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
+				<Form.Control.Feedback type="invalid">Please insert correct height</Form.Control.Feedback>
 			</Form.Group>
 
             <Form.Group className ={"mb-3"} as={Col} md="4" controlId="validationCustom04">
@@ -115,10 +114,9 @@ const AddPointForm = (props) => {
 					value={name}
 					onChange={(e) =>{
 						setName(e.target.value);
-						confirmPoint();
+						confirmPoint(lat, long, height, e.target.value, address);
 					}}
 				/>
-				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
 			</Form.Group>
 
             <Form.Group className ={"mb-3"} as={Col} md="4" controlId="validationCustom05">
@@ -129,10 +127,9 @@ const AddPointForm = (props) => {
 					value={address}
 					onChange={(e) =>{
 						setAddress(e.target.value);
-						confirmPoint();
+						confirmPoint(lat, long, height, name, e.target.value);
 					}}
 				/>
-				<Form.Control.Feedback type="invalid">Please insert value</Form.Control.Feedback>
 			</Form.Group>
 
 			{props.type==="New point"?
@@ -146,7 +143,7 @@ const AddPointForm = (props) => {
 			null
 			}
 
-        </Form>
+        
         </Col>
         </>
     )
