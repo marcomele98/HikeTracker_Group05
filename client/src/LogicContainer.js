@@ -55,6 +55,7 @@ const LogicContainer = () => {
             doLogin={doLogin}
             loggedIn={loggedIn}
             doLogout={doLogout}
+            user = {user}
         />
     );
 };
