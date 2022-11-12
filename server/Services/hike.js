@@ -9,8 +9,6 @@ const e = require('express');
 const { each } = require('lodash');
 const { HikeStruct, Hike_HutStruct, Hike_ParkingStruct } = require('../Models/hike_model');
 
-let HikeDetails = new HikeDetailStruct;
-
 class HikeDescription {
 
     constructor() { }
@@ -25,7 +23,7 @@ class HikeDescription {
     }
 
     isNotValidRegion = (field) => {
-        return field === undefined || field === '' || field === null || field.length!==2;
+        return field === undefined || field === '' || field === null || field.length !== 2;
     }
 
     isNotValidNumber = (number) => {
@@ -55,12 +53,12 @@ class HikeDescription {
 
         if (this.isNotValidBody(hike) ||
             this.isNotValidField(hike.title) ||
-            this.isNotValidNumber(hike.length_kms)||
-            this.isNotValidNumber(hike.expected_mins)||
-            this.isNotValidNumber(hike.ascendent_meters)||
-            this.isNotValidField(hike.difficulty)||
-            this.isNotValidRegion(hike.region)||
-            this.isNotValidField(hike.city)||
+            this.isNotValidNumber(hike.length_kms) ||
+            this.isNotValidNumber(hike.expected_mins) ||
+            this.isNotValidNumber(hike.ascendent_meters) ||
+            this.isNotValidField(hike.difficulty) ||
+            this.isNotValidRegion(hike.region) ||
+            this.isNotValidField(hike.city) ||
             this.isNotValidField(hike.gpx) ||
             this.isNotValidPoint(hike.end_point) ||
             this.isNotValidPoint(hike.start_point)) {
@@ -117,14 +115,12 @@ class HikesView {
                 let endpointDetails = await pointDB.getPointById(hike.end_point)
 
                 hike.end_point = endpointDetails;
-                HikeDetails.hike = hike;
                 //console.log(hike.end_point);
 
             }
             else if (hike.end_point_type == 'Parking point') {
                 let endpointDetails = await parkingDB.getParkingById(hike.end_point);
                 hike.end_point = endpointDetails;
-                HikeDetails.hike = hike;
                 //console.log(hike.end_point);
                 //console.log(HikeDetails.hike);
             }
@@ -132,7 +128,6 @@ class HikesView {
 
                 let endpointDetails = await hutDB.getHutById(hike.end_point);
                 hike.end_point = endpointDetails;
-                HikeDetails.hike = hike;
                 //console.log(hike.end_point);
 
 
@@ -141,21 +136,18 @@ class HikesView {
             if (hike.start_point_type == 'general point') {
                 let startpointDetails = await pointDB.getPointById(hike.start_point);
                 hike.start_point = startpointDetails;
-                HikeDetails.hike = hike;
 
             }
             else if (hike.start_point_type == 'Parking point') {
                 let startpointDetails = await parkingDB.getParkingById(hike.start_point)
 
                 hike.start_point = startpointDetails;
-                HikeDetails.hike = hike;
                 //console.log(hike.start_point);
 
             }
             else {
                 let startpointDetails = await hutDB.getHutById(hike.start_point);
                 hike.start_point = startpointDetails;
-                HikeDetails.hike = hike;
                 //console.log(hike.start_point);
 
             }
@@ -164,34 +156,38 @@ class HikesView {
 
             //let hutIds;
             let hutIds = await db.getHikesHutsByHikeID(req.params.hikeId) //get list of huts Ids of the hike
-                //console.log(hutIds);
-                    let index = 0;
-                    for (let id of hutIds) {
-                        //console.log(id);
-                        let hut= await hutDB.getHutById(id.hut_id)
+            hike.huts=[]
+            //console.log(hutIds);
+            let index = 0;
+            for (let id of hutIds) {
+                //console.log(id);
+                let hut = await hutDB.getHutById(id.hut_id)
 
-                        HikeDetails.huts[index] = hut;
-                        index++;
-                    }
+                hike.huts[index] = hut;
+                index++;
+            }
 
             let parkingIds = await db.getHikesParkingsByHikeID(req.params.hikeId) //get list of parkings Ids of the hike
             //console.log(parkingIds);
-                    index = 0;
-                    for (let id of parkingIds) {
-                        let park = await parkingDB.getParkingById(id.parking_id)
-                        HikeDetails.parking_lots[index] = park;
-                            
-                        index++;
+            index = 0;
+            hike.parking_lots = [];
+            for (let id of parkingIds) {
+                let park = await parkingDB.getParkingById(id.parking_id)
+                hike.parking_lots[index] = park;
 
-                    }
+                index++;
+
+            }
 
             let points = await pointDB.getPointsByHikeId(req.params.hikeId)
             console.log(points);
-                    HikeDetails.points = points;
+            hike.points = [];
+            hike.points = points;
 
 
+            console.log(hike)
 
-            return res.status(200).json(HikeDetails);
+            return res.status(200).json(hike);
         }
 
     };

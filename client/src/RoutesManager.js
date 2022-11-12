@@ -5,6 +5,8 @@ import { NavigationBar } from "./Components/Navbar";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { LoginForm } from "./Components/LoginComponents";
 import { ToastContainer } from "react-toastify";
+import { Home } from "./Components/home"
+import { HikePage } from "./Components/HikePage"
 import HikeForm from "./HikeForm";
 
 
@@ -13,11 +15,14 @@ const RoutesManager = ({
     doLogin,
     loggedIn,
     doLogout,
+    isLoading,
+    setIsLoading,
     user
 }) => {
 
     return (
         <div className="container-fluid">
+            <div className={isLoading ? "loading-overlay" : ""} />
             <ToastContainer />
             <Row>
                 <NavigationBar
@@ -29,6 +34,7 @@ const RoutesManager = ({
                 <Routes>
                     <Route
                         path="/home"
+                        element={<Home setIsLoading={setIsLoading} />}
                     />
 
                     <Route
@@ -36,8 +42,13 @@ const RoutesManager = ({
                         element={<LoginForm login={doLogin} />}
                     />
 
-                    <Route path="/*" 
-                    element={<Navigate to="/home" />} />
+                    <Route
+                        path="/hike/:hikeId"
+                        element={<HikePage setIsLoading={setIsLoading} />}
+                    />
+
+                    <Route path="/*"
+                        element={<Navigate to="/home" />} />
                     {" "}
                     
                     <Route

@@ -130,13 +130,6 @@ app.get('/api/sessions/current', (req, res) => {  if(req.isAuthenticated()) {
 
 
 // API
-app.get('/api/hello', (req, res) => {
-  let message = {
-    message: 'Hello World!!!!!'
-  }
-  console.log(123)
-  return res.status(200).json(message);
-});
 
 
 
@@ -148,7 +141,7 @@ app.get('/api/hikes', (req, res) => {
   return hikeviews.getAllHikes(req,res);}
 );
 
-app.get('/api/hikes/:hikeId', (req, res) => {
+app.get('/api/hike/:hikeId', (req, res) => {
   return hikeviews.getHikeById(req,res);}
 );
 

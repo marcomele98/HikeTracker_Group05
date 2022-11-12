@@ -38,22 +38,26 @@
    }
  }
 
- async function newHikeDescription(hike) {
-  let response = await fetch(new URL('hike', APIURL), {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(hike),
-  });
-  if (response.ok) {
-    return null;
+ async function getHikes() {
+  const response = await fetch(new URL('hikes', APIURL));
+  const hikes = await response.json();
+  console.log(response)
+  if (response) {
+    return hikes;
   } else {
-    const errDetail = await response.json();
-    throw errDetail.message;
+    throw hikes;  // an object with the error coming from the server
+  }
+}
+
+async function getHikeById(id) {
+  const response = await fetch(new URL('hike/' + id, APIURL));
+  const hike = await response.json();
+  if (response.ok) {
+    return hike;
+  } else {
+    throw hike;  // an object with the error coming from the server
   }
 }
  
- const API = { logIn, logOut, getUserInfo, newHikeDescription };
+ const API = { logIn, logOut, getUserInfo, getHikes, getHikeById  };
  export default API;

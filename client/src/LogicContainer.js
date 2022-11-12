@@ -6,8 +6,9 @@ import RoutesManager from "./RoutesManager";
 
 const LogicContainer = () => {
 
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [user, setUser] = useState("");
+    const [loggedIn, setLoggedIn] = useState();
+    const [user, setUser] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -15,11 +16,12 @@ const LogicContainer = () => {
         const checkAuth = async () => {
             try {
                 // here you have the user info, if already logged in
+                setIsLoading(true);
                 const user = await API.getUserInfo();
                 setLoggedIn(true);
                 setUser(user);
             } catch (err) {
-                setUser(false)
+                setIsLoading(false);
              }
         };
         checkAuth();
@@ -28,13 +30,16 @@ const LogicContainer = () => {
 
     const doLogin = async (credentials) => {
         try {
+            setIsLoading(true);
             const user = await API.logIn(credentials);
             toast.success(`Welcome ${user.name}!`, { position: "top-center" }, { toastId: 1 });
             setLoggedIn(true);
             setUser(user)
             navigate('/');
+            setIsLoading(false);
         } catch (err) {
-            toast.error(err, { position: "top-center" }, { toastId: 2 });
+            toast.error((err==="Username and/or password wrong. Try again." ? err : "Server error."), { position: "top-center" }, { toastId: 2 });
+            setIsLoading(false);
         }
     };
 
@@ -57,6 +62,8 @@ const LogicContainer = () => {
             doLogin={doLogin}
             loggedIn={loggedIn}
             doLogout={doLogout}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
             user = {user}
         />
     );
