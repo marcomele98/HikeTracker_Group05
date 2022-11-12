@@ -41,13 +41,12 @@ const HikeForm = (props) => {
 	
 
 	useEffect( () => {
-		
-		/*const role = props.user.role;
-		if (role !== 'local guide'){
+		console.log(props.user, props.user !== "" && props.user.role !== 'local guide')
+		if (props.user !== "" && props.user.role !== 'local guide'){
 			navigate("/");
-		}*/
+		}
 
-	});
+	}, [props.user]);
 
 	const loadContent = () => {
 		return new Promise(resolve => {
