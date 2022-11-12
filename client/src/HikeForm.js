@@ -222,11 +222,11 @@ const HikeForm = (props) => {
 				<Row className="fs-5 mt-2">Points added: {referencePoints.length}</Row>
 
 				<Col className="mt-3">
-					<Row xs={3}>
+					<Row md={3}>
 						<Button type="submit" variant = "outline-success" onSubmit={handleSubmit}>Create new hike</Button>
 					</Row>
 
-					<Row xs={3} className="my-3">
+					<Row md={3} className="my-3">
 						<Button variant = "outline-danger" onClick={()=> navigate("/")}>Cancel</Button>
 					</Row>
 				</Col>

@@ -51,9 +51,6 @@ const AddPointForm = (props) => {
 		else if(props.type === "End point"){
 			props.setEndPoint(point);
 		}
-		else{
-			
-		}
 	}
 
     return(
