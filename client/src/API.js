@@ -71,7 +71,7 @@ async function newHikeDescription(hike) {
     return null;
   } else {
     const errDetail = await response.json();
-    throw errDetail.message;
+    throw errDetail.error;
   }
 }
  
