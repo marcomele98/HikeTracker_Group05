@@ -57,6 +57,23 @@ async function getHikeById(id) {
     throw hike;  // an object with the error coming from the server
   }
 }
+
+async function newHikeDescription(hike) {
+  let response = await fetch(new URL('hike', APIURL), {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(hike),
+  });
+  if (response.ok) {
+    return null;
+  } else {
+    const errDetail = await response.json();
+    throw errDetail.message;
+  }
+}
  
- const API = { logIn, logOut, getUserInfo, getHikes, getHikeById  };
+ const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription  };
  export default API;
