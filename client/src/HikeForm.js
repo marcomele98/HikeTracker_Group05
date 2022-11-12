@@ -9,13 +9,13 @@ const HikeForm = (props) => {
 
     const [GPX, setGPX] = useState("");
 	const [fileGPX, setFileGPX] = useState(null);
-    const [title, setTitle] = useState("ROCCIAMELONE");
-    const [length, setLength] = useState(9);
-    const [expectedTime, setExpectedTime] = useState(420);
-    const [ascent, setAscent] = useState(3538);
-    const [difficulty, setDifficulty] = useState("Professional Hiker");
-    const [region, setRegion] = useState("TO");
-    const [city, setCity] = useState("Mompantero");
+    const [title, setTitle] = useState("");
+    const [length, setLength] = useState();
+    const [expectedTime, setExpectedTime] = useState();
+    const [ascent, setAscent] = useState();
+    const [difficulty, setDifficulty] = useState("");
+    const [region, setRegion] = useState("");
+    const [city, setCity] = useState("");
 	const [startPoint, setStartPoint] = useState(null);
 	const [endPoint, setEndPoint] = useState(null);
 	const [referencePoints, setReferencePoints] = useState([]);
@@ -41,13 +41,12 @@ const HikeForm = (props) => {
 	
 
 	useEffect( () => {
-		
-		/*const role = props.user.role;
-		if (role !== 'local guide'){
+		console.log(props.user, props.user !== "" && props.user.role !== 'local guide')
+		if (props.user !== "" && props.user.role !== 'local guide'){
 			navigate("/");
-		}*/
+		}
 
-	});
+	}, [props.user]);
 
 	const loadContent = () => {
 		return new Promise(resolve => {

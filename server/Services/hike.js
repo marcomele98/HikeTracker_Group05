@@ -19,6 +19,10 @@ class HikeDescription {
         return field === undefined || field === '' || field === null;
     }
 
+    isNotValidRegion = (field) => {
+        return field === undefined || field === '' || field === null || field.length!==2;
+    }
+
     isNotValidNumber = (number) => {
         return number === undefined || number === '' || number === null || isNaN(number);
     }
@@ -50,7 +54,7 @@ class HikeDescription {
             this.isNotValidNumber(hike.expected_mins)||
             this.isNotValidNumber(hike.ascendent_meters)||
             this.isNotValidField(hike.difficulty)||
-            this.isNotValidField(hike.region)||
+            this.isNotValidRegion(hike.region)||
             this.isNotValidField(hike.city)||
             this.isNotValidField(hike.gpx) ||
             this.isNotValidPoint(hike.end_point) ||

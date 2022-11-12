@@ -42,9 +42,7 @@ const AddPointForm = (props) => {
 			name,
 			address
 		}
-
-		console.log(point);
-
+		
 		if (props.type === "Start point"){
 			props.setStartPoint(point);
 		}
