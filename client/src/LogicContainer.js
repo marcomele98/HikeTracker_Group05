@@ -6,8 +6,8 @@ import RoutesManager from "./RoutesManager";
 
 const LogicContainer = () => {
 
-    const [loggedIn, setLoggedIn] = useState();
-    const [user, setUser] = useState({});
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [user, setUser] = useState("");
 
     const navigate = useNavigate();
 
@@ -18,7 +18,9 @@ const LogicContainer = () => {
                 const user = await API.getUserInfo();
                 setLoggedIn(true);
                 setUser(user);
-            } catch (err) { }
+            } catch (err) {
+                setUser(false)
+             }
         };
         checkAuth();
     }, []);
@@ -55,6 +57,7 @@ const LogicContainer = () => {
             doLogin={doLogin}
             loggedIn={loggedIn}
             doLogout={doLogout}
+            user = {user}
         />
     );
 };
