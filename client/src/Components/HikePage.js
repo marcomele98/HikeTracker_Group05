@@ -91,10 +91,10 @@ function HikePage({ setIsLoading }) {
         ],
     });
 
+
     const { hikeId } = useParams();
     useEffect(() => {
         const getHikesFromServer = async () => {
-            console.log(hikeId)
             try {
                 setIsLoading(true);
                 const res = await API.getHikeById(hikeId);
@@ -270,12 +270,12 @@ function HikePage({ setIsLoading }) {
 
 const RefPointSwitcher = ({ point, type }) => {
     switch (type) {
-        case "hut":
-            return (<Hut hut={point} />);
-        case "parking_lot":
-            return (<Park park={point} />);
-        case "point":
-            return (<Point point={point} />);
+        case "Hut point":
+            return (<Hut hut={point} key={point.id}/>);
+        case "Parking point":
+            return (<Park park={point}  key={point.id}/>);
+        case "general point":
+            return (<Point point={point}  key={point.id}/>);
         default:
             console.log("Errore, tipo :" + type + "non valido per un ref. point");
             return (<></>);

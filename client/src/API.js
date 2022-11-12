@@ -41,7 +41,8 @@
  async function getHikes() {
   const response = await fetch(new URL('hikes', APIURL));
   const hikes = await response.json();
-  if (response.ok) {
+  console.log(response)
+  if (response) {
     return hikes;
   } else {
     throw hikes;  // an object with the error coming from the server
@@ -58,5 +59,5 @@ async function getHikeById(id) {
   }
 }
  
- const API = { logIn, logOut, getUserInfo, getHikes, getHikeById };
+ const API = { logIn, logOut, getUserInfo, getHikes, getHikeById  };
  export default API;

@@ -68,6 +68,7 @@ function Home({setIsLoading}) {
         getHikesFromServer()
     }, [])
 
+
     return (
 
         <Container>
@@ -267,7 +268,6 @@ function FilterForm({
         event.preventDefault();
         // validation
         if (maxAscent && minAscent && maxAscent < minAscent) {
-            console.log(maxAscent, minAscent, maxAscent < minAscent)
             setErrorMsg("Errore: Max. Asc. can't be minor than Min. Asc.");
             return
         }

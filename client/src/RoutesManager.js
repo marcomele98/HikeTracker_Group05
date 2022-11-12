@@ -7,6 +7,7 @@ import { LoginForm } from "./Components/LoginComponents";
 import { ToastContainer } from "react-toastify";
 import { Home } from "./Components/home"
 import { HikePage } from "./Components/HikePage"
+import HikeForm from "./HikeForm";
 
 
 
@@ -15,7 +16,8 @@ const RoutesManager = ({
     loggedIn,
     doLogout,
     isLoading,
-    setIsLoading
+    setIsLoading,
+    user
 }) => {
 
     return (
@@ -48,6 +50,13 @@ const RoutesManager = ({
                     <Route path="/*"
                         element={<Navigate to="/home" />} />
                     {" "}
+                    
+                    <Route
+                        path="/new-hike"
+                        element={<HikeForm user={user}/>}
+                    >
+
+                    </Route>
                 </Routes>
             </Row>
         </div>

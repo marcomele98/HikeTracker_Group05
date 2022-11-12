@@ -64,6 +64,7 @@ const LogicContainer = () => {
             doLogout={doLogout}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
+            user = {user}
         />
     );
 };
