@@ -12,8 +12,9 @@ const session = require('express-session'); // enable sessions
 const User = require('./Services/user');
 const user = new User;
 
-const HikeDescription = require('./Services/hike');
+const {HikeDescription , HikesView}  = require('./Services/hike');
 const hike = new HikeDescription;
+const hikeviews = new HikesView;
 
 /*** Set up Passport ***/
 // set up the "username and password" login strategy
@@ -131,7 +132,7 @@ app.get('/api/sessions/current', (req, res) => {  if(req.isAuthenticated()) {
 // API
 app.get('/api/hello', (req, res) => {
   let message = {
-    message: 'Hello World!'
+    message: 'Hello World!!!!!'
   }
   console.log(123)
   return res.status(200).json(message);
@@ -141,6 +142,10 @@ app.get('/api/hello', (req, res) => {
 
 app.post('/api/hike', isLoggedIn, (req, res) => {
     return hike.newHikeDescription(req, res);
+});
+
+app.get('/api/hikes', (req, res) => {
+  return hikeviews.getAllHikes(req,res);
 });
 
 

@@ -2,8 +2,11 @@
 
 const db = require('../Queries/hike');
 const pointDB = require('../Queries/point');
-
-
+const hutDB = require('../Queries/hut');
+const parkingDB = require('../Queries/parking');
+const {HikeDetailStruct} = require("../Models/hike_model");
+const e = require('express');
+const { each } = require('lodash');
 
 
 class HikeDescription {
@@ -80,4 +83,106 @@ class HikeDescription {
     }
 }
 
-module.exports = HikeDescription;
+class HikesView {
+
+    constructor() { }
+
+    async getAllHikes(req, res) {
+        try {
+            let hikes = await db.getHikes();
+            return res.status(201).json(hikes);
+        }
+        catch (err) {
+            return res.status(503).end();
+        }
+    };
+
+    async getHikeById(req, res) {
+
+        db.getHikeById(req.params.id)
+        .then((hike) => {
+            if (hike === -1) 
+            {
+                return res.status(404).json({ error: `Hike not found` }); // not found
+            } 
+            else 
+            {
+                //get endpoint details
+                if(hike.end_point_type == 'general point')
+                {
+                    let endpointDetails;
+                    endpointDetails = pointDB.getPointById(hike.end_point);
+                    hike.end_point = endpointDetails;
+                }
+                else if(hike.end_point_type == 'Parking point')
+                {
+                    let endpointDetails;
+                    endpointDetails = parkingDB.getParkingById(hike.end_point);
+                    hike.end_point = endpointDetails;
+                }
+                else
+                {
+                    let endpointDetails;
+                    endpointDetails = hutDB.getHutById(hike.end_point);
+                    hike.end_point = endpointDetails;
+
+                }
+                //get startpoint details
+                if(hike.start_point_type == 'general point')
+                {
+                    let startpointDetails;
+                    startpointDetails = pointDB.getPointById(hike.start_point);
+                    hike.start_point = startpointDetails;
+
+                }
+                else if(hike.start_point_type == 'Parking point')
+                {
+                    let startpointDetails;
+                    startpointDetails = parkingDB.getParkingById(hike.start_point);
+                    hike.start_point = startpointDetails;
+
+                }
+                else
+                {
+                    let startpointDetails;
+                    startpointDetails = hutDB.getHutById(hike.start_point);
+                    hike.start_point = startpointDetails;
+
+                }
+                HikeDetailStruct.hike = hike;
+
+                let hutIds;
+                hutIds = db.getHikesHutsByHikeID(req.params.id); //get list of huts Ids of the hike
+                let index = 0; 
+                for(let id of hutIds )
+                {
+                    HikeDetailStruct.hut[index] = hutDB.getHutById(id);
+                    index++;
+
+                }
+
+                let parkingIds;
+                parkingIds = db.getHikesParkingsByHikeID(req.params.id); //get list of parkings Ids of the hike
+                index = 0; 
+                for(let id of parkingIds )
+                {
+                    HikeDetailStruct.parking[index] = parkingDB.getParkingById(id);
+                    index++;
+
+                }
+
+                HikeDetailStruct.generalPoint = pointDB.getPointsByHikeId(req.params.id);
+
+
+
+                return res.status(200).json(HikeDetailStruct);
+            }
+        })
+        .catch((err) => res.status(503).end());
+    };
+
+
+}
+
+module.exports.HikeDescription = HikeDescription;
+module.exports.HikesView = HikesView;
