@@ -146,24 +146,25 @@ const HikeForm = (props) => {
 
                 <Form.Group className ={"mb-3"} as={Col} md="4" controlId="validationCustom05">
 					<Form.Label className = {"fs-4"}>Difficulty</Form.Label>
-					<Form.Control
-						required
-						type="text"
-						placeholder="Insert difficulty"
-						value={difficulty}
-						onChange={(e) => setDifficulty(e.target.value)}
-					/>
+					<Form.Select
+					 	value={difficulty} 
+						onChange={(e)=> setDifficulty(e.target.value)}>
+                        <option value="Tourist">Tourist</option>
+                        <option value="Hiker">Hiker</option>
+                        <option value="Professional Hiker">Professional Hiker</option>
+                    </Form.Select>
 					<Form.Control.Feedback type="invalid">Please insert correct difficulty</Form.Control.Feedback>
 			    </Form.Group>
 
                 <Form.Group className ={"mb-3"} as={Col} md="4" controlId="validationCustom06">
-					<Form.Label className = {"fs-4"}>Region</Form.Label>
+					<Form.Label className = {"fs-4"}>Province</Form.Label>
 					<Form.Control
 						required
 						type="text"
-						placeholder="Insert region"
+						placeholder="Insert province"
 						value={region}
-						onChange={(e) => setRegion(e.target.value)}
+						maxLength={2}
+						onChange={(e) => setRegion(e.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
 					/>
 					<Form.Control.Feedback type="invalid">Please insert correct region</Form.Control.Feedback>
 			    </Form.Group>
@@ -175,7 +176,7 @@ const HikeForm = (props) => {
 						type="text"
 						placeholder="Insert city"
 						value={city}
-						onChange={(e) => setCity(e.target.value)}
+						onChange={(e) => setCity(e.target.value.replace(/[^a-z]/gi, ''))}
 					/>
 					<Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback>
 			    </Form.Group>
