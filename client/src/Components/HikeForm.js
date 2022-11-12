@@ -79,10 +79,13 @@ const HikeForm = (props) => {
 		//console.log(hike);
 
         try {
+			props.setIsLoading(true);
             await API.newHikeDescription(hike);
             toast.success("Hike added correctly.", { position: "top-center" }, { toastId: 3 });
+			props.setIsLoading(false);
         } catch {
             toast.error("Error during adding hike. Try Again.", { position: "top-center" }, { toastId: 4 });
+			props.setIsLoading(false);
         }
 
 		navigate("/");

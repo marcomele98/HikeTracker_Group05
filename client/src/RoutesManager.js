@@ -53,7 +53,7 @@ const RoutesManager = ({
                     
                     <Route
                         path="/new-hike"
-                        element={<HikeForm user={user}/>}
+                        element={<HikeForm user={user} setIsLoading={setIsLoading}/>}
                     >
 
                     </Route>
