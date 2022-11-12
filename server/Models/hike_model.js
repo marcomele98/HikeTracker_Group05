@@ -1,4 +1,7 @@
 "use strict";
+const { HutStruct} = require('./hut_model');
+const { ParkingStruct} = require('./parking_model');
+const { PointStruct} = require('./point_model');
 // Class definition
 class HikeStruct {
   constructor(id=undefined,title,length_kms,expected_mins,ascendent_meters,difficulty,region, city, lg_id=undefined, gpx,end_point,
@@ -23,11 +26,13 @@ class HikeStruct {
 
 class HikeDetailStruct
 {
-    constructor(){}
-     hike;
-     hut;
-     parking;
-     generalPoint;
+    constructor(hike= new HikeStruct ,huts = [], parking_lots = [], points = []){
+        this.hike=hike;
+        this.huts=huts;
+        this.parking_lots=parking_lots;
+        this.points=points;
+    }
+    
 
 }
 

@@ -137,17 +137,17 @@ db.serialize(function () {
 var values =
 [
   [1, 'Path to ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'TO', 'Mompantero', 1,
-   'file1', 1, 'general point', 1, 'Hut point'], //endpoint:1 pointtable,strtpoint:1 hut
+   file1, 1, 'general point', 1, 'Hut point'], //endpoint:1 pointtable,strtpoint:1 hut
   [2, 'Ascesa al Rifugio Savona', 10.3, 244, 610, 'Hiker', 'CN', 'Garessio', 1,
-   'file2', 1, 'Parking point', 1, 'Parking point'],//endpoint:1 parking,strtpoint:1 parking
+   file2, 1, 'Parking point', 1, 'Parking point'],//endpoint:1 parking,strtpoint:1 parking
   [3, 'Salita al Monte Antoroto', 17, 444, 1090, 'Professional Hiker', 'CN', 'Garessio', 1,
-   'file3', 1, 'Parking point', 1, 'Parking point'],//endpoint:1 parking,strtpoint:1 parking
+   file3, 1, 'Parking point', 1, 'Parking point'],//endpoint:1 parking,strtpoint:1 parking
   [4, 'Salita al Bric Mindino e al Colle di Prato Rotondo', 9.2, 218, 610, 'Hiker', 'CN', 'Garessio', 1,
-   'file4', 2, 'Parking point', 2, 'Parking point'],//endpoint:2 parking,strtpoint:2 parking
+   file4, 2, 'Parking point', 2, 'Parking point'],//endpoint:2 parking,strtpoint:2 parking
   [5, 'Colletta di Castelbianco Loop from Veravo', 5.7, 105, 206, 'Tourist', 'SV', 'Castelbianco', 1,
-   'file5', 3, 'Parking point', 3, 'Parking point'],//endpoint:3 parking,strtpoint:3 parking
+   file5, 3, 'Parking point', 3, 'Parking point'],//endpoint:3 parking,strtpoint:3 parking
   [6, 'Chiesa di Santa Libera Loop from Losano', 4.6, 80, 122, 'Tourist', 'TO', 'Frailino', 1,
-   'file6', 6, 'general point', 6, 'general point']//endpoint:2 pointtable,strtpoint:3 pointtable
+   file6, 6, 'general point', 6, 'general point']//endpoint:2 pointtable,strtpoint:3 pointtable
 ];
   for (var i=0;i<6; i++){
    db.run(

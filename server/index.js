@@ -145,8 +145,12 @@ app.post('/api/hike', isLoggedIn, (req, res) => {
 });
 
 app.get('/api/hikes', (req, res) => {
-  return hikeviews.getAllHikes(req,res);
-});
+  return hikeviews.getAllHikes(req,res);}
+);
+
+app.get('/api/hikes/:hikeId', (req, res) => {
+  return hikeviews.getHikeById(req,res);}
+);
 
 
 
