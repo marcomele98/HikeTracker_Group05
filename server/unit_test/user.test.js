@@ -1,6 +1,6 @@
 'use strict';
 
-const user = require ('../../Queries/user');
+const user = require ('../Queries/user');
 
 const sqlite = require('sqlite3');
 const db = new sqlite.Database('HT.sqlite', (err) => {

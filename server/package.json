@@ -5,7 +5,8 @@
   "scripts": {
     "start": "nodemon index.js",
     "resetDB": "node deleteDB; node initDB",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "apiTest": "npx mocha --runInBand --timeout 10000 --exit"
   },
   "dependencies": {
     "body-parser": "^1.20.1",
