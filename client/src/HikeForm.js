@@ -64,8 +64,6 @@ const HikeForm = (props) => {
 
 	const sendForm = async () => {
 
-		//TODO: validityCheck
-
 		let content = await loadContent();
 
 		const hike = {
