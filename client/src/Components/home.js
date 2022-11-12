@@ -61,8 +61,7 @@ function Home({setIsLoading}) {
                 setHikes(res);
                 setIsLoading(false);
             } catch (err) {
-                toast.error(err, { position: "top-center" }, { toastId: 4 });
-                console.log("error")
+                toast.error("Server error.", { position: "top-center" }, { toastId: 4 });
                 setIsLoading(false);
             }
         };

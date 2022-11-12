@@ -101,8 +101,7 @@ function HikePage({ setIsLoading }) {
                 setHike(res);
                 setIsLoading(false);
             } catch (err) {
-                toast.error(err, { position: "top-center" }, { toastId: 5 });
-                console.log("error")
+                toast.error("Server error.", { position: "top-center" }, { toastId: 4 });
                 setIsLoading(false);
             }
         };
