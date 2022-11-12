@@ -7,7 +7,7 @@ import RoutesManager from "./RoutesManager";
 const LogicContainer = () => {
 
     const [loggedIn, setLoggedIn] = useState();
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
@@ -19,6 +19,7 @@ const LogicContainer = () => {
                 setIsLoading(true);
                 const user = await API.getUserInfo();
                 setLoggedIn(true);
+                setIsLoading(false);
                 setUser(user);
             } catch (err) {
                 setIsLoading(false);

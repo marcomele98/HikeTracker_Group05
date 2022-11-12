@@ -7,7 +7,7 @@ import { LoginForm } from "./Components/LoginComponents";
 import { ToastContainer } from "react-toastify";
 import { Home } from "./Components/home"
 import { HikePage } from "./Components/HikePage"
-import HikeForm from "./HikeForm";
+import HikeForm from "./Components/HikeForm";
 
 
 
@@ -34,7 +34,7 @@ const RoutesManager = ({
                 <Routes>
                     <Route
                         path="/home"
-                        element={<Home setIsLoading={setIsLoading} />}
+                        element={<Home setIsLoading={setIsLoading} user={user}/>}
                     />
 
                     <Route

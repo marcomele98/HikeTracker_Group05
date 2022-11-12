@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Form, Row, Col, Button} from "react-bootstrap";
-import AddPointForm from "./Components/AddPointForm";
-import API from "./API";
+import AddPointForm from "./AddPointForm";
+import API from "../API";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 

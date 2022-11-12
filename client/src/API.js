@@ -41,7 +41,6 @@
  async function getHikes() {
   const response = await fetch(new URL('hikes', APIURL));
   const hikes = await response.json();
-  console.log(response)
   if (response) {
     return hikes;
   } else {

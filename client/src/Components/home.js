@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { ClickableOpacity } from "./clickableOpacity";
 import { toast } from "react-toastify";
+import { PlusCircle } from "react-bootstrap-icons";
 import API from "../API";
 
-function Home({setIsLoading}) {
+function Home({ setIsLoading, user }) {
 
     const [seeFilters, setSeeFilters] = useState(false);
     const [region, setRegion] = useState("");
@@ -18,42 +19,10 @@ function Home({setIsLoading}) {
     const [minExpectedTime, setMinExpectedTime] = useState("");
     const [minDifficulty, setMinDifficulty] = useState("");
     const [maxDifficulty, setMaxDifficulty] = useState("");
-    const [hikes, setHikes] = useState([ //When backend will be done here I'll put an epmty array
-        {
-            id: 1,
-            title: "ROCCIAMELONE",
-            length_kms: 9,
-            expected_mins: 420,
-            ascendent_meters: 3538,
-            difficulty: "Professional Hiker",
-            region: "TO",
-            city: "Mompantero",
-            gpx: "gpx content",
-            lg_id: 1,
-            end_point_type: "point",
-            end_point: 2,
-            start_point_type: "parking_lot",
-            start_point: 1
-        },
-        {
-            id: 2,
-            title: "Salita al Monte Antoroto",
-            length_kms: 17,
-            expected_mins: 444,
-            ascendent_meters: 400,
-            difficulty: "Professional Hiker",
-            region: "CN",
-            city: "Garessio",
-            gpx: "gpx content",
-            lg_id: 1,
-            end_point_type: "parking_lot",
-            end_point: 3,
-            start_point_type: "hut",
-            start_point: 1
-        }]);
+    const [hikes, setHikes] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(()=>{
+    useEffect(() => {
         const getHikesFromServer = async () => {
             try {
                 setIsLoading(true);
@@ -111,6 +80,19 @@ function Home({setIsLoading}) {
                         ></FilterForm>
                     ) : undefined
 
+            }
+            {
+                user.role !== 'local guide' ?
+                    undefined
+                    :
+                    <div className="flex-shrink-0 m-5">
+                        <ClickableOpacity onClick={() => navigate("/new-hike")}>
+                            <PlusCircle
+                                color="#495057"
+                                size={50}
+                            />
+                        </ClickableOpacity>
+                    </div>
             }
             <ListGroup>
                 {
@@ -328,11 +310,11 @@ function FilterForm({
                     label="Max. Asc. (m):"
                     value={maxAscent}
                     onChange={(ev) => {
-                            if(ev.target.value)
-                                setMaxAscent(parseInt(ev.target.value))
-                            else
-                                setMaxAscent(ev.target.value)
-                        }
+                        if (ev.target.value)
+                            setMaxAscent(parseInt(ev.target.value))
+                        else
+                            setMaxAscent(ev.target.value)
+                    }
                     }
                     type="number"
                     textBoxWidth={150}
@@ -341,12 +323,12 @@ function FilterForm({
                     label="Min. Asc. (m):"
                     value={minAscent}
                     onChange={(ev) => {
-                        if(ev.target.value)
+                        if (ev.target.value)
                             setMinAscent(parseInt(ev.target.value))
                         else
                             setMinAscent(ev.target.value)
                     }
-                }
+                    }
                     type="number"
                     textBoxWidth={150}
                 />
@@ -354,12 +336,12 @@ function FilterForm({
                     label="Max. Len. (km):"
                     value={maxLength}
                     onChange={(ev) => {
-                        if(ev.target.value)
+                        if (ev.target.value)
                             setMaxLength(parseFloat(ev.target.value))
                         else
                             setMaxLength(ev.target.value)
                     }
-                }
+                    }
                     type="number"
                     step="0.01"
                     textBoxWidth={150}
@@ -368,12 +350,12 @@ function FilterForm({
                     label="Min. Len. (km):"
                     value={minLength}
                     onChange={(ev) => {
-                        if(ev.target.value)
+                        if (ev.target.value)
                             setMinLength(parseFloat(ev.target.value))
                         else
                             setMinLength(ev.target.value)
                     }
-                }
+                    }
                     type="number"
                     textBoxWidth={150}
                 />
@@ -381,12 +363,12 @@ function FilterForm({
                     label="Max. Time (min):"
                     value={maxExpectedTime}
                     onChange={(ev) => {
-                        if(ev.target.value)
+                        if (ev.target.value)
                             setMaxExpectedTime(parseInt(ev.target.value))
                         else
                             setMaxExpectedTime(ev.target.value)
                     }
-                }
+                    }
                     type="number"
                     step="0.01"
                     textBoxWidth={150}
@@ -395,12 +377,12 @@ function FilterForm({
                     label="Min. Time (min):"
                     value={minExpectedTime}
                     onChange={(ev) => {
-                        if(ev.target.value)
+                        if (ev.target.value)
                             setMinExpectedTime(parseInt(ev.target.value))
                         else
                             setMinExpectedTime(ev.target.value)
                     }
-                }
+                    }
                     type="number"
                     textBoxWidth={150}
                 />
