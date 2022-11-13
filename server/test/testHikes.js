@@ -40,7 +40,7 @@ describe('test hikes apis', () => {
                (2, '44.20647', '7.92800', '5300', 'La pianura dalle Alpi Liguri','Garessio, Cuneo, Piedmont', 2 ),\
         ")*/
     });
-
+    getnewHikeDescription();
     getHikes();
     getHikeById(0);
     getHikeById(1);
@@ -78,5 +78,16 @@ function getHikeById (id) {
         });
     });
 };
-
+function newHikeDescription(expectedHTTPStatus, title,length_km,expected_mins, ascendent_meters, difficulty, region,city,gpx,end_point,start_point,reference_points) {
+    it('adding a new hike description', async function () {
+        let hike = { title: title, length_km: length_km, expected_mins: expected_mins, ascendent_meters:ascendent_meters,difficulty: difficulty, region:region,
+            city:city,gpx: gpx,end_point:end_point,start_point:start_point,reference_points:reference_points,}
+        agent.post('/api/hike')
+            .send(hike)
+            .then(function (res) {
+                res.should.have.status(expectedHTTPStatus);
+                
+            });
+    });
+}
 
