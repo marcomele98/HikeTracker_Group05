@@ -31,8 +31,10 @@ const AddPointForm = (props) => {
 			address
 		}
 
+		props.correctCoordinates(point);
+
 		if(isNotValidPoint(point)){
-			setErrMsg("Please insert correct coordinates");
+			setErrMsg("Please insert coordinates");
 		}
 		else{
 			let referencePoints = props.referencePoints;

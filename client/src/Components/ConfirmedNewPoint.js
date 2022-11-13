@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Form, Row, Col, Button} from "react-bootstrap";
+import React from "react";
+import {Row, Col} from "react-bootstrap";
 
 const ConfirmedNewPoint = (props) => {
 

@@ -34,6 +34,8 @@ const HikeForm = (props) => {
 			event.stopPropagation();
 		} else {
 			event.preventDefault();
+			setStartPoint(()=> correctCoordinates(startPoint));
+			setEndPoint(()=> correctCoordinates(endPoint));
 			sendForm();
 		}
 
@@ -57,6 +59,21 @@ const HikeForm = (props) => {
 			}
 		});
 	}
+
+	const correctCoordinates = (point) => {
+        let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$');
+        let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$');
+        
+		if (!regexpLatitude.test(point.latitude)){
+			point.latitude = point.latitude + ".0";
+		}
+
+        if (!regexpLongitude.test(point.longitude)){
+			point.longitude = point.longitude + ".0";
+		}
+
+		return point;
+    }
 
 	const deletePoint = (point) => {
 		setReferencePoints(referencePoints.filter( (p) => p!==point));
@@ -231,7 +248,7 @@ const HikeForm = (props) => {
 					<Col>
 						{showForm?
 						<Col>
-							<AddPointForm setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"}></AddPointForm>
+							<AddPointForm correctCoordinates={correctCoordinates} setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"}></AddPointForm>
 						</Col>
 						:
 						<Col>
