@@ -74,6 +74,27 @@ async function newHikeDescription(hike) {
     throw errDetail.error;
   }
 }
+
+
+async function addUser(newUser) {
+  // call: POST /api/register
+    let response = await fetch(new URL('register', APIURL), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    });
+    if (response.ok) 
+    {
+      return null;
+    } 
+    else 
+    {
+      const errDetail = await response.json();
+      throw errDetail.error;
+    }
+}
  
- const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription  };
+ const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser  };
  export default API;

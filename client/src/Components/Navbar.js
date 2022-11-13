@@ -1,4 +1,4 @@
-import { Navbar } from "react-bootstrap";
+import { Navbar ,Col } from "react-bootstrap";
 import { Bicycle } from "react-bootstrap-icons";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +29,14 @@ function NavigationBar(props) {
           :
           (
             log ?
+            <div>
+              <Col md={2} xs={1}>
               <Button variant="success" size="lg" onClick={() => {navigate('/login'); setLog(false)}}>Login</Button>
+              </Col>
+              <Col md={2} xs={3} className="pl-5">
+              <Button variant="success" size="lg" onClick={() => {navigate('/Register'); setLog(false)}}>Register</Button>
+              </Col>
+            </div> 
               :
               <Button  variant="success" size="lg" onClick={() => {navigate('/home'); setLog(true)}}>Home</Button>
           )

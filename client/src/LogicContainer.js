@@ -58,6 +58,24 @@ const LogicContainer = () => {
         // navigate("/");
     };
 
+    const addUser = (newUser) => {
+        const add = async () => {
+          await API.addUser(newUser);
+        };
+        add()
+          .then(() => {
+            //setUpdateUser(true);
+            toast.success(
+              "User added",
+              { position: "top-center" },
+              { toastId: 5 }
+            );
+          })
+          .catch((err) => {
+            toast.error("Error during Register. Try Again.", { position: "top-center" }, { toastId: 6 });
+          });
+      };
+
     return (
         <RoutesManager
             doLogin={doLogin}
@@ -66,6 +84,7 @@ const LogicContainer = () => {
             isLoading={isLoading}
             setIsLoading={setIsLoading}
             user = {user}
+            addUser = {addUser}
         />
     );
 };
