@@ -126,3 +126,10 @@ test('Test getUserById', async()=>{
     data = await user.getUserById(-1);
     expect(data).toBe(undefined);
 });
+ test('create new user', async() => {
+        await user.newUser('Luna', 'Mocha', 'local guide', 'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', 'lg5@p.it', '4783473632662333',  '3334567989');
+        const rows = await user.getUser( 'lg5@p.it');
+       
+        expect(rows.email).toStrictEqual('lg5@p.it');
+    
+    });
