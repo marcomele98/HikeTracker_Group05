@@ -7,7 +7,7 @@ const parkingDB = require('../Queries/parking');
 const { HikeDetailStruct } = require("../Models/hike_model");
 const e = require('express');
 const { each } = require('lodash');
-const { HikeStruct, Hike_HutStruct, Hike_ParkingStruct } = require('../Models/hike_model');
+// const { HikeStruct, Hike_HutStruct, Hike_ParkingStruct } = require('../Models/hike_model');
 // let gpxParser = require('gpxparser');
 // var gpx = new gpxParser();
 
@@ -63,8 +63,8 @@ class HikeDescription {
 
     async newHikeDescription(req, res) {
         let hike = req.body;
-        let lg_id = 1 /*req.user.id;*/
-        let role = "local guide" /*req.user.role;*/
+        let lg_id = req.user.id;
+        let role = req.user.role;
         let message = ""
 
 

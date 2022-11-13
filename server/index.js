@@ -133,7 +133,7 @@ app.get('/api/sessions/current', (req, res) => {  if(req.isAuthenticated()) {
 
 
 
-app.post('/api/hike', /*isLoggedIn,*/ (req, res) => {
+app.post('/api/hike', isLoggedIn, (req, res) => {
     return hike.newHikeDescription(req, res);
 });
 
