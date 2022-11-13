@@ -14,3 +14,9 @@ exports.getUser = async (email) => {
     return db.get(sql, [email]);
 }
 
+exports.newUser = async(name, surname, role, password, email, salt, phone_number) => {
+    const sql = 'INSERT INTO USER(name, surname, role, password, email, salt, phone_number)\
+                        VALUES (?, ?, ?, ?, ?, ?, ?)';
+    return db.run(sql, [name, surname, role, password, email, salt, phone_number]);
+}
+

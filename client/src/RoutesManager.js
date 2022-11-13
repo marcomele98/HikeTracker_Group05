@@ -5,8 +5,9 @@ import { NavigationBar } from "./Components/Navbar";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { LoginForm } from "./Components/LoginComponents";
 import { ToastContainer } from "react-toastify";
-import { Home } from "./Components/home"
-import { HikePage } from "./Components/HikePage"
+import { Home } from "./Components/home";
+import { HikePage } from "./Components/HikePage";
+import { NewUserForm } from "./Components/NewUserForm";
 import HikeForm from "./Components/HikeForm";
 
 
@@ -17,7 +18,8 @@ const RoutesManager = ({
     doLogout,
     isLoading,
     setIsLoading,
-    user
+    user,
+    addUser
 }) => {
 
     return (
@@ -40,6 +42,11 @@ const RoutesManager = ({
                     <Route
                         path="/login"
                         element={<LoginForm login={doLogin} />}
+                    />
+
+                    <Route
+                        path="/Register"    
+                        element={<NewUserForm addUser={addUser} loggedIn={loggedIn} />}
                     />
 
                     <Route

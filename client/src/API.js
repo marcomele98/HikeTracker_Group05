@@ -38,6 +38,7 @@
    }
  }
 
+
  async function getHikes() {
   const response = await fetch(new URL('hikes', APIURL));
   const hikes = await response.json();
@@ -61,6 +62,7 @@ async function getHikeById(id) {
 
 async function newHikeDescription(hike) {
   let response = await fetch(new URL('hike', APIURL), {
+
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -76,5 +78,28 @@ async function newHikeDescription(hike) {
   }
 }
 
- const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription  };
+
+async function addUser(newUser) {
+  // call: POST /api/register
+    let response = await fetch(new URL('register', APIURL), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    });
+    if (response.ok) 
+    {
+      return null;
+    } 
+    else 
+    {
+      const errDetail = await response.json();
+      throw errDetail.error;
+    }
+}
+ 
+ const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser  };
+
+
  export default API;

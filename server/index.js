@@ -2,11 +2,12 @@
 
 const express = require('express');
 const morgan = require('morgan'); // logging middleware
-const { check, validationResult } = require('express-validator'); // validation middleware
+const { check, validationResult, validator, body } = require('express-validator'); // validation middleware
 const cors = require('cors');
 const passport = require('passport'); // auth middleware
 const LocalStrategy = require('passport-local').Strategy; // username and password for login
 const session = require('express-session'); // enable sessions
+const crypto = require('crypto');
 
 
 const User = require('./Services/user');
@@ -145,7 +146,40 @@ app.get('/api/hike/:hikeId', (req, res) => {
   return hikeviews.getHikeById(req,res);}
 );
 
+// Registration form backend validation
 
+const validationBodyRules = [
+  body('name', 'name is required').notEmpty(),
+  body('surname', 'surname is required').notEmpty(),
+  body('role', 'role is not on the list of possible roles').isIn(['local guide', 'hiker', 'hut worker', 'platform manager']),
+  body('password', 'password is required').notEmpty(),
+  body('email', 'email format is wrong').isEmail(),
+  body('phone_number', 'phone number is required').notEmpty(),
+];
+
+const checkRules = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+  }
+  next()
+};
+
+
+// POST to register new user
+app.post('/api/register', validationBodyRules, checkRules, async (req, res) => {
+  try {
+    await user.registerUser(req.body);
+    res.status(201).end();
+  } catch(err) {
+    console.log(err);
+    if(err.includes("SQLITE_CONSTRAINT")) {
+      res.status(400).json({error: `The user is already registered`});
+    } else {
+      res.status(500).json({error: `Database error during the registration`});
+    }
+  }
+});
 
 
 // activate the server
