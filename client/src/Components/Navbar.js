@@ -1,4 +1,4 @@
-import { Navbar ,Col } from "react-bootstrap";
+import { Navbar, Col, Row } from "react-bootstrap";
 import { Bicycle } from "react-bootstrap-icons";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -6,13 +6,11 @@ import { useState } from "react";
 
 function NavigationBar(props) {
 
-  const [log, setLog] = useState(true);
-
   const navigate = useNavigate()
 
   return (
     <Navbar className="d-flex flex-row justify-content-between" bg="success">
-      <div style={{ flex: 0.6 , paddingLeft: "1%",}} className="d-flex flex-row">
+      <div style={{ flex: 0.6, paddingLeft: "1%", }} className="d-flex flex-row">
         <div
           style={{
             paddingLeft: "1%",
@@ -24,21 +22,21 @@ function NavigationBar(props) {
       </div>
       <div>
         {props.loggedIn ? (
-          <Button variant="success" size="lg" onClick={()=>{props.logout(); setLog(true)}}>Logout</Button>
+          <Button variant="success" size="lg" onClick={() => { props.logout(); props.setLog(true) }}>Logout</Button>
         )
           :
           (
-            log ?
-            <div>
-              <Col md={2} xs={1}>
-              <Button variant="success" size="lg" onClick={() => {navigate('/login'); setLog(false)}}>Login</Button>
-              </Col>
-              <Col md={2} xs={3} className="pl-5">
-              <Button variant="success" size="lg" onClick={() => {navigate('/Register'); setLog(false)}}>Register</Button>
-              </Col>
-            </div> 
+            props.log ?
+              <Row>
+                <Col>
+                  <Button variant="success" size="lg" onClick={() => { navigate('/login'); props.setLog(false) }}>Login</Button>
+                </Col>
+                <Col>
+                  <Button variant="success" size="lg" onClick={() => { navigate('/Register'); props.setLog(false) }}>Register</Button>
+                </Col>
+              </Row>
               :
-              <Button  variant="success" size="lg" onClick={() => {navigate('/home'); setLog(true)}}>Home</Button>
+              <Button variant="success" size="lg" onClick={() => { navigate('/home'); props.setLog(true) }}>Home</Button>
           )
         }
       </div>

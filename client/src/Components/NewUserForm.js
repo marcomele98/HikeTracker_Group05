@@ -3,6 +3,7 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useEffect , useState } from 'react';
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import './Login.css'
 
 function NewUserForm(props) {
     const [validated, setValidated] = useState(false);
@@ -49,6 +50,7 @@ function NewUserForm(props) {
             setPassword("");
             setPhone_number("");
             setValidated(false);
+            props.setLog(true);
         }
         
     };
@@ -149,7 +151,7 @@ function NewUserForm(props) {
                         <Form.Group controlId='phoneNumber'>
                             <Form.Label>Phone Number:</Form.Label>
                             <Form.Control
-                                type='password'
+                                type='text'
                                 id="phoneNumberField"
                                 value={phone_number}
                                 required
@@ -184,16 +186,15 @@ function NewUserForm(props) {
                     </Col>
                     <Col xs={2} />
                 </Row>
-                <Row>
-                    <Col md={6} xs={6}/>
-                    <Col md={2} xs={1}>
-                        <Button id="clearButton" onClick={() => { setName(""); setSurname(""); setEmail(""); setPassword(""); setRole("hiker"); setPhone_number(""); setValidated(false); }} type="button" variant="secondary" className="float-right">Clear</Button>
-                    </Col>
-                    <Col md={2} xs={3} className="pl-5">
-                        <Button variant="success" id="submitButton" type="submit" className="float-right ">Register</Button>
-                    </Col>
-                    <Col md={2} xs={2}/>
-                </Row>
+                <br />
+                <div class="container">
+                <div class="row">
+                <div class=" text-right">
+                <Button  id="clearButton" size="lg" onClick={() => { setName(""); setSurname(""); setEmail(""); setPassword(""); setRole("hiker"); setPhone_number(""); setValidated(false); }} type="button" variant="secondary" className="float-right">Clear</Button>
+                <Button variant="success" id="submitButton" type="submit" size="lg"  >Register</Button>
+                </div>
+                </div>
+                </div>
             </Form >
         </div>
     )

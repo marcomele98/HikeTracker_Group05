@@ -9,7 +9,7 @@ const LogicContainer = () => {
     const [loggedIn, setLoggedIn] = useState();
     const [user, setUser] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-
+    const [log, setLog] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -86,6 +86,8 @@ const LogicContainer = () => {
             setIsLoading={setIsLoading}
             user = {user}
             addUser = {addUser}
+            log={log}
+            setLog={setLog}
         />
     );
 };

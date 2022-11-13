@@ -18,6 +18,11 @@ exports.all = (stmt, params) => {
     })
 }
 
+
+exports.serialize = (f) => {
+    db.serialize(f);
+}
+
 exports.get = (stmt, params) => {
     return new Promise((res, rej) => {
         db.get(stmt, params, (error, result) => {

@@ -33,7 +33,7 @@ class User {
     }
 
     async registerUser(data) {
-        let salt = crypto.randomBytes(32).toString("base64");
+        let salt = crypto.randomBytes(16).toString("base64");
         let hashedPassword = crypto.scryptSync(data.password, salt, 32).toString("hex");
 
         return db.newUser(data.name, data.surname, data.role, hashedPassword, data.email, salt, data.phone_number);
