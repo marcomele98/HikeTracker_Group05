@@ -1,7 +1,5 @@
 'use strict';
 
-const crypto = require('crypto');
-
 const db = require('./DAO');
 
 

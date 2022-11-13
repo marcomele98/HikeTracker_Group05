@@ -13,13 +13,16 @@ const crypto = require('crypto');
 const User = require('./Services/user');
 const user = new User;
 
+const {HikeDescription , HikesView}  = require('./Services/hike');
+const hike = new HikeDescription;
+const hikeviews = new HikesView;
+
 /*** Set up Passport ***/
 // set up the "username and password" login strategy
 // by setting a function to verify username and password
 passport.use(new LocalStrategy(
   function (username, password, done) {
     user.getUser(username, password).then((user) => {
-      console.log(user)
       if (!user)
         return done(null, false, { message: 'Username and/or password wrong. Try again.' });
       return done(null, user);
@@ -128,13 +131,20 @@ app.get('/api/sessions/current', (req, res) => {  if(req.isAuthenticated()) {
 
 
 // API
-app.get('/api/hello', (req, res) => {
-  let message = {
-    message: 'Hello World!'
-  }
-  return res.status(200).json(message);
+
+
+
+app.post('/api/hike', isLoggedIn, (req, res) => {
+    return hike.newHikeDescription(req, res);
 });
 
+app.get('/api/hikes', (req, res) => {
+  return hikeviews.getAllHikes(req,res);}
+);
+
+app.get('/api/hike/:hikeId', (req, res) => {
+  return hikeviews.getHikeById(req,res);}
+);
 
 // Registration form backend validation
 
