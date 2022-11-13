@@ -70,6 +70,7 @@ const LogicContainer = () => {
               { position: "top-center" },
               { toastId: 5 }
             );
+            navigate('/');
           })
           .catch((err) => {
             toast.error("Error during Register. Try Again.", { position: "top-center" }, { toastId: 6 });

@@ -11,10 +11,10 @@ function NewUserForm(props) {
     const [surname, setSurname] = useState("");
     const [password, setPassword] = useState("");
     const [phone_number, setPhone_number] = useState("");
-    const [role, setRole] = useState("Visitor");
+    const [role, setRole] = useState("hiker");
     const regex =
         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    const roles = ['User','local Guide'];
+    const roles = ['local guide', 'hiker', 'hut worker', 'platform manager'];
 
     useEffect( () => {
 		if (props.loggedIn){
@@ -44,7 +44,7 @@ function NewUserForm(props) {
             props.addUser(newUser);
             setName(""); 
             setSurname(""); 
-            setRole("User"); 
+            setRole("hiker"); 
             setEmail(""); 
             setPassword("");
             setPhone_number("");
@@ -146,11 +146,11 @@ function NewUserForm(props) {
                 <Row>
                     <Col xs={2} />
                     <Col xs={8}>
-                        <Form.Group controlId='password'>
+                        <Form.Group controlId='phoneNumber'>
                             <Form.Label>Phone Number:</Form.Label>
                             <Form.Control
                                 type='password'
-                                id="pswField"
+                                id="phoneNumberField"
                                 value={phone_number}
                                 required
                                 onChange={ev => setPhone_number(ev.target.value)} />
@@ -170,7 +170,7 @@ function NewUserForm(props) {
                             <Form.Select
                                 id="selectRole"
                                 onChange={(e) => {setRole(e.target.value)}}
-                                defaultValue="User"
+                                defaultValue="hiker"
                                 >
                                 {roles.map((p) => (
                                     <option value={p}>
@@ -187,7 +187,7 @@ function NewUserForm(props) {
                 <Row>
                     <Col md={6} xs={6}/>
                     <Col md={2} xs={1}>
-                        <Button id="clearButton" onClick={() => { setName(""); setSurname(""); setEmail(""); setPassword(""); setRole("User"); setPhone_number(""); setValidated(false); }} type="button" variant="secondary" className="float-right">Clear</Button>
+                        <Button id="clearButton" onClick={() => { setName(""); setSurname(""); setEmail(""); setPassword(""); setRole("hiker"); setPhone_number(""); setValidated(false); }} type="button" variant="secondary" className="float-right">Clear</Button>
                     </Col>
                     <Col md={2} xs={3} className="pl-5">
                         <Button variant="success" id="submitButton" type="submit" className="float-right ">Register</Button>
