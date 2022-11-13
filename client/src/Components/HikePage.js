@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { Row, Container, Col, ListGroupItem, ListGroup } from "react-bootstrap";
 import { ClickableOpacity } from "./clickableOpacity";
@@ -12,7 +12,7 @@ function HikePage({ setIsLoading }) {
     const [seeAllParksDetails, setSeeAllParksDetails] = useState(false);
     const [seeAllPointsDetails, setSeeAllPointsDetails] = useState(false);
     const [hike, setHike] = useState();
-
+    const navigate = useNavigate();
 
     const { hikeId } = useParams();
     useEffect(() => {
@@ -23,8 +23,11 @@ function HikePage({ setIsLoading }) {
                 setHike(res);
                 setIsLoading(false);
             } catch (err) {
-                toast.error("Server error.", { position: "top-center" }, { toastId: 4 });
                 setIsLoading(false);
+                if(err == 404)
+                    navigate("/home")
+                else
+                    toast.error("Server error", { position: "top-center" }, { toastId: 4 });
             }
         };
         getHikesFromServer()

@@ -20,6 +20,7 @@
     "express-session": "^1.17.3",
     "express-validator": "^6.14.2",
     "fs": "^0.0.1-security",
+    "gpxparser": "^3.0.8",
     "http-errors": "~1.6.3",
     "lodash": "^4.17.21",
     "morgan": "~1.9.1",
