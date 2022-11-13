@@ -30,6 +30,9 @@ function HikePage({ setIsLoading }) {
         getHikesFromServer()
     }, [hikeId])
     return (
+        !hike ? 
+        undefined
+        :
         <Container>
             <Col>
                 <Row>
