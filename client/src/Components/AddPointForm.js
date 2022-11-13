@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Form, Row, Col, Button} from "react-bootstrap";
+import {Form, Row, Col, Button, Alert} from "react-bootstrap";
 
 const AddPointForm = (props) => {
 
@@ -8,6 +8,18 @@ const AddPointForm = (props) => {
     const [height, setHeight] = useState("");
     const [name, setName] = useState("");
     const [address, setAddress] = useState("");
+	const [errMsg,setErrMsg] = useState("");
+
+	const isNotValidPoint = (point) => {
+        let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$');
+        let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$');
+        return point.latitude === undefined || point.latitude === '' || 
+        point.latitude === null || !regexpLatitude.test(point.latitude) ||
+        point.longitude === undefined || point.longitude === '' || 
+        point.longitude === null || !regexpLongitude.test(point.longitude) ||
+        point.altitude === undefined || point.altitude === '' || 
+        point.altitude === null || isNaN(point.altitude);
+    }
 
 	function addReferencePoint(){
 
@@ -19,17 +31,24 @@ const AddPointForm = (props) => {
 			address
 		}
 
-		let referencePoints = props.referencePoints;
-		referencePoints.push(point);
+		props.correctCoordinates(point);
 
-		props.setReferencePoints(referencePoints);
+		if(isNotValidPoint(point)){
+			setErrMsg("Please insert coordinates");
+		}
+		else{
+			let referencePoints = props.referencePoints;
+			referencePoints.push(point);
 
-		setLat("");
-		setLong("");
-		setHeight("");
-		setName("");
-		setAddress("");
-		props.setShowForm(false);
+			props.setReferencePoints(referencePoints);
+
+			setLat("");
+			setLong("");
+			setHeight("");
+			setName("");
+			setAddress("");
+			props.setShowForm(false);
+		}
 	}
 
 	const confirmPoint = (lat, long, height, name, address) => {
@@ -128,12 +147,15 @@ const AddPointForm = (props) => {
 			</Form.Group>
 
 			{props.type==="New point"?
+			<>
+			<Row className="mt-2" md={3}>{errMsg ? <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}</Row>
 			<Row>
 				<Col>
 					<Button variant = "outline-primary" onClick={addReferencePoint}>Confirm</Button>
 					<Button className = "mx-4" variant = "outline-dark" onClick={() => props.setShowForm(false)}>Cancel new point</Button>		
 				</Col>
 			</Row>
+			</>
 			:
 			null
 			}

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Form, Row, Col, Button} from "react-bootstrap";
 import AddPointForm from "./AddPointForm";
+import ConfirmedNewPoint from "./ConfirmedNewPoint";
 import API from "../API";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -13,7 +14,7 @@ const HikeForm = (props) => {
     const [length, setLength] = useState();
     const [expectedTime, setExpectedTime] = useState();
     const [ascent, setAscent] = useState();
-    const [difficulty, setDifficulty] = useState("");
+    const [difficulty, setDifficulty] = useState("Tourist");
     const [region, setRegion] = useState("");
     const [city, setCity] = useState("");
 	const [startPoint, setStartPoint] = useState(null);
@@ -33,6 +34,8 @@ const HikeForm = (props) => {
 			event.stopPropagation();
 		} else {
 			event.preventDefault();
+			setStartPoint(()=> correctCoordinates(startPoint));
+			setEndPoint(()=> correctCoordinates(endPoint));
 			sendForm();
 		}
 
@@ -56,9 +59,26 @@ const HikeForm = (props) => {
 		});
 	}
 
-	const sendForm = async () => {
+	const correctCoordinates = (point) => {
+        let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$');
+        let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$');
+        
+		if (!regexpLatitude.test(point.latitude)){
+			point.latitude = point.latitude + ".0";
+		}
 
-		//TODO: validityCheck
+        if (!regexpLongitude.test(point.longitude)){
+			point.longitude = point.longitude + ".0";
+		}
+
+		return point;
+    }
+
+	const deletePoint = (point) => {
+		setReferencePoints(referencePoints.filter( (p) => p!==point));
+	}
+
+	const sendForm = async () => {
 
 		let content = await loadContent();
 
@@ -147,24 +167,25 @@ const HikeForm = (props) => {
 
                 <Form.Group className ={"mb-3"} as={Col} md="4" controlId="validationCustom05">
 					<Form.Label className = {"fs-4"}>Difficulty</Form.Label>
-					<Form.Control
-						required
-						type="text"
-						placeholder="Insert difficulty"
-						value={difficulty}
-						onChange={(e) => setDifficulty(e.target.value)}
-					/>
+					<Form.Select
+					 	value={difficulty} 
+						onChange={(e)=> setDifficulty(e.target.value)}>
+                        <option value="Tourist">Tourist</option>
+                        <option value="Hiker">Hiker</option>
+                        <option value="Professional Hiker">Professional Hiker</option>
+                    </Form.Select>
 					<Form.Control.Feedback type="invalid">Please insert correct difficulty</Form.Control.Feedback>
 			    </Form.Group>
 
                 <Form.Group className ={"mb-3"} as={Col} md="4" controlId="validationCustom06">
-					<Form.Label className = {"fs-4"}>Region</Form.Label>
+					<Form.Label className = {"fs-4"}>Province</Form.Label>
 					<Form.Control
 						required
 						type="text"
-						placeholder="Insert region"
+						placeholder="Insert province"
 						value={region}
-						onChange={(e) => setRegion(e.target.value)}
+						maxLength={2}
+						onChange={(e) => setRegion(e.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
 					/>
 					<Form.Control.Feedback type="invalid">Please insert correct region</Form.Control.Feedback>
 			    </Form.Group>
@@ -176,7 +197,7 @@ const HikeForm = (props) => {
 						type="text"
 						placeholder="Insert city"
 						value={city}
-						onChange={(e) => setCity(e.target.value)}
+						onChange={(e) => setCity(e.target.value.replace(/[^a-z]/gi, ''))}
 					/>
 					<Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback>
 			    </Form.Group>
@@ -205,11 +226,30 @@ const HikeForm = (props) => {
 					<AddPointForm setEndPoint = {setEndPoint} type = {"End point"}></AddPointForm>
 				</Row>
 
+				{referencePoints.length > 0?
+				<Row className="mt-3"><h2>List of added points:</h2></Row>
+				:
+				null
+				}
+
+				{
+					referencePoints.map( (point,index) => {
+						return(
+							<>
+							<Row className="mb-1" md={4}>
+            					<Col className="fs-4">Point n°{index + 1}<Button className="mx-4" variant="danger" size="sm" onClick={() => deletePoint(point)}>Delete</Button></Col>
+        					</Row>
+							<ConfirmedNewPoint point={point}></ConfirmedNewPoint>
+							</>
+						)
+					})
+				}
+
 				<Row>
 					<Col>
 						{showForm?
 						<Col>
-							<AddPointForm setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"}></AddPointForm>
+							<AddPointForm correctCoordinates={correctCoordinates} setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"}></AddPointForm>
 						</Col>
 						:
 						<Col>
@@ -219,9 +259,7 @@ const HikeForm = (props) => {
 					</Col>
 				</Row>
 
-				<Row className="fs-5 mt-2">Points added: {referencePoints.length}</Row>
-
-				<Col className="mt-3">
+				<Col className="mt-4">
 					<Row md={3}>
 						<Button type="submit" variant = "outline-success" onSubmit={handleSubmit}>Create new hike</Button>
 					</Row>
