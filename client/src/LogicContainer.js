@@ -7,7 +7,8 @@ import RoutesManager from "./RoutesManager";
 const LogicContainer = () => {
 
     const [loggedIn, setLoggedIn] = useState();
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -15,10 +16,14 @@ const LogicContainer = () => {
         const checkAuth = async () => {
             try {
                 // here you have the user info, if already logged in
+                setIsLoading(true);
                 const user = await API.getUserInfo();
                 setLoggedIn(true);
+                setIsLoading(false);
                 setUser(user);
-            } catch (err) { }
+            } catch (err) {
+                setIsLoading(false);
+             }
         };
         checkAuth();
     }, []);
@@ -26,13 +31,16 @@ const LogicContainer = () => {
 
     const doLogin = async (credentials) => {
         try {
+            setIsLoading(true);
             const user = await API.logIn(credentials);
             toast.success(`Welcome ${user.name}!`, { position: "top-center" }, { toastId: 1 });
             setLoggedIn(true);
             setUser(user)
             navigate('/');
+            setIsLoading(false);
         } catch (err) {
-            toast.error(err, { position: "top-center" }, { toastId: 2 });
+            toast.error((err==="Username and/or password wrong. Try again." ? err : "Server error."), { position: "top-center" }, { toastId: 2 });
+            setIsLoading(false);
         }
     };
 
@@ -50,12 +58,34 @@ const LogicContainer = () => {
         // navigate("/");
     };
 
+    const addUser = (newUser) => {
+        const add = async () => {
+          await API.addUser(newUser);
+        };
+        add()
+          .then(() => {
+            //setUpdateUser(true);
+            toast.success(
+              "User added",
+              { position: "top-center" },
+              { toastId: 5 }
+            );
+            navigate('/');
+          })
+          .catch((err) => {
+            toast.error("Error during Register. Try Again.", { position: "top-center" }, { toastId: 6 });
+          });
+      };
+
     return (
         <RoutesManager
             doLogin={doLogin}
             loggedIn={loggedIn}
             doLogout={doLogout}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
             user = {user}
+            addUser = {addUser}
         />
     );
 };

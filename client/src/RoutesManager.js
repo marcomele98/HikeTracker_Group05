@@ -5,7 +5,10 @@ import { NavigationBar } from "./Components/Navbar";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { LoginForm } from "./Components/LoginComponents";
 import { ToastContainer } from "react-toastify";
-import HikeForm from "./HikeForm";
+import { Home } from "./Components/home";
+import { HikePage } from "./Components/HikePage";
+import { NewUserForm } from "./Components/NewUserForm";
+import HikeForm from "./Components/HikeForm";
 
 
 
@@ -13,11 +16,15 @@ const RoutesManager = ({
     doLogin,
     loggedIn,
     doLogout,
-    user
+    isLoading,
+    setIsLoading,
+    user,
+    addUser
 }) => {
 
     return (
         <div className="container-fluid">
+            <div className={isLoading ? "loading-overlay" : ""} />
             <ToastContainer />
             <Row>
                 <NavigationBar
@@ -29,6 +36,7 @@ const RoutesManager = ({
                 <Routes>
                     <Route
                         path="/home"
+                        element={<Home setIsLoading={setIsLoading} user={user}/>}
                     />
 
                     <Route
@@ -36,13 +44,23 @@ const RoutesManager = ({
                         element={<LoginForm login={doLogin} />}
                     />
 
-                    <Route path="/*" 
-                    element={<Navigate to="/home" />} />
+                    <Route
+                        path="/Register"    
+                        element={<NewUserForm addUser={addUser} loggedIn={loggedIn} />}
+                    />
+
+                    <Route
+                        path="/hike/:hikeId"
+                        element={<HikePage setIsLoading={setIsLoading} loggedIn={loggedIn} user={user} />}
+                    />
+
+                    <Route path="/*"
+                        element={<Navigate to="/home" />} />
                     {" "}
                     
                     <Route
                         path="/new-hike"
-                        element={<HikeForm user={user}/>}
+                        element={<HikeForm user={user} setIsLoading={setIsLoading}/>}
                     >
 
                     </Route>
