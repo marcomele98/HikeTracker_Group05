@@ -19,7 +19,9 @@ const RoutesManager = ({
     isLoading,
     setIsLoading,
     user,
-    addUser
+    addUser,
+    log,
+    setLog
 }) => {
 
     return (
@@ -30,6 +32,8 @@ const RoutesManager = ({
                 <NavigationBar
                     logout={doLogout}
                     loggedIn={loggedIn}
+                    log={log}
+                    setLog={setLog}
                 />
             </Row>
             <Row>
@@ -46,7 +50,7 @@ const RoutesManager = ({
 
                     <Route
                         path="/Register"    
-                        element={<NewUserForm addUser={addUser} loggedIn={loggedIn} />}
+                        element={<NewUserForm addUser={addUser} loggedIn={loggedIn} log={log} setLog={setLog}/>}
                     />
 
                     <Route

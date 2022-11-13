@@ -50,6 +50,7 @@ function NewUserForm(props) {
             setPassword("");
             setPhone_number("");
             setValidated(false);
+            props.setLog(true);
         }
         
     };
@@ -189,7 +190,7 @@ function NewUserForm(props) {
                 <div class="container">
                 <div class="row">
                 <div class=" text-right">
-                <Button  id="clearButton" size="lg" className="button" onClick={() => { setName(""); setSurname(""); setEmail(""); setPassword(""); setRole("hiker"); setPhone_number(""); setValidated(false); }} type="button" variant="secondary" className="float-right">Clear</Button>
+                <Button  id="clearButton" size="lg" onClick={() => { setName(""); setSurname(""); setEmail(""); setPassword(""); setRole("hiker"); setPhone_number(""); setValidated(false); }} type="button" variant="secondary" className="float-right">Clear</Button>
                 <Button variant="success" id="submitButton" type="submit" size="lg"  >Register</Button>
                 </div>
                 </div>
