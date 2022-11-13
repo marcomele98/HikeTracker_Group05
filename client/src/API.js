@@ -38,6 +38,7 @@
    }
  }
 
+
  async function getHikes() {
   const response = await fetch(new URL('hikes', APIURL));
   const hikes = await response.json();
@@ -60,6 +61,7 @@ async function getHikeById(id) {
 
 async function newHikeDescription(hike) {
   let response = await fetch(new URL('hike', APIURL), {
+
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -97,4 +99,5 @@ async function addUser(newUser) {
 }
  
  const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser  };
+
  export default API;

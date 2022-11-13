@@ -1,0 +1,11 @@
+POST http://localhost:3001/api/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Mattia",
+    "surname": "Scamuzzi",
+    "role": "local guide",
+    "password": "delpiero10",
+    "email": "mattiascamuzzi@gmail.com",
+    "phone_number": "2456482685"
+}

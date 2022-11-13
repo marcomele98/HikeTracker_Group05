@@ -8,8 +8,7 @@ class User {
     constructor() { }
 
     async getUser(email, password) {
-
-        // console.log(email)
+        
         let user = await db.getUser(email);
 
         if (user) {
@@ -31,6 +30,13 @@ class User {
 
     async getUserById(id) {
         return db.getUserById(id)
+    }
+
+    async registerUser(data) {
+        let salt = crypto.randomBytes(32).toString("base64");
+        let hashedPassword = crypto.scryptSync(data.password, salt, 32).toString("hex");
+
+        return db.newUser(data.name, data.surname, data.role, hashedPassword, data.email, salt, data.phone_number);
     }
 
 }
