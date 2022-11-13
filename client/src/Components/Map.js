@@ -4,9 +4,12 @@ import { MapContainer, Polyline, TileLayer, Marker, Popup } from 'react-leaflet'
 import '../App.css';
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import {Icon} from 'leaflet'
+let gpxParser = require('gpxparser');
 
 function Map(props) {
-    const positions = props.data.tracks[0].points.map(p => [p.lat, p.lon]);
+    var gpx = new gpxParser();
+    gpx.parse(props.data)
+    const positions = gpx.tracks[0].points.map(p => [p.lat, p.lon]);
     return (
         <div id='map'>
             <MapContainer
@@ -20,9 +23,9 @@ function Map(props) {
                     pathOptions={{fillColor: 'red', color: 'blue'}}
                     positions={positions}
                 />
-                {props.markers.map(marker => <Marker key={marker} position={marker} icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})}>
+                {props.markers.map(marker => <Marker key={marker} position={[marker.latitude, marker.longitude]} icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41]})}>
                 <Popup>
-                    Name of the point <br/> Latitude <br/> Longitude
+                    {marker.name} <br/> {marker.latitude} <br/> {marker.longitude}
                 </Popup>
                 </Marker>)}
             </MapContainer>

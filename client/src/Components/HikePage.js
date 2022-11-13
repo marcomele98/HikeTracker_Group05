@@ -4,8 +4,10 @@ import { toast } from "react-toastify";
 import { Row, Container, Col, ListGroupItem, ListGroup } from "react-bootstrap";
 import { ClickableOpacity } from "./clickableOpacity";
 import API from "../API";
+import {Map} from "./Map";
 
-function HikePage({ setIsLoading }) {
+
+function HikePage({ setIsLoading, user }) {
     const [seeStartPointDetails, setSeeStartPointDetails] = useState(false);
     const [seeEndPointDetails, setSeeEndPointDetails] = useState(false);
     const [seeAllHutsDetails, setSeeAllHutsDetails] = useState(false);
@@ -37,6 +39,7 @@ function HikePage({ setIsLoading }) {
         undefined
         :
         <Container>
+            {(user.role == "professional hiker" || user.role == "local guide") && <Map data={hike.gpx} markers={hike.huts.concat(hike.parking_lots).concat(hike.points)}></Map>}
             <Col>
                 <Row>
                     <div className="hikeTitleBig">{hike.title}</div>

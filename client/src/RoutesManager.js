@@ -44,7 +44,7 @@ const RoutesManager = ({
 
                     <Route
                         path="/hike/:hikeId"
-                        element={<HikePage setIsLoading={setIsLoading} />}
+                        element={<HikePage setIsLoading={setIsLoading} user={user}/>}
                     />
 
                     <Route path="/*"
