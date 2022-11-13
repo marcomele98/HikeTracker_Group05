@@ -48,16 +48,8 @@ describe('test hikes apis', () => {
     getHikeById(10);
 })
 
-function getHikes () {
-    it('Getting all hikes', function(done) {
-        agent.get('/api/hikes')
-        .then(function (res) {
-            res.should.have.status(200);
-            res.body.should.have.length(2);
-            done();
-        });
-    });
-};
+newHikeDescription(201, 'Path to ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'TO', 'Mompantero', 1,
+file1, 1, 'general point', 1, 'Hut point');
 
 function getHikeById (id) {
     it('Get hike specified by id', function (done) {
@@ -76,3 +68,15 @@ function getHikeById (id) {
         });
     });
 };
+// function newHikeDescription(expectedHTTPStatus, title,length_km,expected_mins, ascendent_meters, difficulty, region,city,gpx,end_point,start_point,reference_points) {
+//     it('adding a new hike description', async function () {
+//         let hike = { title: title, length_km: length_km, expected_mins: expected_mins, ascendent_meters:ascendent_meters,difficulty: difficulty, region:region,
+//             city:city,gpx: gpx,end_point:end_point,start_point:start_point,reference_points:reference_points,}
+//         agent.post('/api/hike')
+//             .send(hike)
+//             .then(function (res) {
+//                 res.should.have.status(expectedHTTPStatus);
+                
+//             });
+//     });
+// }
