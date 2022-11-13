@@ -13,10 +13,6 @@ function NavigationBar(props) {
   return (
     <Navbar className="d-flex flex-row justify-content-between" bg="success">
       <div style={{ flex: 0.6 , paddingLeft: "1%",}} className="d-flex flex-row">
-        <Bicycle
-          fill="white"
-          fontSize={30}
-        />
         <div
           style={{
             paddingLeft: "1%",

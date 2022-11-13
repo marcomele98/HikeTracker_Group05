@@ -115,7 +115,7 @@
 
 ### GET
 
-#### **/api/hike/:hiheId**
+#### **/api/hike/:hikeId**
 - **Returns a list with all hikes.**
 - **Request header** has a line: `Content-Type: application/json`.
 - **Request body**: none.

@@ -5,10 +5,13 @@
   "scripts": {
     "start": "nodemon index.js",
     "resetDB": "node deleteDB; node initDB",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "apiTest": "npx mocha --runInBand --timeout 10000 --exit"
   },
   "dependencies": {
     "body-parser": "^1.20.1",
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -26,7 +29,6 @@
     "pug": "2.0.0-beta11",
     "sqlite3": "^5.1.2"
   },
-
   "main": "index.js",
   "directories": {
     "test": "test"

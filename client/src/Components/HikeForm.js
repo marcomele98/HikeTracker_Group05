@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {Form, Row, Col, Button} from "react-bootstrap";
-import AddPointForm from "./Components/AddPointForm";
-import ConfirmedNewPoint from "./Components/ConfirmedNewPoint";
-import API from "./API";
+import AddPointForm from "./AddPointForm";
+import ConfirmedNewPoint from "./ConfirmedNewPoint";
+import API from "../API";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -44,7 +44,6 @@ const HikeForm = (props) => {
 	
 
 	useEffect( () => {
-		console.log(props.user, props.user !== "" && props.user.role !== 'local guide')
 		if (props.user !== "" && props.user.role !== 'local guide'){
 			navigate("/");
 		}
@@ -100,13 +99,15 @@ const HikeForm = (props) => {
 		//console.log(hike);
 
         try {
+			props.setIsLoading(true);
             await API.newHikeDescription(hike);
             toast.success("Hike added correctly.", { position: "top-center" }, { toastId: 3 });
-        } catch {
-            toast.error("Error during adding hike. Try Again.", { position: "top-center" }, { toastId: 4 });
+			props.setIsLoading(false);
+			navigate("/");
+        } catch(err) {
+            toast.error(err, { position: "top-center" }, { toastId: 4 });
+			props.setIsLoading(false);
         }
-
-		navigate("/");
     };
 
     return (
