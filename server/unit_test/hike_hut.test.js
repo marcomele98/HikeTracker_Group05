@@ -1,38 +1,67 @@
 const hike = require('../Queries/hike');
-const sqlite = require('sqlite3');
+const db = require('../Queries/DAO'); 
 
-const db = new sqlite.Database('HT.sqlite', (err) => {
-    if (err) throw err;
-});
 
-db.run('DELETE FROM HIKE_HUT');
-db.run("INSERT INTO HIKE_HUT (hike_id, hut_id)\
-        VALUES(1, 1),\
-        (2, 2)\
-");
+
 
 function HikesHuts (hike_id, hut_id) {
     this.hike_id = hike_id;
     this.hut_id = hut_id;
 }
 
-test('test getHikesHuts', async() => {
-    let data = await hike.getHikesHuts();
-    let hh1 = new HikesHuts(1,1);
-    let hh2 = new HikesHuts(2,2);
-    expect(data.length).toStrictEqual(2);
-    let hh1_check = new HikesHuts(data[0].hike_id, data[0].hut_id);
-    let hh2_check = new HikesHuts(data[1].hike_id, data[1].hut_id);
-    expect(hh1_check).toEqual(hh1);
-    expect(hh2_check).toEqual(hh2);
-});
 
-test('test getHikesHutsByHikeID', async() => {
-    let data1 = await hike.getHikesHutsByHikeID(1);
-    expect(data1.length).toStrictEqual(1);
-    expect(data1[0].hut_id).toBe(1);
 
-    let data2 = await hike.getHikesHutsByHikeID(2);
-    expect(data2.length).toStrictEqual(1);
-    expect(data2[0].hut_id).toBe(2);
-});
+
+describe("hutsDao", () => {
+    beforeAll(async () => {
+        await db.run('DELETE FROM HIKE_HUT');
+        await db.run('DELETE FROM HUT');
+        await db.run('DELETE FROM HIKE');
+        await db.run('DELETE FROM sqlite_sequence');
+            await db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, region, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
+            VALUES (1, 'ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'TO', 'Montepantero', 1,'gpx_content', 1, 'point', 2, 'parking_lot'),\
+            (2, 'Salita al Monte Antoroto', 17, 444, 400, 'Professional Hiker', 'CN', 'Garessio', 1,'gpx_content', 1, 'parking_lot', 3, 'parking_lot')\
+            ");
+           await db.run(
+                "INSERT INTO HUT(id,name,latitude, longitude, altitude)\
+                 VALUES (1, 'Refuge La Riposa','45.17778', '7.08337', '2185'),\
+                (2, 'Refugio Asti','45.19177', '7.07427','2854' )"
+              );
+ 
+        await db.run("INSERT INTO HIKE_HUT (hike_id, hut_id)\
+        VALUES(1, 1),\
+        (2, 2)\
+    ");
+    });
+
+    afterAll(async () => {
+            await db.run('DELETE FROM HIKE_HUT');
+            await db.run('DELETE FROM HUT');
+            await db.run('DELETE FROM HIKE');
+            await db.run('DELETE FROM sqlite_sequence');
+
+    });
+
+    test('test getHikesHuts', async() => {
+        let data = await hike.getHikesHuts();
+        let hh1 = new HikesHuts(1,1);
+        let hh2 = new HikesHuts(2,2);
+        expect(data.length).toStrictEqual(2);
+        let hh1_check = new HikesHuts(data[0].hike_id, data[0].hut_id);
+        let hh2_check = new HikesHuts(data[1].hike_id, data[1].hut_id);
+        expect(hh1_check).toEqual(hh1);
+        expect(hh2_check).toEqual(hh2);
+    });
+    
+    test('test getHikesHutsByHikeID', async() => {
+        let data1 = await hike.getHikesHutsByHikeID(1);
+        expect(data1.length).toStrictEqual(1);
+        expect(data1[0].hut_id).toBe(1);
+    
+        let data2 = await hike.getHikesHutsByHikeID(2);
+        expect(data2.length).toStrictEqual(1);
+        expect(data2[0].hut_id).toBe(2);
+    });
+   
+
+})
