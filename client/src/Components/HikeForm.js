@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Form, Row, Col, Button} from "react-bootstrap";
+import {Form, Row, Col, Button, Alert} from "react-bootstrap";
 import AddPointForm from "./AddPointForm";
 import ConfirmedNewPoint from "./ConfirmedNewPoint";
 import API from "../API";
@@ -21,6 +21,7 @@ const HikeForm = (props) => {
 	const [endPoint, setEndPoint] = useState(null);
 	const [referencePoints, setReferencePoints] = useState([]);
 	const [showForm,setShowForm] = useState(false);
+	const [errMsg,setErrMsg] = useState("");
 	
 	const [validated, setValidated] = useState(false);
 
@@ -34,13 +35,30 @@ const HikeForm = (props) => {
 			event.stopPropagation();
 		} else {
 			event.preventDefault();
-			setStartPoint(()=> correctCoordinates(startPoint));
-			setEndPoint(()=> correctCoordinates(endPoint));
-			sendForm();
+			if (isNotValidPoint(startPoint) || isNotValidPoint(endPoint)){
+				setErrMsg("Please insert correct coordinates");
+			}
+			else{
+				sendForm();
+			}
 		}
 
 		setValidated(true);
 	};
+
+	const isNotValidPoint = (point) => {
+        let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
+        let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
+
+        return point.latitude === undefined || point.latitude === '' ||
+            point.latitude === null || point.latitude < -90 || point.latitude > 90 || 
+            !regexpLatitude.test(point.latitude) ||
+            point.longitude === undefined || point.longitude === '' ||
+            point.longitude === null || point.longitude < -180 || point.longitude > 180 ||
+            !regexpLongitude.test(point.longitude) ||
+            point.altitude === undefined || point.altitude === '' ||
+            point.altitude === null || isNaN(point.altitude);
+    }
 	
 
 	useEffect( () => {
@@ -98,7 +116,7 @@ const HikeForm = (props) => {
 			reference_points: referencePoints
 		}
 
-		//console.log(hike);
+		console.log(hike);
 
         try {
 			props.setIsLoading(true);
@@ -251,7 +269,7 @@ const HikeForm = (props) => {
 					<Col>
 						{showForm?
 						<Col>
-							<AddPointForm correctCoordinates={correctCoordinates} setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"}></AddPointForm>
+							<AddPointForm setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"}></AddPointForm>
 						</Col>
 						:
 						<Col>
@@ -262,6 +280,7 @@ const HikeForm = (props) => {
 				</Row>
 
 				<Col className="mt-4">
+				<Row className="mt-2" md={3}>{errMsg ? <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}</Row>
 					<Row md={3}>
 						<Button type="submit" variant = "outline-success" onSubmit={handleSubmit}>Create new hike</Button>
 					</Row>

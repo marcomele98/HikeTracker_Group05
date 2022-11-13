@@ -11,14 +11,17 @@ const AddPointForm = (props) => {
 	const [errMsg,setErrMsg] = useState("");
 
 	const isNotValidPoint = (point) => {
-        let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})$');
-        let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})$');
-        return point.latitude === undefined || point.latitude === '' || 
-        point.latitude === null || !regexpLatitude.test(point.latitude) ||
-        point.longitude === undefined || point.longitude === '' || 
-        point.longitude === null || !regexpLongitude.test(point.longitude) ||
-        point.altitude === undefined || point.altitude === '' || 
-        point.altitude === null || isNaN(point.altitude);
+        let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
+        let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
+
+        return point.latitude === undefined || point.latitude === '' ||
+            point.latitude === null || point.latitude < -90 || point.latitude > 90 || 
+            !regexpLatitude.test(point.latitude) ||
+            point.longitude === undefined || point.longitude === '' ||
+            point.longitude === null || point.longitude < -180 || point.longitude > 180 ||
+            !regexpLongitude.test(point.longitude) ||
+            point.altitude === undefined || point.altitude === '' ||
+            point.altitude === null || isNaN(point.altitude);
     }
 
 	function addReferencePoint(){
@@ -30,8 +33,6 @@ const AddPointForm = (props) => {
 			name,
 			address
 		}
-
-		props.correctCoordinates(point);
 
 		if(isNotValidPoint(point)){
 			setErrMsg("Please insert correct coordinates");
