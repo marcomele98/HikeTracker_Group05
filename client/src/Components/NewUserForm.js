@@ -1,6 +1,6 @@
-import React  from 'react';
+import React from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import { useEffect , useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import './Login.css'
@@ -17,11 +17,11 @@ function NewUserForm(props) {
         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     const roles = ['local guide', 'hiker', 'hut worker', 'platform manager'];
 
-    useEffect( () => {
-		if (props.loggedIn){
-			Navigate("/");
-		}
-	}, [props.loggedIn]);
+    useEffect(() => {
+        if (props.loggedIn) {
+            Navigate("/");
+        }
+    }, [props.loggedIn]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -43,21 +43,21 @@ function NewUserForm(props) {
             };
 
             props.addUser(newUser);
-            setName(""); 
-            setSurname(""); 
-            setRole("hiker"); 
-            setEmail(""); 
+            setName("");
+            setSurname("");
+            setRole("hiker");
+            setEmail("");
             setPassword("");
             setPhone_number("");
             setValidated(false);
             props.setLog(true);
         }
-        
+
     };
 
 
     return (
-        <div className="Registration  " >
+        <div className="Registration" >
             <Form noValidate validated={validated} onSubmit={handleSubmit} className="pt-5">
                 <br />
                 <Row className="justify-content-center text-center">
@@ -171,34 +171,32 @@ function NewUserForm(props) {
                             <Form.Label>User Role:</Form.Label>
                             <Form.Select
                                 id="selectRole"
-                                onChange={(e) => {setRole(e.target.value)}}
+                                onChange={(e) => { setRole(e.target.value) }}
                                 defaultValue="hiker"
-                                >
+                            >
                                 {roles.map((p) => (
                                     <option value={p}>
                                         {p}
                                     </option>
                                 ))}
-                                
+
                             </Form.Select>
-                        
+
                         </Form.Group>
+                        <br />
+
+                        <Button id="clearButton" size="lg" onClick={() => { setName(""); setSurname(""); setEmail(""); setPassword(""); setRole("hiker"); setPhone_number(""); setValidated(false); }} type="button" variant="secondary" className="float-right">Clear</Button>
+                        <Button variant="success" id="submitButton" type="submit" size="lg"  >Register</Button>
+
                     </Col>
                     <Col xs={2} />
                 </Row>
-                <br />
-                <div class="container">
-                <div class="row">
-                <div class=" text-right">
-                <Button  id="clearButton" size="lg" onClick={() => { setName(""); setSurname(""); setEmail(""); setPassword(""); setRole("hiker"); setPhone_number(""); setValidated(false); }} type="button" variant="secondary" className="float-right">Clear</Button>
-                <Button variant="success" id="submitButton" type="submit" size="lg"  >Register</Button>
-                </div>
-                </div>
-                </div>
+
+
             </Form >
         </div>
     )
 }
 
 
-export { NewUserForm};
+export { NewUserForm };

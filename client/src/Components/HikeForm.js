@@ -5,6 +5,7 @@ import ConfirmedNewPoint from "./ConfirmedNewPoint";
 import API from "../API";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Map from "./Map"
 let gpxParser = require('gpxparser');
 var gpx = new gpxParser();
 
@@ -25,9 +26,19 @@ const HikeForm = (props) => {
 	const [showForm, setShowForm] = useState(false);
 	const [errMsg, setErrMsg] = useState("");
 	const [validated, setValidated] = useState(false);
-
+	const [allPoints, setAllPoints] = useState([]);
 	const reader = new FileReader();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		let points = [...referencePoints];
+		console.log(referencePoints)
+		if (startPoint)
+			points.push(startPoint);
+		if (endPoint)
+			points.push(endPoint);
+		setAllPoints(points);
+	}, [startPoint, endPoint, referencePoints.length])
 
 	const handleSubmit = (event) => {
 		const form = event.currentTarget;
@@ -77,10 +88,10 @@ const HikeForm = (props) => {
 	}, [props.user]);
 
 	const loadGPXContent = (file) => {
-			reader.readAsText(file[0]);
-			reader.onloadend = () => {
-				setFileGPX(reader.result);
-			}
+		reader.readAsText(file[0]);
+		reader.onloadend = () => {
+			setFileGPX(reader.result);
+		}
 	}
 
 
@@ -233,6 +244,8 @@ const HikeForm = (props) => {
 							undefined
 							:
 							<>
+
+								<Map hike={{ gpx: fileGPX, points: allPoints, huts: [], parking_lots: [] }}></Map>
 								<Row>
 									<AddPointForm points={parseGPX()} setStartPoint={setStartPoint} type={"Start point"}></AddPointForm>
 								</Row>

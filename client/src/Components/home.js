@@ -146,7 +146,7 @@ function Home({ setIsLoading, user }) {
                                         <div className="textGrayPrimary">{h.city + " (" + h.region + ")"}</div>
                                     </Row>
                                     <Row>
-                                        <div className="textGrayPrimary">{"Ascendent: " + h.ascendent_meters + " m"}</div>
+                                        <div className="textGrayPrimary">{"Ascent: " + h.ascendent_meters + " m"}</div>
                                     </Row>
                                     <Row>
                                         <div className="textGrayPrimary">{"Length: " + h.length_kms + " km"}</div>

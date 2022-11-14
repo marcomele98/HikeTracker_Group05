@@ -87,7 +87,6 @@ const AddPointForm = (props) => {
 						setLat(coordinates[0]);
 						setLong(coordinates[1])
 						setHeight(coordinates[2])
-						console.log("e.target.value: ", ...e.target.value)
 						confirmPoint(coordinates[0], coordinates[1], coordinates[2], name, address)
 					}}>
 					<option value="">{"Select coordinates"}</option>

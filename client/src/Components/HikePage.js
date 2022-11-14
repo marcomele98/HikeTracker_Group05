@@ -12,6 +12,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
     const [seeAllHutsDetails, setSeeAllHutsDetails] = useState(false);
     const [seeAllParksDetails, setSeeAllParksDetails] = useState(false);
     const [seeAllPointsDetails, setSeeAllPointsDetails] = useState(false);
+    const [seeMap, setSeeMap] = useState(false);
     const [hike, setHike] = useState();
     const navigate = useNavigate();
 
@@ -46,7 +47,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         <div className="textGrayPrimaryBig">{hike.city + " (" + hike.region + ")"}</div>
                     </Row>
                     <Row>
-                        <div className="textGrayPrimaryBig">{"Ascendent: " + hike.ascendent_meters + " m"}</div>
+                        <div className="textGrayPrimaryBig">{"Ascent: " + hike.ascendent_meters + " m"}</div>
                     </Row>
                     <Row>
                         <div className="textGrayPrimaryBig">{"Length: " + hike.length_kms + " km"}</div>
@@ -195,6 +196,21 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 
                     {
                         (loggedIn &&  (user.role === "local guide" || user.role === "hiker"))?
+                        (
+                            <Row>
+                                <div className="seePointsButtonContainer">
+                                    <ClickableOpacity
+                                        onClick={() => setSeeMap(val => !val)}>
+                                        <div className="seePointsButton">{seeMap ? "Hide Map" : "See Map"}</div>
+                                    </ClickableOpacity>
+                                </div>
+                            </Row>
+                        ) : false
+
+                    }
+
+                    {
+                        (loggedIn &&  (user.role === "local guide" || user.role === "hiker") && seeMap)?
                         (<Row>
                             {
                                 <Map hike={hike}></Map>
