@@ -80,6 +80,7 @@ const AddPointForm = (props) => {
 		<>
 			<Col>
 				<h2>{props.type}</h2>
+				<Form.Group className={"my-3"} as={Col} md="4" controlId="validationCustom03">
 				<Form.Select
 					onChange={(e) => {
 						const coordinates = e.target.value.split(" ");
@@ -97,6 +98,7 @@ const AddPointForm = (props) => {
 						})
 					}
 				</Form.Select>
+				</Form.Group>
 
 				<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom04">
 					<Form.Label className={"fs-4"}>Name</Form.Label>
