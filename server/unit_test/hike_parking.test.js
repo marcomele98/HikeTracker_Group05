@@ -23,7 +23,7 @@ describe("HikeParkingDao", () => {
                         (2, 'Parking Garessio 200','44.21653', '7.94425','1392')"
 
             );
-            await db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, region, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
+            await db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, province, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
             VALUES (1, 'ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'TO', 'Montepantero', 1,'gpx_content', 1, 'point', 2, 'parking_lot'),\
             (2, 'Salita al Monte Antoroto', 17, 444, 400, 'Professional Hiker', 'CN', 'Garessio', 1,'gpx_content', 1, 'parking_lot', 3, 'parking_lot')\
             ");

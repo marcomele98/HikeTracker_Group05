@@ -4,7 +4,7 @@ const { ParkingStruct} = require('./parking_model');
 const { PointStruct} = require('./point_model');
 // Class definition
 class HikeStruct {
-  constructor(id=undefined,title,length_kms,expected_mins,ascendent_meters,difficulty,region, city, lg_id=undefined, gpx,end_point,
+  constructor(id=undefined,title,length_kms,expected_mins,ascendent_meters,difficulty,province, city, lg_id=undefined, gpx,end_point,
               end_point_type, start_point, start_point_type)
     {
         this.id = id;
@@ -13,7 +13,7 @@ class HikeStruct {
         this.expected_mins = expected_mins;
         this.ascendent_meters = ascendent_meters;
         this.difficulty = difficulty;
-        this.region = region;
+        this.province = province;
         this.city = city;
         this.lg_id = lg_id;
         this.gpx = gpx;

@@ -9,7 +9,7 @@ import API from "../API";
 function Home({ setIsLoading, user }) {
 
     const [seeFilters, setSeeFilters] = useState(false);
-    const [region, setRegion] = useState("");
+    const [province, setProvince] = useState("");
     const [city, setCity] = useState("");
     const [maxAscent, setMaxAscent] = useState("");
     const [minAscent, setMinAscent] = useState("");
@@ -57,7 +57,7 @@ function Home({ setIsLoading, user }) {
                 seeFilters ?
                     (
                         <FilterForm
-                            regionFilter={region}
+                            provinceFilter={province}
                             cityFilter={city}
                             maxAscentFilter={maxAscent}
                             minAscentFilter={minAscent}
@@ -67,7 +67,7 @@ function Home({ setIsLoading, user }) {
                             minExpectedTimeFilter={minExpectedTime}
                             minDifficultyFilter={minDifficulty}
                             maxDifficultyFilter={maxDifficulty}
-                            setRegionFilter={setRegion}
+                            setProvinceFilter={setProvince}
                             setCityFilter={setCity}
                             setMaxAscentFilter={setMaxAscent}
                             setMinAscentFilter={setMinAscent}
@@ -98,7 +98,7 @@ function Home({ setIsLoading, user }) {
                 {
                     hikes
                         .filter((h) => {
-                            if (region && !h.region.toLocaleLowerCase().includes(region.toLocaleLowerCase())) {
+                            if (province && !h.province.toLocaleLowerCase().includes(province.toLocaleLowerCase())) {
                                 return false;
                             }
                             if (city && !h.city.toLocaleLowerCase().includes(city.toLocaleLowerCase())) {
@@ -143,7 +143,7 @@ function Home({ setIsLoading, user }) {
                                         <div className="hikeTitle">{h.title}</div>
                                     </Row>
                                     <Row>
-                                        <div className="textGrayPrimary">{h.city + " (" + h.region + ")"}</div>
+                                        <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
                                     </Row>
                                     <Row>
                                         <div className="textGrayPrimary">{"Ascent: " + h.ascendent_meters + " m"}</div>
@@ -183,7 +183,7 @@ function Home({ setIsLoading, user }) {
 
 
 function FilterForm({
-    regionFilter,
+    provinceFilter,
     cityFilter,
     maxAscentFilter,
     minAscentFilter,
@@ -193,7 +193,7 @@ function FilterForm({
     minExpectedTimeFilter,
     minDifficultyFilter,
     maxDifficultyFilter,
-    setRegionFilter,
+    setProvinceFilter,
     setCityFilter,
     setMaxAscentFilter,
     setMinAscentFilter,
@@ -204,7 +204,7 @@ function FilterForm({
     setMinDifficultyFilter,
     setMaxDifficultyFilter }) {
 
-    const [region, setRegion] = useState("");
+    const [province, setProvince] = useState("");
     const [city, setCity] = useState("");
     const [maxAscent, setMaxAscent] = useState("");
     const [minAscent, setMinAscent] = useState("");
@@ -217,7 +217,7 @@ function FilterForm({
     const [errorMsg, setErrorMsg] = useState("");
 
     const resetForm = () => {
-        setRegion(regionFilter);
+        setProvince(provinceFilter);
         setCity(cityFilter);
         setMaxAscent(maxAscentFilter);
         setMinAscent(minAscentFilter);
@@ -234,7 +234,7 @@ function FilterForm({
     }, [])
 
     const deleteAllFilters = () => {
-        setRegion("");
+        setProvince("");
         setCity("");
         setMaxAscent("");
         setMinAscent("");
@@ -267,7 +267,7 @@ function FilterForm({
             setErrorMsg("Errore: Max. Diff. can't be minor than Min. Diff");
             return
         }
-        setRegionFilter(region);
+        setProvinceFilter(province);
         setCityFilter(city);
         setMaxAscentFilter(maxAscent);
         setMinAscentFilter(minAscent);
@@ -291,10 +291,10 @@ function FilterForm({
             <Form className="filterForm" onSubmit={handleSubmit}>
                 <FormElement
                     label="Province:"
-                    onChange={(ev) => setRegion(ev.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
+                    onChange={(ev) => setProvince(ev.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
                     type="text"
                     placeholder="TO"
-                    value={region}
+                    value={province}
                     textBoxWidth={35}
                     maxLength={2}
                 />

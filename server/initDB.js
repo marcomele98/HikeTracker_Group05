@@ -53,7 +53,7 @@ db.serialize(function () {
      "expected_mins" INTEGER NOT NULL,\
      "ascendent_meters" INTEGER NOT NULL,\
      "difficulty" TEXT NOT NULL,\
-     "region" TEXT NOT NULL,\
+     "province" TEXT NOT NULL,\
      "city" TEXT NOT NULL,\
      "lg_id" INTEGER NOT NULL,\
      "gpx" TEXT,\
@@ -157,7 +157,7 @@ var values =
 ];
   for (var i=0;i<6; i++){
    db.run(
-     "INSERT OR IGNORE INTO HIKE(id,title,length_kms,expected_mins,ascendent_meters,difficulty,region, city, lg_id, gpx,\
+     "INSERT OR IGNORE INTO HIKE(id,title,length_kms,expected_mins,ascendent_meters,difficulty,province, city, lg_id, gpx,\
        end_point, end_point_type, start_point, start_point_type)\
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) ", values[i][0],values[i][1],values[i][2],values[i][3],values[i][4],values[i][5],values[i][6],
         values[i][7],values[i][8],values[i][9],values[i][10],values[i][11],values[i][12],values[i][13],

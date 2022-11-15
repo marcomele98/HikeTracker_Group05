@@ -44,7 +44,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         <div className="hikeTitleBig">{hike.title}</div>
                     </Row>
                     <Row>
-                        <div className="textGrayPrimaryBig">{hike.city + " (" + hike.region + ")"}</div>
+                        <div className="textGrayPrimaryBig">{hike.city + " (" + hike.province + ")"}</div>
                     </Row>
                     <Row>
                         <div className="textGrayPrimaryBig">{"Ascent: " + hike.ascendent_meters + " m"}</div>

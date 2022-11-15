@@ -10,8 +10,8 @@ const { ParkingStruct} = require('../Models/parking_model');
 
 
 exports.newHike = async (hike, lg_id) => {
-    const sql = 'INSERT INTO HIKE(title, length_kms, expected_mins, ascendent_meters, difficulty, region, city, lg_id, gpx) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    let result = await db.insert(sql, [hike.title, hike.length_kms, hike.expected_mins, hike.ascendent_meters, hike.difficulty, hike.region.toUpperCase(), hike.city, lg_id, hike.gpx]);
+    const sql = 'INSERT INTO HIKE(title, length_kms, expected_mins, ascendent_meters, difficulty, province, city, lg_id, gpx) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    let result = await db.insert(sql, [hike.title, hike.length_kms, hike.expected_mins, hike.ascendent_meters, hike.difficulty, hike.province.toUpperCase(), hike.city, lg_id, hike.gpx]);
     return result;
 }
 
@@ -47,7 +47,7 @@ exports.getHikeById = (id) => {
           resolve(-1);
         } else {
           const Hike = new HikeStruct(row.id, row.title,row.length_kms,row.expected_mins,
-            row.ascendent_meters,row.difficulty,row.region, row.city , row.lg_id, row.gpx,
+            row.ascendent_meters,row.difficulty,row.province, row.city , row.lg_id, row.gpx,
             row.end_point, row.end_point_type, row.start_point, row.start_point_type);  
             //console.log(Hike);
           resolve(Hike);

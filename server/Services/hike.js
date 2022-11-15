@@ -39,7 +39,7 @@ class HikeDescription {
         return field === undefined || field === '' || field === null || !possibleDiff.includes(field);
     }
 
-    isNotValidRegion = (field) => {
+    isNotValidProvince = (field) => {
         return field === undefined || field === '' || field === null || field.length !== 2;
     }
 
@@ -106,8 +106,8 @@ class HikeDescription {
             message = "Invalid Difficulty"
             return res.status(422).json(message);
         }
-        if (this.isNotValidRegion(hike.region)) {
-            message = "Invalid Region"
+        if (this.isNotValidProvince(hike.province)) {
+            message = "Invalid Province"
             return res.status(422).json(message);
         }
         if (this.isNotValidField(hike.city)) {

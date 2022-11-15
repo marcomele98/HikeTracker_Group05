@@ -10,7 +10,7 @@
 #### **/api/hike**
 - **Creates a new hike.**
 - **Request header** has a line: `Content-Type: application/json`.
-- **Request body**: a JSON object containing title, length_kms, expected_mins, ascendent_meters, difficulty, region, 
+- **Request body**: a JSON object containing title, length_kms, expected_mins, ascendent_meters, difficulty, province, 
                 city, gpx,  end_point, start_point, and an array of reference points (empty if no reference points)
 
 ```
@@ -20,7 +20,7 @@
             "expected_mins": 420,
             "ascendent_meters": 3538,
             "difficulty": "Professional Hiker",
-            "region": "TO",
+            "province": "TO",
             "city": "Mompantero",
             "gpx": "gpx content",
             "end_point" : {
@@ -80,7 +80,7 @@
                 "expected_mins": 420,
                 "ascendent_meters": 3538,
                 "difficulty": "Professional Hiker",
-                "region": "TO",
+                "province": "TO",
                 "city": "Mompantero",
                 "gpx": "gpx content",
                 "lg_id": 1,
@@ -96,7 +96,7 @@
                 "expected_mins": 444,
                 "ascendent_meters": 31090,
                 "difficulty": "Professional Hiker",
-                "region": "CN",
+                "province": "CN",
                 "city": "Garessio",
                 "gpx": "gpx content",
                 "lg_id": 1,
@@ -131,7 +131,7 @@
               "expected_mins": 420,
               "ascendent_meters": 3538,
               "difficulty": "Professional Hiker",
-              "region": "TO",
+              "province": "TO",
               "city": "Mompantero",
               "gpx": "gpx content",
               "lg_id": 1,

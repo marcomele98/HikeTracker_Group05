@@ -5,7 +5,7 @@ const point = require('../Queries/point');
 const db = require('../Queries/DAO');
 
 class Hike {
-    constructor(id,title,length_kms,expected_mins,ascendent_meters,difficulty,region,
+    constructor(id,title,length_kms,expected_mins,ascendent_meters,difficulty,province,
     city,lg_id,gpx,end_point,end_point_type,start_point,start_point_type) {
                     
     this.id = id;
@@ -14,7 +14,7 @@ class Hike {
     this.expected_mins = expected_mins;
     this.ascendent_meters = ascendent_meters;
     this.difficulty = difficulty;
-    this.region = region;
+    this.province = province;
     this.city = city;
     this.lg_id = lg_id;
     this.gpx = gpx;
@@ -37,13 +37,13 @@ function Point(id, latitude, longitude, altitude, name, address, hike_id) {
 }
 
 class HikeInput {    
-    constructor(title, length_kms, expected_mins, ascendent_meters, difficulty, region, city, gpx){
+    constructor(title, length_kms, expected_mins, ascendent_meters, difficulty, province, city, gpx){
     this.title = title;
     this.length_kms = length_kms;
     this.expected_mins = expected_mins;
     this.ascendent_meters = ascendent_meters;
     this.difficulty = difficulty;
-    this.region = region;
+    this.province = province;
     this.city = city;
     this.gpx = gpx;
     }
@@ -70,14 +70,14 @@ describe("NewHikeDao", () => {
         let hikeToCheck;
     
         const hike1 = new Hike(1,"prova1",10,120,980,"Hiker","TO","Bardonecchia",lg_id,"gpx_content",null,null,null,null);
-        const hikeInput1 = new HikeInput(hike1.title,hike1.length_kms,hike1.expected_mins,hike1.ascendent_meters,hike1.difficulty,hike1.region,hike1.city,hike1.gpx);
+        const hikeInput1 = new HikeInput(hike1.title,hike1.length_kms,hike1.expected_mins,hike1.ascendent_meters,hike1.difficulty,hike1.province,hike1.city,hike1.gpx);
         
         hikeIdToCheck = await hike.newHike(hikeInput1,lg_id);
         hikeToCheck = await hike.getHikeById(hikeIdToCheck);
         expect(hikeToCheck).toEqual(hike1);
     
         const hike2 = new Hike(2,"prova2",20,140,1000,"Professional Hiker","TO","La Touile",lg_id,"gpx_content",null,null,null,null);
-        const hikeInput2 = new HikeInput(hike2.title,hike2.length_kms,hike2.expected_mins,hike2.ascendent_meters,hike2.difficulty,hike2.region,hike2.city,hike2.gpx);
+        const hikeInput2 = new HikeInput(hike2.title,hike2.length_kms,hike2.expected_mins,hike2.ascendent_meters,hike2.difficulty,hike2.province,hike2.city,hike2.gpx);
     
         hikeIdToCheck = await hike.newHike(hikeInput2,lg_id);
         hikeToCheck = await hike.getHikeById(hikeIdToCheck);
@@ -94,7 +94,7 @@ describe("NewHikeDao", () => {
         let pointToCheck;
     
         const hike3 = new Hike(3,"prova3",30,130,1300,"Professional Hiker","TO","La Touile",lg_id,"gpx_content",null,null,null,null);
-        const hikeInput3 = new HikeInput(hike3.title,hike3.length_kms,hike3.expected_mins,hike3.ascendent_meters,hike3.difficulty,hike3.region,hike3.city,hike3.gpx);
+        const hikeInput3 = new HikeInput(hike3.title,hike3.length_kms,hike3.expected_mins,hike3.ascendent_meters,hike3.difficulty,hike3.province,hike3.city,hike3.gpx);
     
         hikeIdToCheck = await hike.newHike(hikeInput3,lg_id);
         console.log(hikeIdToCheck);

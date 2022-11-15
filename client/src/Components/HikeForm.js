@@ -18,7 +18,7 @@ const HikeForm = (props) => {
 	const [expectedTime, setExpectedTime] = useState();
 	const [ascent, setAscent] = useState();
 	const [difficulty, setDifficulty] = useState("Tourist");
-	const [region, setRegion] = useState("");
+	const [province, setProvince] = useState("");
 	const [city, setCity] = useState("");
 	const [startPoint, setStartPoint] = useState(null);
 	const [endPoint, setEndPoint] = useState(null);
@@ -109,7 +109,7 @@ const HikeForm = (props) => {
 			expected_mins: expectedTime,
 			ascendent_meters: ascent,
 			difficulty,
-			region,
+			province,
 			city,
 			gpx: fileGPX,
 			start_point: startPoint,
@@ -202,11 +202,11 @@ const HikeForm = (props) => {
 							required
 							type="text"
 							placeholder="Insert province"
-							value={region}
+							value={province}
 							maxLength={2}
-							onChange={(e) => setRegion(e.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
+							onChange={(e) => setProvince(e.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
 						/>
-						<Form.Control.Feedback type="invalid">Please insert correct region</Form.Control.Feedback>
+						<Form.Control.Feedback type="invalid">Please insert correct province</Form.Control.Feedback>
 					</Form.Group>
 
 					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom07">

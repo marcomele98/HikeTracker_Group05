@@ -20,7 +20,7 @@ describe('test hikes apis', () => {
         db.run('DELETE FROM HIKE_PARKING');
         db.run('DELETE FROM POINT');*/
 
-        db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, region, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
+        db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, province, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
                 VALUES (1, 'ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'TO', 'Montepantero', 1, 'gpx_content', 1, 'point', 2, 'parking_lot'),\
                 (2, 'Salita al Monte Antoroto', 17, 444, 400, 'Professional Hiker', 'CN', 'Garessio', 1, 'gpx_content', 1, 'parking_lot', 3, 'parking_lot')\
         ");
@@ -79,9 +79,9 @@ function getHikeById (id) {
     });
 };
 
-function newHikeDescription(expectedHTTPStatus, title,length_km,expected_mins, ascendent_meters, difficulty, region,city,gpx,end_point,start_point,reference_points) {
+function newHikeDescription(expectedHTTPStatus, title,length_km,expected_mins, ascendent_meters, difficulty, province,city,gpx,end_point,start_point,reference_points) {
     it('adding a new hike description', async function () {
-        let hike = { title: title, length_km: length_km, expected_mins: expected_mins, ascendent_meters:ascendent_meters,difficulty: difficulty, region:region,
+        let hike = { title: title, length_km: length_km, expected_mins: expected_mins, ascendent_meters:ascendent_meters,difficulty: difficulty, province:province,
             city:city,gpx: gpx,end_point:end_point,start_point:start_point,reference_points:reference_points,}
         agent.post('/api/hike')
             .send(hike)
