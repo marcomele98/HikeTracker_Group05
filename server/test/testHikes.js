@@ -6,21 +6,30 @@ chai.should();
 
 const app = require('../index');
 var agent = chai.request.agent(app);
+const db = require('../Queries/DAO');
 
-const sqlite = require('sqlite3');
-
-const db = new sqlite.Database('HT.sqlite', (err) => {
-    if (err) throw err;
-});
 
 describe('test hikes apis', () => {
-    beforeEach(() => {
-        db.run('DELETE FROM HIKE');
-        /*db.run('DELETE FROM HIKE_HUT');
-        db.run('DELETE FROM HIKE_PARKING');
-        db.run('DELETE FROM POINT');*/
+    beforeEach(async () => {
+        await db.run('DELETE FROM HIKE');
+        await db.run('DELETE FROM HIKE_HUT');
+        await db.run('DELETE FROM HIKE_PARKING');
+        await db.run('DELETE FROM POINT');
+        await db.run('DELETE FROM sqlite_sequence');
+        await db.run(
+            "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
+               VALUES ('Mario', 'Rossi', 'local guide', \
+                      'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
+                      'lg1@p.it', '4783473632662333', '3334567980')"
+          );
+        await db.run(
+            "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
+               VALUES ('Giulio', 'Liso', 'hiker', \
+                      'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
+                      'h1@p.it', '4783473632662333', '3334567980')"
+        );
 
-        db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, province, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
+        await db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, province, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
                 VALUES (1, 'ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'TO', 'Montepantero', 1, 'gpx_content', 1, 'point', 2, 'parking_lot'),\
                 (2, 'Salita al Monte Antoroto', 17, 444, 400, 'Professional Hiker', 'CN', 'Garessio', 1, 'gpx_content', 1, 'parking_lot', 3, 'parking_lot')\
         ");
@@ -40,6 +49,16 @@ describe('test hikes apis', () => {
                (2, '44.20647', '7.92800', '5300', 'La pianura dalle Alpi Liguri','Garessio, Cuneo, Piedmont', 2 ),\
         ")*/
     });
+
+    afterEach(async () => {
+        await db.run('DELETE FROM HIKE');
+        await db.run('DELETE FROM HIKE_HUT');
+        await db.run('DELETE FROM HIKE_PARKING');
+        await db.run('DELETE FROM POINT');
+        await db.run('DELETE FROM sqlite_sequence');
+
+    });
+    
     getHikes();
     getHikeById(0);
     getHikeById(1);

@@ -26,9 +26,7 @@ describe("User test", () => {
     });
 
     afterAll(async () => {
-        await db.run('DELETE FROM HIKE_PARKING');
-        await db.run('DELETE FROM PARKING_LOT');
-        await db.run('DELETE FROM HIKE');
+        await db.run('DELETE FROM USER');
         await db.run('DELETE FROM sqlite_sequence');
 
     });
