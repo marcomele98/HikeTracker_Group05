@@ -12,7 +12,7 @@ const { each } = require('lodash');
 // var gpx = new gpxParser();
 
 
-const possibleDiff = ['Tourist', '', 'Hiker', 'Professional Hiker'];
+const possibleDiff = ['Tourist', 'Hiker', 'Professional Hiker'];
 
 class HikeDescription {
 
@@ -170,6 +170,29 @@ class HikesView {
     async getAllHikes(req, res) {
         try {
             let hikes = await db.getHikes();
+            for (var i = 0; i < hikes.length; i++) {
+                if (hikes[i].start_point_type == 'general point') {
+                    let startpointDetails = await pointDB.getPointById(hikes[i].start_point);
+                    hikes[i].start_point_lat = ""
+                    hikes[i].start_point_lon = ""
+                    hikes[i].start_point_lat = startpointDetails.latitude;
+                    hikes[i].start_point_lon = startpointDetails.longitude;
+                }
+                else if (hikes[i].start_point_type == 'Parking point') {
+                    let startpointDetails = await parkingDB.getParkingById(hikes[i].start_point)
+                    hikes[i].start_point_lat = ""
+                    hikes[i].start_point_lon = ""
+                    hikes[i].start_point_lat = startpointDetails.latitude;
+                    hikes[i].start_point_lon = startpointDetails.longitude;
+                }
+                else {
+                    let startpointDetails = await hutDB.getHutById(hikes[i].start_point);
+                    hikes[i].start_point_lat = ""
+                    hikes[i].start_point_lon = ""
+                    hikes[i].start_point_lat = startpointDetails.latitude;
+                    hikes[i].start_point_lon = startpointDetails.longitude;
+                }
+            }
             return res.status(200).json(hikes);
 
         }
