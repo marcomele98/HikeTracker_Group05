@@ -21,6 +21,13 @@ exports.getParkings = () => {
     //});
 }
 
+exports.addParking = async (park) => {
+  const sql = 'INSERT INTO PARKING_LOT(latitude, longitude, altitude, name, region, province, city) VALUES(?, ?, ?, ?, ?, ?, ?)'
+  console.log([park.latitude, park.longitude, park.altitude, park.name, park.region, park.province, park.city])
+  let result = await db.insert(sql, [park.latitude, park.longitude, park.altitude, park.name, park.region, park.province, park.city]);
+  return result;
+}
+
 exports.getParkingById = (id) => {
     return new Promise((resolve, reject) => {
       const sql = "SELECT * FROM PARKING_LOT WHERE id=?";

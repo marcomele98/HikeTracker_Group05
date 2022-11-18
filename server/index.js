@@ -148,6 +148,10 @@ app.get('/api/hike/:hikeId', (req, res) => {
   return hikeviews.getHikeById(req,res);}
 );
 
+app.post('/api/parkingLot', isLoggedIn, (req, res) => {
+  return parkin_lot.newParkingLot(req, res);
+});
+
 app.get('/api/parkingLots', (req, res) => {
   return parkin_lot.getAllParking_lots(req,res);}
 );
