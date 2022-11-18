@@ -237,7 +237,8 @@ function FilterForm({
     const [minExpectedTime, setMinExpectedTime] = useState("");
     const [minDifficulty, setMinDifficulty] = useState("Tourist");
     const [maxDifficulty, setMaxDifficulty] = useState("Professional Hiker");
-    const [errorMsg, setErrorMsg] = useState("");
+    const [radius, setRadius] = useState();
+    const [position, setPosition] = useState();
 
 
     useEffect(() => {
@@ -251,6 +252,8 @@ function FilterForm({
         setMinExpectedTime(minExpectedTimeFilter);
         setMinDifficulty(minDifficultyFilter);
         setMaxDifficulty(maxDifficultyFilter);
+        setRadius(radiusFilter);
+        setPosition(positionFilter);
     }, [])
 
     const handleSubmit = (event) => {
@@ -265,17 +268,12 @@ function FilterForm({
         setMinExpectedTimeFilter(minExpectedTime);
         setMinDifficultyFilter(minDifficulty);
         setMaxDifficultyFilter(maxDifficulty);
+        setRadiusFilter(radius);
+        setPositionFilter(position);
     };
 
     return (
         <>
-            {errorMsg ? (
-                <Alert variant="danger" onClose={() => setErrorMsg("")} dismissible>
-                    {errorMsg}
-                </Alert>
-            ) : (
-                false
-            )}
             <Form className="filterForm" onSubmit={handleSubmit}>
                 <FormElement
                     label="Province:"
@@ -294,6 +292,40 @@ function FilterForm({
                     value={city}
                     textBoxWidth={150}
                 />
+                <div style={{ height: 5 }}></div>
+                <Form.Group>
+                    <Row>
+                        <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
+                            <div className="formLabel">{"Radius and Position"}</div>
+                        </Col>
+                    </Row>
+                    <Row style={{ height: 10 }}></Row>
+                    <FormElement
+                        label="Radius (km):"
+                        onChange={(ev) => setRadius(ev.target.value)}
+                        type="number"
+                        value={radius}
+                        textBoxWidth={150}
+                    />
+
+                    <Row style={{ height: 5 }}></Row>
+                    <Row>
+                        <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
+                            <Form.Label className="formLabel">{"Position:"}</Form.Label>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={12} sm={12} md={10} lg={8} xl={5} xxl={3} >
+                            <CliccableMap
+                                setPosition={setPosition}
+                                position={position}
+                            />
+                        </Col>
+                    </Row>
+
+                </Form.Group>
+
+                <div style={{ height: 30 }}></div>
 
                 <MaxMinRange
                     label={"Ascent (m): "}
@@ -332,43 +364,15 @@ function FilterForm({
                     min={minDifficulty}
                     max={maxDifficulty}
                 />
-
-                <Form.Group>
-                    <Row>
-                        <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                            <div className="formLabel">{"Radius and Position: "}</div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                            <Form.Label className="formLabel">{"Radius (km): "}</Form.Label>
-                            <Form.Control
-                                value={radiusFilter}
-                                style={{ color: "#495057" }}
-                                onChange={(ev) => setRadiusFilter(ev.target.value)}
-                                type="numeric"
-                                size="sm"
-                            ></Form.Control>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={12} sm={12} md={10} lg={8} xl={5} xxl={3} >
-                            <CliccableMap
-                                setPosition={setPositionFilter}
-                                position={positionFilter}
-                            />
-                        </Col>
-                    </Row>
-                </Form.Group>
-
-                <div style={{ height: 30 }}></div>
+                <Row style={{ height: 30 }}></Row>
                 <div>
                     <ClickableOpacity type='submit' className="marginRight1">
                         <div className="formConfirm">
-                            Confirm
+                            Confirm filters
                         </div>
                     </ClickableOpacity>
                 </div>
+                <div style={{ height: 40 }}></div>
             </Form>
         </>
 
