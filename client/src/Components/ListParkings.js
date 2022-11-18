@@ -12,6 +12,9 @@ function ListParkings({ setIsLoading, loggedIn, user }) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (user !== "" && user.role !== 'local guide') {
+			navigate("/");
+		}
         const getParksFromServer = async () => {
             try {
                 setIsLoading(true);
@@ -24,7 +27,7 @@ function ListParkings({ setIsLoading, loggedIn, user }) {
             }
         };
         getParksFromServer()
-    }, [])
+    }, [user])
 
 
     return (

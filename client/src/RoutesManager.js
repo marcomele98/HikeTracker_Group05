@@ -2,7 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import { NavigationBar } from "./Components/Navbar";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import { LoginForm } from "./Components/LoginComponents";
 import { ToastContainer } from "react-toastify";
 import { Home } from "./Components/home";
@@ -14,7 +14,7 @@ import { ListParkings } from "./Components/ListParkings";
 import { ParkingPage } from "./Components/ParkingPage";
 import { ClickableOpacity } from "./Components/clickableOpacity";
 import { useNavigate } from 'react-router-dom';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 
@@ -29,8 +29,14 @@ const RoutesManager = ({
     log,
     setLog
 }) => {
+    const location = useLocation();
     const [selected, setSelected] = useState("hikes")
     const navigate = useNavigate()
+
+    useEffect(()=>{
+        console.log(location)
+    },[location])
+
     return (
         <div className="container-fluid">
             <div className={isLoading ? "loading-overlay" : ""} />
@@ -43,44 +49,43 @@ const RoutesManager = ({
                     setLog={setLog}
                 />
             </Row>
+            {user?.role =="local guide" ?
+                <Row>
+                    <Col className="navigationLinkContainer">
+                        <ClickableOpacity
+                            onClick={() => {
+                                navigate("/home");
+                            }}>
+                            <div className={location?.pathname === "/home" ? "navigationLinkSelected" : "navigationLinkUnselected"}>
+                                Hikes
+                            </div>
+                        </ClickableOpacity>
+                    </Col>
 
-            <Row>
-                <Col className= "navigationLinkContainer">
-                    <ClickableOpacity
-                        onClick={() => {
-                            navigate("/home");
-                            setSelected("hikes");
-                        }}>
-                        <div className={selected==="hikes"?"navigationLinkSelected":"navigationLinkUnselected"}>
-                            Hikes
-                        </div>
-                    </ClickableOpacity>
-                </Col>
+                    <Col className="navigationLinkContainer">
+                        <ClickableOpacity
+                            onClick={() => {
+                                navigate("/parkingLots");
+                            }}>
+                            <div className={location?.pathname === "/parkingLots" ? "navigationLinkSelected" : "navigationLinkUnselected"}>
+                                Parking Lots
+                            </div>
+                        </ClickableOpacity>
+                    </Col>
 
-                <Col className= "navigationLinkContainer">
-                    <ClickableOpacity
-                        onClick={() => {
-                            navigate("/parkingLots");
-                            setSelected("parks");
-                        }}>
-                        <div className={selected==="parks"?"navigationLinkSelected":"navigationLinkUnselected"}>
-                            Parking Lots
-                        </div>
-                    </ClickableOpacity>
-                </Col>
-
-                <Col className= "navigationLinkContainer">
-                    <ClickableOpacity
-                        onClick={() => {
-                            navigate("/parkingLots");
-                            setSelected("huts");
-                        }}>
-                        <div  className={selected==="huts"?"navigationLinkSelected":"navigationLinkUnselected"}>
-                            Huts
-                        </div>
-                    </ClickableOpacity>
-                </Col>
-            </Row>
+                    <Col className="navigationLinkContainer">
+                        <ClickableOpacity
+                            onClick={() => {
+                                navigate("/parkingLots");
+                            }}>
+                            <div className={location?.pathname === "/huts" ? "navigationLinkSelected" : "navigationLinkUnselected"}>
+                                Huts
+                            </div>
+                        </ClickableOpacity>
+                    </Col>
+                </Row>
+                : undefined
+            }
 
             <Row>
                 <Routes>
