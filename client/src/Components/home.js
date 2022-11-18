@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { PlusCircle } from "react-bootstrap-icons";
 import API from "../API";
 import 'rc-slider/assets/index.css';
-import CliccableMap from "./cliccableMap";
+import { CliccableMap } from "./cliccableMap";
 import { calcCrow } from "../utilities";
 const Slider = require('rc-slider');
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
@@ -147,7 +147,7 @@ function Home({ setIsLoading, user }) {
                             if (minDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "tourist") {
                                 return false;
                             }
-                            if (!coordinates || !radius || calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon)>radius){
+                            if (coordinates && radius && calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon)>radius){
                                 return false;
                             }
                             return true;

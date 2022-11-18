@@ -108,4 +108,4 @@ server/HT.sqlite
 
 .DS_Store
 
-.package-lock.json
+*lock.json

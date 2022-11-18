@@ -8,7 +8,10 @@ import { ToastContainer } from "react-toastify";
 import { Home } from "./Components/home";
 import { HikePage } from "./Components/HikePage";
 import { NewUserForm } from "./Components/NewUserForm";
+import ParkingForm from "./Components/ParkingForm"
 import HikeForm from "./Components/HikeForm";
+import { ListParkings } from "./Components/ListParkings";
+import { ParkingPage } from "./Components/ParkingPage";
 
 
 
@@ -40,7 +43,7 @@ const RoutesManager = ({
                 <Routes>
                     <Route
                         path="/home"
-                        element={<Home setIsLoading={setIsLoading} user={user}/>}
+                        element={<Home setIsLoading={setIsLoading} user={user} />}
                     />
 
                     <Route
@@ -49,8 +52,8 @@ const RoutesManager = ({
                     />
 
                     <Route
-                        path="/Register"    
-                        element={<NewUserForm addUser={addUser} loggedIn={loggedIn} log={log} setLog={setLog}/>}
+                        path="/Register"
+                        element={<NewUserForm addUser={addUser} loggedIn={loggedIn} log={log} setLog={setLog} />}
                     />
 
                     <Route
@@ -58,16 +61,31 @@ const RoutesManager = ({
                         element={<HikePage setIsLoading={setIsLoading} loggedIn={loggedIn} user={user} />}
                     />
 
+
+                    <Route
+                        path="/new-hike"
+                        element={<HikeForm user={user} setIsLoading={setIsLoading} />}
+                    />
+
+                    <Route
+                        path="/new-parking"
+                        element={<ParkingForm user={user} setIsLoading={setIsLoading} />}
+                    />
+
+                    <Route
+                        path="/parkingLots"
+                        element={<ListParkings setIsLoading={setIsLoading} loggedIn={loggedIn} user={user} />}
+                    />
+
+                    <Route
+                        path="/parkingLot/:parkId"
+                        element={<ParkingPage setIsLoading={setIsLoading} loggedIn={loggedIn} user={user} />}
+                    />
+
                     <Route path="/*"
                         element={<Navigate to="/home" />} />
                     {" "}
-                    
-                    <Route
-                        path="/new-hike"
-                        element={<HikeForm user={user} setIsLoading={setIsLoading}/>}
-                    >
 
-                    </Route>
                 </Routes>
             </Row>
         </div>

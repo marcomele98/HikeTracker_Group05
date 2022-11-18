@@ -52,7 +52,6 @@
 async function getHikeById(id) {
   const response = await fetch(new URL('hike/' + id, APIURL));
   const hike = await response.json();
-  console.log(response)
   if (response.ok) {
     return hike;
   } else {
@@ -78,6 +77,43 @@ async function newHikeDescription(hike) {
   }
 }
 
+async function newPark(park) {
+  let response = await fetch(new URL('parkingLot', APIURL), {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(park),
+  });
+  if (response.ok) {
+    return null;
+  } else {
+    const errDetail = await response.json();
+    throw errDetail.error;
+  }
+}
+
+async function getParks() {
+  const response = await fetch(new URL('parkingLots', APIURL));
+  const parks = await response.json();
+  if (response) {
+    return parks;
+  } else {
+    throw parks;  // an object with the error coming from the server
+  }
+}
+
+async function getParkById(id) {
+  const response = await fetch(new URL('parkingLot/' + id, APIURL));
+  const park = await response.json();
+  if (response.ok) {
+    return park;
+  } else {
+    throw response.status;  // an object with the error coming from the server
+  }
+}
+
 
 async function addUser(newUser) {
   // call: POST /api/register
@@ -99,7 +135,7 @@ async function addUser(newUser) {
     }
 }
  
- const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser  };
+ const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser, getParks, getParkById, newPark  };
 
 
  export default API;
