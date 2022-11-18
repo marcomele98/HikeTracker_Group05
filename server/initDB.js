@@ -6,7 +6,7 @@ const sqlite = require("sqlite3");
 
  const {hikevalues} = require('./hikesValues');
  const {pointsvalues} = require('./pointsValues');
- const {hutsvalues} = require('./hutsvalues');
+ const {hutsvalues} = require('./hutsValues');
  const {parkingvalues} = require('./parkingsValues');
 
 const db = new sqlite.Database(dbname, (err) => {
@@ -193,7 +193,10 @@ db.serialize(function () {
      VALUES (2, 1 ),\
             (3, 1),\
             (4, 2 ),\
-            (5, 3 )"
+            (5, 3 ),\
+            (7, 4 ),\
+            (13, 5 ),\
+            (14, 6 )"
   );
 
   db.run(
@@ -201,7 +204,15 @@ db.serialize(function () {
      VALUES (1, 1 ),\
             (1, 2),\
             (2, 3 ),\
-            (4, 4 )"
+            (4, 4 ),\
+            (7,  5),\
+            (7, 6 ),\
+            (8, 7 ),\
+            (9, 8 ),\
+            (10, 9 ),\
+            (10, 10 ),\
+            (11, 11 ),\
+            (12,  12)"
   );
 
 });
