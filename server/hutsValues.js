@@ -14,6 +14,7 @@ var hutsvalues =
     ['Rifugio Capanna','45.921558','10.784562','1080','Refuge','Trentino-Alto Adige','TN','Arco'],
     ['BOCCA DI TRAT','45.92659','10.76872','1598','Refuge','Trentino-Alto Adige','TN','Arco'],
     ['Malga Valmaggiore','46.291392','11.646566','1610','Restaurant','Trentino-Alto Adige','TN','Cavalese'],
-    ['Ponale Alto Belvedere','45.864402','10.833777','145','Restaurant','Trentino-Alto Adige','TN','Riva del Garda']
+    ['Ponale Alto Belvedere','45.864402','10.833777','145','Restaurant','Trentino-Alto Adige','TN','Riva del Garda'],
+    ['Agririfugio Molini', '44.31912', '9.178627', '232', 'Refuge', 'Liguria', 'GE', 'Fruttuoso']
 ];
 module.exports.hutsvalues =   hutsvalues;
