@@ -11,7 +11,7 @@ var hikevalues =
   [ 'Ascesa al Rifugio Savona', 10.3, 244, 610, 'Hiker','Piemonte', 'CN', 'Garessio', 1,
   pm_file2, 1, 'Parking point', 1, 'Parking point','Intermediate Hiking Tour. Good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot'],//endpoint:1 parking,strtpoint:1 parking
   [ 'Salita al Monte Antoroto', 17, 444, 1090, 'Professional Hiker','Piemonte', 'CN', 'Garessio', 1,
-  pm_file3, 1, 'Parking point', 1, 'Parking point',': A part of this route comprises technical, difficult, or hazardous terrain. Specialist equipment and prior experience may be required'],//endpoint:1 parking,strtpoint:1 parking
+  pm_file3, 1, 'Parking point', 1, 'Parking point','A part of this route comprises technical, difficult, or hazardous terrain. Specialist equipment and prior experience may be required'],//endpoint:1 parking,strtpoint:1 parking
   [ 'Salita al Bric Mindino e al Colle di Prato Rotondo', 9.2, 218, 610, 'Hiker','Piemonte', 'CN', 'Garessio', 1,
   pm_file4, 2, 'Parking point', 2, 'Parking point','Intermediate Hiking Tour. Good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.'],//endpoint:2 parking,strtpoint:2 parking
   [ 'Colletta di Castelbianco Loop from Veravo', 5.7, 105, 206, 'Tourist','Liguria', 'SV', 'Castelbianco', 1,

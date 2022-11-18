@@ -82,6 +82,8 @@ db.serialize(function () {
        "region" TEXT NOT NULL,\
        "province" TEXT NOT NULL,\
        "city" TEXT NOT NULL,\
+       "number_of_beds" INTEGER,\
+       "description" TEXT,\
         PRIMARY KEY("id" AUTOINCREMENT)\
     );'
   );
