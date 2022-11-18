@@ -32,7 +32,7 @@
 .filters {
   text-align: left;
   color: #495057;
-  font-size: 30px;
+  font-size: 25px;
   text-decoration: underline;
 }
 
@@ -84,7 +84,6 @@
 
 .filterTitleRow{
   padding-left: 2%;
-  padding-top: 3%;
 }
 
 .formConfirm{
@@ -119,5 +118,25 @@
 .seePointsButtonContainer{
   margin-left: 0.4%;
 }
+
+.navigationLinkUnselected{
+  text-align: center;
+  color: #495057;
+  font-size: 25px;
+}
+
+.navigationLinkSelected{
+  text-align: center;
+  color: #14A44D;
+  font-size: 25px;
+}
+
+.navigationLinkContainer{
+  text-align: center;
+  padding-top: 15px;
+  width:fit-content;
+}
+
+
 
 #map {height: 500px;}

@@ -50,6 +50,22 @@ function Home({ setIsLoading, user }) {
     return (
 
         <Container>
+            {
+                user.role !== 'local guide' ?
+                    undefined
+                    :
+                    <>
+                        <div className="flex-shrink-0 m-5">
+                            <ClickableOpacity onClick={() => navigate("/new-hike")}>
+                                <PlusCircle
+                                    color="#495057"
+                                    size={40}
+                                />
+                            </ClickableOpacity>
+                        </div>
+                    </>
+            }
+
             <Row className="filterTitleRow">
                 <div className="touchableOpacityWithTextContainer">
                     <ClickableOpacity
@@ -94,19 +110,6 @@ function Home({ setIsLoading, user }) {
                     ) : undefined
 
             }
-            {
-                user.role !== 'local guide' ?
-                    undefined
-                    :
-                    <div className="flex-shrink-0 m-5">
-                        <ClickableOpacity onClick={() => navigate("/new-hike")}>
-                            <PlusCircle
-                                color="#495057"
-                                size={50}
-                            />
-                        </ClickableOpacity>
-                    </div>
-            }
             <ListGroup>
                 {
                     hikes
@@ -147,7 +150,7 @@ function Home({ setIsLoading, user }) {
                             if (minDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "tourist") {
                                 return false;
                             }
-                            if (coordinates && radius && calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon)>radius){
+                            if (coordinates && radius && calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon) > radius) {
                                 return false;
                             }
                             return true;
@@ -341,7 +344,7 @@ function FilterForm({
                             <Form.Label className="formLabel">{"Radius (km): "}</Form.Label>
                             <Form.Control
                                 value={radiusFilter}
-                                style={{color: "#495057" }}
+                                style={{ color: "#495057" }}
                                 onChange={(ev) => setRadiusFilter(ev.target.value)}
                                 type="numeric"
                                 size="sm"
@@ -349,7 +352,7 @@ function FilterForm({
                         </Col>
                     </Row>
                     <Row>
-                        <Col  xs={12} sm={12} md={10} lg={8} xl={5} xxl={3} >
+                        <Col xs={12} sm={12} md={10} lg={8} xl={5} xxl={3} >
                             <CliccableMap
                                 setPosition={setPositionFilter}
                                 position={positionFilter}
