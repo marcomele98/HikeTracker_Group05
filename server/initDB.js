@@ -6,7 +6,7 @@ const sqlite = require("sqlite3");
 
  const {hikevalues} = require('./hikesValues');
  const {pointsvalues} = require('./pointsValues');
- const {hutsvalues} = require('./hutsvalues');
+ const {hutsvalues} = require('./hutsValues');
  const {parkingvalues} = require('./parkingsValues');
 
 const db = new sqlite.Database(dbname, (err) => {

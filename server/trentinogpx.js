@@ -10,14 +10,14 @@ function readFile(filePath,content) {
     return content;
 }
 //piemonte
-tn_file1 = readFile('GPX_files/trentino/hike1.gpx',tn_file1); //rocciamelone gpx
-tn_file2 = readFile('GPX_files/trentino/hike2.gpx',tn_file2); //Ascesa al Rifugio Savona
-tn_file3 = readFile('GPX_files/trentino/hike3.gpx',tn_file3); //Salita al Monte Antoroto
-tn_file4 = readFile('GPX_files/trentino/hike4.gpx',tn_file4); //Salita al Bric Mindino e al Colle di Prato Rotondo
-tn_file5 = readFile('GPX_files/trentino/hike5.gpx',tn_file5); //Salita al Bric Mindino e al Colle di Prato Rotondo
-tn_file6 = readFile('GPX_files/trentino/hike6.gpx',tn_file6); //Salita al Bric Mindino e al Colle di Prato Rotondo
-tn_file7 = readFile('GPX_files/trentino/hike6.gpx',tn_file7); //Salita al Bric Mindino e al Colle di Prato Rotondo
-tn_file8 = readFile('GPX_files/trentino/hike6.gpx',tn_file8); //Salita al Bric Mindino e al Colle di Prato Rotondo
+tn_file1 = readFile('./GPX_files/Trentino/hike1.gpx',tn_file1); //rocciamelone gpx
+tn_file2 = readFile('./GPX_files/Trentino/hike2.gpx',tn_file2); //Ascesa al Rifugio Savona
+tn_file3 = readFile('./GPX_files/Trentino/hike3.gpx',tn_file3); //Salita al Monte Antoroto
+tn_file4 = readFile('./GPX_files/Trentino/hike4.gpx',tn_file4); //Salita al Bric Mindino e al Colle di Prato Rotondo
+tn_file5 = readFile('./GPX_files/Trentino/hike5.gpx',tn_file5); //Salita al Bric Mindino e al Colle di Prato Rotondo
+tn_file6 = readFile('./GPX_files/Trentino/hike6.gpx',tn_file6); //Salita al Bric Mindino e al Colle di Prato Rotondo
+tn_file7 = readFile('./GPX_files/Trentino/hike6.gpx',tn_file7); //Salita al Bric Mindino e al Colle di Prato Rotondo
+tn_file8 = readFile('./GPX_files/Trentino/hike6.gpx',tn_file8); //Salita al Bric Mindino e al Colle di Prato Rotondo
 
 module.exports.tn_file1 =   tn_file1 ;
 module.exports.tn_file2 =   tn_file2;
