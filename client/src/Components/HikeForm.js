@@ -32,7 +32,6 @@ const HikeForm = (props) => {
 
 	useEffect(() => {
 		let points = [...referencePoints];
-		console.log(referencePoints)
 		if (startPoint)
 			points.push(startPoint);
 		if (endPoint)
@@ -63,7 +62,7 @@ const HikeForm = (props) => {
 		let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
 		let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
 
-		console.log(point)
+
 		return point.latitude === undefined || point.latitude === '' ||
 			point.latitude === null || point.latitude < -90 || point.latitude > 90 ||
 			!regexpLatitude.test(point.latitude) ||

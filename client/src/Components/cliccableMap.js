@@ -8,6 +8,7 @@ import { ListGroup, ListGroupItem } from "react-bootstrap";
 function LocationMarker({ position, setPosition }) {
     const map = useMapEvents({
         click(e) {
+            console.log(e)
             setPosition(e.latlng)
         },
         locationfound(e) {
@@ -29,7 +30,7 @@ function LocationMarker({ position, setPosition }) {
         <Marker position={position}
             icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}
         >
-            <Popup>{"Latitude: "+ position.lat}<br/>{"Longitude: " + position.lng }</Popup>
+            <Popup>{"Latitude: "+ position?.lat}<br/>{"Longitude: " + position?.lng }</Popup>
         </Marker>
     )
 }
@@ -71,7 +72,7 @@ const PointMap = ({ position }) => {
                     <Marker position={position}
                         icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}
                     >
-                        <Popup>You are here</Popup>
+                         <Popup>{"Name: "+ position.name}<br/>{"Latitude: "+ position.lat}<br/>{"Longitude: " + position.lng }</Popup>
                     </Marker>
                 </MapContainer>
             </ListGroupItem>
@@ -81,4 +82,4 @@ const PointMap = ({ position }) => {
     );
 }
 
-export default CliccableMap;
+export  {CliccableMap, PointMap };
