@@ -5,11 +5,20 @@ import { ClickableOpacity } from "./clickableOpacity";
 import { toast } from "react-toastify";
 import { PlusCircle } from "react-bootstrap-icons";
 import API from "../API";
+import 'rc-slider/assets/index.css';
+import CliccableMap from "./cliccableMap";
+import { calcCrow } from "../utilities";
+const Slider = require('rc-slider');
+const createSliderWithTooltip = Slider.createSliderWithTooltip;
+const Range = createSliderWithTooltip(Slider.Range);
+
 
 function Home({ setIsLoading, user }) {
 
     const [seeFilters, setSeeFilters] = useState(false);
     const [province, setProvince] = useState("");
+    const [coordinates, setCoordinates] = useState();
+    const [radius, setRadius] = useState();
     const [city, setCity] = useState("");
     const [maxAscent, setMaxAscent] = useState("");
     const [minAscent, setMinAscent] = useState("");
@@ -17,8 +26,8 @@ function Home({ setIsLoading, user }) {
     const [minLength, setMinLength] = useState("");
     const [maxExpectedTime, setMaxExpectedTime] = useState("");
     const [minExpectedTime, setMinExpectedTime] = useState("");
-    const [minDifficulty, setMinDifficulty] = useState("");
-    const [maxDifficulty, setMaxDifficulty] = useState("");
+    const [minDifficulty, setMinDifficulty] = useState("Tourist");
+    const [maxDifficulty, setMaxDifficulty] = useState("Professional Hiker");
     const [hikes, setHikes] = useState([]);
     const navigate = useNavigate();
 
@@ -59,9 +68,11 @@ function Home({ setIsLoading, user }) {
                         <FilterForm
                             provinceFilter={province}
                             cityFilter={city}
+                            positionFilter={coordinates}
+                            radiusFilter={radius}
                             maxAscentFilter={maxAscent}
                             minAscentFilter={minAscent}
-                            maxLengthFilter={minLength}
+                            maxLengthFilter={maxLength}
                             minLengthFilter={minLength}
                             maxExpectedTimeFilter={maxExpectedTime}
                             minExpectedTimeFilter={minExpectedTime}
@@ -69,6 +80,8 @@ function Home({ setIsLoading, user }) {
                             maxDifficultyFilter={maxDifficulty}
                             setProvinceFilter={setProvince}
                             setCityFilter={setCity}
+                            setPositionFilter={setCoordinates}
+                            setRadiusFilter={setRadius}
                             setMaxAscentFilter={setMaxAscent}
                             setMinAscentFilter={setMinAscent}
                             setMaxLengthFilter={setMinLength}
@@ -134,6 +147,9 @@ function Home({ setIsLoading, user }) {
                             if (minDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "tourist") {
                                 return false;
                             }
+                            if (!coordinates || !radius || calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon)>radius){
+                                return false;
+                            }
                             return true;
                         })
                         .map((h) => (
@@ -185,6 +201,8 @@ function Home({ setIsLoading, user }) {
 function FilterForm({
     provinceFilter,
     cityFilter,
+    positionFilter,
+    radiusFilter,
     maxAscentFilter,
     minAscentFilter,
     maxLengthFilter,
@@ -195,6 +213,8 @@ function FilterForm({
     maxDifficultyFilter,
     setProvinceFilter,
     setCityFilter,
+    setPositionFilter,
+    setRadiusFilter,
     setMaxAscentFilter,
     setMinAscentFilter,
     setMaxLengthFilter,
@@ -212,11 +232,12 @@ function FilterForm({
     const [minLength, setMinLength] = useState("");
     const [maxExpectedTime, setMaxExpectedTime] = useState("");
     const [minExpectedTime, setMinExpectedTime] = useState("");
-    const [minDifficulty, setMinDifficulty] = useState("");
-    const [maxDifficulty, setMaxDifficulty] = useState("");
+    const [minDifficulty, setMinDifficulty] = useState("Tourist");
+    const [maxDifficulty, setMaxDifficulty] = useState("Professional Hiker");
     const [errorMsg, setErrorMsg] = useState("");
 
-    const resetForm = () => {
+
+    useEffect(() => {
         setProvince(provinceFilter);
         setCity(cityFilter);
         setMaxAscent(maxAscentFilter);
@@ -227,46 +248,10 @@ function FilterForm({
         setMinExpectedTime(minExpectedTimeFilter);
         setMinDifficulty(minDifficultyFilter);
         setMaxDifficulty(maxDifficultyFilter);
-    }
-
-    useEffect(() => {
-        resetForm();
     }, [])
-
-    const deleteAllFilters = () => {
-        setProvince("");
-        setCity("");
-        setMaxAscent("");
-        setMinAscent("");
-        setMaxLength("");
-        setMinLength("");
-        setMaxExpectedTime("");
-        setMinExpectedTime("");
-        setMinDifficulty("");
-        setMaxDifficulty("");
-    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // validation
-        if (maxAscent && minAscent && maxAscent < minAscent) {
-            setErrorMsg("Errore: Max. Asc. can't be minor than Min. Asc.");
-            return
-        }
-        if (maxLength && minLength && maxLength < minLength) {
-            setErrorMsg("Errore: Max. Len. can't be minor than Min. Len.");
-            return
-        }
-        if (maxExpectedTime && minExpectedTime && maxExpectedTime < minExpectedTime) {
-            setErrorMsg("Errore: Max. Time can't be minor than Min. Time");
-            return
-        }
-        if (maxDifficulty && minDifficulty && (
-            (maxDifficulty === "Hiker" && minDifficulty === "Professional Hiker") || (maxDifficulty === "Tourist" && (
-                minDifficulty === "Professional Hiker" || minDifficulty === "Hiker")))) {
-            setErrorMsg("Errore: Max. Diff. can't be minor than Min. Diff");
-            return
-        }
         setProvinceFilter(province);
         setCityFilter(city);
         setMaxAscentFilter(maxAscent);
@@ -306,114 +291,78 @@ function FilterForm({
                     value={city}
                     textBoxWidth={150}
                 />
-                <FormElement
-                    label="Max. Asc. (m):"
-                    value={maxAscent}
-                    onChange={(ev) => {
-                        if (ev.target.value)
-                            setMaxAscent(parseInt(ev.target.value))
-                        else
-                            setMaxAscent(ev.target.value)
-                    }
-                    }
-                    type="number"
-                    textBoxWidth={150}
+
+                <MaxMinRange
+                    label={"Ascent (m): "}
+                    setMax={setMaxAscent}
+                    setMin={setMinAscent}
+                    max={maxAscent}
+                    min={minAscent}
+                    rangeMax={7000}
+                    rangeMin={0}
                 />
-                <FormElement
-                    label="Min. Asc. (m):"
-                    value={minAscent}
-                    onChange={(ev) => {
-                        if (ev.target.value)
-                            setMinAscent(parseInt(ev.target.value))
-                        else
-                            setMinAscent(ev.target.value)
-                    }
-                    }
-                    type="number"
-                    textBoxWidth={150}
+
+                <MaxMinRange
+                    label={"Length (km): "}
+                    setMax={setMaxLength}
+                    setMin={setMinLength}
+                    max={maxLength}
+                    min={minLength}
+                    rangeMax={30}
+                    rangeMin={0}
                 />
-                <FormElement
-                    label="Max. Len. (km):"
-                    value={maxLength}
-                    onChange={(ev) => {
-                        if (ev.target.value)
-                            setMaxLength(parseFloat(ev.target.value))
-                        else
-                            setMaxLength(ev.target.value)
-                    }
-                    }
-                    type="number"
-                    step="0.01"
-                    textBoxWidth={150}
+
+                <MaxMinRange
+                    label={"Expected time (min): "}
+                    setMax={setMaxExpectedTime}
+                    setMin={setMinExpectedTime}
+                    max={maxExpectedTime}
+                    min={minExpectedTime}
+                    rangeMax={600}
+                    rangeMin={0}
                 />
-                <FormElement
-                    label="Min. Len. (km):"
-                    value={minLength}
-                    onChange={(ev) => {
-                        if (ev.target.value)
-                            setMinLength(parseFloat(ev.target.value))
-                        else
-                            setMinLength(ev.target.value)
-                    }
-                    }
-                    type="number"
-                    textBoxWidth={150}
+
+                <DifficultyRange
+                    label="Difficulty:"
+                    setMin={setMinDifficulty}
+                    setMax={setMaxDifficulty}
+                    min={minDifficulty}
+                    max={maxDifficulty}
                 />
-                <FormElement
-                    label="Max. Time (min):"
-                    value={maxExpectedTime}
-                    onChange={(ev) => {
-                        if (ev.target.value)
-                            setMaxExpectedTime(parseInt(ev.target.value))
-                        else
-                            setMaxExpectedTime(ev.target.value)
-                    }
-                    }
-                    type="number"
-                    step="0.01"
-                    textBoxWidth={150}
-                />
-                <FormElement
-                    label="Min. Time (min):"
-                    value={minExpectedTime}
-                    onChange={(ev) => {
-                        if (ev.target.value)
-                            setMinExpectedTime(parseInt(ev.target.value))
-                        else
-                            setMinExpectedTime(ev.target.value)
-                    }
-                    }
-                    type="number"
-                    textBoxWidth={150}
-                />
-                <DiffSelector
-                    label="Max. Diff."
-                    value={maxDifficulty}
-                    onChange={(ev) => setMaxDifficulty(ev.target.value)}
-                />
-                <DiffSelector
-                    label="Min. Diff:"
-                    value={minDifficulty}
-                    onChange={(ev) => setMinDifficulty(ev.target.value)}
-                />
+
+                <Form.Group>
+                    <Row>
+                        <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
+                            <div className="formLabel">{"Radius and Position: "}</div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
+                            <Form.Label className="formLabel">{"Radius (km): "}</Form.Label>
+                            <Form.Control
+                                value={radiusFilter}
+                                style={{color: "#495057" }}
+                                onChange={(ev) => setRadiusFilter(ev.target.value)}
+                                type="numeric"
+                                size="sm"
+                            ></Form.Control>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col  xs={12} sm={12} md={10} lg={8} xl={5} xxl={3} >
+                            <CliccableMap
+                                setPosition={setPositionFilter}
+                                position={positionFilter}
+                            />
+                        </Col>
+                    </Row>
+                </Form.Group>
+
+                <div style={{ height: 30 }}></div>
                 <div>
                     <ClickableOpacity type='submit' className="marginRight1">
                         <div className="formConfirm">
                             Confirm
-                        </div>
-                    </ClickableOpacity>
-                </div>
-                <div>
-                    <ClickableOpacity onClick={deleteAllFilters}>
-                        <div className="formDelete">
-                            Delete
-                        </div>
-                    </ClickableOpacity>
-                </div>
-                <div>
-                    <ClickableOpacity onClick={resetForm}>
-                        <div className="formCancel">
-                            Cancel
                         </div>
                     </ClickableOpacity>
                 </div>
@@ -449,7 +398,7 @@ function FormElement({ label, onChange, type, placeholder, textBoxWidth, value, 
 }
 
 
-function DiffSelector({ label, value, onChange }) {
+function MaxMinRange({ label, setMax, setMin, max, min, rangeMax, rangeMin }) {
 
     return (
         <Form.Group>
@@ -457,13 +406,76 @@ function DiffSelector({ label, value, onChange }) {
                 <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
                     <Form.Label className="formLabel">{label}</Form.Label>
                 </Col>
+            </Row>
+            <Row style={{ marginLeft: 5 }}>
+                <Col xs={4} sm={3} md={2} lg={1} xl={1} xxl={1} >
+                    <div>{"Min: " + (min ? min : rangeMin)}</div>
+                </Col>
+                <Col xs={4} sm={3} md={2} lg={2} xl={2} xxl={2} >
+                    <div>{"Max: " + (max ? max : rangeMax + "+")}</div>
+                </Col>
+            </Row>
+            <Row style={{ marginLeft: 5, marginBottom: 20 }}>
                 <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                    <Form.Select value={value} style={{ width: 150, color: "#495057" }} size="sm" onChange={onChange}>
-                        <option value="">{""}</option>
-                        <option value="Tourist">Tourist</option>
-                        <option value="Hiker">Hiker</option>
-                        <option value="Professional Hiker">Prof. Hiker</option>
-                    </Form.Select>
+                    <Range min={rangeMin} max={rangeMax} allowCross={false} defaultValue={[rangeMin, rangeMax]} onAfterChange={(range) => {
+                        setMin(range[0] === rangeMin ? "" : range[0]);
+                        setMax(range[1] === rangeMax ? "" : range[1]);
+                    }} />
+                </Col>
+            </Row>
+        </Form.Group>
+    );
+}
+
+
+function DifficultyRange({ label, min, max, setMin, setMax }) {
+
+    const numToDiff = (num) => {
+        switch (num) {
+            case 0:
+                return "Tourist"
+            case 1:
+                return "Hiker"
+            case 2:
+                return "Professional Hiker"
+        }
+    }
+
+    return (
+        <Form.Group>
+            <Row>
+                <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
+                    <Form.Label className="formLabel">{label}</Form.Label>
+                </Col>
+            </Row>
+            <Row style={{ marginLeft: 5 }}>
+                <Col xs={4} sm={3} md={2} lg={1} xl={1} xxl={1} >
+                    <div>{"Min: " + (min === "Professional Hiker" ? "Prof. Hiker" : min)}</div>
+                </Col>
+                <Col xs={5} sm={4} md={3} lg={3} xl={3} xxl={3} >
+                    <div>{"Max: " + (max === "Professional Hiker" ? "Prof. Hiker" : max)}</div>
+                </Col>
+            </Row>
+            <Row style={{ marginLeft: 5, marginBottom: 20 }}>
+                <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
+                    <Range
+                        tipProps={{ placement: 'none' }}
+                        min={0}
+                        max={2}
+                        allowCross={false}
+                        defaultValue={[0, 2]}
+                        marks={
+                            {
+                                0: "Tourist",
+                                1: "Hiker",
+                                2: "Prof. Hiker"
+                            }
+                        }
+                        onAfterChange={(range) => {
+                            setMin(numToDiff(range[0]));
+                            setMax(numToDiff(range[1]));
+                        }}
+                    />
                 </Col>
             </Row>
         </Form.Group>
