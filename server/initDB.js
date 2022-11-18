@@ -4,23 +4,9 @@ const dbname = "HT.sqlite";
 
 const sqlite = require("sqlite3");
 
-const fs = require('fs');
-var file1,file2,file3,file4,file5,file6;
 
-
- function readFile(filePath,content) {
-        const data = fs.readFileSync(filePath);
-        //console.log(data.toString());
-        content = data.toString();
-        return content;
-}
- file1 = readFile('GPX_files/hike1.gpx',file1); //rocciamelone gpx
- file2 = readFile('GPX_files/hike2.gpx',file1); //Ascesa al Rifugio Savona
- file3 = readFile('GPX_files/hike3.gpx',file1); //Salita al Monte Antoroto
- file4 = readFile('GPX_files/hike4.gpx',file1); //Salita al Bric Mindino e al Colle di Prato Rotondo
- file5 = readFile('GPX_files/hike5.gpx',file1); //Salita al Bric Mindino e al Colle di Prato Rotondo
- file6 = readFile('GPX_files/hike6.gpx',file1); //Salita al Bric Mindino e al Colle di Prato Rotondo
- 
+ const {pm_file1,pm_file2,pm_file3,pm_file4,pm_file5,pm_file6} = require('./piemontegpx');
+ const {tn_file1,tn_file2,tn_file3,tn_file4,tn_file5,tn_file6} = require('./trentinogpx');
 
 const db = new sqlite.Database(dbname, (err) => {
   if (err) throw err;
@@ -53,6 +39,7 @@ db.serialize(function () {
      "expected_mins" INTEGER NOT NULL,\
      "ascendent_meters" INTEGER NOT NULL,\
      "difficulty" TEXT NOT NULL,\
+     "region" TEXT NOT NULL,\
      "province" TEXT NOT NULL,\
      "city" TEXT NOT NULL,\
      "lg_id" INTEGER NOT NULL,\
@@ -89,6 +76,10 @@ db.serialize(function () {
        "latitude" TEXT NOT NULL,\
        "longitude" TEXT NOT NULL,\
        "altitude" TEXT NOT NULL,\
+       "type" TEXT NOT NULL,\
+       "region" TEXT NOT NULL,\
+       "province" TEXT NOT NULL,\
+       "city" TEXT NOT NULL,\
         PRIMARY KEY("id" AUTOINCREMENT)\
     );'
   );
@@ -100,6 +91,9 @@ db.serialize(function () {
         "latitude" TEXT NOT NULL,\
         "longitude" TEXT NOT NULL,\
         "altitude" TEXT NOT NULL,\
+        "region" TEXT NOT NULL,\
+        "province" TEXT NOT NULL,\
+        "city" TEXT NOT NULL,\
          PRIMARY KEY("id" AUTOINCREMENT)\
     );'
   );
@@ -142,22 +136,22 @@ db.serialize(function () {
 
 var values =
 [
-  [1, 'Path to ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'TO', 'Mompantero', 1,
-   file1, 1, 'general point', 1, 'Hut point'], //endpoint:1 pointtable,strtpoint:1 hut
-  [2, 'Ascesa al Rifugio Savona', 10.3, 244, 610, 'Hiker', 'CN', 'Garessio', 1,
-   file2, 1, 'Parking point', 1, 'Parking point'],//endpoint:1 parking,strtpoint:1 parking
-  [3, 'Salita al Monte Antoroto', 17, 444, 1090, 'Professional Hiker', 'CN', 'Garessio', 1,
-   file3, 1, 'Parking point', 1, 'Parking point'],//endpoint:1 parking,strtpoint:1 parking
-  [4, 'Salita al Bric Mindino e al Colle di Prato Rotondo', 9.2, 218, 610, 'Hiker', 'CN', 'Garessio', 1,
-   file4, 2, 'Parking point', 2, 'Parking point'],//endpoint:2 parking,strtpoint:2 parking
-  [5, 'Colletta di Castelbianco Loop from Veravo', 5.7, 105, 206, 'Tourist', 'SV', 'Castelbianco', 1,
-   file5, 3, 'Parking point', 3, 'Parking point'],//endpoint:3 parking,strtpoint:3 parking
-  [6, 'Chiesa di Santa Libera Loop from Losano', 4.6, 80, 122, 'Tourist', 'TO', 'Frailino', 1,
-   file6, 6, 'general point', 6, 'general point']//endpoint:2 pointtable,strtpoint:3 pointtable
+  [ 'Path to ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'Piemonte', 'TO', 'Mompantero', 1,
+  pm_file1, 1, 'general point', 1, 'Hut point'], //endpoint:1 pointtable,strtpoint:1 hut
+  [ 'Ascesa al Rifugio Savona', 10.3, 244, 610, 'Hiker','Piemonte', 'CN', 'Garessio', 1,
+  pm_file2, 1, 'Parking point', 1, 'Parking point'],//endpoint:1 parking,strtpoint:1 parking
+  [ 'Salita al Monte Antoroto', 17, 444, 1090, 'Professional Hiker','Piemonte', 'CN', 'Garessio', 1,
+  pm_file3, 1, 'Parking point', 1, 'Parking point'],//endpoint:1 parking,strtpoint:1 parking
+  [ 'Salita al Bric Mindino e al Colle di Prato Rotondo', 9.2, 218, 610, 'Hiker','Piemonte', 'CN', 'Garessio', 1,
+  pm_file4, 2, 'Parking point', 2, 'Parking point'],//endpoint:2 parking,strtpoint:2 parking
+  [ 'Colletta di Castelbianco Loop from Veravo', 5.7, 105, 206, 'Tourist','Liguria', 'SV', 'Castelbianco', 1,
+  pm_file5, 3, 'Parking point', 3, 'Parking point'],//endpoint:3 parking,strtpoint:3 parking
+  [ 'Chiesa di Santa Libera Loop from Losano', 4.6, 80, 122, 'Tourist','Piemonte', 'TO', 'Frailino', 1,
+  pm_file6, 6, 'general point', 6, 'general point']//endpoint:2 pointtable,strtpoint:3 pointtable
 ];
   for (var i=0;i<6; i++){
    db.run(
-     "INSERT OR IGNORE INTO HIKE(id,title,length_kms,expected_mins,ascendent_meters,difficulty,province, city, lg_id, gpx,\
+     "INSERT OR IGNORE INTO HIKE(title,length_kms,expected_mins,ascendent_meters,difficulty,region,province, city, lg_id, gpx,\
        end_point, end_point_type, start_point, start_point_type)\
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) ", values[i][0],values[i][1],values[i][2],values[i][3],values[i][4],values[i][5],values[i][6],
         values[i][7],values[i][8],values[i][9],values[i][10],values[i][11],values[i][12],values[i][13],
@@ -170,32 +164,32 @@ var values =
   };
 
    db.run(
-     "INSERT INTO POINT(id, latitude, longitude, altitude, name, address, hike_id )\
-        VALUES (1, '45.20353', '7.07734', '3538', 'Rocciamelone','Rocciamelone, Piedmont', 1),\
-               (2, '44.20647', '7.92800', '5300', 'La pianura dalle Alpi Liguri','Garessio, Cuneo, Piedmont', 2 ),\
-               (3, '44.23647', '7.95442', '3000', 'Bric Mindino','Garessio, Cuneo, Piedmont' , 4),\
-               (4, '44.24354', '7.97038', '6900', 'Sentiero per il colle di prato rotondo', 'Garessio, Cuneo, Piedmont' ,4),\
-               (5, '44.11270', '8.06636', '150',  'Colletta di Castelbianco','Castelbianco, Savona, Liguria' , 5),\
-               (6, '44.14157', '8.23626', '122',  'Waypoint','via santa libera, Loano, Savona, Liguria', 6),\
-               (7, '44.14762', '8.23185', '3800', 'Chiesa di Santa Libera','Loano, Savona, Liguria' , 6),\
-               (8, '44.19202', '7.91444', '4400', 'Colla Bassa'  , 'Garessio, Cuneo, Piedmont', 3),\
-               (9, '44.18839', '7.91141', '5500', 'Monte Antoroto', 'Garessio, Cuneo, Piedmont', 3)"
+     "INSERT INTO POINT( latitude, longitude, altitude, name, address, hike_id )\
+        VALUES ( '45.20353', '7.07734', '3538', 'Rocciamelone','Rocciamelone, Piedmont', 1),\
+               ( '44.20647', '7.92800', '5300', 'La pianura dalle Alpi Liguri','Garessio, Cuneo, Piedmont', 2 ),\
+               ( '44.23647', '7.95442', '3000', 'Bric Mindino','Garessio, Cuneo, Piedmont' , 4),\
+               ( '44.24354', '7.97038', '6900', 'Sentiero per il colle di prato rotondo', 'Garessio, Cuneo, Piedmont' ,4),\
+               ( '44.11270', '8.06636', '150',  'Colletta di Castelbianco','Castelbianco, Savona, Liguria' , 5),\
+               ( '44.14157', '8.23626', '122',  'Waypoint','via santa libera, Loano, Savona, Liguria', 6),\
+               ( '44.14762', '8.23185', '3800', 'Chiesa di Santa Libera','Loano, Savona, Liguria' , 6),\
+               ( '44.19202', '7.91444', '4400', 'Colla Bassa'  , 'Garessio, Cuneo, Piedmont', 3),\
+               ( '44.18839', '7.91141', '5500', 'Monte Antoroto', 'Garessio, Cuneo, Piedmont', 3)"
    );
 
    db.run(
-     "INSERT INTO PARKING_LOT(id,name,latitude, longitude, altitude)\
-      VALUES (1, 'Piazzale di Valdinferno','44.19296', '7.95501','1192'),\
-             (2, 'Parking Garessio 200','44.21653', '7.94425','1392'),\
-             (3, 'Parking Colletta di Castelbianco','44.11318', '8.06597','235')"
+     "INSERT INTO PARKING_LOT(name,latitude, longitude, altitude,region, province, City)\
+      VALUES ( 'Piazzale di Valdinferno','44.19296', '7.95501','1192','Piemonte', 'CN','Garessio'),\
+             ( 'Parking Garessio 200','44.21653', '7.94425','1392','Piemonte', 'CN','Garessio'),\
+             ( 'Parking Colletta di Castelbianco','44.11318', '8.06597','235','Liguria', 'SV', 'Castelbianco')"
 
    );
   
    db.run(
-     "INSERT INTO HUT(id,name,latitude, longitude, altitude)\
-      VALUES (1, 'Refuge La Riposa','45.17778', '7.08337', '2185'),\
-             (2, 'Refugio Asti','45.19177', '7.07427','2854' ),\
-             (3, 'Rifugio Savona','44.19940', '7.93339','2600' ),\
-             (4, 'Gallo di monte','44.21736', '7.94432','1392' )"
+     "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, City)\
+      VALUES ( 'Refuge La Riposa','45.17778', '7.08337', '2185','Refuge', 'Piemonte', 'TO','Mompantero'),\
+             ( 'Refugio Asti','45.19177', '7.07427','2854','Refuge', 'Piemonte', 'TO','Mompantero' ),\
+             ( 'Rifugio Savona','44.19940', '7.93339','2600','Refuge', 'Piemonte', 'CN','Garessio' ),\
+             ( 'Gallo di monte','44.21736', '7.94432','1392','Refuge', 'Piemonte', 'CN','Garessio' )"
    );
 
    db.run(
