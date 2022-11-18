@@ -1,3 +1,4 @@
+'use strict';
 
 const fs = require('fs');
 var pm_file1,pm_file2,pm_file3,pm_file4,pm_file5,pm_file6;

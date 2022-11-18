@@ -1,3 +1,4 @@
+'use strict';
 
 const fs = require('fs');
 var tn_file1,tn_file2,tn_file3,tn_file4,tn_file5,tn_file6,tn_file7,tn_file8;
