@@ -179,9 +179,9 @@ db.serialize(function () {
    
    for (var i=0;i<hutsvalues.length; i++){
    db.run(
-     "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, City)\
-      VALUES ( ?,?,?,?,?,?,?,?)", hutsvalues[i][0],hutsvalues[i][1],hutsvalues[i][2],hutsvalues[i][3],hutsvalues[i][4],
-      hutsvalues[i][5],hutsvalues[i][6],hutsvalues[i][7],
+     "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, City, number_of_beds, description)\
+      VALUES ( ?,?,?,?,?,?,?,?,?,?)", hutsvalues[i][0],hutsvalues[i][1],hutsvalues[i][2],hutsvalues[i][3],hutsvalues[i][4],
+      hutsvalues[i][5],hutsvalues[i][6],hutsvalues[i][7],hutsvalues[i][8],hutsvalues[i][9],
       (err) => {
        if (err) {
          throw err;

@@ -15,7 +15,9 @@ const user = new User;
 
 const {HikeDescription , HikesView}  = require('./Services/hike');
 const {ParkingLotsDescription} = require('./Services/parkin_lots');
+const { HutDescription } = require('./Services/huts');
 const parkin_lot = new ParkingLotsDescription;
+const hut = new HutDescription;
 const hike = new HikeDescription;
 const hikeviews = new HikesView;
 
@@ -158,6 +160,14 @@ app.get('/api/parkingLots', (req, res) => {
 
 app.get('/api/parkingLot/:parkingLotId', (req, res) => {
   return parkin_lot.getParkingLotById(req,res);}
+);
+
+app.get('/api/huts', (req, res) => {
+  return hut.getAllHuts(req,res);}
+);
+
+app.get('/api/hut/:hutId', (req, res) => {
+  return hut.getHutById(req,res);}
 );
 
 // Registration form backend validation
