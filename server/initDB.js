@@ -166,7 +166,7 @@ db.serialize(function () {
    };
    for (var i=0;i<parkingvalues.length; i++){
    db.run(
-     "INSERT INTO PARKING_LOT(name,latitude, longitude, altitude,region, province, City)\
+     "INSERT INTO PARKING_LOT(name,latitude, longitude, altitude,region, province, city)\
       VALUES (?,?,?,?,?,?,?)", parkingvalues[i][0],parkingvalues[i][1],parkingvalues[i][2],parkingvalues[i][3],parkingvalues[i][4],
       parkingvalues[i][5],parkingvalues[i][6],
       (err) => {
@@ -179,7 +179,7 @@ db.serialize(function () {
    
    for (var i=0;i<hutsvalues.length; i++){
    db.run(
-     "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, City, number_of_beds, description)\
+     "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, city, number_of_beds, description)\
       VALUES ( ?,?,?,?,?,?,?,?,?,?)", hutsvalues[i][0],hutsvalues[i][1],hutsvalues[i][2],hutsvalues[i][3],hutsvalues[i][4],
       hutsvalues[i][5],hutsvalues[i][6],hutsvalues[i][7],hutsvalues[i][8],hutsvalues[i][9],
       (err) => {
