@@ -81,18 +81,6 @@ function Home({ setIsLoading, user }) {
                 seeFilters ?
                     (
                         <FilterForm
-                            provinceFilter={province}
-                            cityFilter={city}
-                            positionFilter={coordinates}
-                            radiusFilter={radius}
-                            maxAscentFilter={maxAscent}
-                            minAscentFilter={minAscent}
-                            maxLengthFilter={maxLength}
-                            minLengthFilter={minLength}
-                            maxExpectedTimeFilter={maxExpectedTime}
-                            minExpectedTimeFilter={minExpectedTime}
-                            minDifficultyFilter={minDifficulty}
-                            maxDifficultyFilter={maxDifficulty}
                             setProvinceFilter={setProvince}
                             setCityFilter={setCity}
                             setPositionFilter={setCoordinates}
@@ -201,18 +189,6 @@ function Home({ setIsLoading, user }) {
 
 
 function FilterForm({
-    provinceFilter,
-    cityFilter,
-    positionFilter,
-    radiusFilter,
-    maxAscentFilter,
-    minAscentFilter,
-    maxLengthFilter,
-    minLengthFilter,
-    maxExpectedTimeFilter,
-    minExpectedTimeFilter,
-    minDifficultyFilter,
-    maxDifficultyFilter,
     setProvinceFilter,
     setCityFilter,
     setPositionFilter,
@@ -236,24 +212,47 @@ function FilterForm({
     const [minExpectedTime, setMinExpectedTime] = useState("");
     const [minDifficulty, setMinDifficulty] = useState("Tourist");
     const [maxDifficulty, setMaxDifficulty] = useState("Professional Hiker");
-    const [radius, setRadius] = useState();
+    const [radius, setRadius] = useState("");
     const [position, setPosition] = useState();
 
 
+    const resetForm = () => {
+        setProvinceFilter(province);
+        setCityFilter(city);
+        setMaxAscentFilter(maxAscent);
+        setMinAscentFilter(minAscent);
+        setMaxLengthFilter(maxLength);
+        setMinLengthFilter(minLength);
+        setMaxExpectedTimeFilter(maxExpectedTime);
+        setMinExpectedTimeFilter(minExpectedTime);
+        setMinDifficultyFilter(minDifficulty);
+        setMaxDifficultyFilter(maxDifficulty);
+        setRadiusFilter(radius);
+        setPositionFilter(position);
+    }
+
     useEffect(() => {
-        setProvince(provinceFilter);
-        setCity(cityFilter);
-        setMaxAscent(maxAscentFilter);
-        setMinAscent(minAscentFilter);
-        setMaxLength(maxLengthFilter);
-        setMinLength(minLengthFilter);
-        setMaxExpectedTime(maxExpectedTimeFilter);
-        setMinExpectedTime(minExpectedTimeFilter);
-        setMinDifficulty(minDifficultyFilter);
-        setMaxDifficulty(maxDifficultyFilter);
-        setRadius(radiusFilter);
-        setPosition(positionFilter);
+        resetForm();
     }, [])
+
+    const deleteAllFilters = () => {
+        setProvince("");
+        setCity("");
+        setMaxAscent("");
+        setMinAscent("");
+        setMaxLength("");
+        setMinLength("");
+        setMaxExpectedTime("");
+        setMinExpectedTime("");
+        setMinDifficulty("Tourist");
+        setMaxDifficulty("Professional Hiker");
+        setRadius("");
+        setPosition(undefined);
+    }
+
+    useEffect(()=>{
+        console.log("radius: "+radius+"  city: "+ city)
+    }, [radius, city])
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -367,7 +366,14 @@ function FilterForm({
                 <div>
                     <ClickableOpacity type='submit' className="marginRight1">
                         <div className="formConfirm">
-                            Confirm filters
+                            Confirm Filters
+                        </div>
+                    </ClickableOpacity>
+                </div>
+                <div>
+                    <ClickableOpacity onClick={deleteAllFilters}>
+                        <div className="formDelete">
+                            Delete Filters
                         </div>
                     </ClickableOpacity>
                 </div>
@@ -423,7 +429,7 @@ function MaxMinRange({ label, setMax, setMin, max, min, rangeMax, rangeMin }) {
             </Row>
             <Row style={{ marginLeft: 5, marginBottom: 20 }}>
                 <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                    <Range min={rangeMin} max={rangeMax} allowCross={false} defaultValue={[rangeMin, rangeMax]} onAfterChange={(range) => {
+                    <Range min={rangeMin} max={rangeMax} allowCross={false} value={[min?min:rangeMin, max?max:rangeMax]} onChange={(range) => {
                         setMin(range[0] === rangeMin ? "" : range[0]);
                         setMax(range[1] === rangeMax ? "" : range[1]);
                     }} />
@@ -444,6 +450,17 @@ function DifficultyRange({ label, min, max, setMin, setMax }) {
                 return "Hiker"
             case 2:
                 return "Professional Hiker"
+        }
+    }
+
+    const diffToNum = (diff) => {
+        switch (diff) {
+            case "Tourist":
+                return 0;
+            case "Hiker":
+                return 1;
+            case "Professional Hiker":
+                return 2;
         }
     }
 
@@ -469,7 +486,7 @@ function DifficultyRange({ label, min, max, setMin, setMax }) {
                         min={0}
                         max={2}
                         allowCross={false}
-                        defaultValue={[0, 2]}
+                        value={[diffToNum(min), diffToNum(max)]}
                         marks={
                             {
                                 0: "Tourist",
@@ -477,7 +494,7 @@ function DifficultyRange({ label, min, max, setMin, setMax }) {
                                 2: "Prof. Hiker"
                             }
                         }
-                        onAfterChange={(range) => {
+                        onChange={(range) => {
                             setMin(numToDiff(range[0]));
                             setMax(numToDiff(range[1]));
                         }}
