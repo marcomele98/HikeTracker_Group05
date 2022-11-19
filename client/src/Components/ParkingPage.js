@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { Row, Container, Col } from "react-bootstrap";
-import { ClickableOpacity } from "./clickableOpacity";
 import { PointMap } from "./cliccableMap";
 import API from "../API";
 
 
 function ParkingPage({ setIsLoading, loggedIn, user }) {
-    const [seeMap, setSeeMap] = useState(false);
     const [park, setPark] = useState();
     const navigate = useNavigate();
 
