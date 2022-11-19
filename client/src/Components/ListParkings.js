@@ -48,6 +48,7 @@ function ListParkings({ setIsLoading, loggedIn, user }) {
                 {
 
                     parks
+                        .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
                         .map((p) => (
                             <ListGroupItem key={p.id} className="m-3 border-2 rounded-3 shadow">
                                 <Col>

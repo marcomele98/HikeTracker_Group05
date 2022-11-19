@@ -142,6 +142,7 @@ function Home({ setIsLoading, user }) {
                             }
                             return true;
                         })
+                        .sort((a, b) => a.title.trim().localeCompare(b.title.trim()))
                         .map((h) => (
                             <ListGroupItem key={h.id} className="m-3 border-2 rounded-3 shadow">
                                 <Col>

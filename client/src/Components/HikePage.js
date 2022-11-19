@@ -148,7 +148,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <ListGroup>
                                     {
-                                        hike.huts.map((h) =>
+                                        hike.huts
+                                        .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                        .map((h) =>
                                             <Hut key={h.id} hut={h}></Hut>
                                         )
                                     }
@@ -179,7 +181,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <ListGroup>
                                     {
-                                        hike.parking_lots.map((p) =>
+                                        hike.parking_lots
+                                        .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                        .map((p) =>
                                             <Park key={p.id} park={p}></Park>
                                         )
                                     }
@@ -210,7 +214,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <ListGroup>
                                     {
-                                        hike.points.map((p) =>
+                                        hike.points
+                                        .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                        .map((p) =>
                                             <Point key={p.id} point={p}></Point>
                                         )
                                     }
