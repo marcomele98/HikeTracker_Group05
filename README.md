@@ -233,3 +233,29 @@
     - 400 Bad Request (if a field is missing or a constraint is broken, e.g. user already registered, email format not correct, ...)
     - 500 Internal Server Error (if for some reason the database is unreachable)
 
+    ####  **POST /api/hut**
+- **Insert a new hut**
+- POST http://localhost:3001/api/register HTTP/1.1
+- Request header has the line: Content-Type: application/json
+
+- Request body is an object containing name, latitude, longitude, altitude,type, region, province, city, number_of_beds, description with the following structure
+```
+{
+    "name": "HutTest",
+    "latitude": "45.08765",
+    "longitude": "11.65422",
+    "altitude": "120",
+    "type": "Refugee",
+    "region": "Piemonte",
+    "province": "TO",
+    "city": "Torino",
+    "number_of_beds": "30",
+    "description": "Huttest description"
+}
+```
+- **BEWARE: all field are mandatory!!**
+- **Permissions allowed**:  Only local guides.
+- **Response status:**
+    - 201 Created (Success)
+    - `503 Service Unavailable` (generic error)
+

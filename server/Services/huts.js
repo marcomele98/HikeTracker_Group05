@@ -105,7 +105,7 @@ class HutDescription {
     async getAllHuts(req, res) {
         try {
             let huts = await hutDB.getHuts();
-            return res.status(200).json(huts);
+            return res.status(201).json(huts);
 
         }
         catch (err) {
