@@ -74,7 +74,7 @@ db.serialize(function () {
   db.run(
     'CREATE TABLE IF NOT EXISTS "HUT" (\
        "id"	INTEGER NOT NULL,\
-       "name" TEXT NOT NULL UNIQUE,\
+       "name" TEXT NOT NULL,\
        "latitude" TEXT NOT NULL,\
        "longitude" TEXT NOT NULL,\
        "altitude" TEXT NOT NULL,\
@@ -91,7 +91,7 @@ db.serialize(function () {
   db.run(
     'CREATE TABLE IF NOT EXISTS "PARKING_LOT" (\
         "id"	INTEGER NOT NULL,\
-        "name" TEXT NOT NULL UNIQUE,\
+        "name" TEXT NOT NULL,\
         "latitude" TEXT NOT NULL,\
         "longitude" TEXT NOT NULL,\
         "altitude" TEXT NOT NULL,\

@@ -73,7 +73,7 @@ async function newHikeDescription(hike) {
     return null;
   } else {
     const errDetail = await response.json();
-    throw errDetail.error;
+    throw errDetail
   }
 }
 
@@ -90,7 +90,7 @@ async function newPark(park) {
     return null;
   } else {
     const errDetail = await response.json();
-    throw errDetail.error;
+    throw errDetail
   }
 }
 

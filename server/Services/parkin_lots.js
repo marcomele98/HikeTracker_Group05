@@ -101,7 +101,7 @@ class ParkingLotsDescription {
         }
 
         if (this.isNotValidPoint({...park})) {
-            message = "Invalid start point"
+            message = "Invalid point"
             return res.status(422).json(message);
         }
 
@@ -111,7 +111,8 @@ class ParkingLotsDescription {
             return res.status(201).end();
         }
         catch (err) {
-            return res.status(503).end();
+            message = "Server Error"
+            return res.status(503).json(message);
         }
     }
 

@@ -284,7 +284,7 @@ function FilterForm({
                 />
                 <FormElement
                     label="City:"
-                    onChange={(ev) => setCity(ev.target.value.replace(/[^a-z]/gi, ''))}
+                    onChange={(ev) => setCity(ev.target.value.replace(/[^a-z" "]/gi, ''))}
                     type="text"
                     placeholder="Tourin"
                     value={city}
