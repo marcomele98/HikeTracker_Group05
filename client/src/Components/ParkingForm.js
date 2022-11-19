@@ -126,9 +126,9 @@ const ParkingForm = (props) => {
                         />
                         <Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback>
                     </Form.Group>
-
-                    <CliccableMap position={position} setPosition={setPosition}></CliccableMap>
-
+                    <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+                        <CliccableMap position={position} setPosition={setPosition}></CliccableMap>
+                    </Col>
                     <Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom03">
                         <Form.Label className={"fs-4"}>Altitude</Form.Label>
                         <Form.Control

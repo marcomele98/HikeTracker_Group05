@@ -272,8 +272,9 @@ const HikeForm = (props) => {
 							undefined
 							:
 							<>
-
-								<Map hike={{ gpx: fileGPX, points: allPoints, huts: [], parking_lots: [] }}></Map>
+								<Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+									<Map hike={{ gpx: fileGPX, points: allPoints, huts: [], parking_lots: [] }}></Map>
+								</Col>
 								<Row>
 									<AddPointForm points={parseGPX()} setStartPoint={setStartPoint} type={"Start point"}></AddPointForm>
 								</Row>
