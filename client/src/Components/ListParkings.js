@@ -42,7 +42,7 @@ function ListParkings({ setIsLoading, loggedIn, user }) {
                         <ClickableOpacity onClick={() => navigate("/new-parking")}>
                             <PlusCircle
                                 color="#495057"
-                                size={50}
+                                size={40}
                             />
                         </ClickableOpacity>
                     </div>
@@ -57,7 +57,7 @@ function ListParkings({ setIsLoading, loggedIn, user }) {
                                 <ListGroupItem key={p.id} className="m-3 border-2 rounded-3 shadow">
                                     <Col>
                                         <Row>
-                                            <div className="parkName">{p.name}</div>
+                                            <div className="title">{p.name}</div>
                                         </Row>
                                         <Row>
                                             <div className="textGrayPrimary">{p.region}</div>

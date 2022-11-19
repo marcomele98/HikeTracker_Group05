@@ -34,7 +34,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
         };
         getHikesFromServer()
     }, [hikeId])
-    
+
     return (
         !hike ?
             undefined
@@ -43,7 +43,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                 <Col>
                     <Row style={{ height: 20 }}></Row>
                     <Row>
-                        <div className="hikeTitleBig">{hike.title}</div>
+                        <div className="titleBig">{hike.title}</div>
                     </Row>
                     <Row style={{ height: 20 }}></Row>
                     <Row>

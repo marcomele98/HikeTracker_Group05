@@ -35,8 +35,9 @@ function ParkingPage({ setIsLoading, loggedIn, user }) {
         (park && loggedIn && user.role === "local guide") ?
             <Container>
                 <Col>
+                    <Row style={{ height: 20 }}></Row>
                     <Row>
-                        <div className="hikeTitleBig">{park.name}</div>
+                        <div className="titleBig">{park.name}</div>
                     </Row>
                     <Row>
                         <div className="textGrayPrimaryBig">{park.region}</div>
@@ -45,28 +46,12 @@ function ParkingPage({ setIsLoading, loggedIn, user }) {
                         <div className="textGrayPrimaryBig">{park.city + " (" + park.province + ")"}</div>
                     </Row>
 
-
                     {
                         (loggedIn && user.role === "local guide") ?
-                            (
-                                <Row>
-                                    <div className="seePointsButtonContainer">
-                                        <ClickableOpacity
-                                            onClick={() => setSeeMap(val => !val)}>
-                                            <div className="seePointsButton">{seeMap ? "Hide Map" : "See Map"}</div>
-                                        </ClickableOpacity>
-                                    </div>
-                                </Row>
-                            ) : false
-
-                    }
-
-                    {
-                        (loggedIn && user.role === "local guide" && seeMap) ?
                             (<Row>
-                                {
+                                <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
                                     <PointMap position={{ name: park.name, lat: park.latitude, lng: park.longitude }}></PointMap>
-                                }
+                                </Col>
                             </Row>
                             ) : false
                     }

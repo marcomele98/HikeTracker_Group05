@@ -159,7 +159,7 @@ function Home({ setIsLoading, user }) {
                             <ListGroupItem key={h.id} className="m-3 border-2 rounded-3 shadow">
                                 <Col>
                                     <Row>
-                                        <div className="hikeTitle">{h.title}</div>
+                                        <div className="title">{h.title}</div>
                                     </Row>
                                     <Row>
                                         <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
