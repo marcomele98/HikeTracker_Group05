@@ -109,7 +109,7 @@ const ParkingForm = (props) => {
                             type="text"
                             placeholder="Insert province"
                             value={province}
-                            // maxLength={2}
+                            maxLength={2}
                             onChange={(e) => setProvince(e.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
                         />
                         <Form.Control.Feedback type="invalid">Please insert correct province</Form.Control.Feedback>
