@@ -12,7 +12,7 @@ function ListParkings({ setIsLoading, loggedIn, user }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user !== "" && user.role !== 'local guide' && user.role !== 'hiker') {
+        if (user === "" || (user.role !== 'local guide' && user.role !== 'hiker')) {
             navigate("/");
         }
         const getParksFromServer = async () => {
