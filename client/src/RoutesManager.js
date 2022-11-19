@@ -14,7 +14,6 @@ import { ListParkings } from "./Components/ListParkings";
 import { ParkingPage } from "./Components/ParkingPage";
 import { ClickableOpacity } from "./Components/clickableOpacity";
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from "react";
 
 
 
@@ -30,12 +29,7 @@ const RoutesManager = ({
     setLog
 }) => {
     const location = useLocation();
-    const [selected, setSelected] = useState("hikes")
     const navigate = useNavigate()
-
-    useEffect(()=>{
-        console.log(location)
-    },[location])
 
     return (
         <div className="container-fluid">
@@ -49,7 +43,7 @@ const RoutesManager = ({
                     setLog={setLog}
                 />
             </Row>
-            {user?.role =="local guide" ?
+            {user?.role === "local guide" ?
                 <Row>
                     <Col className="navigationLinkContainer">
                         <ClickableOpacity

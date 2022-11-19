@@ -24,7 +24,7 @@
 
 .seeMore {
   text-align: left;
-  color: #0d6efd;
+  color: #198754;
   font-size: 14px;
   text-decoration: underline;
 }
@@ -65,6 +65,13 @@
   color: #495057;
 }
 
+.textGrayPrimaryItalic {
+  text-align: left;
+  font-size: 17px;
+  color: #6f747a;
+  font-style: italic;
+}
+
 .textGrayPrimaryBig {
   text-align: left;
   font-size: 20px;
@@ -87,7 +94,7 @@
 }
 
 .formConfirm{
-  color: #14A44D;
+  color: #198754;
   font-size: 18px;
 }
 
@@ -110,7 +117,7 @@
 }
 
 .seePointsButton{
-  color: #0d6efd;
+  color: #198754;
   font-size: 18px;
   text-decoration: underline;
 }

@@ -34,14 +34,24 @@ function HikePage({ setIsLoading, loggedIn, user }) {
         };
         getHikesFromServer()
     }, [hikeId])
+    
     return (
         !hike ?
             undefined
             :
             <Container>
                 <Col>
+                    <Row style={{ height: 20 }}></Row>
                     <Row>
                         <div className="hikeTitleBig">{hike.title}</div>
+                    </Row>
+                    <Row style={{ height: 20 }}></Row>
+                    <Row>
+                        <div className="textGrayPrimaryItalic">{hike.description}</div>
+                    </Row>
+                    <Row style={{ height: 20 }}></Row>
+                    <Row>
+                        <div className="textGrayPrimaryBig">{hike.region}</div>
                     </Row>
                     <Row>
                         <div className="textGrayPrimaryBig">{hike.city + " (" + hike.province + ")"}</div>
@@ -58,6 +68,21 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     <Row>
                         <div className="textGrayPrimaryBig">{"Difficulty: " + hike.difficulty}</div>
                     </Row>
+                    <Row style={{ height: 20 }}></Row>
+                    {
+                        (loggedIn && (user.role === "local guide" || user.role === "hiker")) ?
+                            (
+                                <>
+                                    <Row>
+                                        <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+                                            <Map hike={hike}></Map>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ height: 20 }}></Row>
+                                </>
+                            ) : false
+
+                    }
                     <Row>
                         <div className="seePointsButtonContainer">
                             <ClickableOpacity
@@ -66,6 +91,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             </ClickableOpacity>
                         </div>
                     </Row>
+                    
                     {
                         seeStartPointDetails
                             ?
@@ -193,32 +219,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             :
                             undefined
                     }
-
-                    {
-                        (loggedIn &&  (user.role === "local guide" || user.role === "hiker"))?
-                        (
-                            <Row>
-                                <div className="seePointsButtonContainer">
-                                    <ClickableOpacity
-                                        onClick={() => setSeeMap(val => !val)}>
-                                        <div className="seePointsButton">{seeMap ? "Hide Map" : "See Map"}</div>
-                                    </ClickableOpacity>
-                                </div>
-                            </Row>
-                        ) : false
-
-                    }
-
-                    {
-                        (loggedIn &&  (user.role === "local guide" || user.role === "hiker") && seeMap)?
-                        (<Row>
-                            {
-                                <Map hike={hike}></Map>
-                            }
-                        </Row>
-                        ) : false
-
-                    }
+                    <Row style={{ height: 80 }}></Row>
                 </Col>
 
 
@@ -259,17 +260,11 @@ const Point = ({ point, key }) => {
                     point.address
                         ?
                         (<Row>
-                            <div className="pointTitle">{point.address}</div>
+                            <div className="textGrayPrimary">{"Address: " + point.address}</div>
                         </Row>)
                         :
                         undefined
                 }
-                <Row>
-                    <div className="textGrayPrimary">{"lat: " + point.latitude}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{"long: " + point.longitude}</div>
-                </Row>
                 <Row>
                     <div className="textGrayPrimary">{"Altitude: " + point.altitude + " m"}</div>
                 </Row>
@@ -286,10 +281,10 @@ const Hut = ({ hut, key }) => {
                     <div className="pointTitle">{hut.name + " (Hut)"}</div>
                 </Row>
                 <Row>
-                    <div className="textGrayPrimary">{"lat: " + hut.latitude}</div>
+                    <div className="textGrayPrimary">{hut.region}</div>
                 </Row>
                 <Row>
-                    <div className="textGrayPrimary">{"long: " + hut.longitude}</div>
+                    <div className="textGrayPrimary">{hut.city + " (" + hut.province + ")"}</div>
                 </Row>
                 <Row>
                     <div className="textGrayPrimary">{"Altitude: " + hut.altitude + " m"}</div>
@@ -308,10 +303,10 @@ const Park = ({ park, key }) => {
                     <div className="pointTitle">{park.name + " (Parking lot)"}</div>
                 </Row>
                 <Row>
-                    <div className="textGrayPrimary">{"lat: " + park.latitude}</div>
+                    <div className="textGrayPrimary">{park.region}</div>
                 </Row>
                 <Row>
-                    <div className="textGrayPrimary">{"long: " + park.longitude}</div>
+                    <div className="textGrayPrimary">{park.city + " (" + park.province + ")"}</div>
                 </Row>
                 <Row>
                     <div className="textGrayPrimary">{"Altitude: " + park.altitude + " m"}</div>
