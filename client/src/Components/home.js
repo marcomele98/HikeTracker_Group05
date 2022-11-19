@@ -279,7 +279,7 @@ function FilterForm({
                     type="text"
                     placeholder="TO"
                     value={province}
-                    textBoxWidth={35}
+                    textBoxWidth={36}
                     maxLength={2}
                 />
                 <FormElement
