@@ -3,7 +3,6 @@
 const sqlite = require('sqlite3');
 const db = require('./DAO');
 const db1 = new sqlite.Database('HT.sqlite', err => { if (err) throw err;});
-const {ParkingStruct} = require("../Models/parking_model");
 
 
 exports.getParkings = () => {

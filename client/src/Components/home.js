@@ -52,7 +52,7 @@ function Home({ setIsLoading, user }) {
         <Container>
             {
                 user.role !== 'local guide' ?
-                    undefined
+                    <Row style={{ height: 30 }}></Row>
                     :
                     <>
                         <div className="flex-shrink-0 m-5">
@@ -65,7 +65,6 @@ function Home({ setIsLoading, user }) {
                         </div>
                     </>
             }
-
             <Row className="filterTitleRow">
                 <div className="touchableOpacityWithTextContainer">
                     <ClickableOpacity

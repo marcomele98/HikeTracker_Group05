@@ -278,7 +278,7 @@ const Hut = ({ hut, key }) => {
         <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
             <Col className='point'>
                 <Row>
-                    <div className="pointTitle">{hut.name + " (Hut)"}</div>
+                    <div className="pointTitle">{hut.name + " (" + hut.type +")" }</div>
                 </Row>
                 <Row>
                     <div className="textGrayPrimary">{hut.region}</div>

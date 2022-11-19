@@ -43,7 +43,7 @@ const RoutesManager = ({
                     setLog={setLog}
                 />
             </Row>
-            {user?.role === "local guide" ?
+            {user?.role === "local guide" || user?.role === "hiker" ?
                 <Row>
                     <Col className="navigationLinkContainer">
                         <ClickableOpacity
