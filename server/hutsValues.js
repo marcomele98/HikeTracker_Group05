@@ -19,7 +19,9 @@ var hutsvalues =
     ['Agririfugio Molini', '44.31912', '9.178627', '232', 'Refuge', 'Liguria', 'GE', 'Fruttuoso', 11, 'Set on a hillside overlooking the Ligurian coast, this quiet, secluded farmhouse within Portofino Natural Park is only accessible via hiking trails.'],
     ['Rifúgio Barmasse', '45.87579','7.593994', '2174.2','Refuge','Valle d Aosta', 'AO', 'Fontanaz-Valmartin',25,''],
     ['Rifugio Duca degli Abruzzi all Oriondè', '45.958891','7.6441', '2798.2','Refuge','Valle d Aosta', 'AO', 'Breuil-Cervinia',22,''],
-    ['Rifugio Barbustel', '45.649148', '7.588452', '2188', 'Refuge','Valle d Aosta', 'AO', 'Covarey', 40, '' ]
-
+    ['Rifugio Barbustel', '45.649148', '7.588452', '2188', 'Refuge','Valle d Aosta', 'AO', 'Covarey', 40, '' ],
+    
+    ['Hotel Il Brigante', '39.197330', '16.658432',	'1318.757023', 'Hotel', 'Calabria', 'KR', 'Caprara', 34 , 'Hotel il Brigante is located inside the Palumbo Village, in the heart of the Sila Piccola, near the enchanting scenery of Lake Ampollino.'],
+    ['Villaggio Baffa',	'39.195780', '16.669220', '1320', 'Hotel', 'Calabria', 'KR', 'Cotronei', 28, 'Villaggio Baffa is an excellent combination for short or long stays and at any time of the year.']
 ];
 module.exports.hutsvalues =   hutsvalues;

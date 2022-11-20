@@ -4,6 +4,7 @@ const {pm_file1,pm_file2,pm_file3,pm_file4,pm_file5,pm_file6} = require('./piemo
 const {tn_file1,tn_file2,tn_file3,tn_file4,tn_file5,tn_file6,tn_file7,tn_file8} = require('./trentinogpx');
 const {li_file1, li_file2, li_file3, li_file4, li_file5, li_file6, li_file7, li_file8} = require('./liguriagpx');
 const {va_file1, va_file2, va_file3, va_file4, va_file5, va_file6, va_file7, va_file8} = require('./valledaostagpx');
+const {ca_file1, ca_file2, ca_file3, ca_file4, ca_file5, ca_file6, ca_file7, ca_file8} = require('./calabriagpx');
 
 var hikevalues =
 [
@@ -67,8 +68,25 @@ var hikevalues =
   ['Parco del Monte Avic: Rifugio Barbustel da Covarey',16.37,404,970,'Hiker','Valle d Aosta', 'AO', 'Covarey',1,
   va_file7,13,'Parking point',13,'Parking point',''],
   ['Summer Park - Bivacco Tzan - Lago Tzan ',20.9,346,871,'Hiker','Valle d Aosta', 'AO', 'Septumian',1,
-  va_file8,14,'Parking point',14,'Parking Point','']
-  
+  va_file8,14,'Parking point',14,'Parking Point',''],
+
+  [ 'Camigliatello Loop from Camigliatello Silano', 4.08, 77, 110, 'Hiker', 'Calabria', 'CS', 'Spezzano della Sila', 1,
+  ca_file1, 15, 'Parking point', 15, 'Parking point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.'],
+  [ 'Bosco – Parco Nazionale della Sila Loop from Campo San Lorenzo, Easy', 4.70, 90, 140, 'Hiker', 'Calabria', 'CS', 'Spezzano della Sila', 1,
+  ca_file2, 16, 'Parking point', 16, 'Parking point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.'],
+  ['La Locomotiva Cafe Loop from San Nicola-Silvana Mansio', 7.64, 132, 190, 'Hiker', 'Calabria', 'CS', 'Casali del Manco', 1,
+  ca_file3, 95, 'general point', 95, 'general point', 'Intermediate Hiking Tour. Good fitness required. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is accessible with public transport.'],
+  ['Camigliatello – Acqua Loop from Camigliatello Silano', 6.36, 109, 150, 'Tourist', 'Calabria', 'CS', 'Spezzano della Sila', 1,
+  ca_file4, 97, 'general point', 97, 'general point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is accessible with public transport.'],
+  ['Lago Ampollino Loop from Villaggio Baffa', 4.97, 84, 100, 'Tourist', 'Calabria', 'KR', 'Caprara', 1,
+  ca_file5, 17, 'Hut point', 17, 'Hut point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels.'],
+  ['Riserva I Giganti della Sila Loop from Croce di Magara', 1.57, 33, 40, 'Hiker', 'Calabria', 'CS', 'Spezzano Piccolo', 1,
+  ca_file6, 103, 'general point', 103, 'general point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required.'],
+  ['Bosco – Parco Nazionale della Sila Loop from Campo San Lorenzo, Hard', 18.6, 391, 480, 'Professional Hiker', 'Calabria', 'CS', 'Spezzano della Sila', 1,
+  ca_file7, 16, 'Parking point', 16, 'Parking point', 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.'],
+  ['San Fili Loop', 5.7, 117, 292, 'Hiker', 'Calabria', 'CS', 'San Fili', 1,
+  ca_file8, 109, 'general point', 109, 'general point', 'It starts from San Fili and follows part of the path of San Francesco da Paola to then intersect with the path that runs along the Emoli stream and then returns to the starting point.'],
+
 ];
 
 module.exports.hikevalues =   hikevalues;
