@@ -74,7 +74,7 @@ db.serialize(function () {
   db.run(
     'CREATE TABLE IF NOT EXISTS "HUT" (\
        "id"	INTEGER NOT NULL,\
-       "name" TEXT NOT NULL UNIQUE,\
+       "name" TEXT NOT NULL,\
        "latitude" TEXT NOT NULL,\
        "longitude" TEXT NOT NULL,\
        "altitude" TEXT NOT NULL,\
@@ -91,7 +91,7 @@ db.serialize(function () {
   db.run(
     'CREATE TABLE IF NOT EXISTS "PARKING_LOT" (\
         "id"	INTEGER NOT NULL,\
-        "name" TEXT NOT NULL UNIQUE,\
+        "name" TEXT NOT NULL,\
         "latitude" TEXT NOT NULL,\
         "longitude" TEXT NOT NULL,\
         "altitude" TEXT NOT NULL,\
@@ -202,7 +202,13 @@ db.serialize(function () {
             (15, 7),\
             (18, 8),\
             (19, 8),\
-            (20, 8)"
+            (20, 8),\
+            (24, 9),\
+            (26, 10),\
+            (27, 11),\
+            (28, 12),\
+            (29, 13),\
+            (30, 14)"
   );
 
   db.run(
@@ -219,7 +225,10 @@ db.serialize(function () {
             (10, 10 ),\
             (11, 11 ),\
             (12, 12),\
-            (15, 13)"
+            (15, 13),\
+            (23, 14),\
+            (24, 15),\
+            (29, 16)"
   );
 
 });

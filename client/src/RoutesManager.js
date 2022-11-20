@@ -14,6 +14,8 @@ import { ListParkings } from "./Components/ListParkings";
 import { ParkingPage } from "./Components/ParkingPage";
 import { ClickableOpacity } from "./Components/clickableOpacity";
 import { useNavigate } from 'react-router-dom';
+import { ListHuts } from "./Components/ListHuts";
+import { HutPage } from './Components/HutPage'
 
 
 
@@ -43,7 +45,7 @@ const RoutesManager = ({
                     setLog={setLog}
                 />
             </Row>
-            {user?.role === "local guide" ?
+            {user?.role === "local guide" || user?.role === "hiker" ?
                 <Row>
                     <Col className="navigationLinkContainer">
                         <ClickableOpacity
@@ -70,7 +72,7 @@ const RoutesManager = ({
                     <Col className="navigationLinkContainer">
                         <ClickableOpacity
                             onClick={() => {
-                                navigate("/parkingLots");
+                                navigate("/huts");
                             }}>
                             <div className={location?.pathname === "/huts" ? "navigationLinkSelected" : "navigationLinkUnselected"}>
                                 Huts
@@ -123,7 +125,15 @@ const RoutesManager = ({
                         path="/parkingLot/:parkId"
                         element={<ParkingPage setIsLoading={setIsLoading} loggedIn={loggedIn} user={user} />}
                     />
+                    <Route
+                        path="/huts"
+                        element={<ListHuts setIsLoading={setIsLoading} user={user} />}
+                    />
 
+                    <Route
+                        path="/hut/:hutId"
+                        element={<HutPage setIsLoading={setIsLoading} user={user} />}
+                    />
                     <Route path="/*"
                         element={<Navigate to="/home" />} />
                     {" "}

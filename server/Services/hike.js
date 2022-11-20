@@ -4,12 +4,7 @@ const db = require('../Queries/hike');
 const pointDB = require('../Queries/point');
 const hutDB = require('../Queries/hut');
 const parkingDB = require('../Queries/parking');
-const { HikeDetailStruct } = require("../Models/hike_model");
-const e = require('express');
-const { each } = require('lodash');
-// const { HikeStruct, Hike_HutStruct, Hike_ParkingStruct } = require('../Models/hike_model');
-// let gpxParser = require('gpxparser');
-// var gpx = new gpxParser();
+
 
 
 const possibleDiff = ['Tourist', 'Hiker', 'Professional Hiker'];
@@ -20,12 +15,6 @@ class HikeDescription {
     constructor() {
 
     }
-
-    // // gpxTrack: our gpx file with the xml representing our exported track
-    // getTrackPoints = gpxTrack => {
-    //     const parsedGpx = Gpx.parse(gpxTrack);
-    //     return parsedGpx.trk[0].trkseg[0].trkpt;
-    // };
 
     isNotValidBody = (data) => {
         return data === undefined || data === null || data.length === 0;
@@ -67,6 +56,7 @@ class HikeDescription {
         let role = req.user.role;
         let message = ""
 
+        console.log(hike)
 
         if (role !== "local guide") {
             return res.status(401).json("Not authenticated.");
@@ -106,14 +96,27 @@ class HikeDescription {
             message = "Invalid Difficulty"
             return res.status(422).json(message);
         }
+
+        if (this.isNotValidField(hike.description)) {
+            message = "Invalid Description"
+            return res.status(422).json(message);
+        }
+
+        if (this.isNotValidField(hike.region)) {
+            message = "Invalid Region"
+            return res.status(422).json(message);
+        }
+
         if (this.isNotValidProvince(hike.province)) {
             message = "Invalid Province"
             return res.status(422).json(message);
         }
+
         if (this.isNotValidField(hike.city)) {
             message = "Invalid City"
             return res.status(422).json(message);
         }
+
         if (this.isNotValidField(hike.gpx)) {
             message = "Invalid gpx"
             return res.status(422).json(message);
@@ -132,28 +135,23 @@ class HikeDescription {
         for (var i = 0; i < hike.reference_points.length; i++) {
             if (this.isNotValidPoint(hike.reference_points[i])) {
                 let message = "Invalid reference points"
-                return res.status(422).json();
+                return res.status(422).json(message);
             }
         }
-
-
-        // gpx.parse(hike.gpx)
-        // var totalDistance = gpx.tracks[0].distance.total;
-        // console.log(gpx.tracks[0].points[0]);
-
 
         try {
             let hike_id = await db.newHike(hike, lg_id);
             let end_point_id = await pointDB.storePoint(hike.end_point, hike_id)
             let start_point_id = await pointDB.storePoint(hike.start_point, hike_id)
-            await db.updateHike(end_point_id, start_point_id, "general point", hike_id)
+            await db.updateHike(end_point_id, "general point", start_point_id, "general point", hike_id)
             for (var i = 0; i < hike.reference_points.length; i++) {
                 await pointDB.storePoint(hike.reference_points[i], hike_id);
             }
             return res.status(201).end();
         }
         catch (err) {
-            return res.status(503).end();
+            message = "Server error"
+            return res.status(503).json(message)
         }
     }
 }
@@ -280,12 +278,9 @@ class HikesView {
                 }
 
                 let points = await pointDB.getPointsByHikeId(req.params.hikeId)
-                console.log(points);
                 hike.points = [];
                 hike.points = points;
 
-
-                console.log(hike)
 
                 return res.status(200).json(hike);
             }

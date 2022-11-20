@@ -14,7 +14,7 @@ const ParkingForm = (props) => {
     const [region, setRegion] = useState("");
     const [position, setPosition] = useState();
     const [altitude, setAltitude] = useState("");
-	const [validated, setValidated] = useState(false);
+    const [validated, setValidated] = useState(false);
     const [errMsg, setErrMsg] = useState("");
 
     const navigate = useNavigate();
@@ -27,44 +27,25 @@ const ParkingForm = (props) => {
             event.stopPropagation();
         } else {
             event.preventDefault();
-            // if (isNotValidPoint(startPoint)) {
-            //     setErrMsg("Please insert correct coordinates");
-            // }
-            // else {
-                sendForm();
-            // }
+            sendForm();
         }
 
         setValidated(true);
     };
 
 
-    // const isNotValidPoint = (point) => {
-    //     let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
-    //     let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
-
-    //     console.log(point)
-    //     return point.latitude === undefined || point.latitude === '' ||
-    //         point.latitude === null || point.latitude < -90 || point.latitude > 90 ||
-    //         !regexpLatitude.test(point.latitude) ||
-    //         point.longitude === undefined || point.longitude === '' ||
-    //         point.longitude === null || point.longitude < -180 || point.longitude > 180 ||
-    //         !regexpLongitude.test(point.longitude) ||
-    //         point.altitude === undefined || point.altitude === '' ||
-    //         point.altitude === null || isNaN(point.altitude);
-    // }
-
 
     useEffect(() => {
-        if (props.user !== "" && props.user.role !== 'local guide') {
+        if (!props.user !== "" && props.user.role !== 'local guide') {
             navigate("/");
         }
+
     }, [props.user]);
 
 
     const sendForm = async () => {
 
-        const pos = {lat: position.lat.toFixed(6), lng: position.lng.toFixed(6)}
+        const pos = { lat: position.lat.toFixed(6), lng: position.lng.toFixed(6) }
 
         const parking = {
             name,
@@ -76,17 +57,17 @@ const ParkingForm = (props) => {
             altitude
         }
 
-        console.log(parking)
 
         try {
-        	props.setIsLoading(true);
-        	await API.newPark(parking);
-        	toast.success("Parking Lot added correctly.", { position: "top-center" }, { toastId: 8 });
-        	props.setIsLoading(false);
-        	navigate("/");
+            props.setIsLoading(true);
+            await API.newPark(parking);
+            toast.success("Parking Lot added correctly.", { position: "top-center" }, { toastId: 8 });
+            props.setIsLoading(false);
+            navigate("/parkingLots");
         } catch (err) {
-        	toast.error(err, { position: "top-center" }, { toastId: 9 });
-        	props.setIsLoading(false);
+            console.log(err)
+            toast.error(err, { position: "top-center" }, { toastId: 9 });
+            props.setIsLoading(false);
         }
     };
 
@@ -116,7 +97,7 @@ const ParkingForm = (props) => {
                             type="text"
                             placeholder="Insert region"
                             value={region}
-                            onChange={(e) => setRegion(e.target.value)}
+                            onChange={(e) => setRegion(e.target.value.replace(/[^a-z" "]/gi, ''))}
                         />
                         <Form.Control.Feedback type="invalid">Please insert correct length</Form.Control.Feedback>
                     </Form.Group>
@@ -141,13 +122,13 @@ const ParkingForm = (props) => {
                             type="text"
                             placeholder="Insert city"
                             value={city}
-                            onChange={(e) => setCity(e.target.value.replace(/[^a-z]/gi, ''))}
+                            onChange={(e) => setCity(e.target.value.replace(/[^a-z" "]/gi, ''))}
                         />
                         <Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback>
                     </Form.Group>
-
-                    <CliccableMap position={position} setPosition={setPosition}></CliccableMap>
-
+                    <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+                        <CliccableMap position={position} setPosition={setPosition}></CliccableMap>
+                    </Col>
                     <Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom03">
                         <Form.Label className={"fs-4"}>Altitude</Form.Label>
                         <Form.Control
@@ -160,9 +141,9 @@ const ParkingForm = (props) => {
                             }}
                         />
                         <Form.Control.Feedback type="invalid">Please insert correct altitude</Form.Control.Feedback>
-                    </Form.Group> 
+                    </Form.Group>
 
-                    
+
 
                     <Col className="mt-4">
                         <Row className="mt-2" md={3}>{errMsg ? <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}</Row>

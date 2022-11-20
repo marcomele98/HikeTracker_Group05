@@ -15,6 +15,9 @@ var hutsvalues =
     ['BOCCA DI TRAT','45.92659','10.76872','1598','Refuge','Trentino-Alto Adige','TN','Arco'],
     ['Malga Valmaggiore','46.291392','11.646566','1610','Restaurant','Trentino-Alto Adige','TN','Cavalese'],
     ['Ponale Alto Belvedere','45.864402','10.833777','145','Restaurant','Trentino-Alto Adige','TN','Riva del Garda'],
-    ['Agririfugio Molini', '44.31912', '9.178627', '232', 'Refuge', 'Liguria', 'GE', 'Fruttuoso', 11, 'Set on a hillside overlooking the Ligurian coast, this quiet, secluded farmhouse within Portofino Natural Park is only accessible via hiking trails.']
+    ['Agririfugio Molini', '44.31912', '9.178627', '232', 'Refuge', 'Liguria', 'GE', 'Fruttuoso', 11, 'Set on a hillside overlooking the Ligurian coast, this quiet, secluded farmhouse within Portofino Natural Park is only accessible via hiking trails.'],
+    ['Rifúgio Barmasse', '45.87579','7.593994', '2174.2','Refuge','Valle d Aosta', 'AO', 'Fontanaz-Valmartin',25,''],
+    ['Rifugio Duca degli Abruzzi all Oriondè', '45.958891','7.6441', '2798.2','Refuge','Valle d Aosta', 'AO', 'Breuil-Cervinia',22,''],
+    ['Rifugio Barbustel', '45.649148', '7.588452', '2188', 'Refuge','Valle d Aosta', 'AO', 'Covarey', 40, '' ]
 ];
 module.exports.hutsvalues =   hutsvalues;

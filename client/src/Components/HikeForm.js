@@ -18,6 +18,8 @@ const HikeForm = (props) => {
 	const [expectedTime, setExpectedTime] = useState();
 	const [ascent, setAscent] = useState();
 	const [difficulty, setDifficulty] = useState("Tourist");
+	const [description, setDescription] = useState("");
+	const [region, setRegion] = useState("");
 	const [province, setProvince] = useState("");
 	const [city, setCity] = useState("");
 	const [startPoint, setStartPoint] = useState(null);
@@ -38,6 +40,7 @@ const HikeForm = (props) => {
 			points.push(endPoint);
 		setAllPoints(points);
 	}, [startPoint, endPoint, referencePoints.length])
+
 
 	const handleSubmit = (event) => {
 		const form = event.currentTarget;
@@ -80,7 +83,7 @@ const HikeForm = (props) => {
 
 
 	useEffect(() => {
-		if (props.user !== "" && props.user.role !== 'local guide') {
+		if (!props.user !== "" && props.user.role !== 'local guide') {
 			navigate("/");
 		}
 
@@ -108,6 +111,8 @@ const HikeForm = (props) => {
 			expected_mins: expectedTime,
 			ascendent_meters: ascent,
 			difficulty,
+			description,
+			region,
 			province,
 			city,
 			gpx: fileGPX,
@@ -195,6 +200,30 @@ const HikeForm = (props) => {
 						<Form.Control.Feedback type="invalid">Please insert correct difficulty</Form.Control.Feedback>
 					</Form.Group>
 
+					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom07">
+						<Form.Label className={"fs-4"}>Description</Form.Label>
+						<Form.Control
+							required
+							type="text"
+							placeholder="Insert description"
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+						/>
+						<Form.Control.Feedback type="invalid">Please insert correct description</Form.Control.Feedback>
+					</Form.Group>
+
+					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom07">
+						<Form.Label className={"fs-4"}>Region</Form.Label>
+						<Form.Control
+							required
+							type="text"
+							placeholder="Insert region"
+							value={region}
+							onChange={(e) => setRegion(e.target.value.replace(/[^a-z" "]/gi, ''))}
+						/>
+						<Form.Control.Feedback type="invalid">Please insert correct region</Form.Control.Feedback>
+					</Form.Group>
+
 					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom06">
 						<Form.Label className={"fs-4"}>Province</Form.Label>
 						<Form.Control
@@ -215,7 +244,7 @@ const HikeForm = (props) => {
 							type="text"
 							placeholder="Insert city"
 							value={city}
-							onChange={(e) => setCity(e.target.value.replace(/[^a-z]/gi, ''))}
+							onChange={(e) => setCity(e.target.value.replace(/[^a-z" "]/gi, ''))}
 						/>
 						<Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback>
 					</Form.Group>
@@ -243,8 +272,9 @@ const HikeForm = (props) => {
 							undefined
 							:
 							<>
-
-								<Map hike={{ gpx: fileGPX, points: allPoints, huts: [], parking_lots: [] }}></Map>
+								<Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+									<Map hike={{ gpx: fileGPX, points: allPoints, huts: [], parking_lots: [] }}></Map>
+								</Col>
 								<Row>
 									<AddPointForm points={parseGPX()} setStartPoint={setStartPoint} type={"Start point"}></AddPointForm>
 								</Row>

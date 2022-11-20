@@ -73,7 +73,7 @@ async function newHikeDescription(hike) {
     return null;
   } else {
     const errDetail = await response.json();
-    throw errDetail.error;
+    throw errDetail
   }
 }
 
@@ -90,7 +90,7 @@ async function newPark(park) {
     return null;
   } else {
     const errDetail = await response.json();
-    throw errDetail.error;
+    throw errDetail
   }
 }
 
@@ -115,6 +115,26 @@ async function getParkById(id) {
 }
 
 
+async function getHuts() {
+  const response = await fetch(new URL('huts', APIURL));
+  const parks = await response.json();
+  if (response) {
+    return parks;
+  } else {
+    throw parks;  // an object with the error coming from the server
+  }
+}
+
+async function getHutById(id) {
+  const response = await fetch(new URL('hut/' + id, APIURL));
+  const park = await response.json();
+  if (response.ok) {
+    return park;
+  } else {
+    throw response.status;  // an object with the error coming from the server
+  }
+}
+
 async function addUser(newUser) {
   // call: POST /api/register
     let response = await fetch(new URL('register', APIURL), {
@@ -135,7 +155,7 @@ async function addUser(newUser) {
     }
 }
  
- const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser, getParks, getParkById, newPark  };
+ const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser, getParks, getParkById, newPark, getHuts, getHutById  };
 
 
  export default API;

@@ -148,7 +148,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <ListGroup>
                                     {
-                                        hike.huts.map((h) =>
+                                        hike.huts
+                                        .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                        .map((h) =>
                                             <Hut key={h.id} hut={h}></Hut>
                                         )
                                     }
@@ -179,7 +181,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <ListGroup>
                                     {
-                                        hike.parking_lots.map((p) =>
+                                        hike.parking_lots
+                                        .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                        .map((p) =>
                                             <Park key={p.id} park={p}></Park>
                                         )
                                     }
@@ -210,7 +214,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <ListGroup>
                                     {
-                                        hike.points.map((p) =>
+                                        hike.points
+                                        .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                        .map((p) =>
                                             <Point key={p.id} point={p}></Point>
                                         )
                                     }
@@ -278,7 +284,7 @@ const Hut = ({ hut, key }) => {
         <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
             <Col className='point'>
                 <Row>
-                    <div className="pointTitle">{hut.name + " (Hut)"}</div>
+                    <div className="pointTitle">{hut.name + " (" + hut.type +")" }</div>
                 </Row>
                 <Row>
                     <div className="textGrayPrimary">{hut.region}</div>
