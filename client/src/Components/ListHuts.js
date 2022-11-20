@@ -57,7 +57,7 @@ function ListHuts({ setIsLoading, user }) {
                             <ListGroupItem key={h.id} className="m-3 border-2 rounded-3 shadow">
                                 <Col>
                                     <Row>
-                                        <div className="title">{h.name + "(" + h.type + ")"}</div>
+                                        <div className="title">{h.name + " (" + h.type + ")"}</div>
                                     </Row>
                                     <Row>
                                         <div className="textGrayPrimary">{h.region}</div>

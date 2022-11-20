@@ -150,6 +150,9 @@ function Home({ setIsLoading, user }) {
                                         <div className="title">{h.title}</div>
                                     </Row>
                                     <Row>
+                                        <div className="textGrayPrimary">{h.region}</div>
+                                    </Row>
+                                    <Row>
                                         <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
                                     </Row>
                                     <Row>

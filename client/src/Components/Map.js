@@ -37,24 +37,24 @@ const Map = (props) => {
                                 pathOptions={{ fillColor: 'red', color: 'blue' }}
                                 positions={positions}
                             />
-                            {props.hike.points.map(p => <Marker key={[p.latitude, p.longitude, p.name]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+                            {props.hike.points.map(p => <Marker key={[p.latitude, p.longitude, p.name, p.altitude]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
                                 console.log(marker)
                                 <Popup>
-                                    {p.name ? ("Name: " + p.name) : ""} {p.name ? <br /> : false} lat: {p.latitude} <br /> lon: {p.longitude}
+                                    {p.name ? ("Name: " + p.name) : ""} {p.name ? <br /> : false} Latitude: {p.latitude} <br /> Longitude: {p.longitude} <br /> Altitude: {p.altitude + " m"}
                                 </Popup>
                             </Marker>)
                             }
-                            {props.hike.huts.map(p => <Marker key={[p.latitude, p.longitude, p.name]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+                            {props.hike.huts.map(p => <Marker key={[p.latitude, p.longitude, p.name, p.altitude]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
                                 console.log(marker)
                                 <Popup>
-                                    Name: {p.name} <br /> lat: {p.latitude} <br /> lon: {p.longitude}
+                                    Name: {p.name} <br /> Latitude: {p.latitude} <br /> Longitude: {p.longitude} <br /> Altitude: {p.altitude + " m"}
                                 </Popup>
                             </Marker>)
                             }
-                            {props.hike.parking_lots.map(p => <Marker key={[p.latitude, p.longitude, p.name]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+                            {props.hike.parking_lots.map(p => <Marker key={[p.latitude, p.longitude, p.name, p.altitude]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
                                 console.log(marker)
                                 <Popup>
-                                    Name: {p.name} <br /> lat: {p.latitude} <br /> lon: {p.longitude}
+                                    Name: {p.name} <br /> Latitude: {p.latitude} <br /> Longitude: {p.longitude} <br /> Altitude: {p.altitude + " m"}
                                 </Popup>
                             </Marker>)
                             }

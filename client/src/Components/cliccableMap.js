@@ -72,7 +72,7 @@ const PointMap = ({ position }) => {
                     <Marker position={position}
                         icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}
                     >
-                         <Popup>{"Name: "+ position.name}<br/>{"Latitude: "+ position.lat}<br/>{"Longitude: " + position.lng }</Popup>
+                         <Popup>{"Name: "+ position.name}<br/>{"Latitude: "+ position.lat}<br/>{"Longitude: " + position.lng } <br/>{"Altitude: " + position.altitude + " m" }</Popup>
                     </Marker>
                 </MapContainer>
             </ListGroupItem>

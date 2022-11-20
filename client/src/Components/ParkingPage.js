@@ -53,7 +53,7 @@ function ParkingPage({ setIsLoading, loggedIn, user }) {
 
                     <Row>
                         <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
-                            <PointMap position={{ name: park.name, lat: park.latitude, lng: park.longitude }}></PointMap>
+                            <PointMap position={{ name: park.name, lat: park.latitude, lng: park.longitude, altitude: park.altitude }}></PointMap>
                         </Col>
                     </Row>
 

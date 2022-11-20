@@ -43,7 +43,7 @@ function HutPage({ setIsLoading, user }) {
                 <Col>
                     <Row style={{ height: 20 }}></Row>
                     <Row>
-                        <div className="titleBig">{hut.name + "(" + hut.type + ")"}</div>
+                        <div className="titleBig">{hut.name + " (" + hut.type + ")"}</div>
                     </Row>
                     {
                         !hut.description
@@ -64,9 +64,7 @@ function HutPage({ setIsLoading, user }) {
                     <Row>
                         <div className="textGrayPrimaryBig">{hut.city + " (" + hut.province + ")"}</div>
                     </Row>
-                    <Row>
-                        <div className="textGrayPrimaryBig">{"Alt: " + hut.altitude}</div>
-                    </Row>
+
                     {
                         !hut.number_of_beds
                             ?
@@ -78,7 +76,7 @@ function HutPage({ setIsLoading, user }) {
                     }
                     <Row>
                         <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
-                            <PointMap position={{ name: hut.name, lat: hut.latitude, lng: hut.longitude }}></PointMap>
+                            <PointMap position={{ name: hut.name, lat: hut.latitude, lng: hut.longitude, altitude: hut.altitude }}></PointMap>
                         </Col>
                     </Row>
 

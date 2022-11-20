@@ -105,7 +105,7 @@ class HutDescription {
     async getAllHuts(req, res) {
         try {
             let huts = await hutDB.getHuts();
-            return res.status(201).json(huts);
+            return res.status(200).json(huts);
 
         }
         catch (err) {
@@ -121,6 +121,7 @@ class HutDescription {
             if (hut === -1) {
                 return res.status(404).json({ error: `Hut not found` }); // not found
             }
+            console.log(hut)
             return res.status(200).json(hut);
         } catch (err) {
             return res.status(500).end();
