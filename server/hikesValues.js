@@ -3,6 +3,7 @@
 const {pm_file1,pm_file2,pm_file3,pm_file4,pm_file5,pm_file6} = require('./piemontegpx');
 const {tn_file1,tn_file2,tn_file3,tn_file4,tn_file5,tn_file6,tn_file7,tn_file8} = require('./trentinogpx');
 const {li_file1, li_file2, li_file3, li_file4, li_file5, li_file6, li_file7, li_file8} = require('./liguriagpx');
+const {va_file1, va_file2, va_file3, va_file4, va_file5, va_file6, va_file7, va_file8} = require('./valledaostagpx');
 
 var hikevalues =
 [
@@ -49,7 +50,25 @@ var hikevalues =
   ['La Foresta della Deiva(Il sentiero Natura)',14.22,216,482,'Hiker','Liguria','SV','Sassello',1,
   li_file7,55,'general point',55,'general point','A very rich in panoramic views and well marked hike through the Deiva Forest'],
   ['Castello della Pietra e Sella Bricchetto da Vobbia',11.11,183,663,'Hiker','Liguria','GE','Vobbia',1,
-  li_file8,59,'general point',59,'general point','Easy hike for everyone that takes you to the Castello della Pietra, a real gem of this area']
+  li_file8,59,'general point',59,'general point','Easy hike for everyone that takes you to the Castello della Pietra, a real gem of this area'],
+  
+  ['Valtournenche - Lago di Cignana',10.03,340,796,'Hiker','Valle d Aosta', 'AO', 'Fontanaz-Valmartin',1,
+  va_file1,68,'general point',68,'general point',''],
+  ['Cervinia - Cappella Battaglione Alpini Sciatori Monte Cervino -Rifugio Duca degli Abruzzi all Oriondé',19.04,420,832,'Hiker','Valle d Aosta', 'AO', 'Breuil-Cervinia',1,
+  va_file2,9,'Parking point',9,'Parking Point',''],
+  ['Cime - Bianche',8.1,233,1293,'Tourist','Valle d Aosta','AO', 'San Giacomo',1,
+  va_file3,73,'general point',74,'general point',''],
+  ['Lac e Château De Villa, Mont Saint Gilles e Belvedere da Torille',11.86,288,770,'Tourist','Valle d Aosta', 'AO', 'Torille-Rivarolla',1,
+  va_file4,10,'Parking point',10,'Parking point',''],
+  ['Monte Zerbion da Antagnod',8.51,140,996,'Tourist','Valle d Aosta', 'AO', 'Lignod',1,
+  va_file5,11,'Parking point',11,'Parking Point',''],
+  ['Ospizio Sottile, Colle Valdobbia e lago della Balma da Gressoney Saint Jean',12.27,344,1252,'Tourist','Valle d Aosta', 'AO', 'Gressoney-Saint-Jean',1,
+  va_file6,12,'Parking Point',12,'Parking Point',''],
+  ['Parco del Monte Avic: Rifugio Barbustel da Covarey',16.37,404,970,'Hiker','Valle d Aosta', 'AO', 'Covarey',1,
+  va_file7,13,'Parking point',13,'Parking point',''],
+  ['Summer Park - Bivacco Tzan - Lago Tzan ',20.9,346,871,'Hiker','Valle d Aosta', 'AO', 'Septumian',1,
+  va_file8,14,'Parking point',14,'Parking Point','']
+  
 ];
 
 module.exports.hikevalues =   hikevalues;
