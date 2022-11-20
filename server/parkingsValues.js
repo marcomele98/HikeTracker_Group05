@@ -16,6 +16,9 @@ var parkingvalues =
     ['Parcheggio di Barmasc','45.809639','7.676498','1895.081','Valle d Aosta','AO', 'Lignod'],
     ['Parcheggio lungo torrente Lys','45.772088','7.82855','1382.849','Valle d Aosta','AO', 'Gressoney-Saint-Jean'],
     ['Parcheggio di Covarey', '45.684317', '7.614836', '1319.115', 'Valle d Aosta', 'AO', 'Covarey'],
-    ['Parcheggio Summer Park','45.809008','7.556483','1883.881','Valle d Aosta','AO','Septumian']
+    ['Parcheggio Summer Park','45.809008','7.556483','1883.881','Valle d Aosta','AO','Septumian'],
+    
+    ['Parcheggio Camigliatello', '39.337972', '16.441617', '1289.780203', 'Calabria', 'CS', 'Spezzano della Sila'],
+    ['Parcheggio Cupone', '39.385237', '16.545109', '1163.173191', 'Calabria', 'CS', 'Spezzano della Sila']
 ];
 module.exports.parkingvalues =   parkingvalues;
