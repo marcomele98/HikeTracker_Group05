@@ -93,7 +93,7 @@ class HutDescription {
 
         try {
             await hutDB.addHut(hut);
-            return res.status(200).end();
+            return res.status(201).end();
         }
         catch (err) {
             message = "Server Error"
