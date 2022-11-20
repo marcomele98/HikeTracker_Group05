@@ -3,6 +3,7 @@
 var hutsvalues =
 [
 
+
     ['Refuge La Riposa','45.17778', '7.08337', '2185','Refuge', 'Piemonte', 'TO','Mompantero'],
     [ 'Refugio Asti'   ,'45.19177', '7.07427','2854','Refuge', 'Piemonte', 'TO','Mompantero' ],
     [ 'Rifugio Savona' ,'44.19940', '7.93339','2600','Refuge', 'Piemonte', 'CN','Garessio' ],
@@ -19,5 +20,6 @@ var hutsvalues =
     ['Rifúgio Barmasse', '45.87579','7.593994', '2174.2','Refuge','Valle d Aosta', 'AO', 'Fontanaz-Valmartin',25,''],
     ['Rifugio Duca degli Abruzzi all Oriondè', '45.958891','7.6441', '2798.2','Refuge','Valle d Aosta', 'AO', 'Breuil-Cervinia',22,''],
     ['Rifugio Barbustel', '45.649148', '7.588452', '2188', 'Refuge','Valle d Aosta', 'AO', 'Covarey', 40, '' ]
+
 ];
 module.exports.hutsvalues =   hutsvalues;
