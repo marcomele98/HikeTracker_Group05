@@ -1,11 +1,24 @@
 import 'leaflet/dist/leaflet.css';
 import React from 'react';
-import { MapContainer, Polyline, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, Polyline, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import { ListGroupItem, ListGroup } from "react-bootstrap";
 import '../App.css';
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from 'leaflet'
 let gpxParser = require('gpxparser');
+
+
+const MapMoover = ({position}) => {
+    const map = useMapEvents({})
+
+    React.useEffect(() => {
+        if ( position !== undefined){
+            console.log(position)
+            map.flyTo(position, map.getZoom())
+        }
+    }, [position])
+    return <></>
+}
 
 
 const Map = (props) => {
@@ -32,6 +45,7 @@ const Map = (props) => {
                             scrollWheelZoom={true}
                             style={{ height: "500px" }}
                         >
+                            <MapMoover position={{lat:positions[0][0], lng:positions[0][1]}}></MapMoover>
                             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                             <Polyline
                                 pathOptions={{ fillColor: 'red', color: 'blue' }}
