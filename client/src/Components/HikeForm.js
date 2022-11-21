@@ -38,8 +38,18 @@ const HikeForm = (props) => {
 			points.push(startPoint);
 		if (endPoint)
 			points.push(endPoint);
+		if (fileGPX){
+			gpx.parse(fileGPX);
+			const l = parseFloat(gpx.tracks[0].distance.total).toFixed(2);
+			const a = parseFloat(gpx.tracks[0].elevation.max).toFixed(2);
+			setLength(l);
+			setAscent(a);
+		}
+
+			
+
 		setAllPoints(points);
-	}, [startPoint, endPoint, referencePoints.length])
+	}, [startPoint, endPoint, fileGPX, referencePoints.length])
 
 
 	const handleSubmit = (event) => {
@@ -103,8 +113,6 @@ const HikeForm = (props) => {
 
 	const sendForm = async () => {
 
-		//let content = await loadGPXContent();
-
 		const hike = {
 			title,
 			length_kms: length,
@@ -156,12 +164,13 @@ const HikeForm = (props) => {
 						<Form.Label className={"fs-4"}>Length</Form.Label>
 						<Form.Control
 							required
-							type="number"
-							placeholder="Insert length"
+							disabled
+							type="text"
+							placeholder="Load GPX to get length"
 							value={length}
-							onChange={(e) => setLength(e.target.value)}
+							//onChange={(e) => setLength(e.target.value)}
 						/>
-						<Form.Control.Feedback type="invalid">Please insert correct length</Form.Control.Feedback>
+						<Form.Control.Feedback type="invalid">Please insert correct GPX to get length</Form.Control.Feedback>
 					</Form.Group>
 
 					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom03">
@@ -180,12 +189,13 @@ const HikeForm = (props) => {
 						<Form.Label className={"fs-4"}>Ascent</Form.Label>
 						<Form.Control
 							required
-							type="number"
-							placeholder="Insert ascent"
+							disabled
+							type="text"
+							placeholder="Load GPX file to get ascent"
 							value={ascent}
-							onChange={(e) => setAscent(e.target.value)}
+							//onChange={(e) => setAscent(e.target.value)}
 						/>
-						<Form.Control.Feedback type="invalid">Please insert correct ascent</Form.Control.Feedback>
+						<Form.Control.Feedback type="invalid">Please insert correct GPX to get ascent</Form.Control.Feedback>
 					</Form.Group>
 
 					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom05">
@@ -258,8 +268,8 @@ const HikeForm = (props) => {
 							value={GPX}
 							onChange={(e) => {
 								setGPX(e.target.value);
-								//parseGPX(e.target.value);
 								loadGPXContent(e.target.files);
+								
 							}
 							}
 						/>
