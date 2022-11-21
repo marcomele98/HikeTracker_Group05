@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Map from "./Map"
 let gpxParser = require('gpxparser');
-var gpx = new gpxParser();
 
 const HikeForm = (props) => {
 
+	var gpx = new gpxParser();
 	const [GPX, setGPX] = useState("");
 	const [fileGPX, setFileGPX] = useState(null);
 	const [title, setTitle] = useState("");
