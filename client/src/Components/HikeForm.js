@@ -29,6 +29,7 @@ const HikeForm = (props) => {
 	const [errMsg, setErrMsg] = useState("");
 	const [validated, setValidated] = useState(false);
 	const [allPoints, setAllPoints] = useState([]);
+	const [fileChanged, setFileChanged] = useState(false);
 	const reader = new FileReader();
 	const navigate = useNavigate();
 
@@ -38,18 +39,42 @@ const HikeForm = (props) => {
 			points.push(startPoint);
 		if (endPoint)
 			points.push(endPoint);
-		if (fileGPX){
-			gpx.parse(fileGPX);
-			const l = parseFloat(gpx.tracks[0].distance.total).toFixed(2);
-			const a = parseFloat(gpx.tracks[0].elevation.max).toFixed(2);
-			setLength(l);
-			setAscent(a);
-		}
-
-			
+		if (fileGPX && fileChanged){
+			getValuesFromGPX(fileGPX);
+		}	
 
 		setAllPoints(points);
-	}, [startPoint, endPoint, fileGPX, referencePoints.length])
+	}, [startPoint, endPoint, fileGPX, fileChanged, referencePoints.length])
+
+	const getValuesFromGPX = (fileGPX) => {
+		gpx.parse(fileGPX);
+		const l = parseFloat(gpx.tracks[0].distance.total).toFixed(2);
+		const a = parseFloat(gpx.tracks[0].elevation.max - gpx.tracks[0].elevation.min).toFixed(2);
+		setLength(l);
+		setAscent(a);
+
+		let point = gpx.tracks[0].points[0];
+		const start = {
+			latitude: point.lat,
+			longitude: point.lon,
+			altitude: point.ele,
+			name: "start",
+			address:""
+		}
+
+		point = gpx.tracks[0].points[gpx.tracks[0].points.length - 1];
+		const end = {
+			latitude: point.lat,
+			longitude: point.lon,
+			altitude: point.ele,
+			name: "end",
+			address:""
+		}
+
+		setStartPoint(start);
+		setEndPoint(end);
+		setFileChanged(false);
+	}
 
 
 	const handleSubmit = (event) => {
@@ -104,6 +129,7 @@ const HikeForm = (props) => {
 		reader.onloadend = () => {
 			setFileGPX(reader.result);
 		}
+		setFileChanged(true);
 	}
 
 
