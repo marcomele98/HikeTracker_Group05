@@ -349,7 +349,7 @@ const HikeForm = (props) => {
 											</Col>
 											:
 											<Col>
-												<Button variant="outline-primary" onClick={() => setShowForm(true)}>Add new point</Button>
+												<Button variant="outline-success" onClick={() => setShowForm(true)}>Add new point</Button>
 											</Col>
 										}
 									</Col>

@@ -140,8 +140,8 @@ const AddPointForm = (props) => {
 							<Row className="mt-2" md={3}>{errMsg ? <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}</Row>
 							<Row>
 								<Col>
-									<Button variant="outline-primary" onClick={addReferencePoint}>Confirm</Button>
-									<Button className="mx-4" variant="outline-dark" onClick={() => props.setShowForm(false)}>Cancel new point</Button>
+									<Button variant="success" onClick={addReferencePoint}>Confirm</Button>
+									<Button className="mx-4" variant="danger" onClick={() => props.setShowForm(false)}>Cancel</Button>
 								</Col>
 							</Row>
 						</>
