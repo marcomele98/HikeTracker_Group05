@@ -10,13 +10,13 @@ import { HikePage } from "./Components/HikePage";
 import { NewUserForm } from "./Components/NewUserForm";
 import ParkingForm from "./Components/ParkingForm"
 import HikeForm from "./Components/HikeForm";
+import HutForm from "./Components/HutForm";
 import { ListParkings } from "./Components/ListParkings";
 import { ParkingPage } from "./Components/ParkingPage";
 import { ClickableOpacity } from "./Components/clickableOpacity";
 import { useNavigate } from 'react-router-dom';
 import { ListHuts } from "./Components/ListHuts";
 import { HutPage } from './Components/HutPage'
-
 
 
 const RoutesManager = ({
@@ -114,6 +114,11 @@ const RoutesManager = ({
                     <Route
                         path="/new-parking"
                         element={<ParkingForm user={user} setIsLoading={setIsLoading} />}
+                    />
+
+                    <Route
+                        path="/new-hut"
+                        element={<HutForm user={user} setIsLoading={setIsLoading} />}
                     />
 
                     <Route

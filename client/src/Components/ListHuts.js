@@ -34,7 +34,7 @@ function ListHuts({ setIsLoading, user }) {
 
         <Container>
 
-            {/*
+            {
                 user.role !== 'local guide'
                     ?
                     <Row style={{ height: 30 }}></Row>
@@ -47,7 +47,7 @@ function ListHuts({ setIsLoading, user }) {
                             />
                         </ClickableOpacity>
                     </div>
-            */}
+            }
             <ListGroup>
                 {
 

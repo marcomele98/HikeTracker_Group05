@@ -94,6 +94,23 @@ async function newPark(park) {
   }
 }
 
+async function newHut(hut) {
+  let response = await fetch(new URL('hut', APIURL), {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(hut),
+  });
+  if (response.ok) {
+    return null;
+  } else {
+    const errDetail = await response.json();
+    throw errDetail
+  }
+}
+
 async function getParks() {
   const response = await fetch(new URL('parkingLots', APIURL));
   const parks = await response.json();
@@ -155,7 +172,7 @@ async function addUser(newUser) {
     }
 }
  
- const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser, getParks, getParkById, newPark, getHuts, getHutById  };
+ const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser, getParks, getParkById, newPark, getHuts, getHutById, newHut  };
 
 
  export default API;
