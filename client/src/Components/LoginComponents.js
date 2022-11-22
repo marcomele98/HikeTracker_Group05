@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Col } from 'react-bootstrap';
 import "react-toastify/dist/ReactToastify.css";
 import './Login.css'
+import { toast } from "react-toastify";
 
 
 function LoginForm(props) {
@@ -18,7 +19,8 @@ function LoginForm(props) {
     let valid = true;
     if (username === '' || password === '' || password.length < 6) {
       valid = false;
-      setErrorMessage('Email cannot be empty and password must be at least six character long.');
+      toast.error("Username and/or password wrong. Try again.", { position: "top-center" }, { toastId: 2 })
+      //setErrorMessage('Email cannot be empty and password must be at least six character long.');
     }
 
     if (valid) {
