@@ -39,7 +39,7 @@ const LogicContainer = () => {
             navigate('/');
             setIsLoading(false);
         } catch (err) {
-            toast.error((err==="Username and/or password wrong. Try again." ? err : "Server error."), { position: "top-center" }, { toastId: 2 });
+            toast.error((err==="Username and/or password wrong. Try again." ? err : (err==="Your email is not verified. Please verify your email" || err.contains("Firebase")) ? "Your email is not verified. Please verify your email" : "Server error."), { position: "top-center" }, { toastId: 2 });
             setIsLoading(false);
         }
     };

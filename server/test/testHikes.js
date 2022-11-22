@@ -11,9 +11,9 @@ const db = require('../Queries/DAO');
 describe('test hikes apis', () => {
     beforeEach(async () => {
         await logout();
-        await db.run('DELETE FROM HIKE');
-        await db.run('DELETE FROM HIKE_HUT');
         await db.run('DELETE FROM HIKE_PARKING');
+        await db.run('DELETE FROM HIKE_HUT');
+        await db.run('DELETE FROM HIKE');
         await db.run('DELETE FROM POINT');
         await db.run('DELETE FROM sqlite_sequence');
         await db.run(
@@ -29,20 +29,30 @@ describe('test hikes apis', () => {
                       'h1@p.it', '4783473632662333', '3334567980')"
         );
 
+        await db.run("INSERT INTO PARKING_LOT(name, latitude, longitude, altitude, region, province, city)\
+                    VALUES('Piazzale di Valdinferno','44.19296','7.95501','1192','Piemonte', 'CN','Garessio'),\
+                    ('Parking Garessio 200','44.21653','7.94425','1392','Piemonte', 'CN','Garessio'),\
+                    ('Parking Colletta di Castelbianco','44.11318','8.06597','235','Liguria', 'SV', 'Castelbianco')"
+        );
+
         await db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, region, province, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type, description)\
-                VALUES (1, 'ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'Piemonte', 'TO', 'Montepantero', 1, 'gpx_content', 1, 'point', 2, 'parking_lot', ''),\
-                (2, 'Salita al Monte Antoroto', 17, 444, 400, 'Professional Hiker', 'Piemonte', 'CN', 'Garessio', 1, 'gpx_content', 1, 'parking_lot', 3, 'parking_lot', '')\
+                VALUES (1, 'ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'Piemonte', 'TO', 'Montepantero', 1, 'gpx_content', 1, 'general point', 2, 'Parking point', ''),\
+                (2, 'Salita al Monte Antoroto', 17, 444, 400, 'Professional Hiker', 'Piemonte', 'CN', 'Garessio', 1, 'gpx_content', 1, 'Parking point', 3, 'Parking point', '')\
         ");
+
+        await db.run("INSERT INTO POINT(latitude, longitude, altitude, name, address, hike_id)\
+                     VALUES('34.34635', '9.14343', '431', 'Punto di ritrovo', 'Via Roma, 16', 1)"
+        );
 
     });
 
     afterEach(async () => {
-        await db.run('DELETE FROM HIKE');
-        await db.run('DELETE FROM HIKE_HUT');
+        await logout();
         await db.run('DELETE FROM HIKE_PARKING');
+        await db.run('DELETE FROM HIKE_HUT');
+        await db.run('DELETE FROM HIKE');
         await db.run('DELETE FROM POINT');
         await db.run('DELETE FROM sqlite_sequence');
-        await logout();
     });
 
     let user = {

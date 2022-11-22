@@ -196,7 +196,8 @@ class HikesView {
 
         }
         catch (err) {
-            return res.status(500).end();
+            console.log(err);
+            return res.status(500).json(err).end();
         }
 
     };
@@ -205,7 +206,7 @@ class HikesView {
 
         try {
             let hike = await db.getHikeById(req.params.hikeId)
-            if (hike === -1) {
+            if (hike === undefined) {
                 return res.status(404).json({ error: `Hike not found` }); // not found
             }
             else {

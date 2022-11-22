@@ -106,7 +106,6 @@ class HutDescription {
         try {
             let huts = await hutDB.getHuts();
             return res.status(200).json(huts);
-
         }
         catch (err) {
             return res.status(500).end();
@@ -118,7 +117,7 @@ class HutDescription {
 
         try {
             let hut = await hutDB.getHutById(req.params.hutId)
-            if (hut === -1) {
+            if (hut === undefined) {
                 return res.status(404).json({ error: `Hut not found` }); // not found
             }
             console.log(hut)
