@@ -81,9 +81,9 @@ describe("Hike test", () => {
         expect(hike_check2).toEqual(hike2);
 
         let data3 = await hike.getHikeById(-1);
-        expect(data3).toBe(-1);
+        expect(data3).toBe(undefined);
 
         let data4 = await hike.getHikeById(100);
-        expect(data4).toBe(-1);
+        expect(data4).toBe(undefined);
     });
 });

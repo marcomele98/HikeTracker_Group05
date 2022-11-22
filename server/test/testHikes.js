@@ -1,6 +1,5 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const { INTERNAL } = require("sqlite3");
 chai.use(chaiHttp);
 chai.should();
 
@@ -11,6 +10,7 @@ const db = require('../Queries/DAO');
 
 describe('test hikes apis', () => {
     beforeEach(async () => {
+        await logout();
         await db.run('DELETE FROM HIKE');
         await db.run('DELETE FROM HIKE_HUT');
         await db.run('DELETE FROM HIKE_PARKING');
@@ -42,8 +42,13 @@ describe('test hikes apis', () => {
         await db.run('DELETE FROM HIKE_PARKING');
         await db.run('DELETE FROM POINT');
         await db.run('DELETE FROM sqlite_sequence');
-
+        await logout();
     });
+
+    let user = {
+        "username": "lg1@p.it",
+        "password": "password"
+    }
 
     let hike =  {
         "title": "ROCCIAMELONE",
@@ -51,9 +56,11 @@ describe('test hikes apis', () => {
         "expected_mins": 420,
         "ascendent_meters": 3538,
         "difficulty": "Professional Hiker",
-        "region": "TO",
+        "region": "Piemonte",
+        "province": "TO",
         "city": "Mompantero",
         "gpx": "gpx content",
+        "description": "a beautiful hike",
         "end_point" : {
                         "latitude" : "45.20353",
                         "longitude" : "7.07734",
@@ -90,9 +97,11 @@ describe('test hikes apis', () => {
         "expected_mins": 420,
         "ascendent_meters": 3538,
         "difficulty": "Professional Hiker",
-        "region": "TO",
+        "region": "Piemonte",
+        "province": "TO",
         "city": "Mompantero",
         "gpx": "gpx content",
+        "description": "a beautiful hike",
         "end_point" : {
                         "latitude" : "ciao",
                         "longitude" : "7.07734",
@@ -129,9 +138,11 @@ describe('test hikes apis', () => {
         "expected_mins": "ciao",
         "ascendent_meters": 3538,
         "difficulty": "Professional Hiker",
-        "region": "TO",
+        "region": "Piemonte",
+        "province": "TO",
         "city": "Mompantero",
         "gpx": "gpx content",
+        "description": "a beautiful hike",
         "end_point" : {
                         "latitude" : "45.20353",
                         "longitude" : "7.07734",
@@ -167,9 +178,10 @@ describe('test hikes apis', () => {
     getHikeById(1);
     getHikeById(2);
     getHikeById(10);
-    newHikeDescription(200, hike);
-    newHikeDescription(422, hike_wrong);
-    newHikeDescription(422, hike_wrong_2);
+    newHikeDescription(201, hike, user);
+    newHikeDescription(422, hike_wrong, user);
+    newHikeDescription(422, hike_wrong_2, user);
+    newHikeDescription(401, hike)
     
 })
 
@@ -199,9 +211,10 @@ function getHikeById (id) {
     });
 };
 
-function newHikeDescription(expectedHTTPStatus, hike) {
+function newHikeDescription(expectedHTTPStatus, hike, user) {
     it('adding a new hike description', async function () {
-        agent.post('/api/hike')
+        await login(user)
+        return agent.post('/api/hike')
             .send(hike)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -209,3 +222,13 @@ function newHikeDescription(expectedHTTPStatus, hike) {
     });
 }
 
+
+async function logout() {
+    await agent.delete('/api/sessions/current')
+}
+
+
+async function login(user) {
+    await agent.post('/api/sessions')
+    .send(user)
+}
