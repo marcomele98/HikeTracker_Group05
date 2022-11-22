@@ -56,7 +56,7 @@ class ParkingLotsDescription {
 
         try {
             let park = await parkingDB.getParkingById(req.params.parkingLotId)
-            if (park === -1) {
+            if (park === undefined) {
                 return res.status(404).json({ error: `Parking lot not found` }); // not found
             }
             return res.status(200).json(park);
