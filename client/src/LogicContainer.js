@@ -39,7 +39,12 @@ const LogicContainer = () => {
             navigate('/');
             setIsLoading(false);
         } catch (err) {
-            toast.error((err==="Username and/or password wrong. Try again." ? err : "Server error."), { position: "top-center" }, { toastId: 2 });
+            if (typeof err === 'object') {
+                toast.error(err.message === "Failed to fetch" ? "Server error" : "Your email is not verified. Please verify your email", { position: "top-center" }, { toastId: 2 })
+            } else {
+                console.log("STRING")
+                toast.error(err==="Username and/or password wrong. Try again." ? err : "Your email is not verified. Please verify your email", { position: "top-center" }, { toastId: 2 });
+            }
             setIsLoading(false);
         }
     };

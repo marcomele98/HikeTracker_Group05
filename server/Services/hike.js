@@ -56,7 +56,7 @@ class HikeDescription {
         let role = req.user.role;
         let message = ""
 
-        console.log(hike)
+        // console.log(hike)
 
         if (role !== "local guide") {
             return res.status(401).json("Not authenticated.");
@@ -78,7 +78,7 @@ class HikeDescription {
         }
 
         if (this.isNotValidNumber(hike.expected_mins)) {
-            console.log(hike.expected_mins)
+            // console.log(hike.expected_mins)
             message = "Invalid Expected Time"
             return res.status(422).json(message);
         }
@@ -196,7 +196,8 @@ class HikesView {
 
         }
         catch (err) {
-            return res.status(500).end();
+            console.log(err);
+            return res.status(500).json(err).end();
         }
 
     };
@@ -205,7 +206,7 @@ class HikesView {
 
         try {
             let hike = await db.getHikeById(req.params.hikeId)
-            if (hike === -1) {
+            if (hike === undefined) {
                 return res.status(404).json({ error: `Hike not found` }); // not found
             }
             else {
