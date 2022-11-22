@@ -35,19 +35,20 @@ exports.getHikesParkings = () => {
 }
 
 exports.getHikeById = (id) => {
-    return new Promise((resolve, reject) => {
+    // return new Promise((resolve, reject) => {
       const sql = "SELECT * FROM HIKE WHERE id=?";
-      db1.get(sql, [id], (err, row) => {
-        if (err) {
-          reject(err);
-          return;
-        } else if (row === undefined) {
-          resolve(-1);
-        } else {
-          resolve(row);
-        }
-      });
-    });
+      return  db.get(sql, [id]);
+    //   db1.get(sql, [id], (err, row) => {
+    //     if (err) {
+    //       reject(err);
+    //       return;
+    //     } else if (row === undefined) {
+    //       resolve(-1);
+    //     } else {
+    //       resolve(row);
+    //     }
+    //   });
+    // });
   };
 
   exports.getHikesHutsByHikeID = async  (id) => {

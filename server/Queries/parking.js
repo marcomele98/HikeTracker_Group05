@@ -11,23 +11,24 @@ exports.getParkings = () => {
 }
 
 exports.addParking = async (park) => {
-  const sql = 'INSERT INTO PARKING_LOT(latitude, longitude, altitude, name, region, province, city) VALUES(?, ?, ?, ?, ?, ?, ?)'
-  let result = await db.insert(sql, [park.latitude, park.longitude, park.altitude, park.name, park.region, park.province, park.city]);
+  const sql = 'INSERT INTO PARKING_LOT(name,latitude, longitude, altitude,region, province, city) VALUES(?, ?, ?, ?, ?, ?, ?)'
+  let result = await db.insert(sql, [park.name, park.latitude, park.longitude, park.altitude, park.region, park.province, park.city]);
   return result;
 }
 
 exports.getParkingById = (id) => {
-    return new Promise((resolve, reject) => {
+    // return new Promise((resolve, reject) => {
       const sql = "SELECT * FROM PARKING_LOT WHERE id=?";
-      db1.get(sql, [id], (err, row) => {
-        if (err) {
-          reject(err);
-          return;
-        } else if (row === undefined) {
-          resolve(-1);
-        } else {
-          resolve(row);
-        }
-      });
-    });
+      return  db.get(sql, [id]);
+    //   db1.get(sql, [id], (err, row) => {
+    //     if (err) {
+    //       reject(err);
+    //       return;
+    //     } else if (row === undefined) {
+    //       resolve(-1);
+    //     } else {
+    //       resolve(row);
+    //     }
+    //   });
+    // });
   };

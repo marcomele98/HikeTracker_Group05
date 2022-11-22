@@ -128,7 +128,7 @@ describe("NewHikeDao", () => {
         expect(updatedHike3).toEqual(hikeToCheck);
 
         let point3 = await point.getPointById(-100);
-        expect(point3).toBe(-1);
+        expect(point3).toBe(undefined);
 
     });
 

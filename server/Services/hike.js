@@ -78,6 +78,7 @@ class HikeDescription {
         }
 
         if (this.isNotValidNumber(hike.expected_mins)) {
+            console.log(hike.expected_mins)
             message = "Invalid Expected Time"
             return res.status(422).json(message);
         }
