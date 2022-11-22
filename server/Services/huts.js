@@ -106,7 +106,6 @@ class HutDescription {
         try {
             let huts = await hutDB.getHuts();
             return res.status(200).json(huts);
-
         }
         catch (err) {
             return res.status(500).end();

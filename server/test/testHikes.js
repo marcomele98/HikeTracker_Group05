@@ -16,9 +16,9 @@ const userCredentials = {
 describe('test hikes apis', () => {
     beforeEach(async () => {
         await logout();
-        await db.run('DELETE FROM HIKE');
-        await db.run('DELETE FROM HIKE_HUT');
         await db.run('DELETE FROM HIKE_PARKING');
+        await db.run('DELETE FROM HIKE_HUT');
+        await db.run('DELETE FROM HIKE');
         await db.run('DELETE FROM POINT');
         await db.run('DELETE FROM sqlite_sequence');
         await db.run(
@@ -28,15 +28,13 @@ describe('test hikes apis', () => {
                       'lg1@p.it', '4783473632662333', '3334567980')"
         );
         await login()
-
-
     });
 
     afterEach(async () => {
         await logout();
-        await db.run('DELETE FROM HIKE');
-        await db.run('DELETE FROM HIKE_HUT');
         await db.run('DELETE FROM HIKE_PARKING');
+        await db.run('DELETE FROM HIKE_HUT');
+        await db.run('DELETE FROM HIKE');
         await db.run('DELETE FROM POINT');
         await db.run('DELETE FROM sqlite_sequence');
     });
