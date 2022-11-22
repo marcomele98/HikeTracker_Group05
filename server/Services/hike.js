@@ -56,7 +56,7 @@ class HikeDescription {
         let role = req.user.role;
         let message = ""
 
-        console.log(hike)
+        // console.log(hike)
 
         if (role !== "local guide") {
             return res.status(401).json("Not authenticated.");
@@ -78,7 +78,7 @@ class HikeDescription {
         }
 
         if (this.isNotValidNumber(hike.expected_mins)) {
-            console.log(hike.expected_mins)
+            // console.log(hike.expected_mins)
             message = "Invalid Expected Time"
             return res.status(422).json(message);
         }

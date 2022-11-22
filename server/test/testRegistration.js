@@ -25,20 +25,21 @@ describe('test user registration', () => {
 });
 
 function registerNewUser(expectedHTTPStatus, name, surname, role, password, email, phone_number) {
-    it('registering a new user', function () {
+    it('registering a new user', function (done) {
         let user = { name: name, surname: surname, role: role, password: password, email: email, phone_number: phone_number };
-        return agent.post('/api/register')
+        agent.post('/api/register')
             .send(user)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
+                done()
             });
     });
 }
 
 function registerTwoTimeNewUser(expectedHTTPStatus, name, surname, role, password, email, phone_number) {
-    it('registering two time a new user', function () {
+    it('registering two time a new user', function (done) {
         let user = { name: name, surname: surname, role: role, password: password, email: email, phone_number: phone_number };
-        return agent.post('/api/register')
+        agent.post('/api/register')
             .send(user)
             .then(function (res) {
                 let user = { name: name, surname: surname, role: role, password: password, email: email, phone_number: phone_number };
@@ -46,6 +47,7 @@ function registerTwoTimeNewUser(expectedHTTPStatus, name, surname, role, passwor
                     .send(user)
                     .then(function (res) {
                         res.should.have.status(expectedHTTPStatus);
+                        done()
                     });
             });
     });
