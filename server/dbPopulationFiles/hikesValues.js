@@ -71,7 +71,7 @@ var hikevalues =
   ['Parco del Monte Avic: Rifugio Barbustel da Covarey',16.37,404,970,'Hiker','Valle d Aosta', 'AO', 'Covarey',1,
   va_file7,13,'Parking point',13,'Parking point','This park is one of the most popular destinations for hikers in Valle d Aosta'],
   ['Summer Park - Bivacco Tzan - Lago Tzan ',20.9,346,871,'Hiker','Valle d Aosta', 'AO', 'Septumian',1,
-  va_file8,14,'Parking point',14,'Parking point','Good ring route starting from the Summer Park, in the path you can stop to watch the beatiful Tzan lake']
+  va_file8,14,'Parking point',14,'Parking point','Good ring route starting from the Summer Park, in the path you can stop to watch the beatiful Tzan lake'],
 
   [ 'Camigliatello Loop from Camigliatello Silano', 4.08, 77, 110, 'Hiker', 'Calabria', 'CS', 'Spezzano della Sila', 1,
   ca_file1, 15, 'Parking point', 15, 'Parking point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.'],
