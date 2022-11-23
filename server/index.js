@@ -150,6 +150,10 @@ app.get('/api/hike/:hikeId', (req, res) => {
   return hikeviews.getHikeById(req,res);}
 );
 
+app.put('/api/hike/:hikeId', (req, res) => {
+  return hike.updateStartEndPoint(req, res);
+})
+
 app.post('/api/parkingLot', isLoggedIn, (req, res) => {
   return parkin_lot.newParkingLot(req, res);
 });
@@ -173,6 +177,8 @@ app.get('/api/hut/:hutId', (req, res) => {
 app.post('/api/hut', isLoggedIn, (req, res) => {
   return hut.addHutDescription(req,res);
 });
+
+
 
 // Registration form backend validation
 

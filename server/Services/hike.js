@@ -5,19 +5,20 @@ const pointDB = require('../Queries/point');
 const hutDB = require('../Queries/hut');
 const parkingDB = require('../Queries/parking');
 
-
-
 const possibleDiff = ['Tourist', 'Hiker', 'Professional Hiker'];
+const possibleTypes = ['general point', 'Parking point', 'Hut point'];
+
 
 class HikeDescription {
 
-
-    constructor() {
-
-    }
+    constructor() { }
 
     isNotValidBody = (data) => {
         return data === undefined || data === null || data.length === 0;
+    }
+
+    isNotValidType = (type) => {
+        return type === undefined || type === null || type === '' || !possibleTypes.includes(type);
     }
 
     isNotValidField = (field) => {
@@ -50,13 +51,13 @@ class HikeDescription {
             point.altitude === null || isNaN(point.altitude);
     }
 
+
     async newHikeDescription(req, res) {
         let hike = req.body;
         let lg_id = req.user.id;
         let role = req.user.role;
         let message = ""
 
-        // console.log(hike)
 
         if (role !== "local guide") {
             return res.status(401).json("Not authenticated.");
@@ -78,7 +79,6 @@ class HikeDescription {
         }
 
         if (this.isNotValidNumber(hike.expected_mins)) {
-            // console.log(hike.expected_mins)
             message = "Invalid Expected Time"
             return res.status(422).json(message);
         }
@@ -155,6 +155,93 @@ class HikeDescription {
             return res.status(503).json(message)
         }
     }
+
+
+
+    async updateStartEndPoint(req, res) {
+
+        let update = req.body;
+        let hikeId = req.params.hikeId
+
+        if (this.isNotValidNumber(update.start_point)) {
+            message = "Invalid Start Point id."
+            return res.status(422).json(message);
+        }
+
+        if (this.isNotValidNumber(update.end_point)) {
+            message = "Invalid End Point id."
+            return res.status(422).json(message);
+        }
+
+        if (this.isNotValidType(update.start_point_type)) {
+            message = "Invalid Start Point type."
+            return res.status(422).json(message);
+        }
+
+        if (this.isNotValidType(update.end_point_type)) {
+            message = "Invalid End Point type."
+            return res.status(422).json(message);
+        }
+
+        try {
+            let hike = await db.getHikeById(hikeId);
+            if (hike === undefined) {
+                message = "Hike not found."
+                return res.status(404).json(message);
+            }
+            else {
+                let oldStartId = hike.start_point_id
+                let oldStartType = hike.start_point_type
+                let oldEndId = hike.end_point_id
+                let oldEndType = hike.end_point_type
+
+                if (oldEndType === 'general point') {
+                    await pointDB.deletePointById(oldEndId)
+                }
+                else if (oldEndType === 'Parking point') {
+                    await db.deleteParkForHike(hikeId, oldEndId)
+                }
+                else {
+                    await db.deleteHutForHike(hikeId, oldEndId)
+                }
+
+                if (oldStartType !== oldEndType || (oldStartType === oldEndType && oldStartId !== oldEndId)) {
+                    if (oldStartType === 'general point') {
+                        await pointDB.deletePointById(oldStartId)
+                    }
+                    else if (oldStartType === 'Parking point') {
+                        await db.deleteParkForHike(hikeId, oldStartId)
+                    }
+                    else {
+                        await db.deleteHutForHike(hikeId, oldStartId)
+                    }
+                } 
+
+                await db.updateHike(update.end_point, update.end_point_type, update.start_point, update.start_point_type, hikeId)
+
+                if (update.end_point_type === 'Parking point') {
+                    db.insertParkForHike(hikeId, update.end_point)
+                }
+                else if (update.end_point_type === 'Hut point') {
+                    db.insertHutForHike(hikeId, update.end_point)
+                }
+
+                if (update.start_point_type !== update.end_point_type || (update.start_point_type === update.end_point_type && update.start_point !== update.end_point)) {
+                    if (update.start_point_type === 'Parking point') {
+                        db.insertParkForHike(hikeId, update.start_point)
+                    }
+                    else if (update.start_point_type === 'Hut point') {
+                        db.insertHutForHike(hikeId, update.start_point)
+                    }
+                } 
+                return res.status(200).end();
+            }
+        }
+        catch (err) {
+            message = "Server error"
+            return res.status(503).json(message)
+        }
+    }
 }
 
 
@@ -213,25 +300,17 @@ class HikesView {
                 //get endpoint details
                 if (hike.end_point_type === 'general point') {
                     let endpointDetails = await pointDB.getPointById(hike.end_point)
-
                     hike.end_point = endpointDetails;
-                    //console.log(hike.end_point);
-
                 }
                 else if (hike.end_point_type == 'Parking point') {
                     let endpointDetails = await parkingDB.getParkingById(hike.end_point);
                     hike.end_point = endpointDetails;
-                    //console.log(hike.end_point);
-                    //console.log(HikeDetails.hike);
                 }
                 else {
-
                     let endpointDetails = await hutDB.getHutById(hike.end_point);
                     hike.end_point = endpointDetails;
-                    //console.log(hike.end_point);
-
-
                 }
+
                 //get startpoint details
                 if (hike.start_point_type == 'general point') {
                     let startpointDetails = await pointDB.getPointById(hike.start_point);
@@ -240,27 +319,18 @@ class HikesView {
                 }
                 else if (hike.start_point_type == 'Parking point') {
                     let startpointDetails = await parkingDB.getParkingById(hike.start_point)
-
                     hike.start_point = startpointDetails;
-                    //console.log(hike.start_point);
-
                 }
                 else {
                     let startpointDetails = await hutDB.getHutById(hike.start_point);
                     hike.start_point = startpointDetails;
-                    //console.log(hike.start_point);
-
                 }
-                //HikeDetailStruct.hike = hike;
-                //console.log(HikeDetails.hike);
 
-                //let hutIds;
+
                 let hutIds = await db.getHikesHutsByHikeID(req.params.hikeId) //get list of huts Ids of the hike
                 hike.huts = []
-                //console.log(hutIds);
                 let index = 0;
                 for (let id of hutIds) {
-                    //console.log(id);
                     let hut = await hutDB.getHutById(id.hut_id)
 
                     hike.huts[index] = hut;
@@ -268,7 +338,6 @@ class HikesView {
                 }
 
                 let parkingIds = await db.getHikesParkingsByHikeID(req.params.hikeId) //get list of parkings Ids of the hike
-                //console.log(parkingIds);
                 index = 0;
                 hike.parking_lots = [];
                 for (let id of parkingIds) {
@@ -283,10 +352,10 @@ class HikesView {
                 hike.points = [];
                 hike.points = points;
 
-
                 return res.status(200).json(hike);
             }
-        } catch (err) {
+        }
+        catch (err) {
             return res.status(500).end();
         }
     };
