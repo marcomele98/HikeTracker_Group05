@@ -157,15 +157,78 @@ class HikeDescription {
     }
 
 
-
-    async updateStartEndPoint(req, res) {
-
+    async updateStartPoint(req, res) {
         let update = req.body;
         let hikeId = req.params.hikeId
+        let role = req.user.role;
+        let message = ""
+
+
+        if (role !== "local guide") {
+            return res.status(401).json("Not authenticated.");
+        }
 
         if (this.isNotValidNumber(update.start_point)) {
             message = "Invalid Start Point id."
             return res.status(422).json(message);
+        }
+
+        if (this.isNotValidType(update.type_start)) {
+            message = "Invalid Start Point type."
+            return res.status(422).json(message);
+        }
+
+        try {
+            let hike = await db.getHikeById(hikeId);
+
+            if (hike === undefined) {
+                message = "Hike not found."
+                return res.status(404).json(message);
+            }
+            else {
+                let oldStartId = hike.start_point
+                let oldStartType = hike.start_point_type
+                let oldEndId = hike.end_point
+                let oldEndType = hike.end_point_type
+
+                if (oldStartType === 'Parking point' && (oldEndType !== 'Parking point' || (oldEndType === 'Parking point' && oldEndId !== oldStartId))) {
+                    await db.deleteParkForHike(hikeId, oldStartId);
+                }
+                else if (oldStartType === 'Hut point' && (oldEndType !== 'Hut point' || (oldEndType === 'Hut point' && oldEndId !== oldStartId))) {
+                    await db.deleteHutForHike(hikeId, oldStartId);
+                }
+                else if (oldStartType === 'general point' && (oldEndType !== 'general point' || (oldEndType === 'general point' && oldEndId !== oldStartId))) {
+                    await pointDB.deletePointById(oldStartId);
+                }
+
+                await db.updateHike(oldEndId, oldEndType, update.start_point, update.type_start, hikeId);
+
+                if (update.type_start !== oldEndType || (update.type_start === oldEndType && update.start_point !== oldEndId)) {
+                    if (update.type_start === 'Parking point') {
+                        await db.insertParkForHike(hikeId, update.start_point)
+                    }
+                    else if (update.type_start === 'Hut point') {
+                        await db.insertHutForHike(hikeId, update.start_point)
+                    }
+                }
+                return res.status(200).end();
+            }
+        }
+        catch (err) {
+            message = "Server error"
+            return res.status(503).json(message)
+        }
+    }
+
+    async updateEndPoint(req, res) {
+        let update = req.body;
+        let hikeId = req.params.hikeId
+        let role = req.user.role;
+        let message = ""
+
+
+        if (role !== "local guide") {
+            return res.status(401).json("Not authenticated.");
         }
 
         if (this.isNotValidNumber(update.end_point)) {
@@ -173,67 +236,45 @@ class HikeDescription {
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidType(update.start_point_type)) {
-            message = "Invalid Start Point type."
-            return res.status(422).json(message);
-        }
-
-        if (this.isNotValidType(update.end_point_type)) {
+        if (this.isNotValidType(update.type_end)) {
             message = "Invalid End Point type."
             return res.status(422).json(message);
         }
 
         try {
             let hike = await db.getHikeById(hikeId);
+            console.log(hike)
+
             if (hike === undefined) {
                 message = "Hike not found."
                 return res.status(404).json(message);
             }
             else {
-                let oldStartId = hike.start_point_id
+                let oldStartId = hike.start_point
                 let oldStartType = hike.start_point_type
-                let oldEndId = hike.end_point_id
+                let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
 
-                if (oldEndType === 'general point') {
-                    await pointDB.deletePointById(oldEndId)
+                if (oldEndType === 'Parking point' && (oldStartType !== 'Parking point' || (oldStartType === 'Parking point' && oldEndId !== oldStartId))) {
+                    await db.deleteParkForHike(hikeId, oldEndId);
                 }
-                else if (oldEndType === 'Parking point') {
-                    await db.deleteParkForHike(hikeId, oldEndId)
+                else if (oldEndType === 'Hut point' && (oldStartType !== 'Hut point' || (oldStartType === 'Hut point' && oldEndId !== oldStartId))) {
+                    await db.deleteHutForHike(hikeId, oldEndId);
                 }
-                else {
-                    await db.deleteHutForHike(hikeId, oldEndId)
-                }
-
-                if (oldStartType !== oldEndType || (oldStartType === oldEndType && oldStartId !== oldEndId)) {
-                    if (oldStartType === 'general point') {
-                        await pointDB.deletePointById(oldStartId)
-                    }
-                    else if (oldStartType === 'Parking point') {
-                        await db.deleteParkForHike(hikeId, oldStartId)
-                    }
-                    else {
-                        await db.deleteHutForHike(hikeId, oldStartId)
-                    }
-                } 
-
-                await db.updateHike(update.end_point, update.end_point_type, update.start_point, update.start_point_type, hikeId)
-
-                if (update.end_point_type === 'Parking point') {
-                    db.insertParkForHike(hikeId, update.end_point)
-                }
-                else if (update.end_point_type === 'Hut point') {
-                    db.insertHutForHike(hikeId, update.end_point)
+                else if (oldEndType === 'general point' && (oldStartType !== 'general point' || (oldStartType === 'general point' && oldEndId !== oldStartId))) {
+                    await pointDB.deletePointById(oldEndId);
                 }
 
-                if (update.start_point_type !== update.end_point_type || (update.start_point_type === update.end_point_type && update.start_point !== update.end_point)) {
-                    if (update.start_point_type === 'Parking point') {
-                        db.insertParkForHike(hikeId, update.start_point)
+                await db.updateHike(update.end_point, update.type_end, oldStartId, oldStartType, hikeId);
+
+                if (update.type_end !== oldStartType || (update.type_end === oldStartType && update.end_point !== oldStartId)) {
+                    if (update.type_end === 'Parking point') {
+                        await db.insertParkForHike(hikeId, update.end_point)
                     }
-                    else if (update.start_point_type === 'Hut point') {
-                        db.insertHutForHike(hikeId, update.start_point)
+                    else if (update.type_end === 'Hut point') {
+                        await db.insertHutForHike(hikeId, update.end_point)
                     }
-                } 
+                }
                 return res.status(200).end();
             }
         }

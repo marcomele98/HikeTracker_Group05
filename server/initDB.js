@@ -125,7 +125,7 @@ db.serialize(function () {
   db.run(
     'CREATE TABLE IF NOT EXISTS "HIKE_HUT" (\
         "hike_id"	INTEGER NOT NULL,\
-        "hut_id" INTEGER NOT NULL UNIQUE,\
+        "hut_id" INTEGER NOT NULL,\
          PRIMARY KEY("hike_id", "hut_id"),\
          FOREIGN KEY("hike_id") REFERENCES "HIKE"("id") on DELETE CASCADE,\
          FOREIGN KEY("hut_id") REFERENCES "HUT"("id") on DELETE CASCADE\

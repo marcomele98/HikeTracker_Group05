@@ -25,7 +25,7 @@ exports.getPointsByHikeId = async (id) => {
   return await db.all(sql, [id]);
 };
 
-exports.deletePointById = async (id) => {
-  const sql = "DELETE * FROM POINT WHERE id = ?"
-  return await db.run(sql, [id]);
+exports.deletePointById = (id) => {
+  const sql = "DELETE FROM POINT WHERE id = ?"
+  return db.run(sql, [id]);
 }

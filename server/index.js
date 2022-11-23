@@ -150,8 +150,12 @@ app.get('/api/hike/:hikeId', (req, res) => {
   return hikeviews.getHikeById(req,res);}
 );
 
-app.put('/api/hike/:hikeId', (req, res) => {
-  return hike.updateStartEndPoint(req, res);
+app.put('/api/hikeStart/:hikeId', isLoggedIn, (req, res) => {
+  return hike.updateStartPoint(req, res);
+})
+
+app.put('/api/hikeEnd/:hikeId', isLoggedIn, (req, res) => {
+  return hike.updateEndPoint(req, res);
 })
 
 app.post('/api/parkingLot', isLoggedIn, (req, res) => {

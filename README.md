@@ -56,8 +56,49 @@
 
 - **Response header**:  `201 Created` (success). 
 - **Response body**: none.
-- **Permissions allowed**:  Manager, Supplier
+- **Permissions allowed**:  Local Guide
 - **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
+
+
+
+### PUT
+
+#### **/api/hikeStart/hikeId**
+- **Modify start point of an hike.**
+- **Request header** has a line: `Content-Type: application/json` and req.params.hikeId to retrieve id.
+- **Request body**: a JSON object containing start_point, type_start
+
+```
+        {
+            "start_point": 15
+            "type_start": 'Parking point'
+        }       
+```
+
+- **Response header**:  `200 Ok` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  Local Guide
+- **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `404 Not found` (Hike not existing), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
+
+
+#### **/api/hikeEnd/hikeId**
+- **Modify end point of an hike.**
+- **Request header** has a line: `Content-Type: application/json` and req.params.hikeId to retrieve id.
+- **Request body**: a JSON object containing end_point, type_end
+
+```
+        {
+            "end_point": 15
+            "type_end": 'Parking point'
+        }       
+```
+
+- **Response header**:  `200 Ok` (success). 
+- **Response body**: none.
+- **Permissions allowed**:  Local Guide
+- **Error responses**: `401 Unauthorized` (not logged in or wrong permissions), `404 Not found` (Hike not existing), `422 Unprocessable Entity` (validation of request body failed), `503 Service Unavailable` (generic error).
+
+
 
 
 ### GET
