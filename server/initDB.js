@@ -4,10 +4,10 @@ const dbname = "HT.sqlite";
 
 const sqlite = require("sqlite3");
 
- const {hikevalues} = require('./hikesValues');
- const {pointsvalues} = require('./pointsValues');
- const {hutsvalues} = require('./hutsValues');
- const {parkingvalues} = require('./parkingsValues');
+const { hikevalues } = require('./dbPopulationFiles/hikesValues');
+const { pointsvalues } = require('./dbPopulationFiles/pointsValues');
+const { hutsvalues } = require('./dbPopulationFiles/hutsValues');
+const { parkingvalues } = require('./dbPopulationFiles/parkingsValues');
 
 const db = new sqlite.Database(dbname, (err) => {
   if (err) throw err;
@@ -53,7 +53,7 @@ db.serialize(function () {
      PRIMARY KEY("id" AUTOINCREMENT),\
      FOREIGN KEY("lg_id") REFERENCES "USER"("id") on DELETE CASCADE\
     );'
-  ); //Title è unique?
+  );
 
   db.run(
     'CREATE TABLE IF NOT EXISTS "POINT" (\
@@ -74,7 +74,7 @@ db.serialize(function () {
   db.run(
     'CREATE TABLE IF NOT EXISTS "HUT" (\
        "id"	INTEGER NOT NULL,\
-       "name" TEXT NOT NULL UNIQUE,\
+       "name" TEXT NOT NULL,\
        "latitude" TEXT NOT NULL,\
        "longitude" TEXT NOT NULL,\
        "altitude" TEXT NOT NULL,\
@@ -91,7 +91,7 @@ db.serialize(function () {
   db.run(
     'CREATE TABLE IF NOT EXISTS "PARKING_LOT" (\
         "id"	INTEGER NOT NULL,\
-        "name" TEXT NOT NULL UNIQUE,\
+        "name" TEXT NOT NULL,\
         "latitude" TEXT NOT NULL,\
         "longitude" TEXT NOT NULL,\
         "altitude" TEXT NOT NULL,\
@@ -102,22 +102,22 @@ db.serialize(function () {
     );'
   );
 
- 
-    db.run(
-      'CREATE TABLE IF NOT EXISTS "HIKE_PARKING" (\
+
+  db.run(
+    'CREATE TABLE IF NOT EXISTS "HIKE_PARKING" (\
           "hike_id"	INTEGER NOT NULL,\
           "parking_id" INTEGER NOT NULL,\
            PRIMARY KEY("hike_id", "parking_id"),\
            FOREIGN KEY("hike_id") REFERENCES "HIKE"("id") on DELETE CASCADE,\
            FOREIGN KEY("parking_id") REFERENCES "PARKING_LOT"("id") on DELETE CASCADE\
       );'
-    );
-  
+  );
+
 
   db.run(
     'CREATE TABLE IF NOT EXISTS "HIKE_HUT" (\
         "hike_id"	INTEGER NOT NULL,\
-        "hut_id" INTEGER NOT NULL UNIQUE,\
+        "hut_id" INTEGER NOT NULL,\
          PRIMARY KEY("hike_id", "hut_id"),\
          FOREIGN KEY("hike_id") REFERENCES "HIKE"("id") on DELETE CASCADE,\
          FOREIGN KEY("hut_id") REFERENCES "HUT"("id") on DELETE CASCADE\
@@ -139,58 +139,64 @@ db.serialize(function () {
   );
 
 
-  for (var i=0;i<hikevalues.length; i++){
-   db.run(
-     "INSERT OR IGNORE INTO HIKE(title,length_kms,expected_mins,ascendent_meters,difficulty,region,province, city, lg_id, gpx,\
+  for (var i = 0; i < hikevalues.length; i++) {
+    db.run(
+      "INSERT OR IGNORE INTO HIKE(title,length_kms,expected_mins,ascendent_meters,difficulty,region,province, city, lg_id, gpx,\
        end_point, end_point_type, start_point, start_point_type, description)\
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ", hikevalues[i][0],hikevalues[i][1],hikevalues[i][2],hikevalues[i][3],hikevalues[i][4],hikevalues[i][5],hikevalues[i][6],
-        hikevalues[i][7],hikevalues[i][8],hikevalues[i][9],hikevalues[i][10],hikevalues[i][11],hikevalues[i][12],hikevalues[i][13],hikevalues[i][14],
-           (err) => {
-            if (err) {
-              throw err;
-            }
-          }
-   );
-  };
-  for (var i=0;i<pointsvalues.length; i++){
-   db.run(
-     "INSERT INTO POINT( latitude, longitude, altitude, name, address, hike_id )\
-     VALUES (?,?,?,?,?,?) ", pointsvalues[i][0],pointsvalues[i][1],pointsvalues[i][2],pointsvalues[i][3],pointsvalues[i][4],pointsvalues[i][5],
-        (err) => {
-         if (err) {
-           throw err;
-         }
-       }
-);
-   
-   };
-   for (var i=0;i<parkingvalues.length; i++){
-   db.run(
-     "INSERT INTO PARKING_LOT(name,latitude, longitude, altitude,region, province, City)\
-      VALUES (?,?,?,?,?,?,?)", parkingvalues[i][0],parkingvalues[i][1],parkingvalues[i][2],parkingvalues[i][3],parkingvalues[i][4],
-      parkingvalues[i][5],parkingvalues[i][6],
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ", hikevalues[i][0], hikevalues[i][1], hikevalues[i][2], hikevalues[i][3], hikevalues[i][4], hikevalues[i][5], hikevalues[i][6],
+      hikevalues[i][7], hikevalues[i][8], hikevalues[i][9], hikevalues[i][10], hikevalues[i][11], hikevalues[i][12], hikevalues[i][13], hikevalues[i][14],
       (err) => {
-       if (err) {
-         throw err;
-       }
-     }
-   );
-    };
-   
-   for (var i=0;i<hutsvalues.length; i++){
-   db.run(
-     "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, City, number_of_beds, description)\
-      VALUES ( ?,?,?,?,?,?,?,?,?,?)", hutsvalues[i][0],hutsvalues[i][1],hutsvalues[i][2],hutsvalues[i][3],hutsvalues[i][4],
-      hutsvalues[i][5],hutsvalues[i][6],hutsvalues[i][7],hutsvalues[i][8],hutsvalues[i][9],
-      (err) => {
-       if (err) {
-         throw err;
-       }
-     }
-   );
+        if (err) {
+          throw err;
+        }
+      }
+    );
   };
 
-   db.run(
+
+  for (var i = 0; i < pointsvalues.length; i++) {
+    db.run(
+      "INSERT INTO POINT( latitude, longitude, altitude, name, address, hike_id )\
+     VALUES (?,?,?,?,?,?) ", pointsvalues[i][0], pointsvalues[i][1], pointsvalues[i][2], pointsvalues[i][3], pointsvalues[i][4], pointsvalues[i][5],
+      (err) => {
+        if (err) {
+          throw err;
+        }
+      }
+    );
+
+  };
+
+
+  for (var i = 0; i < parkingvalues.length; i++) {
+    db.run(
+      "INSERT INTO PARKING_LOT(name,latitude, longitude, altitude,region, province, city)\
+      VALUES (?,?,?,?,?,?,?)", parkingvalues[i][0], parkingvalues[i][1], parkingvalues[i][2], parkingvalues[i][3], parkingvalues[i][4],
+      parkingvalues[i][5], parkingvalues[i][6],
+      (err) => {
+        if (err) {
+          throw err;
+        }
+      }
+    );
+  };
+
+
+  for (var i = 0; i < hutsvalues.length; i++) {
+    db.run(
+      "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, city, number_of_beds, description)\
+      VALUES ( ?,?,?,?,?,?,?,?,?,?)", hutsvalues[i][0], hutsvalues[i][1], hutsvalues[i][2], hutsvalues[i][3], hutsvalues[i][4],
+      hutsvalues[i][5], hutsvalues[i][6], hutsvalues[i][7], hutsvalues[i][8], hutsvalues[i][9],
+      (err) => {
+        if (err) {
+          throw err;
+        }
+      }
+    );
+  };
+
+
+  db.run(
     "INSERT INTO HIKE_PARKING(hike_id,parking_id)\
      VALUES (2, 1 ),\
             (3, 1),\
@@ -208,8 +214,17 @@ db.serialize(function () {
             (27, 11),\
             (28, 12),\
             (29, 13),\
-            (30, 14)"
+            (30, 14),\
+            (31, 15),\
+            (32, 16),\
+            (37, 16),\
+            (39, 17),\
+            (40, 18),\
+            (42, 17),\
+            (45, 18),\
+            (46, 19)"
   );
+
 
   db.run(
     "INSERT INTO HIKE_HUT(hike_id,hut_id)\
@@ -228,7 +243,18 @@ db.serialize(function () {
             (15, 13),\
             (23, 14),\
             (24, 15),\
-            (29, 16)"
+            (29, 16),\
+            (35, 17),\
+            (35, 18),\
+            (39, 19),\
+            (42, 19),\
+            (43, 20),\
+            (43, 21),\
+            (43, 22),\
+            (44, 23),\
+            (44, 24),\
+            (46, 25)"
+
   );
 
 });

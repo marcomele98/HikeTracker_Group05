@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gpx version="1.1" creator="outdooractive - http://www.outdooractive.com" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" xmlns:oa="http://www.outdooractive.com/GPX/Extensions/1">
+  <metadata>
+    <name>San fili Escursione 7 Giu 2020</name>
+    <author>
+      <name>Leo Trek - Community</name>
+    </author>
+    <link href="https://www.outdooractive.com/r/173134127"/>
+    <time>2021-09-19T11:21:16.438</time>
+    <extensions>
+      <oa:oaCategory>hikingTourTrail</oa:oaCategory>
+    </extensions>
+  </metadata>
+  <trk>
+    <name>San fili Escursione 7 Giu 2020</name>
+    <desc>Anello di San Fili</desc>
+    <type>hikingTourTrail</type>
+    <trkseg>
+      <trkpt lat="39.334467" lon="16.140132">
+        <ele>574.33109</ele>
+      </trkpt>
+      <trkpt lat="39.332602" lon="16.139656">
+        <ele>543.43799</ele>
+      </trkpt>
+      <trkpt lat="39.332381" lon="16.139126">
+        <ele>550.01503</ele>
+      </trkpt>
+      <trkpt lat="39.332006" lon="16.140315">
+        <ele>558.85275</ele>
+      </trkpt>
+      <trkpt lat="39.332082" lon="16.140367">
+        <ele>559.22955</ele>
+      </trkpt>
+      <trkpt lat="39.332082" lon="16.140367">
+        <ele>559.22955</ele>
+        <desc>&lt;br/&gt;Ponte sul torrente Emoli&lt;br/&gt;&lt;br/&gt;</desc>
+        <sym>cameraphoto</sym>
+        <extensions>
+          <oa:locType>inputWayPoint</oa:locType>
+        </extensions>
+      </trkpt>
+      <trkpt lat="39.333005" lon="16.141232">
+        <ele>569.91796</ele>
+      </trkpt>
+      <trkpt lat="39.332841" lon="16.142157">
+        <ele>605.12708</ele>
+      </trkpt>
+      <trkpt lat="39.333317" lon="16.142664">
+        <ele>606.62256</ele>
+      </trkpt>
+      <trkpt lat="39.333796" lon="16.145577">
+        <ele>674.37838</ele>
+      </trkpt>
+      <trkpt lat="39.332071" lon="16.146128">
+        <ele>693.81291</ele>
+      </trkpt>
+      <trkpt lat="39.33099" lon="16.145897">
+        <ele>719.98713</ele>
+      </trkpt>
+      <trkpt lat="39.328797" lon="16.147764">
+        <ele>740.01356</ele>
+      </trkpt>
+      <trkpt lat="39.326678" lon="16.146836">
+        <ele>730.83334</ele>
+      </trkpt>
+      <trkpt lat="39.326647" lon="16.146741">
+        <ele>729.4672</ele>
+      </trkpt>
+      <trkpt lat="39.326647" lon="16.146741">
+        <ele>729.4672</ele>
+        <sym>cameraphoto</sym>
+        <extensions>
+          <oa:locType>inputWayPoint</oa:locType>
+        </extensions>
+      </trkpt>
+      <trkpt lat="39.325622" lon="16.143901">
+        <ele>710.52265</ele>
+      </trkpt>
+      <trkpt lat="39.324405" lon="16.143576">
+        <ele>747.50715</ele>
+      </trkpt>
+      <trkpt lat="39.32433" lon="16.143556">
+        <ele>748.07598</ele>
+      </trkpt>
+      <trkpt lat="39.32433" lon="16.143556">
+        <ele>748.07598</ele>
+        <sym>cameraphoto</sym>
+        <extensions>
+          <oa:locType>inputWayPoint</oa:locType>
+        </extensions>
+      </trkpt>
+      <trkpt lat="39.322793" lon="16.143216">
+        <ele>744.01787</ele>
+      </trkpt>
+      <trkpt lat="39.322631" lon="16.142467">
+        <ele>719.69624</ele>
+      </trkpt>
+      <trkpt lat="39.321964" lon="16.142184">
+        <ele>728.67611</ele>
+      </trkpt>
+      <trkpt lat="39.322643" lon="16.141695">
+        <ele>721.26801</ele>
+      </trkpt>
+      <trkpt lat="39.32341" lon="16.142299">
+        <ele>705.82512</ele>
+      </trkpt>
+      <trkpt lat="39.325095" lon="16.142056">
+        <ele>681.60797</ele>
+      </trkpt>
+      <trkpt lat="39.326295" lon="16.143055">
+        <ele>663.99732</ele>
+      </trkpt>
+      <trkpt lat="39.327735" lon="16.142528">
+        <ele>646.82422</ele>
+      </trkpt>
+      <trkpt lat="39.329188" lon="16.142965">
+        <ele>616.12535</ele>
+      </trkpt>
+      <trkpt lat="39.329878" lon="16.142646">
+        <ele>609.19482</ele>
+      </trkpt>
+      <trkpt lat="39.332517" lon="16.139277">
+        <ele>547.87316</ele>
+      </trkpt>
+      <trkpt lat="39.332103" lon="16.139461">
+        <ele>552.92756</ele>
+      </trkpt>
+      <trkpt lat="39.33244" lon="16.139223">
+        <ele>548.68904</ele>
+      </trkpt>
+      <trkpt lat="39.332436" lon="16.136127">
+        <ele>562.54387</ele>
+      </trkpt>
+      <trkpt lat="39.332574" lon="16.136597">
+        <ele>564.87802</ele>
+      </trkpt>
+      <trkpt lat="39.334325" lon="16.134849">
+        <ele>590.95666</ele>
+      </trkpt>
+      <trkpt lat="39.334398" lon="16.136519">
+        <ele>589.94808</ele>
+      </trkpt>
+      <trkpt lat="39.335729" lon="16.137061">
+        <ele>575.55549</ele>
+      </trkpt>
+      <trkpt lat="39.336219" lon="16.138488">
+        <ele>580.74225</ele>
+      </trkpt>
+      <trkpt lat="39.337571" lon="16.138954">
+        <ele>554.8804</ele>
+      </trkpt>
+      <trkpt lat="39.337838" lon="16.139587">
+        <ele>554.8005</ele>
+      </trkpt>
+      <trkpt lat="39.3374" lon="16.139206">
+        <ele>564.82088</ele>
+      </trkpt>
+      <trkpt lat="39.337771" lon="16.141281">
+        <ele>574.26195</ele>
+      </trkpt>
+      <trkpt lat="39.336462" lon="16.140116">
+        <ele>599.09605</ele>
+      </trkpt>
+      <trkpt lat="39.335231" lon="16.140716">
+        <ele>569.83762</ele>
+      </trkpt>
+      <trkpt lat="39.334467" lon="16.140132">
+        <ele>574.33109</ele>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>

@@ -170,6 +170,10 @@ app.get('/api/hut/:hutId', (req, res) => {
   return hut.getHutById(req,res);}
 );
 
+app.post('/api/hut', isLoggedIn, (req, res) => {
+  return hut.addHutDescription(req,res);
+});
+
 // Registration form backend validation
 
 const validationBodyRules = [

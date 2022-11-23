@@ -91,14 +91,14 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             </ClickableOpacity>
                         </div>
                     </Row>
-                    
+
                     {
                         seeStartPointDetails
                             ?
                             (
                                 <Row>
                                     <ListGroup>
-                                        <RefPointSwitcher type={hike.start_point_type} point={hike.start_point} />
+                                        <RefPointSwitcher type={hike.start_point_type} point={hike.start_point} user={user} />
                                     </ListGroup>
                                 </Row>
                             )
@@ -119,7 +119,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <Row>
                                     <ListGroup>
-                                        <RefPointSwitcher type={hike.end_point_type} point={hike.end_point} />
+                                        <RefPointSwitcher type={hike.end_point_type} point={hike.end_point} user={user} />
                                     </ListGroup>
                                 </Row>
                             )
@@ -148,9 +148,11 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <ListGroup>
                                     {
-                                        hike.huts.map((h) =>
-                                            <Hut key={h.id} hut={h}></Hut>
-                                        )
+                                        hike.huts
+                                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                            .map((h) =>
+                                                <Hut key={h.id} hut={h} user={user}></Hut>
+                                            )
                                     }
                                 </ListGroup>
                             )
@@ -179,9 +181,11 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <ListGroup>
                                     {
-                                        hike.parking_lots.map((p) =>
-                                            <Park key={p.id} park={p}></Park>
-                                        )
+                                        hike.parking_lots
+                                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                            .map((p) =>
+                                                <Park key={p.id} park={p} user={user}></Park>
+                                            )
                                     }
                                 </ListGroup>
                             )
@@ -210,9 +214,11 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <ListGroup>
                                     {
-                                        hike.points.map((p) =>
-                                            <Point key={p.id} point={p}></Point>
-                                        )
+                                        hike.points
+                                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                            .map((p) =>
+                                                <Point key={p.id} point={p}></Point>
+                                            )
                                     }
                                 </ListGroup>
                             )
@@ -227,12 +233,12 @@ function HikePage({ setIsLoading, loggedIn, user }) {
     );
 }
 
-const RefPointSwitcher = ({ point, type }) => {
+const RefPointSwitcher = ({ point, type, user }) => {
     switch (type) {
         case "Hut point":
-            return (<Hut hut={point} key={point.id} />);
+            return (<Hut hut={point} key={point.id} user={user} />);
         case "Parking point":
-            return (<Park park={point} key={point.id} />);
+            return (<Park park={point} key={point.id} user={user} />);
         case "general point":
             return (<Point point={point} key={point.id} />);
         default:
@@ -273,12 +279,13 @@ const Point = ({ point, key }) => {
     );
 }
 
-const Hut = ({ hut, key }) => {
+const Hut = ({ hut, key, user }) => {
+    const navigate = useNavigate();
     return (
         <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
             <Col className='point'>
                 <Row>
-                    <div className="pointTitle">{hut.name + " (Hut)"}</div>
+                    <div className="pointTitle">{hut.name + " (" + hut.type + ")"}</div>
                 </Row>
                 <Row>
                     <div className="textGrayPrimary">{hut.region}</div>
@@ -289,13 +296,28 @@ const Hut = ({ hut, key }) => {
                 <Row>
                     <div className="textGrayPrimary">{"Altitude: " + hut.altitude + " m"}</div>
                 </Row>
+                {(user && (user.role === "local guide" || user.role === "hiker")) ?
+                    <Row>
+                        <div className="touchableOpacityWithTextContainer">
+                            <ClickableOpacity
+                                onClick={() => {
+                                    navigate("/hut/" + hut.id)
+                                }}>
+                                <div className="seeMore">
+                                    see more
+                                </div>
+                            </ClickableOpacity>
+                        </div>
+                    </Row> : false
+                }
             </Col>
         </ListGroupItem>
     );
 }
 
 
-const Park = ({ park, key }) => {
+const Park = ({ park, key, user }) => {
+    const navigate = useNavigate();
     return (
         <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
             <Col className='point'>
@@ -311,6 +333,20 @@ const Park = ({ park, key }) => {
                 <Row>
                     <div className="textGrayPrimary">{"Altitude: " + park.altitude + " m"}</div>
                 </Row>
+                {(user && (user.role === "local guide" || user.role === "hiker")) ?
+                    <Row>
+                        <div className="touchableOpacityWithTextContainer">
+                            <ClickableOpacity
+                                onClick={() => {
+                                    navigate("/parkingLot/" + park.id)
+                                }}>
+                                <div className="seeMore">
+                                    see more
+                                </div>
+                            </ClickableOpacity>
+                        </div>
+                    </Row> : false
+                }
             </Col>
         </ListGroupItem>
     );

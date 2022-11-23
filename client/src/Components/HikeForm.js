@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Map from "./Map"
 let gpxParser = require('gpxparser');
-var gpx = new gpxParser();
 
 const HikeForm = (props) => {
 
+	var gpx = new gpxParser();
 	const [GPX, setGPX] = useState("");
 	const [fileGPX, setFileGPX] = useState(null);
 	const [title, setTitle] = useState("");
@@ -18,6 +18,8 @@ const HikeForm = (props) => {
 	const [expectedTime, setExpectedTime] = useState();
 	const [ascent, setAscent] = useState();
 	const [difficulty, setDifficulty] = useState("Tourist");
+	const [description, setDescription] = useState("");
+	const [region, setRegion] = useState("");
 	const [province, setProvince] = useState("");
 	const [city, setCity] = useState("");
 	const [startPoint, setStartPoint] = useState(null);
@@ -31,13 +33,51 @@ const HikeForm = (props) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		let points = [...referencePoints];
+		if (fileGPX) {
+			setReferencePoints([])
+			getValuesFromGPX(fileGPX);
+		}
+	}, [fileGPX])
+
+
+	useEffect(() => {
+		const points = [...referencePoints];
 		if (startPoint)
-			points.push(startPoint);
+			points.push(startPoint)
 		if (endPoint)
-			points.push(endPoint);
+			points.push(endPoint)
 		setAllPoints(points);
-	}, [startPoint, endPoint, referencePoints.length])
+	}, [referencePoints.length, startPoint, endPoint])
+
+	const getValuesFromGPX = (fileGPX) => {
+		gpx.parse(fileGPX);
+		const l = parseFloat(gpx.tracks[0].distance.total).toFixed(2);
+		const a = parseFloat(gpx.tracks[0].elevation.max - gpx.tracks[0].elevation.min).toFixed(2);
+		setLength(l);
+		setAscent(a);
+
+		let point = gpx.tracks[0].points[0];
+		const start = {
+			latitude: point.lat,
+			longitude: point.lon,
+			altitude: point.ele,
+			name: "",
+			address: ""
+		}
+
+		point = gpx.tracks[0].points[gpx.tracks[0].points.length - 1];
+		const end = {
+			latitude: point.lat,
+			longitude: point.lon,
+			altitude: point.ele,
+			name: "",
+			address: ""
+		}
+
+		setStartPoint(start);
+		setEndPoint(end);
+	}
+
 
 	const handleSubmit = (event) => {
 		const form = event.currentTarget;
@@ -80,7 +120,7 @@ const HikeForm = (props) => {
 
 
 	useEffect(() => {
-		if (props.user !== "" && props.user.role !== 'local guide') {
+		if (!props.user !== "" && props.user.role !== 'local guide') {
 			navigate("/");
 		}
 
@@ -100,14 +140,14 @@ const HikeForm = (props) => {
 
 	const sendForm = async () => {
 
-		//let content = await loadGPXContent();
-
 		const hike = {
 			title,
 			length_kms: length,
 			expected_mins: expectedTime,
 			ascendent_meters: ascent,
 			difficulty,
+			description,
+			region,
 			province,
 			city,
 			gpx: fileGPX,
@@ -147,17 +187,6 @@ const HikeForm = (props) => {
 						<Form.Control.Feedback type="invalid">Please insert title</Form.Control.Feedback>
 					</Form.Group>
 
-					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom02">
-						<Form.Label className={"fs-4"}>Length</Form.Label>
-						<Form.Control
-							required
-							type="number"
-							placeholder="Insert length"
-							value={length}
-							onChange={(e) => setLength(e.target.value)}
-						/>
-						<Form.Control.Feedback type="invalid">Please insert correct length</Form.Control.Feedback>
-					</Form.Group>
 
 					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom03">
 						<Form.Label className={"fs-4"}>Expected Time</Form.Label>
@@ -171,17 +200,6 @@ const HikeForm = (props) => {
 						<Form.Control.Feedback type="invalid">Please insert correct expected time</Form.Control.Feedback>
 					</Form.Group>
 
-					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom04">
-						<Form.Label className={"fs-4"}>Ascent</Form.Label>
-						<Form.Control
-							required
-							type="number"
-							placeholder="Insert ascent"
-							value={ascent}
-							onChange={(e) => setAscent(e.target.value)}
-						/>
-						<Form.Control.Feedback type="invalid">Please insert correct ascent</Form.Control.Feedback>
-					</Form.Group>
 
 					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom05">
 						<Form.Label className={"fs-4"}>Difficulty</Form.Label>
@@ -193,6 +211,30 @@ const HikeForm = (props) => {
 							<option value="Professional Hiker">Professional Hiker</option>
 						</Form.Select>
 						<Form.Control.Feedback type="invalid">Please insert correct difficulty</Form.Control.Feedback>
+					</Form.Group>
+
+					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom07">
+						<Form.Label className={"fs-4"}>Description</Form.Label>
+						<Form.Control
+							required
+							type="text"
+							placeholder="Insert description"
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+						/>
+						<Form.Control.Feedback type="invalid">Please insert correct description</Form.Control.Feedback>
+					</Form.Group>
+
+					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom07">
+						<Form.Label className={"fs-4"}>Region</Form.Label>
+						<Form.Control
+							required
+							type="text"
+							placeholder="Insert region"
+							value={region}
+							onChange={(e) => setRegion(e.target.value.replace(/[^a-z" "]/gi, ''))}
+						/>
+						<Form.Control.Feedback type="invalid">Please insert correct region</Form.Control.Feedback>
 					</Form.Group>
 
 					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom06">
@@ -215,7 +257,7 @@ const HikeForm = (props) => {
 							type="text"
 							placeholder="Insert city"
 							value={city}
-							onChange={(e) => setCity(e.target.value.replace(/[^a-z]/gi, ''))}
+							onChange={(e) => setCity(e.target.value.replace(/[^a-z" "]/gi, ''))}
 						/>
 						<Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback>
 					</Form.Group>
@@ -229,8 +271,8 @@ const HikeForm = (props) => {
 							value={GPX}
 							onChange={(e) => {
 								setGPX(e.target.value);
-								//parseGPX(e.target.value);
 								loadGPXContent(e.target.files);
+
 							}
 							}
 						/>
@@ -243,14 +285,41 @@ const HikeForm = (props) => {
 							undefined
 							:
 							<>
+								<Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+									<Map hike={{ gpx: fileGPX, points: allPoints, huts: [], parking_lots: [] }}></Map>
+								</Col>
+								<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom02">
+									<Form.Label className={"fs-4"}>Length</Form.Label>
+									<Form.Control
+										required
+										disabled
+										type="text"
+										placeholder="Load GPX to get length"
+										value={length}
+									//onChange={(e) => setLength(e.target.value)}
+									/>
+									<Form.Control.Feedback type="invalid">Please insert correct GPX to get length</Form.Control.Feedback>
+								</Form.Group>
 
-								<Map hike={{ gpx: fileGPX, points: allPoints, huts: [], parking_lots: [] }}></Map>
+								<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom04">
+									<Form.Label className={"fs-4"}>Ascent</Form.Label>
+									<Form.Control
+										required
+										disabled
+										type="text"
+										placeholder="Load GPX file to get ascent"
+										value={ascent}
+									//onChange={(e) => setAscent(e.target.value)}
+									/>
+									<Form.Control.Feedback type="invalid">Please insert correct GPX to get ascent</Form.Control.Feedback>
+								</Form.Group>
+
 								<Row>
-									<AddPointForm points={parseGPX()} setStartPoint={setStartPoint} type={"Start point"}></AddPointForm>
+									<AddPointForm point={startPoint} setPoint={setStartPoint} type={"Start point"}></AddPointForm>
 								</Row>
 
 								<Row>
-									<AddPointForm points={parseGPX()} setEndPoint={setEndPoint} type={"End point"}></AddPointForm>
+									<AddPointForm point={endPoint} setPoint={setEndPoint} type={"End point"}></AddPointForm>
 								</Row>
 
 								{referencePoints.length > 0 ?
@@ -280,7 +349,7 @@ const HikeForm = (props) => {
 											</Col>
 											:
 											<Col>
-												<Button variant="outline-primary" onClick={() => setShowForm(true)}>Add new point</Button>
+												<Button variant="outline-success" onClick={() => setShowForm(true)}>Add new point</Button>
 											</Col>
 										}
 									</Col>

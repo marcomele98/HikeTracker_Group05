@@ -57,7 +57,7 @@ class ParkingLotsDescription {
         try {
             let park = await parkingDB.getParkingById(req.params.parkingLotId)
             if (park === -1) {
-                return res.status(404).json({ error: `Parking lot not found not found` }); // not found
+                return res.status(404).json({ error: `Parking lot not found` }); // not found
             }
             return res.status(200).json(park);
         } catch (err) {
@@ -68,7 +68,6 @@ class ParkingLotsDescription {
     
     async newParkingLot(req, res) {
         let park = req.body;
-        let lg_id = req.user.id;
         let role = req.user.role;
         let message = ""
 
@@ -83,7 +82,7 @@ class ParkingLotsDescription {
         }
 
         if (this.isNotValidField(park.name)) {
-            message = "Invalid Title"
+            message = "Invalid Name"
             return res.status(422).json(message);
         }
 
@@ -101,7 +100,7 @@ class ParkingLotsDescription {
         }
 
         if (this.isNotValidPoint({...park})) {
-            message = "Invalid start point"
+            message = "Invalid point"
             return res.status(422).json(message);
         }
 
@@ -111,7 +110,8 @@ class ParkingLotsDescription {
             return res.status(201).end();
         }
         catch (err) {
-            return res.status(503).end();
+            message = "Server Error"
+            return res.status(503).json(message);
         }
     }
 

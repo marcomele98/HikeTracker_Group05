@@ -49,6 +49,7 @@
 .titleBig {
   font-size: 30px;
   text-align: left;
+  margin-left: 1%;
 }
 
 .marginLeft1{
@@ -70,12 +71,14 @@
   font-size: 17px;
   color: #6f747a;
   font-style: italic;
+  margin-left: 1%;
 }
 
 .textGrayPrimaryBig {
   text-align: left;
   font-size: 20px;
   color: #495057;
+  margin-left: 1%;
 }
 
 .filterForm {

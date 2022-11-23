@@ -1,5 +1,5 @@
 const hike = require('../Queries/hike');
-const db = require('../Queries/DAO'); 
+const db = require('../Queries/DAO');
 
 
 
@@ -13,39 +13,35 @@ function HikesParkings(hike_id, parking_id) {
 
 describe("HikeParkingDao", () => {
     beforeAll(async () => {
-            await db.run('DELETE FROM HIKE_PARKING');
-            await db.run('DELETE FROM PARKING_LOT');
-            await db.run('DELETE FROM HIKE');
-            await db.run('DELETE FROM USER');
-            await db.run('DELETE FROM sqlite_sequence');
-            await db.run(
-                "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
+        await db.run('DELETE FROM HIKE_PARKING');
+        await db.run('DELETE FROM PARKING_LOT');
+        await db.run('DELETE FROM HIKE');
+        await db.run('DELETE FROM USER');
+        await db.run('DELETE FROM sqlite_sequence');
+        await db.run(
+            "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
                    VALUES ('Mario', 'Rossi', 'local guide', \
                           'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
                           'lg1@p.it', '4783473632662333', '3334567980')"
-              );
-            await db.run(
-                "INSERT INTO PARKING_LOT(id,name,latitude, longitude, altitude)\
-                 VALUES (1, 'Piazzale di Valdinferno','44.19296', '7.95501','1192'),\
-                        (2, 'Parking Garessio 200','44.21653', '7.94425','1392')"
-
-            );
-            await db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, province, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
-            VALUES (1, 'ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', 'TO', 'Montepantero', 1,'gpx_content', 1, 'point', 2, 'parking_lot'),\
-            (2, 'Salita al Monte Antoroto', 17, 444, 400, 'Professional Hiker', 'CN', 'Garessio', 1,'gpx_content', 1, 'parking_lot', 3, 'parking_lot')\
-            ");
+        );
+        await db.run("INSERT INTO PARKING_LOT(name, latitude, longitude, altitude, region, province, city)\
+                        VALUES('Piazzale di Valdinferno','44.19296','7.95501','1192','Piemonte', 'CN','Garessio'),\
+                        ('Parking Garessio 200','44.21653','7.94425','1392','Piemonte', 'CN','Garessio')");
+        await db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, description, region, province, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
+                VALUES (1, 'ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', '', 'Piemonte', 'TO', 'Montepantero', 1, 'gpx_content', 1, 'point', 2, 'parking_lot'),\
+                (2, 'Salita al Monte Antoroto', 17, 444, 400, 'Professional Hiker', '', 'Piemonte', 'CN', 'Garessio', 1, 'gpx_content', 1, 'parking_lot', 3, 'parking_lot')"
+        );
         await db.run("INSERT INTO HIKE_PARKING (hike_id, parking_id)\
-        VALUES(1, 1),\
-        (2, 2)\
-        ");
+            VALUES(1, 1),\
+            (2, 2)");
     });
 
     afterAll(async () => {
-            await db.run('DELETE FROM HIKE_PARKING');
-            await db.run('DELETE FROM PARKING_LOT');
-            await db.run('DELETE FROM HIKE');
-            await db.run('DELETE FROM USER');
-            await db.run('DELETE FROM sqlite_sequence');
+        await db.run('DELETE FROM HIKE_PARKING');
+        await db.run('DELETE FROM PARKING_LOT');
+        await db.run('DELETE FROM HIKE');
+        await db.run('DELETE FROM USER');
+        await db.run('DELETE FROM sqlite_sequence');
 
     });
 
@@ -60,13 +56,13 @@ describe("HikeParkingDao", () => {
         expect(hh1_check).toEqual(hh1);
         expect(hh2_check).toEqual(hh2);
     });
-    
-    
+
+
     test('test getHikesParkingsByHikeID', async () => {
         let data1 = await hike.getHikesParkingsByHikeID(1);
         expect(data1.length).toStrictEqual(1);
         expect(data1[0].parking_id).toBe(1);
-    
+
         let data2 = await hike.getHikesParkingsByHikeID(2);
         expect(data2.length).toStrictEqual(1);
         expect(data2[0].parking_id).toBe(2);

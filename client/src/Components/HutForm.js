@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import API from "../API";
 
 
-const ParkingForm = (props) => {
+const HutForm = (props) => {
 
     const [name, setName] = useState("");
     const [province, setProvince] = useState("");
@@ -14,6 +14,9 @@ const ParkingForm = (props) => {
     const [region, setRegion] = useState("");
     const [position, setPosition] = useState();
     const [altitude, setAltitude] = useState("");
+    const [type, setType] = useState("");
+    const [numberBeds, setNumberBeds] = useState("");
+    const [description, setDescription] = useState("");
     const [validated, setValidated] = useState(false);
     const [errMsg, setErrMsg] = useState("");
 
@@ -27,12 +30,25 @@ const ParkingForm = (props) => {
             event.stopPropagation();
         } else {
             event.preventDefault();
-            sendForm();
+            if (isNotValidNumber(numberBeds))
+				setErrMsg("Please insert a correct number of beds");
+            else if (!position)
+                setErrMsg("Please select a point on the map");
+			else {
+				sendForm();
+			}
         }
 
         setValidated(true);
     };
 
+    const isNotValidNumber= (number) => {
+        if (number < 0){
+            return true;
+        }
+        else
+            return false;
+    }
 
 
     useEffect(() => {
@@ -47,23 +63,26 @@ const ParkingForm = (props) => {
 
         const pos = { lat: position.lat.toFixed(6), lng: position.lng.toFixed(6) }
 
-        const parking = {
+        const hut = {
             name,
             region,
             province,
             city,
             latitude: pos.lat,
             longitude: pos.lng,
-            altitude
+            altitude,
+            type,
+            number_of_beds: numberBeds,
+            description
         }
 
 
         try {
             props.setIsLoading(true);
-            await API.newPark(parking);
-            toast.success("Parking Lot added correctly.", { position: "top-center" }, { toastId: 8 });
+            await API.newHut(hut);
+            toast.success("Hut added correctly.", { position: "top-center" }, { toastId: 8 });
             props.setIsLoading(false);
-            navigate("/parkingLots");
+            navigate("/huts");
         } catch (err) {
             console.log(err)
             toast.error(err, { position: "top-center" }, { toastId: 9 });
@@ -74,7 +93,7 @@ const ParkingForm = (props) => {
     return (
         <>
             <Col className={"m-3"}>
-                <h1>New Parking Lot</h1>
+                <h1>New Hut</h1>
 
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
 
@@ -126,6 +145,48 @@ const ParkingForm = (props) => {
                         />
                         <Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback>
                     </Form.Group>
+
+                    <Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom08">
+                        <Form.Label className={"fs-4"}>Type</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            placeholder="Insert type"
+                            value={type}
+                            onChange={(e) => {
+                                setType(e.target.value);
+                            }}
+                        />
+                        <Form.Control.Feedback type="invalid">Please insert correct type</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom09">
+                        <Form.Label className={"fs-4"}>Number of beds</Form.Label>
+                        <Form.Control
+                            required
+                            type="number"
+                            placeholder="Insert number of beds"
+                            value={numberBeds}
+                            onChange={(e) => {
+                                setNumberBeds(e.target.value);
+                            }}
+                        />
+                        <Form.Control.Feedback type="invalid">Please insert correct number of beds</Form.Control.Feedback>
+                    </Form.Group>
+
+                    <Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom10">
+                        <Form.Label className={"fs-4"}>Description</Form.Label>
+                        <Form.Control
+                            required
+                            type="text"
+                            placeholder="Insert description"
+                            value={description}
+                            onChange={(e) => {
+                                setDescription(e.target.value);
+                            }}
+                        />
+                        <Form.Control.Feedback type="invalid">Please insert correct description</Form.Control.Feedback>
+                    </Form.Group>
                     <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
                         <CliccableMap position={position} setPosition={setPosition}></CliccableMap>
                     </Col>
@@ -142,13 +203,14 @@ const ParkingForm = (props) => {
                         />
                         <Form.Control.Feedback type="invalid">Please insert correct altitude</Form.Control.Feedback>
                     </Form.Group>
+                    
 
 
 
                     <Col className="mt-4">
                         <Row className="mt-2" md={3}>{errMsg ? <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}</Row>
                         <Row md={3}>
-                            <Button type="submit" variant="outline-success" onSubmit={handleSubmit}>Create new parking lot</Button>
+                            <Button type="submit" variant="outline-success" onSubmit={handleSubmit}>Create new hut</Button>
                         </Row>
 
                         <Row md={3} className="my-3">
@@ -164,4 +226,4 @@ const ParkingForm = (props) => {
     )
 }
 
-export default ParkingForm;
+export default HutForm;

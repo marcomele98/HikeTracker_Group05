@@ -6,27 +6,27 @@ import { toast } from "react-toastify";
 import { PlusCircle } from "react-bootstrap-icons";
 import API from "../API";
 
-function ListParkings({ setIsLoading, loggedIn, user }) {
+function ListHuts({ setIsLoading, user }) {
 
-    const [parks, setParks] = useState([]);
+    const [huts, setHuts] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (user === "" || (user.role !== 'local guide' && user.role !== 'hiker')) {
             navigate("/");
         }
-        const getParksFromServer = async () => {
+        const getHutsFromServer = async () => {
             try {
                 setIsLoading(true);
-                const res = await API.getParks();
-                setParks(res);
+                const res = await API.getHuts();
+                setHuts(res);
                 setIsLoading(false);
             } catch (err) {
                 toast.error("Server error.", { position: "top-center" }, { toastId: 4 });
                 setIsLoading(false);
             }
         };
-        getParksFromServer()
+        getHutsFromServer()
     }, [user])
 
 
@@ -40,7 +40,7 @@ function ListParkings({ setIsLoading, loggedIn, user }) {
                     <Row style={{ height: 30 }}></Row>
                     :
                     <div className="flex-shrink-0 m-5">
-                        <ClickableOpacity onClick={() => navigate("/new-parking")}>
+                        <ClickableOpacity onClick={() => navigate("/new-hut")}>
                             <PlusCircle
                                 color="#495057"
                                 size={40}
@@ -51,26 +51,26 @@ function ListParkings({ setIsLoading, loggedIn, user }) {
             <ListGroup>
                 {
 
-                    parks
+                    huts
                         .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                        .map((p) => (
-                            <ListGroupItem key={p.id} className="m-3 border-2 rounded-3 shadow">
+                        .map((h) => (
+                            <ListGroupItem key={h.id} className="m-3 border-2 rounded-3 shadow">
                                 <Col>
                                     <Row>
-                                        <div className="title">{p.name}</div>
+                                        <div className="title">{h.name + " (" + h.type + ")"}</div>
                                     </Row>
                                     <Row>
-                                        <div className="textGrayPrimary">{p.region}</div>
+                                        <div className="textGrayPrimary">{h.region}</div>
                                     </Row>
                                     <Row>
-                                        <div className="textGrayPrimary">{p.city + " (" + p.province + ")"}</div>
+                                        <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
                                     </Row>
 
                                     <Row>
                                         <div className="touchableOpacityWithTextContainer">
                                             <ClickableOpacity
                                                 onClick={() => {
-                                                    navigate("/parkingLot/" + p.id)
+                                                    navigate("/hut/" + h.id)
                                                 }}>
                                                 <div className="seeMore">
                                                     see more
@@ -88,4 +88,4 @@ function ListParkings({ setIsLoading, loggedIn, user }) {
 }
 
 
-export { ListParkings };
+export { ListHuts };
