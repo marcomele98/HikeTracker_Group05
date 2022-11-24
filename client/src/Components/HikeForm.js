@@ -314,7 +314,7 @@ const HikeForm = (props) => {
 									{/*<Form.Control.Feedback type="invalid">Please insert correct GPX to get ascent</Form.Control.Feedback>*/}
 								</Form.Group>
 								{
-								(startPoint.latitude === endPoint.latitude && startPoint.longitude === endPoint.longitude) 
+								(startPoint?.latitude === endPoint?.latitude && startPoint?.longitude === endPoint?.longitude) 
 								?
 								<Row>
 									<AddPointForm point={startPoint} setPoint={(el)=>{setStartPoint(el); setEndPoint(el)}} type={"Start and End point"}/>
