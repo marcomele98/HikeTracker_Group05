@@ -76,4 +76,75 @@ const Map = (props) => {
     );
 }
 
-export default Map;
+
+const MapEvents = ({ selected, setSelected }) => {
+    const map = useMapEvents({
+        click: (e) => {
+            if (selected && (e.latlng.lat !== selected.lat || e.latlng.lng !== selected.lon))
+                setSelected("")
+        }
+    })
+    return <></>
+}
+
+
+const SelectorMap = ({ onClick, positions }) => {
+    const [selected, setSelected] = React.useState();
+
+    React.useEffect(()=>console.log(positions), [positions])
+
+    const blueIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF"
+    const greenIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|2ecc71&chf=a,s,ee00FFFF"
+
+    return (
+        <>
+
+            {(!(positions))
+                ?
+                <></>
+                :
+                <ListGroup>
+
+                    <ListGroupItem className="m-3 border-2 rounded-3 shadow">
+                        <div id='map'>
+                            <MapContainer
+                                center={positions[0]}
+                                zoom={13}
+                                scrollWheelZoom={true}
+                                style={{ height: "500px" }}
+                            >
+                                <MapEvents selected={selected} setSelected={setSelected} />
+                                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                <Polyline
+                                    pathOptions={{ fillColor: 'red', color: 'blue' }}
+                                    positions={positions}
+                                />
+                                {
+                                    positions
+                                        .filter(p => (!selected || (selected.lat === p.lat && selected.lon === p.lon)))
+                                        .map((p, i) =>
+                                            <Marker
+                                                key={i + 1}
+                                                position={[p.lat, p.lon, p.ele]}
+                                                eventHandlers={{
+                                                    click: (e) => {
+                                                        setSelected(p)
+                                                        onClick(p)
+                                                    }
+                                                }}
+                                                icon={new Icon({ iconUrl: selected ? greenIconUrl : blueIconUrl, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+                                                <Popup>
+                                                    {p.name ? ("Name: " + p.name) : ""} {p.name ? <br /> : false} {"'" + p.lat + "', '" + p.lon + "', '" + p.ele + "', "}
+                                                </Popup>
+                                            </Marker>)
+                                }
+                            </MapContainer>
+                        </div>
+                    </ListGroupItem>
+                </ListGroup>
+            }
+        </>
+    );
+}
+
+export { Map, SelectorMap };

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Row, Container, Col, ListGroupItem, ListGroup } from "react-bootstrap";
 import { ClickableOpacity } from "./clickableOpacity";
 import API from "../API";
-import Map from "./Map"
+import {Map} from "./Map"
 
 function HikePage({ setIsLoading, loggedIn, user }) {
     const [seeStartPointDetails, setSeeStartPointDetails] = useState(false);

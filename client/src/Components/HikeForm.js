@@ -5,7 +5,7 @@ import ConfirmedNewPoint from "./ConfirmedNewPoint";
 import API from "../API";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Map from "./Map"
+import { Map } from "./Map"
 let gpxParser = require('gpxparser');
 
 const HikeForm = (props) => {
