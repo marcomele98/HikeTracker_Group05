@@ -65,7 +65,7 @@ const AddPointForm = (props) => {
 		}
 
 
-		if (props.type === "Start point" || props.type === "End point") {
+		if (props.type === "Start point" || props.type === "Start and End point" || props.type === "End point") {
 			props.setPoint({...props.point, name: name, address: address});
 		}
 	}
