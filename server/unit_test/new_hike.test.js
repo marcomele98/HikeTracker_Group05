@@ -109,7 +109,6 @@ describe("NewHikeDao", () => {
         const hikeInput3 = new HikeInput(hike3.title, hike3.length_kms, hike3.expected_mins, hike3.ascendent_meters, hike3.difficulty, hike3.description, hike3.region, hike3.province, hike3.city, hike3.gpx);
 
         hikeIdToCheck = await hike.newHike(hikeInput3, lg_id);
-        console.log(hikeIdToCheck);
 
         const point1 = new Point(1, "54", "77", "724", "", "", hikeIdToCheck);
         pointIdToCheck = await point.storePoint(point1, hikeIdToCheck);
