@@ -35,6 +35,9 @@ const HikeForm = (props) => {
 	useEffect(() => {
 		if (fileGPX) {
 			setReferencePoints([])
+			setStartPoint();
+			setEndPoint();
+			setAllPoints([]);
 			getValuesFromGPX(fileGPX);
 		}
 	}, [fileGPX])

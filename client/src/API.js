@@ -2,27 +2,37 @@
  * All the API calls
  */
 
+ import { signInWithEmailAndPassword } from '@firebase/auth';
+ import { toast } from 'react-toastify';
+ import { auth, createUserWithEmailAndPassword, sendEmailVerification, signOut } from './firebase';
 
  const APIURL = new URL('http://localhost:3001/api/');  // Do not forget '/' at the end
 
  
  async function logIn(credentials) {
-   let response = await fetch(new URL('sessions', APIURL), {
-     method: 'POST',
-     credentials: 'include',
-     headers: {
-       'Content-Type': 'application/json',
-     },
-     body: JSON.stringify(credentials),
-   });
-   if (response.ok) {
-     const user = await response.json();
+  let response = await fetch(new URL('sessions', APIURL), {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  });
+  if (response.ok) {
+    const user = await response.json();
+    const userCredentials = await signInWithEmailAndPassword(auth, credentials.username, credentials.password);
+    const verified = userCredentials.user.emailVerified;
+    if (verified) {
      return user;
-   } else {
-     const errDetail = await response.json();
-     throw errDetail.message;
-   }
- }
+    } else {
+     await sendEmailVerification(auth.currentUser);
+     throw "Your email is not verified. Please verify your email";
+    } 
+  } else {
+    const errDetail = await response.json();
+    throw errDetail.message;
+  }
+}
  
  async function logOut() {
    await fetch(new URL('sessions/current', APIURL), { method: 'DELETE', credentials: 'include' });
@@ -163,6 +173,11 @@ async function addUser(newUser) {
     });
     if (response.ok) 
     {
+      await createUserWithEmailAndPassword(auth, newUser.email, newUser.password)
+      .then( () => {
+        sendEmailVerification(auth.currentUser);
+        toast.warning("We sent you an email to verify your address. Please verify your email", { position: "top-center" }, { toastId: 2 });
+      })
       return null;
     } 
     else 

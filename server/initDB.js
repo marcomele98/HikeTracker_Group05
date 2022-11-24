@@ -13,6 +13,14 @@ const db = new sqlite.Database(dbname, (err) => {
   if (err) throw err;
 });
 
+var admin = require("firebase-admin");
+
+var serviceAccount = require("./admin.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
 
 //OGNI VOLTA IN CUI VOGLIO RESTETTARE IL DB LO ELIMINO E LO SCRIPT QUA SOTTO LO RIPRISTINA COME DA CONSEGA APPENA RUNNO IL SERVER
 db.serialize(function () {
@@ -131,6 +139,17 @@ db.serialize(function () {
               'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
               'lg1@p.it', '4783473632662333', '3334567980')"
   );
+
+  try {
+    admin.auth().createUser({
+      email: "lg1@p.it",
+      emailVerified: true,
+      password: "password",
+      displayName: "Mario Rossi",
+      disabled: false
+    });
+  } catch {}
+
   db.run(
     "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
        VALUES ('Giulio', 'Liso', 'hiker', \
@@ -138,6 +157,15 @@ db.serialize(function () {
               'h1@p.it', '4783473632662333', '3334567980')"
   );
 
+  try {
+    admin.auth().createUser({
+      email: "h1@p.it",
+      emailVerified: true,
+      password: "password",
+      displayName: "Giulio Liso",
+      disabled: false
+    });
+  } catch {}
 
   for (var i = 0; i < hikevalues.length; i++) {
     db.run(

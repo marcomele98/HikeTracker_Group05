@@ -1,13 +1,11 @@
 'use strict';
 
-const sqlite = require('sqlite3');
 const db = require('./DAO');
-const db1 = new sqlite.Database('HT.sqlite', err => { if (err) throw err;});
 
 
 exports.getParkings = () => {
-        const sql = 'SELECT * from PARKING_LOT';
-        return db.all(sql, []);
+  const sql = 'SELECT * from PARKING_LOT';
+  return db.all(sql, []);
 }
 
 exports.addParking = async (park) => {
@@ -17,18 +15,6 @@ exports.addParking = async (park) => {
 }
 
 exports.getParkingById = (id) => {
-    // return new Promise((resolve, reject) => {
-      const sql = "SELECT * FROM PARKING_LOT WHERE id=?";
-      return  db.get(sql, [id]);
-    //   db1.get(sql, [id], (err, row) => {
-    //     if (err) {
-    //       reject(err);
-    //       return;
-    //     } else if (row === undefined) {
-    //       resolve(-1);
-    //     } else {
-    //       resolve(row);
-    //     }
-    //   });
-    // });
-  };
+  const sql = "SELECT * FROM PARKING_LOT WHERE id=?";
+  return db.get(sql, [id]);
+};
