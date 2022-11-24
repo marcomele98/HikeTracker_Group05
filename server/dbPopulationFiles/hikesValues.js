@@ -1,10 +1,13 @@
 'use strict';
 
-const {pm_file1,pm_file2,pm_file3,pm_file4,pm_file5,pm_file6} = require('./piemontegpx');
-const {tn_file1,tn_file2,tn_file3,tn_file4,tn_file5,tn_file6,tn_file7,tn_file8} = require('./trentinogpx');
-const {li_file1, li_file2, li_file3, li_file4, li_file5, li_file6, li_file7, li_file8} = require('./liguriagpx');
-const {va_file1, va_file2, va_file3, va_file4, va_file5, va_file6, va_file7, va_file8} = require('./valledaostagpx');
-const {ca_file1, ca_file2, ca_file3, ca_file4, ca_file5, ca_file6, ca_file7, ca_file8} = require('./calabriagpx');
+const {pm_file1,pm_file2,pm_file3,pm_file4,pm_file5,pm_file6} = require('./hikes/piemontegpx');
+const {tn_file1,tn_file2,tn_file3,tn_file4,tn_file5,tn_file6,tn_file7,tn_file8} = require('./hikes/trentinogpx');
+const {li_file1, li_file2, li_file3, li_file4, li_file5, li_file6, li_file7, li_file8} = require('./hikes/liguriagpx');
+const {va_file1, va_file2, va_file3, va_file4, va_file5, va_file6, va_file7, va_file8} = require('./hikes/valledaostagpx');
+const {ca_file1, ca_file2, ca_file3, ca_file4, ca_file5, ca_file6, ca_file7, ca_file8} = require('./hikes/calabriagpx');
+const {ven_file1, ven_file2, ven_file3, ven_file4, ven_file5, ven_file6, ven_file7, ven_file8} = require('./hikes/venetogpx');
+
+
 
 var hikevalues =
 [
@@ -54,21 +57,21 @@ var hikevalues =
   li_file8,59,'general point',59,'general point','Easy hike for everyone that takes you to the Castello della Pietra, a real gem of this area'],
   
   ['Valtournenche - Lago di Cignana',10.03,340,796,'Hiker','Valle d Aosta', 'AO', 'Fontanaz-Valmartin',1,
-  va_file1,68,'general point',68,'general point',''],
+  va_file1,68,'general point',68,'general point','Great route for hiking lovers with a beatiful lake to see'],
   ['Cervinia - Cappella Battaglione Alpini Sciatori Monte Cervino -Rifugio Duca degli Abruzzi all Oriondé',19.04,420,832,'Hiker','Valle d Aosta', 'AO', 'Breuil-Cervinia',1,
-  va_file2,9,'Parking point',9,'Parking Point',''],
+  va_file2,9,'Parking point',9,'Parking point','Excellent ring route with a refuge where you can refresh yourself and spend the night'],
   ['Cime - Bianche',8.1,233,1293,'Tourist','Valle d Aosta','AO', 'San Giacomo',1,
-  va_file3,73,'general point',74,'general point',''],
+  va_file3,73,'general point',74,'general point','Beautiful route with an amazing view of white mountains, good also for beginners'],
   ['Lac e Château De Villa, Mont Saint Gilles e Belvedere da Torille',11.86,288,770,'Tourist','Valle d Aosta', 'AO', 'Torille-Rivarolla',1,
-  va_file4,10,'Parking point',10,'Parking point',''],
+  va_file4,10,'Parking point',10,'Parking point','Great ring route even for beginners with many panoramic spots and things to view'],
   ['Monte Zerbion da Antagnod',8.51,140,996,'Tourist','Valle d Aosta', 'AO', 'Lignod',1,
-  va_file5,11,'Parking point',11,'Parking Point',''],
+  va_file5,11,'Parking point',11,'Parking point','Easy route that allows you to reach the top of Mount Zerbion, one of the most popular destinations in the Val D Ayas'],
   ['Ospizio Sottile, Colle Valdobbia e lago della Balma da Gressoney Saint Jean',12.27,344,1252,'Tourist','Valle d Aosta', 'AO', 'Gressoney-Saint-Jean',1,
-  va_file6,12,'Parking Point',12,'Parking Point',''],
+  va_file6,12,'Parking point',12,'Parking point','Really good path with many things to view, suitable for beginners'],
   ['Parco del Monte Avic: Rifugio Barbustel da Covarey',16.37,404,970,'Hiker','Valle d Aosta', 'AO', 'Covarey',1,
-  va_file7,13,'Parking point',13,'Parking point',''],
+  va_file7,13,'Parking point',13,'Parking point','This park is one of the most popular destinations for hikers in Valle d Aosta'],
   ['Summer Park - Bivacco Tzan - Lago Tzan ',20.9,346,871,'Hiker','Valle d Aosta', 'AO', 'Septumian',1,
-  va_file8,14,'Parking point',14,'Parking Point',''],
+  va_file8,14,'Parking point',14,'Parking point','Good ring route starting from the Summer Park, in the path you can stop to watch the beatiful Tzan lake'],
 
   [ 'Camigliatello Loop from Camigliatello Silano', 4.08, 77, 110, 'Hiker', 'Calabria', 'CS', 'Spezzano della Sila', 1,
   ca_file1, 15, 'Parking point', 15, 'Parking point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.'],
@@ -87,6 +90,15 @@ var hikevalues =
   ['San Fili Loop', 5.7, 117, 292, 'Hiker', 'Calabria', 'CS', 'San Fili', 1,
   ca_file8, 109, 'general point', 109, 'general point', 'It starts from San Fili and follows part of the path of San Francesco da Paola to then intersect with the path that runs along the Emoli stream and then returns to the starting point.'],
 
+
+  ['Giardino alpino Antonio Segni – Rifugio Mario Vazzoler ', 8.77, 239, 570, 'Hiker', 'Veneto', 'BL', 'Taibon Agrodino', 1, ven_file1, 17, 'Parking point', 17, 'Parking point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point is near a parking lot.'],
+  ['Laghetto del Vach – Colcerver Itinerario ad anello da Ligont', 11.3, 269, 710, 'Professional Hiker', 'Veneto', 'BL', 'Val di Zoldo', 1, ven_file2, 18, 'Parking point', 18, 'Parking point', 'Hiking route for experts. Good training required. Sure-footedness, sturdy footwear and mountaineering experience required.'],
+  ['Col di Luna Itinerario ad anello da Voltago Agordino', 12.9, 297, 770, 'Hiker', 'Veneto', 'BL', 'Voltago Agrodino', 1, ven_file3, 118, 'general point', 118, 'general point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point and accessible by public transportation.'],
+  ['Giardino alpino Antonio Segni  – Rifugio Mario Vazzoler Itinerario ad anello da Listolade (Ristolade)', 12.3, 312, 730, 'Professional Hiker', 'Veneto', 'BL', 'Taibon Agrodino', 1, ven_file4, 17, 'Parking point', 17, 'Parking point', 'Hiking route for experts. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point is near a parking lot.'],
+  ['Malga di Pramper – Forcella Moschesin Itinerario ad anello da Villaggio Baron', 16.9, 446, 1110, 'Professional Hiker', 'Veneto', 'BL', 'Forno di Zoldo', 1, ven_file5, 20, 'Hut point', 20, 'Hut point', 'Hiking route for experts. Good training required. Sure-footedness, sturdy footwear and mountaineering experience required.'],
+  ['Passo Duran Itinerario ad anello da Fusine', 5.32, 99, 190, 'Hiker', 'Veneto', 'BL', 'La Valle Agordina', 1, ven_file6, 23, 'Hut point', 23, 'Rifugio Tomé is a \'cozy building located at Passo Duran-a pass between the Zoldo and Cordevole valleys-that provides an excellent starting point for penetrating the Civetta and Moiazza groups, as well as the lesser-known but equally fascinating Tamer and San Sebastiano mountain groups.'],
+  ['Laghetto del Vach – Itinerario ad anello da Ligont', 7.28, 147, 380, 'Hiker', 'Veneto', 'BL', 'Val di Zoldo', 1, ven_file7, 18, 'Parking point', 18, 'Parking point', 'Intermediate hiking route. Good training required. Easily passable trails. Suitable for all skill levels.'],
+  ['Forcella – Forcella Sejere Itinerario ad anello da Còi di Pèden', 8.77, 227, 590, 'Hiker', 'Veneto', 'BL', 'Agrodo', 1, ven_file8, 19, 'Parking point', 19, 'Parking point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required.'],
 ];
 
 module.exports.hikevalues =   hikevalues;

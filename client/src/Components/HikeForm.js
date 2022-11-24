@@ -5,7 +5,7 @@ import ConfirmedNewPoint from "./ConfirmedNewPoint";
 import API from "../API";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Map from "./Map"
+import { Map } from "./Map"
 let gpxParser = require('gpxparser');
 
 const HikeForm = (props) => {
@@ -301,7 +301,7 @@ const HikeForm = (props) => {
 										value={length}
 									//onChange={(e) => setLength(e.target.value)}
 									/>
-									<Form.Control.Feedback type="invalid">Please insert correct GPX to get length</Form.Control.Feedback>
+									{/*<Form.Control.Feedback type="invalid">Please insert correct GPX to get length</Form.Control.Feedback>*/}
 								</Form.Group>
 
 								<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom04">
@@ -314,17 +314,24 @@ const HikeForm = (props) => {
 										value={ascent}
 									//onChange={(e) => setAscent(e.target.value)}
 									/>
-									<Form.Control.Feedback type="invalid">Please insert correct GPX to get ascent</Form.Control.Feedback>
+									{/*<Form.Control.Feedback type="invalid">Please insert correct GPX to get ascent</Form.Control.Feedback>*/}
 								</Form.Group>
-
+								{
+								(startPoint?.latitude === endPoint?.latitude && startPoint?.longitude === endPoint?.longitude) 
+								?
 								<Row>
-									<AddPointForm point={startPoint} setPoint={setStartPoint} type={"Start point"}></AddPointForm>
+									<AddPointForm point={startPoint} setPoint={(el)=>{setStartPoint(el); setEndPoint(el)}} type={"Start and End point"}/>
 								</Row>
-
+								:
+								<>
 								<Row>
-									<AddPointForm point={endPoint} setPoint={setEndPoint} type={"End point"}></AddPointForm>
+									<AddPointForm point={startPoint} setPoint={setStartPoint} type={"Start point"}/>
 								</Row>
-
+								<Row>
+									<AddPointForm point={endPoint} setPoint={setEndPoint} type={"End point"}/>
+								</Row>
+								</>
+								}
 								{referencePoints.length > 0 ?
 									<Row className="mt-3"><h2>List of added points:</h2></Row>
 									:

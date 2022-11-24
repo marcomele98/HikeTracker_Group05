@@ -9,6 +9,7 @@ import API from "../API";
 function ListHuts({ setIsLoading, user }) {
 
     const [huts, setHuts] = useState([]);
+    const [search, setSearch] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,10 +49,20 @@ function ListHuts({ setIsLoading, user }) {
                         </ClickableOpacity>
                     </div>
             }
+            <div className="m-3">
+            <Form.Control
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+                type="text"
+                placeholder="Search"
+                className="md"
+            />
+            </div>
             <ListGroup>
                 {
 
                     huts
+                        .filter(el => el.name.toLowerCase().includes(search.toLowerCase()))
                         .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
                         .map((h) => (
                             <ListGroupItem key={h.id} className="m-3 border-2 rounded-3 shadow">

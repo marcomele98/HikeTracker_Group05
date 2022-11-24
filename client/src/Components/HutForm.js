@@ -61,15 +61,13 @@ const HutForm = (props) => {
 
     const sendForm = async () => {
 
-        const pos = { lat: position.lat.toFixed(6), lng: position.lng.toFixed(6) }
-
         const hut = {
             name,
             region,
             province,
             city,
-            latitude: pos.lat,
-            longitude: pos.lng,
+            latitude: position.lat.toFixed(6),
+            longitude: position.lng.toFixed(6),
             altitude,
             type,
             number_of_beds: numberBeds,

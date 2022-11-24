@@ -1,6 +1,7 @@
 import { point } from "leaflet";
 import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Button, Alert } from "react-bootstrap";
+import { SelectorMap } from "./Map"
 
 const AddPointForm = (props) => {
 
@@ -65,8 +66,8 @@ const AddPointForm = (props) => {
 		}
 
 
-		if (props.type === "Start point" || props.type === "End point") {
-			props.setPoint({...props.point, name: name, address: address});
+		if (props.type === "Start point" || props.type === "Start and End point" || props.type === "End point") {
+			props.setPoint({ ...props.point, name: name, address: address });
 		}
 	}
 
@@ -78,37 +79,20 @@ const AddPointForm = (props) => {
 			<>
 				<Col>
 					<h2>{props.type}</h2>
-					<Form.Group className={"my-3"} as={Col} md="4" controlId="validationCustom03">
-						<Form.Select
-							defaultValue={props.point?props.point:""}
-							disabled={props.point?true:false}
-							onChange={(e) => {
-								const coordinates = e.target.value.split(" ");
-								setLat(coordinates[0]);
-								setLong(coordinates[1])
-								setHeight(coordinates[2])
-								confirmPoint(coordinates[0], coordinates[1], coordinates[2], name, address)
-							}}>
-							{
-								props.point
-									?
-									<option value={props.point}>{"lat:" + props.point.latitude + " " + "lon:" + props.point.longitude + " " + "alt:" + props.point.altitude}</option>
-									:
-									(
-										<>
-											<option value="">{"Select coordinates"}</option>
-											{
-												props.points.map((p) => {
-													const s = "lat:" + p.lat + " " + "lon:" + p.lon + " " + "alt:" + p.ele;
-													return <option key={p.lat + p.lon + p.ele} value={p.lat + " " + p.lon + " " + p.ele}>{s}</option>
-												})
-											}
-										</>
-									)
-							}
-						</Form.Select>
-					</Form.Group>
-
+					{props.type === "New point" ?
+						<Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+							<SelectorMap
+								onClick={(el) => {
+									setLat(el.lat);
+									setLong(el.lon)
+									setHeight(el.ele)
+									confirmPoint(el.lat, el.lon, el.ele, name, address)
+								}}
+								positions={props.points}
+							/>
+						</Col>
+						: <></>
+					}
 					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom04">
 						<Form.Label className={"fs-4"}>Name</Form.Label>
 						<Form.Control
