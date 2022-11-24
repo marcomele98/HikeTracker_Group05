@@ -69,12 +69,6 @@ const LogicContainer = () => {
         };
         add()
           .then(() => {
-            //setUpdateUser(true);
-            toast.success(
-              "User added",
-              { position: "top-center" },
-              { toastId: 5 }
-            );
             navigate('/');
           })
           .catch((err) => {
