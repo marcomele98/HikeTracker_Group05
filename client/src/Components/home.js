@@ -52,7 +52,7 @@ function Home({ setIsLoading, user }) {
         <Container>
             {
                 user.role !== 'local guide' ?
-                    <Row style={{ height: 30 }}></Row>
+                    <Row style={{ height: 30 }}/>
                     :
                     <>
                         <div className="flex-shrink-0 m-5">
