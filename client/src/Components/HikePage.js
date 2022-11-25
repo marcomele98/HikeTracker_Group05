@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
-import { Row, Container, Col, ListGroupItem, ListGroup } from "react-bootstrap";
+import { Row, Container, Col, ListGroupItem, ListGroup, Form } from "react-bootstrap";
 import { ClickableOpacity } from "./clickableOpacity";
 import API from "../API";
-import {Map} from "./Map"
+import { Pencil } from "react-bootstrap-icons";
+import { Map } from "./Map"
+import { calcCrow } from "../utilities";
 
 function HikePage({ setIsLoading, loggedIn, user }) {
-    const [seeStartPointDetails, setSeeStartPointDetails] = useState(false);
-    const [seeEndPointDetails, setSeeEndPointDetails] = useState(false);
     const [seeAllHutsDetails, setSeeAllHutsDetails] = useState(false);
     const [seeAllParksDetails, setSeeAllParksDetails] = useState(false);
     const [seeAllPointsDetails, setSeeAllPointsDetails] = useState(false);
-    const [seeMap, setSeeMap] = useState(false);
+    const [editingStartPoint, setEditingStartPoint] = useState(false);
+    const [editingEndPoint, setEditingEndPoint] = useState(false)
     const [hike, setHike] = useState();
     const navigate = useNavigate();
 
@@ -84,62 +85,80 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 
                     }
                     <Row>
-                        <div className="seePointsButtonContainer">
-                            <ClickableOpacity
-                                onClick={() => setSeeStartPointDetails(val => !val)}>
-                                <div className="seePointsButton">{seeStartPointDetails ? "Hide start point details" : "See start point details"}</div>
-                            </ClickableOpacity>
+                        <div className='rowC' style={{ marginLeft: 10 }}>
+                            {hike.lg_id === user.id
+                                ?
+                                <ClickableOpacity
+                                    onClick={() => {
+                                        setEditingStartPoint(editing => !editing)
+                                    }}
+                                >
+                                    <Pencil color={editingStartPoint ? '#14A44D' : '#495057'} size={25} />
+                                </ClickableOpacity>
+                                : false
+                            }
+                            <div className="textGrayPrimaryBig" style={{ marginLeft: 20 }}>{"Start Point:"}</div>
                         </div>
                     </Row>
+                    {
+                        editingStartPoint
+                            ?
+                            <EditStartEndPoint hike={hike} selected={"start point"} setIsLoading={setIsLoading}/>
+                            :
+                            <Row>
+                                <ListGroup>
+                                    <RefPointSwitcher type={hike.start_point_type} point={hike.start_point} user={user} />
+                                </ListGroup>
 
-                    {
-                        seeStartPointDetails
-                            ?
-                            (
-                                <Row>
-                                    <ListGroup>
-                                        <RefPointSwitcher type={hike.start_point_type} point={hike.start_point} user={user} />
-                                    </ListGroup>
-                                </Row>
-                            )
-                            :
-                            undefined
+                            </Row>
                     }
+
+                    <Row style={{ height: 20 }}></Row>
                     <Row>
-                        <div className="seePointsButtonContainer">
-                            <ClickableOpacity
-                                onClick={() => setSeeEndPointDetails(val => !val)}>
-                                <div className="seePointsButton">{seeEndPointDetails ? "Hide end point details" : "See end point details"}</div>
-                            </ClickableOpacity>
+                        <div className='rowC' style={{ marginLeft: 10 }}>
+                            {hike.lg_id === user.id
+                                ?
+                                <ClickableOpacity
+                                    onClick={() => {
+                                        setEditingEndPoint(editing => !editing)
+                                    }}
+                                >
+                                    <Pencil color={editingEndPoint ? '#14A44D' : '#495057'} size={25} />
+                                </ClickableOpacity>
+                                : false
+                            }
+                            <div style={{ marginLeft: 20 }} className="textGrayPrimaryBig">{"End Point:"}</div>
                         </div>
                     </Row>
-                    {
-                        seeEndPointDetails
-                            ?
-                            (
-                                <Row>
-                                    <ListGroup>
-                                        <RefPointSwitcher type={hike.end_point_type} point={hike.end_point} user={user} />
-                                    </ListGroup>
-                                </Row>
-                            )
-                            :
-                            undefined
-                    }
+                    <Row>
+                        {
+
+                            editingEndPoint
+                                ?
+                                <EditStartEndPoint hike={hike} selected={"end point"} setIsLoading={setIsLoading}/>
+                                :
+                                <ListGroup>
+                                    <RefPointSwitcher type={hike.end_point_type} point={hike.end_point} user={user} />
+                                </ListGroup>
+                        }
+                    </Row>
                     {
                         hike.huts.length === 0
                             ?
                             undefined
                             :
                             (
-                                <Row>
-                                    <div className="seePointsButtonContainer">
-                                        <ClickableOpacity
-                                            onClick={() => setSeeAllHutsDetails(val => !val)}>
-                                            <div className="seePointsButton">{seeAllHutsDetails ? "Hide details for all huts" : "See details for all huts"}</div>
-                                        </ClickableOpacity>
-                                    </div>
-                                </Row>
+                                <>
+                                    <Row style={{ height: 20 }}></Row>
+                                    <Row>
+                                        <div className="seePointsButtonContainer">
+                                            <ClickableOpacity
+                                                onClick={() => setSeeAllHutsDetails(val => !val)}>
+                                                <div className="seePointsButton">{seeAllHutsDetails ? "Hide details for all huts" : "See details for all huts"}</div>
+                                            </ClickableOpacity>
+                                        </div>
+                                    </Row>
+                                </>
                             )
                     }
                     {
@@ -165,14 +184,18 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             undefined
                             :
                             (
-                                <Row>
-                                    <div className="seePointsButtonContainer">
-                                        <ClickableOpacity
-                                            onClick={() => setSeeAllParksDetails(val => !val)}>
-                                            <div className="seePointsButton">{seeAllParksDetails ? "Hide details for all parking lots" : "See details for all parking lots"}</div>
-                                        </ClickableOpacity>
-                                    </div>
-                                </Row>
+
+                                <>
+                                    <Row style={{ height: 20 }}></Row>
+                                    <Row>
+                                        <div className="seePointsButtonContainer">
+                                            <ClickableOpacity
+                                                onClick={() => setSeeAllParksDetails(val => !val)}>
+                                                <div className="seePointsButton">{seeAllParksDetails ? "Hide details for all parking lots" : "See details for all parking lots"}</div>
+                                            </ClickableOpacity>
+                                        </div>
+                                    </Row>
+                                </>
                             )
                     }
                     {
@@ -198,14 +221,18 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             undefined
                             :
                             (
-                                <Row>
-                                    <div className="seePointsButtonContainer">
-                                        <ClickableOpacity
-                                            onClick={() => setSeeAllPointsDetails(val => !val)}>
-                                            <div className="seePointsButton">{seeAllPointsDetails ? "Hide details for all points" : "See details for all points"}</div>
-                                        </ClickableOpacity>
-                                    </div>
-                                </Row>
+
+                                <>
+                                    <Row style={{ height: 20 }}></Row>
+                                    <Row>
+                                        <div className="seePointsButtonContainer">
+                                            <ClickableOpacity
+                                                onClick={() => setSeeAllPointsDetails(val => !val)}>
+                                                <div className="seePointsButton">{seeAllPointsDetails ? "Hide details for all points" : "See details for all points"}</div>
+                                            </ClickableOpacity>
+                                        </div>
+                                    </Row>
+                                </>
                             )
                     }
                     {
@@ -279,6 +306,7 @@ const Point = ({ point, key }) => {
     );
 }
 
+
 const Hut = ({ hut, key, user }) => {
     const navigate = useNavigate();
     return (
@@ -351,5 +379,84 @@ const Park = ({ park, key, user }) => {
         </ListGroupItem>
     );
 }
+
+
+const EditStartEndPoint = ({ hike, selected, setIsLoading }) => {
+    const [type, setType] = useState("hut");
+    const [parks, setParks] = useState([]);
+    const [huts, setHuts] = useState([]);
+    useEffect(()=>{
+        async function getParksAndHuts(){
+            try{
+                try {
+                    let point = selected === "start point" ? hike.start_point : hike.end_point;
+                    let point_type = selected === "start point" ? hike.start_point_type : hike.end_point_type;
+                    setIsLoading(true);
+                    let ps = await API.getParks()
+                    ps = ps
+                        .filter(p => {
+                            let first_cond = calcCrow(p.latitude, p.longitude, point.latitude, point.longitude) <= 0.3 ;
+                            let sec_cond = ! (p.id === point.id && point_type === "Parking point")
+                            return first_cond && sec_cond
+                        })
+                        .sort((a, b) => a.name.trim().localeCompare(b.name.trim()));
+                    setParks(ps);
+                    let hs = await API.getHuts()
+                    hs = hs 
+                        .filter(h => {
+                            let first_cond = calcCrow(h.latitude, h.longitude, point.latitude, point.longitude) <= 0.3 ;
+                            let sec_cond = ! (h.id === point.id && point_type === "Hut point")
+                            return first_cond && sec_cond
+                        })
+                        .sort((a, b) => a.name.trim().localeCompare(b.name.trim()));
+                    setHuts(hs);
+                    setIsLoading(false);
+                } catch (err) {
+                    setIsLoading(false);
+                    toast.error("Server error", { position: "top-center" }, { toastId: 40 });
+                }
+            }catch{
+
+            }
+        }
+    }, [])
+    return (
+        <Form className='m-3'>
+            <Row style={{ height: 20 }} />
+            <Row>
+                <Form.Group>
+                    <Form.Label className='formLabel'>{"Select the new " + selected + ":"}</Form.Label>
+                    <Form.Select
+                        onChange={(e) => { setType(e.target.value) }}
+                        style={{width:200, borderWidth:3}}
+                    >
+                        <option value={"hut"}>
+                            Hut
+                        </option>
+                        <option value={"parking lot"}>
+                            Parking Lot
+                        </option>
+                    </Form.Select>
+                </Form.Group>
+            </Row>
+            {
+                <Row>
+                    <Form.Group>
+                        <Form.Label>{"Select the " + type + ":"}</Form.Label>
+                        <Form.Select
+                            onChange={(e) => { setRole(e.target.value) }}
+                        >
+                            
+                        </Form.Select>
+                    </Form.Group>
+                </Row>
+            }
+            <Row style={{ height: 20 }} />
+        </Form>
+    )
+}
+
+
+
 
 export { HikePage };

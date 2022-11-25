@@ -186,8 +186,51 @@ async function addUser(newUser) {
       throw errDetail.error;
     }
 }
+
+async function updateHikeEndPoint(editHike, id) {
+  // call: PUT /api/hikeEnd/:hikeId
+    let response = await fetch(new URL('hikeEnd/' + id, APIURL), {
+      method: "PUT",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editHike),
+    });
+    if (response.ok) 
+    {
+      return null;
+    } 
+    else 
+    {
+      throw response.status; 
+    }
+}
+
+async function updateHikeStartPoint(editHike, id) {
+  // call: PUT /api/hikeStart/:hikeId
+    let response = await fetch(new URL('hikeStart/' + id, APIURL), {
+      method: "PUT",
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(editHike),
+    });
+    if (response.ok) 
+    {
+      return null;
+    } 
+    else 
+    {
+      
+      throw response.status; 
+    }
+}
  
- const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser, getParks, getParkById, newPark, getHuts, getHutById, newHut  };
+ const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser, getParks,
+               getParkById, newPark, getHuts, getHutById, newHut, updateHikeEndPoint,updateHikeStartPoint  };
+
 
 
  export default API;
