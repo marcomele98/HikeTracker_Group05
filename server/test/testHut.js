@@ -59,13 +59,144 @@ describe('test huts', () => {
         'description': 'Set on a hillside overlooking the Ligurian coast, this quiet, secluded farmhouse within Portofino Natural Park is only accessible via hiking trails.'
     };
 
+                    
+
+    let hut1 = {
+        'name': 'Refuge La Riposa',
+        'latitude': '45.17778',
+        'longitude': '7.08337',
+        'altitude': '2185',
+        'type': 'Refuge',
+        'region': 'Piemonte',
+        'province': 'TO',
+        'city': 'Mompantero',
+        'number_of_beds': 20,
+        'description': 'prova1'
+    }
+
+    let hut2 ={
+        'name': 'Rifugio Asti',
+        'latitude': '45.19177',
+        'longitude': '7.07427',
+        'altitude': '2854',
+        'type': 'Refuge',
+        'region': 'Piemonte',
+        'province': 'TO',
+        'city': 'Mompantero',
+        'number_of_beds': 15,
+        'description': 'prova2'
+    }
+
+    let hut3 = {
+        'name': 'Rifugio Duca degli Abruzzi',
+        'latitude': '45.958891',
+        'longitude': '7.6441',
+        'altitude': '2798.2',
+        'type': 'Refuge',
+        'region': 'Valle d Aosta',
+        'province': 'AO',
+        'city': 'Breuil-Cervinia',
+        'number_of_beds': 22,
+        'description': 'prova3'
+    }
+
+    let hut4 = {
+        'name': 'Rifugio Sempronio',
+        'latitude': '45.312451',
+        'longitude': '7.1000',
+        'altitude': '2702.1',
+        'type': 'Refuge',
+        'region': 'Valle d Aosta',
+        'province': 'AO',
+        'city': 'Gressonet',
+        'number_of_beds': 16,
+        'description': 'prova4'
+    }
+
     newHut(201, hut, userCredentials);
     // newHut(401, hut, user2);
     newHut(422, {...hut, name: undefined}, userCredentials);
     newHut(422, {...hut, latitude: ''}, userCredentials);
     // newHut(401, {...hut, name: undefined}, user2);
     newHut(422, {...hut, province: ''}, userCredentials);
+
+    getAllHuts(200, hut1, hut2, hut3, hut4);
+    getHutById(0, hut1, hut2, hut3, hut4);
+    getHutById(1, hut1, hut2, hut3, hut4);
+    getHutById(2, hut1, hut2, hut3, hut4);
+    getHutById(3, hut1, hut2, hut3, hut4);
+    getHutById(4, hut1, hut2, hut3, hut4);
+    getHutById(-1, hut1, hut2, hut3, hut4);
+    getHutById(100, hut1, hut2, hut3, hut4);
 });
+
+function getAllHuts(expectedHTTPStatus, huts1, huts2, huts3, huts4) {
+    it('Getting all huts', function (done) {
+        agent.post('/api/hut')
+            .send(huts1)
+            .then(function (res) {
+                res.should.have.status(201);
+                agent.post('/api/hut')
+                    .send(huts2)
+                    .then(function (res1) {
+                        res1.should.have.status(201);
+                        agent.post('/api/hut')
+                            .send(huts3)
+                            .then(function (res2) {
+                                res2.should.have.status(201);
+                                agent.post('/api/hut')
+                                    .send(huts4)
+                                    .then(function (res3) {
+                                        res3.should.have.status(201);
+                                        agent.get('/api/huts')
+                                            .then(function (res4) {
+                                                res4.should.have.status(expectedHTTPStatus);
+                                                res4.body.should.have.length(4);
+                                                done()
+                                            });
+                                    });
+                            });
+                    });
+            });
+    });
+};
+
+function getHutById(id, hut1, hut2, hut3, hut4) {
+    it('Get hut specified by id', function (done) {
+        agent.post('/api/hut')
+            .send(hut1)
+            .then(function (res) {
+                res.should.have.status(201);
+                agent.post('/api/hut')
+                    .send(hut2)
+                    .then(function (res1) {
+                        res1.should.have.status(201);
+                        agent.post('/api/hut')
+                            .send(hut3)
+                            .then(function (res2) {
+                                res2.should.have.status(201);
+                                agent.post('/api/hut')
+                                    .send(hut4)
+                                    .then(function (res3) {
+                                        res3.should.have.status(201);
+                                        agent.get('/api/hut/' + id)
+                                            .then(function (res4) {
+                                                if (id > 0 && id <= 4) {
+                                                    res4.should.have.status(200);
+                                                    res4.body.id.should.equal(id);
+                                                    done();
+                                                } else {
+                                                    res4.should.have.status(404);
+                                                    done()
+                                                }
+                                            });
+                                    })
+                            });
+                    });
+            });
+    });
+};
+
 
 function newHut(expectedHTTPStatus, hut, user) {
     it('adding a new hut description',  function (done) {
