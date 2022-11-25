@@ -201,4 +201,36 @@ describe("Update start/arrival for an hike", () => {
         expect(data[0]).toEqual(point_checker);
     });
 
+    test('Test updateHike', async () => {
+        
+        let hike_data;
+        let data_check;
+
+        const park_data = await parking.getParkingById(1); //it will be the start point
+        const hut_data = await hut.getHutById(1); //it will be the end point
+
+        //checks before changes
+        hike_data = await hike.getHikeById(2);
+        data_check = await point.getPointById(hike_data.start_point);
+        expect(data_check).not.toEqual(park_data);
+        data_check = await point.getPointById(hike_data.end_point);
+        expect(data_check).not.toEqual(hut_data);
+
+        //after changes
+        const log = hike.updateHike(hut_data.id,'Hut point',park_data.id,'Parking point',2);
+        hike_data = await hike.getHikeById(2);
+        
+        //checking types
+        expect(hike_data.start_point_type).toEqual('Parking point');
+        expect(hike_data.end_point_type).toEqual('Hut point');
+        
+        //checking point objects
+        const new_start_point = await parking.getParkingById(hike_data.start_point);
+        const new_end_point = await hut.getHutById(hike_data.end_point);
+        expect(park_data).toEqual(new_start_point);
+        expect(hut_data).toEqual(new_end_point);
+
+
+    });
+
 });
