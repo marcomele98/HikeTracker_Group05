@@ -8,7 +8,6 @@ import { ListGroup, ListGroupItem } from "react-bootstrap";
 function LocationMarker({ position, setPosition }) {
     const map = useMapEvents({
         click(e) {
-            console.log(e)
             setPosition(e.latlng)
         },
         locationfound(e) {

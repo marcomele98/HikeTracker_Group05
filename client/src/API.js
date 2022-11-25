@@ -209,6 +209,7 @@ async function updateHikeEndPoint(editHike, id) {
 
 async function updateHikeStartPoint(editHike, id) {
   // call: PUT /api/hikeStart/:hikeId
+
     let response = await fetch(new URL('hikeStart/' + id, APIURL), {
       method: "PUT",
       credentials: 'include',
@@ -223,8 +224,7 @@ async function updateHikeStartPoint(editHike, id) {
     } 
     else 
     {
-      
-      throw response.status; 
+        throw response.status; 
     }
 }
  
