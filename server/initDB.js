@@ -148,7 +148,25 @@ db.serialize(function () {
       displayName: "Mario Rossi",
       disabled: false
     });
-  } catch {}
+  } catch { }
+
+  db.run(
+    "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
+       VALUES ('Pippo', 'Baudo', 'local guide', \
+              'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
+              'lg2@p.it', '4783473632662333', '3334567980')"
+  );
+
+  try {
+    admin.auth().createUser({
+      email: "lg2@p.it",
+      emailVerified: true,
+      password: "password",
+      displayName: "Pippo Baudo",
+      disabled: false
+    });
+  } catch { }
+
 
   db.run(
     "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
@@ -165,7 +183,24 @@ db.serialize(function () {
       displayName: "Giulio Liso",
       disabled: false
     });
-  } catch {}
+  } catch { }
+
+  db.run(
+    "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
+       VALUES ('Chiara', 'Ferragni', 'hiker', \
+              'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
+              'h2@p.it', '4783473632662333', '3334567980')"
+  );
+
+  try {
+    admin.auth().createUser({
+      email: "h2@p.it",
+      emailVerified: true,
+      password: "password",
+      displayName: "Chiara Ferragni",
+      disabled: false
+    });
+  } catch { }
 
   for (var i = 0; i < hikevalues.length; i++) {
     db.run(

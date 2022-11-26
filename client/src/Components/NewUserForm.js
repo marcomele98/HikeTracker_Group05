@@ -15,7 +15,7 @@ function NewUserForm(props) {
     const [role, setRole] = useState("hiker");
     const regex =
         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    const roles = ['local guide', 'hiker', 'hut worker', 'platform manager'];
+    const roles = ['local guide', 'hiker' /*, 'hut worker'*/];
 
     useEffect(() => {
         if (props.loggedIn) {
