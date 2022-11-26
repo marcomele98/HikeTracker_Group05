@@ -246,7 +246,7 @@ class HikeDescription {
 
         try {
             let hike = await db.getHikeById(hikeId);
-            console.log(hike)
+            //console.log(hike)
 
             if (hike === undefined) {
                 message = "Hike not found."
