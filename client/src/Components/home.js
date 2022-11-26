@@ -1,4 +1,4 @@
-import { Row, Container, Col, Form, ListGroupItem, ListGroup, Alert } from "react-bootstrap";
+import { Row, Container, Col, Form, ListGroupItem, ListGroup, Alert, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { ClickableOpacity } from "./clickableOpacity";
@@ -52,7 +52,7 @@ function Home({ setIsLoading, user }) {
         <Container>
             {
                 user.role !== 'local guide' ?
-                    <Row style={{ height: 30 }}/>
+                    <Row style={{ height: 30 }} />
                     :
                     <>
                         <div className="flex-shrink-0 m-5">
@@ -254,8 +254,8 @@ function FilterForm({
         setPosition(undefined);
     }
 
-    useEffect(()=>{
-        console.log("radius: "+radius+"  city: "+ city)
+    useEffect(() => {
+        console.log("radius: " + radius + "  city: " + city)
     }, [radius, city])
 
     const handleSubmit = (event) => {
@@ -366,21 +366,13 @@ function FilterForm({
                     min={minDifficulty}
                     max={maxDifficulty}
                 />
-                <Row style={{ height: 30 }}></Row>
-                <div>
-                    <ClickableOpacity type='submit' className="marginRight1">
-                        <div className="formConfirm">
-                            Confirm Filters
-                        </div>
-                    </ClickableOpacity>
-                </div>
-                <div>
-                    <ClickableOpacity onClick={deleteAllFilters}>
-                        <div className="formDelete">
-                            Delete Filters
-                        </div>
-                    </ClickableOpacity>
-                </div>
+                <Row style={{ height: 40 }}></Row>
+                <Row>
+                    <div className='rowC'>
+                        <Button type="submit" variant="outline-success" style={{ width: 100, borderWidth: 3 }}>Confirm</Button>
+                        <Button variant="outline-danger" style={{ width: 100, borderWidth: 3, marginLeft: 20 }} onClick={deleteAllFilters}>Delete</Button>
+                    </div>
+                </Row>
                 <div style={{ height: 40 }}></div>
             </Form>
         </>
@@ -433,7 +425,7 @@ function MaxMinRange({ label, setMax, setMin, max, min, rangeMax, rangeMin }) {
             </Row>
             <Row style={{ marginLeft: 5, marginBottom: 20 }}>
                 <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                    <Range min={rangeMin} max={rangeMax} allowCross={false} value={[min?min:rangeMin, max?max:rangeMax]} onChange={(range) => {
+                    <Range min={rangeMin} max={rangeMax} allowCross={false} value={[min ? min : rangeMin, max ? max : rangeMax]} onChange={(range) => {
                         setMin(range[0] === rangeMin ? "" : range[0]);
                         setMax(range[1] === rangeMax ? "" : range[1]);
                     }} />

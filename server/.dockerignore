@@ -1,0 +1,6 @@
+node_modules
+Dockerfile
+integration_test
+unit_test
+test
+.git

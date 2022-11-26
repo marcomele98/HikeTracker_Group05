@@ -97,7 +97,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                 </ClickableOpacity>
                                 : false
                             }
-                            <div className="textGrayPrimaryBig" style={hike.lg_id === user.id ? { marginLeft: 20 } : {marginLeft: 0}}>{"Start Point:"}</div>
+                            <div className="textGrayPrimaryBig" style={hike.lg_id === user.id ? { marginLeft: 20 } : { marginLeft: 0 }}>{"Start Point"}</div>
                         </div>
                     </Row>
                     {
@@ -127,7 +127,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                 </ClickableOpacity>
                                 : false
                             }
-                            <div style={hike.lg_id === user.id ? { marginLeft: 20 } : {marginLeft:0}} className="textGrayPrimaryBig">{"End Point:"}</div>
+                            <div style={hike.lg_id === user.id ? { marginLeft: 20 } : { marginLeft: 0 }} className="textGrayPrimaryBig">{"End Point"}</div>
                         </div>
                     </Row>
                     <Row>
@@ -473,23 +473,21 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
                 <Row style={{ height: 10 }} />
                 <HutParkSelector list={type === "hut" ? huts : parks} type={type} setNewPoint={setNewPoint}></HutParkSelector>
             </Row>
+            <Row style={{ height: 10 }} />
+            <Row>
+                <div className='rowC'>
+                    <Button type="submit" variant="outline-success" style={{ width: 100, borderWidth: 3 }}>Confirm</Button>
+                    <Button variant="outline-danger" style={{ width: 100, borderWidth: 3, marginLeft:20 }} onClick={() => { setEditable(false) }}>Cancel</Button>
+                </div>
+            </Row>
             <Row style={{ height: 20 }} />
-            <Col className="mt-4">
-                <Row md={3}>
-                    <Button type="submit" variant="outline-success">Confirm</Button>
-                </Row>
-
-                <Row md={3} className="my-3">
-                    <Button variant="outline-danger" onClick={() => {setEditable(false)}}>Cancel</Button>
-                </Row>
-            </Col>
         </Form>
     )
 }
 
 const HutParkSelector = ({ list, type, setNewPoint }) => {
-    useEffect(()=>{
-        if(list.length!==0){
+    useEffect(() => {
+        if (list.length !== 0) {
             setNewPoint(list[0].id);
         }
     }, [list])
@@ -501,7 +499,7 @@ const HutParkSelector = ({ list, type, setNewPoint }) => {
                     <div className='formLabel'>{"No addable " + type + " available in 300 meters"}</div>
                     :
                     <Form.Group>
-                        <Form.Label>{"Select the " + type + ":"}</Form.Label>
+                        <Form.Label className='formLabel'>{"Select the " + type + ":"}</Form.Label>
                         <Form.Select
                             onChange={(e) => { setNewPoint(e.target.value) }}
                             style={{ width: 400, borderWidth: 3 }}

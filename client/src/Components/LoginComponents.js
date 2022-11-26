@@ -6,8 +6,8 @@ import { toast } from "react-toastify";
 
 
 function LoginForm(props) {
-  const [username, setUsername] = useState('lg1@p.it'); //si possono anche lasciare per l'esame
-  const [password, setPassword] = useState('password'); //così testano direttamente con questo utente
+  const [username, setUsername] = useState(''); //si possono anche lasciare per l'esame
+  const [password, setPassword] = useState(''); //così testano direttamente con questo utente
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (event) => {
