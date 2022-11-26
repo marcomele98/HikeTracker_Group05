@@ -2,10 +2,12 @@ version: "3.8"
 services:
   backend:
     build: ./server
+    image: federicorinaudi/hike_tracker_05:server
     ports:
       - '3001:3001'
   frontend:
     build: ./client
+    image: federicorinaudi/hike_tracker_05:client
     ports: 
       - '3000:3000'
     stdin_open: true
