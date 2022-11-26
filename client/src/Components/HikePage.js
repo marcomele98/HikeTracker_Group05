@@ -415,7 +415,7 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
         } catch (err) {
             setIsLoading(false);
             console.log(err)
-            toast.error("No", { position: "top-center" }, { toastId: 120 });
+            toast.error(err, { position: "top-center" }, { toastId: 120 });
         }
 
     };

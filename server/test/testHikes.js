@@ -19,7 +19,10 @@ describe('test hikes apis', () => {
         await db.run('DELETE FROM HIKE_PARKING');
         await db.run('DELETE FROM HIKE_HUT');
         await db.run('DELETE FROM HIKE');
+        await db.run('DELETE FROM HUT');
+        await db.run('DELETE FROM PARKING_LOT');
         await db.run('DELETE FROM POINT');
+        await db.run('DELETE FROM USER');
         await db.run('DELETE FROM sqlite_sequence');
         await db.run(
             "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
@@ -35,7 +38,10 @@ describe('test hikes apis', () => {
         await db.run('DELETE FROM HIKE_PARKING');
         await db.run('DELETE FROM HIKE_HUT');
         await db.run('DELETE FROM HIKE');
+        await db.run('DELETE FROM HUT');
+        await db.run('DELETE FROM PARKING_LOT');
         await db.run('DELETE FROM POINT');
+        await db.run('DELETE FROM USER');
         await db.run('DELETE FROM sqlite_sequence');
     });
 
@@ -163,6 +169,72 @@ describe('test hikes apis', () => {
         }]
     }
 
+    let hut = {
+        'name': 'Refuge La Riposa',
+        "latitude": "45.20353",
+        "longitude": "7.07734",
+        "altitude": "3500.161133",
+        'type': 'Refuge',
+        'region': 'Piemonte',
+        'province': 'TO',
+        'city': 'Mompantero',
+        'number_of_beds': 20,
+        'description': 'prova1'
+    }
+
+    let park = {
+        "name": "parking di Valdinferno",
+        "latitude": "45.20353",
+        "longitude": "7.07734",
+        "altitude": "3500.161133",
+        "region": "Piemonte",
+        "province": "TO",
+        "city": "Mompantero"
+    }
+
+    let hut1 = {
+        'name': 'Refuge La Riposa',
+        'latitude': '45.17778',
+        'longitude': '7.08337',
+        'altitude': '2185',
+        'type': 'Refuge',
+        'region': 'Piemonte',
+        'province': 'TO',
+        'city': 'Mompantero',
+        'number_of_beds': 20,
+        'description': 'prova1'
+    }
+
+    let park1 = {
+        "name": "parking di Valdinferno",
+        "latitude": "45.17778",
+        "longitude": "7.08337",
+        "altitude": "1192",
+        "region": "Piemonte",
+        "province": "TO",
+        "city": "Mompantero"
+    }
+
+    let updateEnd = {
+        'end_point' : 1 ,
+        'type_end' : 'Hut point'
+    }
+
+    let updateEnd1 = {
+        'end_point' : 1 ,
+        'type_end' : 'Parking point'
+    }
+
+    let updateStart = {
+        'start_point' : 1 ,
+        'type_start' : 'Hut point'
+    }
+
+    let updateStart1 = {
+        'start_point' : 1 ,
+        'type_start' : 'Parking point'
+    }
+
     getHikes(hike);
     getHikeById(0, hike);
     getHikeById(1, hike);
@@ -171,6 +243,8 @@ describe('test hikes apis', () => {
     newHikeDescription(201, hike);
     newHikeDescription(422, hike_wrong);
     newHikeDescription(422, hike_wrong_2);
+    updateEndPoint(200,1,hike, updateEnd, updateEnd1 , hut , park);
+    updateStartPoint(200,1,hike,updateStart, updateStart1 , hut1 , park1);
 
 })
 
@@ -241,6 +315,134 @@ function newHikeDescription(expectedHTTPStatus, hike) {
             });
     });
 }
+
+function updateEndPoint(expectedHTTPStatus,id,hike,updateEnd, updateEnd1 , hut , park) {
+    it('editing a hike End point', function (done) {
+        agent.post('/api/hike')
+            .send(hike)
+            .then(function (res) {
+                res.should.have.status(201);
+                if (res.status == 201) {
+                    agent.post('/api/hike')
+                        .send(hike)
+                        .then(function (res5){
+                            res5.should.have.status(201);
+                            if (res5.status == 201) {
+                                agent.post('/api/hut')
+                                .send(hut)
+                                .then(function (res1) {
+                                res1.should.have.status(201);
+                                if (res1.status == 201) {
+                                    agent.put('/api/hikeEnd/' + id)
+                                        .send(updateEnd)
+                                        .then(function (res2) {
+                                            if (id > 0 && id <= 2) {
+                                                res2.should.have.status(200);
+                                                if(res2.status == 200){
+                                                    agent.post('/api/parkingLot')
+                                                        .send(park)
+                                                        .then(function (res3) {
+                                                            res3.should.have.status(201);
+                                                             if (res3.status == 201) {
+                                                                agent.put('/api/hikeEnd/' + id)
+                                                                    .send(updateEnd1)
+                                                                    .then(function (res4) {
+                                                                        if (id == 1) {
+                                                                        res4.should.have.status(expectedHTTPStatus);
+                                                                        done();
+                                                                        }
+                                                                        else {
+                                                                        res2.should.have.status(404);
+                                                                        done();
+                                                                        }
+                                                                    })
+                                                                }
+                                                                else {
+                                                                    res2.should.have.status(404);
+                                                                    done();
+                                                                }
+                                                        })
+
+                                                }
+                                                else {
+                                                    res2.should.have.status(404);
+                                                    done();
+                                                }
+                                        }
+                                    });
+                            }
+                        })
+                }
+            })
+        }
+    });
+})
+}
+
+
+function updateStartPoint(expectedHTTPStatus,id,hike,updateStart, updateStart1 , hut1 , park1) {
+    it('editing a hike Start point', function (done) {
+        agent.post('/api/hike')
+            .send(hike)
+            .then(function (res) {
+                res.should.have.status(201);
+                if (res.status == 201) {
+                    agent.post('/api/hike')
+                        .send(hike)
+                        .then(function (res5){
+                            res5.should.have.status(201);
+                            if (res5.status == 201) {
+                                agent.post('/api/hut')
+                                .send(hut1)
+                                .then(function (res1) {
+                                res1.should.have.status(201);
+                                if (res1.status == 201) {
+                                    agent.put('/api/hikeStart/' + id)
+                                        .send(updateStart)
+                                        .then(function (res2) {
+                                            if (id > 0 && id <= 2) {
+                                                res2.should.have.status(200);
+                                                if(res2.status == 200){
+                                                    agent.post('/api/parkingLot')
+                                                        .send(park1)
+                                                        .then(function (res3) {
+                                                            res3.should.have.status(201);
+                                                             if (res3.status == 201) {
+                                                                agent.put('/api/hikeStart/' + id)
+                                                                    .send(updateStart1)
+                                                                    .then(function (res4) {
+                                                                        if (id == 1) {
+                                                                        res4.should.have.status(expectedHTTPStatus);
+                                                                        done();
+                                                                        }
+                                                                        else {
+                                                                        res2.should.have.status(404);
+                                                                        done();
+                                                                        }
+                                                                    })
+                                                                }
+                                                                else {
+                                                                    res2.should.have.status(404);
+                                                                    done();
+                                                                }
+                                                        })
+
+                                                }
+                                                else {
+                                                    res2.should.have.status(404);
+                                                    done();
+                                                }
+                                        }
+                                    });
+                            }
+                        })
+                }
+            })
+        }
+    });
+})
+}
+
 
 
 async function logout() {
