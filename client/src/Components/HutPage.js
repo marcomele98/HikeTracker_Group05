@@ -24,7 +24,6 @@ function HutPage({ setIsLoading, user }) {
             try {
                 setIsLoading(true);
                 const res = await API.getHutById(hutId);
-                console.log(res)
                 setHut(res);
                 setIsLoading(false);
             } catch (err) {

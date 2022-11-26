@@ -120,7 +120,6 @@ class HutDescription {
             if (hut === undefined) {
                 return res.status(404).json({ error: `Hut not found` }); // not found
             }
-            console.log(hut)
             return res.status(200).json(hut);
         } catch (err) {
             return res.status(500).end();

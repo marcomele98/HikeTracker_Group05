@@ -254,10 +254,6 @@ function FilterForm({
         setPosition(undefined);
     }
 
-    useEffect(() => {
-        console.log("radius: " + radius + "  city: " + city)
-    }, [radius, city])
-
     const handleSubmit = (event) => {
         event.preventDefault();
         setProvinceFilter(province);

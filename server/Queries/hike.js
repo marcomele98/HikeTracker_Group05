@@ -50,7 +50,6 @@ exports.deleteHutForHike = async (hike_id, hut_id) => {
 }
 
 exports.deleteParkForHike = async (hike_id, park_id) => {
-        console.log(hike_id, park_id)
         const sql = "DELETE FROM HIKE_PARKING WHERE hike_id = ? AND parking_id = ?"
         return await db.run(sql, [hike_id, park_id]);
 }
