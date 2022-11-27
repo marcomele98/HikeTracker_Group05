@@ -21,6 +21,7 @@ var parkingvalues =
     ['Parcheggio Cupone', '39.385237', '16.545109', '1163.173191', 'Calabria', 'CS', 'Spezzano della Sila'],
     ['Parcheggio Valcorpassa', '46.343612', '12.031708', '1142.207227', 'Veneto', 'BL', 'Taibon Agrodino'],
     ['Parcheggio di Pralongo', '46.341983', '12.160233', '1007.734778', 'Veneto', 'BL', 'Pralongo'],
-    ['Parcheggio Nele', '46.310455', '12.053826', '1521.731597', 'Veneto', 'BL', 'Agrodo']
+    ['Parcheggio Nele', '46.310455', '12.053826', '1521.731597', 'Veneto', 'BL', 'Agrodo'],
+    ['Parcheggio di Garibaldi', '45.808999', '9.053571', '399', 'Lombardia', 'CO', 'San Fermo della Battaglia']//parking point
 ];
 module.exports.parkingvalues =   parkingvalues;
