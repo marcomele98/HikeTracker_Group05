@@ -4,8 +4,8 @@ var hutsvalues =
     [
 
 
-        ['Refuge La Riposa', '45.17778', '7.08337', '2185', 'Refuge', 'Piemonte', 'TO', 'Mompantero', 20, 'The Rifugio La Riposa is located in the locality of Riposa, Mompantero di Susa, at an altitude of 2185 m and can also be reached by car.'],
-        ['Refugio Asti', '45.19177', '7.07427', '2854', 'Refuge', 'Piemonte', 'TO', 'Mompantero', 15, 'the refuge was built on the site where Bonifacio Rotario dAsti , who had first climbed the summit of Rocciamelone in 1358 , had built a shelter'],
+        ['Rifugio La Riposa', '45.17778', '7.08337', '2185', 'Refuge', 'Piemonte', 'TO', 'Mompantero', 20, 'The Rifugio La Riposa is located in the locality of Riposa, Mompantero di Susa, at an altitude of 2185 m and can also be reached by car.'],
+        ["Rifugio Ca' d'Asti", '45.19177', '7.07427', '2854', 'Refuge', 'Piemonte', 'TO', 'Mompantero', 15, 'the refuge was built on the site where Bonifacio Rotario dAsti , who had first climbed the summit of Rocciamelone in 1358 , had built a shelter'],
         ['Rifugio Savona', '44.19940', '7.93339', '2600', 'Refuge', 'Piemonte', 'CN', 'Garessio', 10, 'Short access itinerary to the Savona refuge, perhaps preferable in summer to the one that climbs from Valdinferno, due to the possibility of carrying out the entire climb inside a cool beech forest.'],
         ['Gallo di monte', '44.21736', '7.94432', '1392', 'Refuge', 'Piemonte', 'CN', 'Garessio', 8, 'simple, well-kept and well managed, Always open in the months July August and on weekends in other periods.'],
         ['Rifugio Nino Pernici', '45.92658', '10.76875', '1595', 'Refuge', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 23, 'ThePernici refugeis located in the mountains between Lake Garda and the Ledro valley, in a splendid panoramic position at 1600 meters above sea level. Easily accessible from several accesses, it offers typical cuisine and bar service.'],

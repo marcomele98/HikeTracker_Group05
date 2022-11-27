@@ -11,7 +11,7 @@ const { lo_file1, lo_file2, lo_file3, lo_file4, lo_file5, lo_file6, lo_file7, lo
 
 var hikevalues =
   [
-    ['Path to Rocciamelone', 9, 420, 3538, 'Professional Hiker', 'Piemonte', 'TO', 'Mompantero', 1,
+    ['Path to Rocciamelone', 9, 420, 1353, 'Professional Hiker', 'Piemonte', 'TO', 'Mompantero', 1,
       pm_file1, 1, 'general point', 1, 'Hut point', 'A well-known route, much loved by Valsusini and beyond. It is long and challenging because of the difference in height, but very well signposted and above all with a support point about halfway'], //endpoint:1 pointtable,strtpoint:1 hut
     ['Ascesa al Rifugio Savona', 10.3, 244, 610, 'Hiker', 'Piemonte', 'CN', 'Garessio', 1,
       pm_file2, 1, 'Parking point', 1, 'Parking point', 'Intermediate Hiking Tour. Good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot'],//endpoint:1 parking,strtpoint:1 parking
