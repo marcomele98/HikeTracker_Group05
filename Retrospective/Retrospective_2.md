@@ -89,16 +89,16 @@ sections:
   <br>
 - What lessons did you learn (both positive and negative) in this sprint?
   
-  We learn that is important to put under consideration the previous story and tasks in order to know when we can reuse some code and do a more accurate estimation.
+  We learned that it is important to put under consideration the previous stories and tasks in order to know when we can reuse some code and do a more accurate estimation.
 
   <br>
 
 - Which improvement goals set in the previous retrospective were you able to achieve?
   
-  We understood good the stories before starting the sprint planning.
+  We better understood the stories before starting the sprint planning.
   We divided the stories into shorter tasks and made more accurate estimation.
   We defined internal delivery dates in order to have a better organization of the work.
-  We communicate better in this sprint and in fact all the work is finished on time and not on the last day.
+  We communicated better in this sprint and in fact all the work was finished on time and not on the last day.
   <br>
 
 - Which ones you were not able to achieve? Why?
@@ -115,4 +115,4 @@ sections:
 
   Everyone gave 100% of himself/herself to the team and we improved as singles and as a team during this sprint.
   Each of us is always ready to help the other members.
-  We finished the work not the last day so we are free on sunday. :)
+  We didn't finish the work on the last day so we were free on sunday.  :)
