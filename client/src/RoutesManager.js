@@ -43,48 +43,15 @@ const RoutesManager = ({
                     loggedIn={loggedIn}
                     log={log}
                     setLog={setLog}
+                    user={user}
                 />
             </Row>
-            {user?.role === "local guide" || user?.role === "hiker" ?
-                <Row>
-                    <Col className="navigationLinkContainer">
-                        <ClickableOpacity
-                            onClick={() => {
-                                navigate("/home");
-                            }}>
-                            <div className={location?.pathname === "/home" ? "navigationLinkSelected" : "navigationLinkUnselected"}>
-                                Hikes
-                            </div>
-                        </ClickableOpacity>
-                    </Col>
-
-                    <Col className="navigationLinkContainer">
-                        <ClickableOpacity
-                            onClick={() => {
-                                navigate("/parkingLots");
-                            }}>
-                            <div className={location?.pathname === "/parkingLots" ? "navigationLinkSelected" : "navigationLinkUnselected"}>
-                                Parking Lots
-                            </div>
-                        </ClickableOpacity>
-                    </Col>
-
-                    <Col className="navigationLinkContainer">
-                        <ClickableOpacity
-                            onClick={() => {
-                                navigate("/huts");
-                            }}>
-                            <div className={location?.pathname === "/huts" ? "navigationLinkSelected" : "navigationLinkUnselected"}>
-                                Huts
-                            </div>
-                        </ClickableOpacity>
-                    </Col>
-                </Row>
-                : undefined
-            }
+            <br></br>
+            <br></br>
 
             <Row>
                 <Routes>
+                    
                     <Route
                         path="/home"
                         element={<Home setIsLoading={setIsLoading} user={user} />}

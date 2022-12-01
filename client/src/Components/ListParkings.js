@@ -1,10 +1,11 @@
-import { Row, Container, Col, Form, ListGroupItem, ListGroup, Alert } from "react-bootstrap";
+import { Row, Container, Col, Form, ListGroupItem, ListGroup, Alert, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { ClickableOpacity } from "./clickableOpacity";
 import { toast } from "react-toastify";
 import { PlusCircle } from "react-bootstrap-icons";
 import API from "../API";
+import img from "../Assets/Images/parking.jpeg"
 
 function ListParkings({ setIsLoading, loggedIn, user }) {
 
@@ -31,59 +32,64 @@ function ListParkings({ setIsLoading, loggedIn, user }) {
 
 
     return (
+        <>
+            <div className="backImage" style={{ backgroundImage: `url(${img})`}}></div>
+            <Container>
 
-        <Container>
+                <Row style={{ height: 30 }}></Row>
+                <Row className="m-3" style={{ margin: 0, padding: 0}}>
+                    {
+                        user.role !== 'local guide'
+                            ?
+                            false
+                            :
+                            <>
+                                <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => navigate("/new-parking")}>New Parking Lot</Button>
 
-            {
-                user.role !== 'local guide'
-                    ?
-                    <Row style={{ height: 30 }}></Row>
-                    :
-                    <div className="flex-shrink-0 m-5">
-                        <ClickableOpacity onClick={() => navigate("/new-parking")}>
-                            <PlusCircle
-                                color="#495057"
-                                size={40}
-                            />
-                        </ClickableOpacity>
-                    </div>
-            }
-            <ListGroup>
-                {
+                            </>
+                    }
+                </Row>
+                <ListGroup>
+                    <Row>
+                        {
 
-                    parks
-                        .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                        .map((p) => (
-                            <ListGroupItem key={p.id} className="m-3 border-2 rounded-3 shadow">
-                                <Col>
-                                    <Row>
-                                        <div className="title">{p.name}</div>
-                                    </Row>
-                                    <Row>
-                                        <div className="textGrayPrimary">{p.region}</div>
-                                    </Row>
-                                    <Row>
-                                        <div className="textGrayPrimary">{p.city + " (" + p.province + ")"}</div>
-                                    </Row>
+                            parks
+                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                .map((p) => (
+                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                        <ListGroupItem style={{ height: 150, opacity: "85%" }} key={p.id} className="m-3 border-2 rounded-3 shadow">
+                                            <Col>
+                                                <Row>
+                                                    <div className="title">{p.name}</div>
+                                                </Row>
+                                                <Row>
+                                                    <div className="textGrayPrimary">{p.region}</div>
+                                                </Row>
+                                                <Row>
+                                                    <div className="textGrayPrimary">{p.city + " (" + p.province + ")"}</div>
+                                                </Row>
 
-                                    <Row>
-                                        <div className="touchableOpacityWithTextContainer">
-                                            <ClickableOpacity
-                                                onClick={() => {
-                                                    navigate("/parkingLot/" + p.id)
-                                                }}>
-                                                <div className="seeMore">
-                                                    see more
-                                                </div>
-                                            </ClickableOpacity>
-                                        </div>
-                                    </Row>
-                                </Col>
-                            </ListGroupItem>
-                        ))
-                }
-            </ListGroup>
-        </Container>
+                                                <Row style={{ position: "absolute", bottom: 0, paddingBottom: 10 }}>
+                                                    <div className="touchableOpacityWithTextContainer">
+                                                        <ClickableOpacity
+                                                            onClick={() => {
+                                                                navigate("/parkingLot/" + p.id)
+                                                            }}>
+                                                            <div className="seeMore">
+                                                                see more
+                                                            </div>
+                                                        </ClickableOpacity>
+                                                    </div>
+                                                </Row>
+                                            </Col>
+                                        </ListGroupItem>
+                                    </Col>
+                                ))
+                        }
+                    </Row>
+                </ListGroup>
+            </Container>
+        </>
     );
 }
 

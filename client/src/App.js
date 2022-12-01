@@ -5,7 +5,7 @@ import LogicContainer from './LogicContainer';
 function App() {
   return (
     <Router>
-      <LogicContainer></LogicContainer>
+      <LogicContainer ></LogicContainer>
     </Router>
   );
 }

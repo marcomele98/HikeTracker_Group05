@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, Col } from 'react-bootstrap';
+import { Form, Button, Col, Row } from 'react-bootstrap';
 import "react-toastify/dist/ReactToastify.css";
 import './Login.css'
 import { toast } from "react-toastify";
@@ -33,7 +33,10 @@ function LoginForm(props) {
 
   return (
     <div className="Login below-nav main-content text-center">
-      <h2>LOGIN</h2><br />
+      <br />
+      <Row className="justify-content-center text-center">
+        <h2> LOGIN </h2>
+      </Row>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId='username'>
           <Form.Label>Email</Form.Label>

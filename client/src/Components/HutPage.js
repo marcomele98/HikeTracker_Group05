@@ -18,7 +18,7 @@ function HutPage({ setIsLoading, user }) {
         }
     }, [user])
 
-    
+
     useEffect(() => {
         const getHutFromServer = async () => {
             try {
@@ -69,9 +69,9 @@ function HutPage({ setIsLoading, user }) {
                             ?
                             false
                             :
-                                <Row>
-                                    <div className="textGrayPrimaryBig">{"Beds: " + hut.number_of_beds}</div>
-                                </Row>
+                            <Row>
+                                <div className="textGrayPrimaryBig">{"Beds: " + hut.number_of_beds}</div>
+                            </Row>
                     }
                     <Row>
                         <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>

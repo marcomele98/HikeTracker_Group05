@@ -1,3 +1,5 @@
+import { TruckFlatbed } from "react-bootstrap-icons"
+
 //test confirm button when adding  a hut as start point of the hike
 describe('loginform e2e tset', () => { 
     it('1 access the webpage', () => {
@@ -22,20 +24,20 @@ describe('get the hikes list', () => {
     it('jump into certain hike page test',()=>{
         cy.contains('Great War: from Malga Grassi to Rifugio Pernici').parent().parent()
         .within(() => {     
-        cy.contains('see more').click()
+        cy.contains('see more').click({force:true})
         })
     })  
     
     it('edit button test',() => {
         cy.contains('Start Point').parent()
         .within(() => {     
-            cy.get('button').click()
+            cy.get('button').click({force:true})
             })
     })
 
     it('adding hut point as start point test',() =>{
         cy.contains('hut')
-        cy.contains('Confirm').click()
+        cy.contains('Confirm').click({force:true})
         
     })
     
@@ -63,20 +65,20 @@ describe('cancel button test', ()=>{
     it('jump into certain hike page test',()=>{
         cy.contains('Great War: from Malga Grassi to Rifugio Pernici').parent().parent()
         .within(() => {     
-        cy.contains('see more').click()
+        cy.contains('see more').click({force:true})
         })
     })  
     
     it('edit button test',() => {
         cy.contains('Start Point').parent()
         .within(() => {     
-            cy.get('button').click()
+            cy.get('button').click({force:true})
             })
     })
   
     it('Cancel button test',()=>{
         cy.contains('Start Point').parent()
-        cy.contains('Cancel').click() 
+        cy.contains('Cancel').click({force:true}) 
     })
 })
 // //test confirm button when adding  a parking lot as start point of the hike
@@ -102,20 +104,20 @@ describe('adding a hut as end point test', ()=>{
     it('jump into certain hike page test',()=>{
         cy.contains('Great War: from Malga Grassi to Rifugio Pernici').parent().parent()
         .within(() => {     
-        cy.contains('see more').click()
+        cy.contains('see more').click({force:true})
         })
     })  
     
     it('edit button test',() => {
         cy.contains('End Point').parent()
         .within(() => {     
-            cy.get('button').click()
+            cy.get('button').click({force:true})
             })
     })
   
     it('adding hut as end point test',() =>{
         cy.contains('hut')
-        cy.contains('Confirm').click()
+        cy.contains('Confirm').click({force:true})
       
        
     })

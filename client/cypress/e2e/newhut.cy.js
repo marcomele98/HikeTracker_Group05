@@ -28,7 +28,7 @@ describe('hutform e2e tset', () => {
     })    
     
     it('create new huts button test',()=>{
-        cy.get("svg").click({multiple: true})
+        cy.contains("New Hut").click({force: true})
         cy.url().should('include', '/new-hut')
    })
     it('all info exist',()=>{
@@ -43,17 +43,17 @@ describe('hutform e2e tset', () => {
     })
 
     it('submit form',()=>{
-       cy.get('input[id=validationCustom01]').type('Maison Saluzzo').should('have.value', 'Maison Saluzzo')
-       cy.get('input[id=validationCustom02]').type('Piemonte').should('have.value', 'Piemonte')
-       cy.get('input[id=validationCustom06]').type('TO').should('have.value', 'TO')
-       cy.get('input[id=validationCustom07]').type('Torino').should('have.value', 'Torino')
-       cy.get('input[id=validationCustom08]').type('Refuge').should('have.value', 'Refuge')
-       cy.get('input[id=validationCustom09]').type('40').should('have.value', '40')
+       cy.get('input[id=validationCustom01]').click({force: true}).type('Maison Saluzzo').should('have.value', 'Maison Saluzzo')
+       cy.get('input[id=validationCustom08]').click({force: true}).type('Refuge').should('have.value', 'Refuge')
+       cy.get('input[id=validationCustom02]').click({force: true}).type('Piemonte').should('have.value', 'Piemonte')
+       cy.get('input[id=validationCustom06]').click({force: true}).type('TO').should('have.value', 'TO')
+       cy.get('input[id=validationCustom07]').click({force: true}).type('Torino').should('have.value', 'Torino')
+       cy.get('input[id=validationCustom09]').click({force: true}).type('40').should('have.value', '40')
+       cy.get('input[id=validationCustom03]').click({force: true}).type('200').should('have.value', '200')
        //cy.get('.clickMap').should('have.value','45.058437, 7.678607')
        //cy.get('.clickMap').click('right')
-       cy.get('input[id=validationCustom10]').type('good').should('have.value', 'good')
-       cy.get('input[id=validationCustom03]').type('200').should('have.value', '200')
-       cy.contains('Create new hut').click()
+       cy.get('textarea').click({force: true}).type('good').should('have.value', 'good')
+       cy.contains('Create new hut').click({force: true})
      })
 })
 
@@ -88,8 +88,8 @@ describe('cancel button test of hutform e2e tset', () => {
       
     })    
     
-    it('create new parking button test',()=>{
-        cy.get("svg").click({multiple: true})
+    it('create new hut button test',()=>{
+        cy.contains("New Hut").click({force: true})
         cy.url().should('include', '/new-hut')
    })
     // it('all info exist',()=>{
@@ -113,7 +113,7 @@ describe('cancel button test of hutform e2e tset', () => {
     
         it('Cancel button test',()=>{
         cy.contains('Cancel').click()
-        cy.url().should('include', '/home')
+        cy.url().should('include', '/huts')
     })
 
   

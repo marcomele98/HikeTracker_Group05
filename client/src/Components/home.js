@@ -8,9 +8,12 @@ import API from "../API";
 import 'rc-slider/assets/index.css';
 import { CliccableMap } from "./cliccableMap";
 import { calcCrow } from "../utilities";
+import img from "../Assets/Images/home.jpeg"
+
 const Slider = require('rc-slider');
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
+
 
 
 function Home({ setIsLoading, user }) {
@@ -49,143 +52,144 @@ function Home({ setIsLoading, user }) {
 
     return (
 
-        <Container>
-            {
-                user.role !== 'local guide' ?
-                    <Row style={{ height: 30 }} />
-                    :
-                    <>
-                        <div className="flex-shrink-0 m-5">
-                            <ClickableOpacity onClick={() => navigate("/new-hike")}>
-                                <PlusCircle
-                                    color="#495057"
-                                    size={40}
-                                />
-                            </ClickableOpacity>
-                        </div>
-                    </>
-            }
-            <Row className="filterTitleRow">
-                <div className="touchableOpacityWithTextContainer">
-                    <ClickableOpacity
-                        onClick={() => {
-                            setSeeFilters((val) => !val);
-                        }}>
-                        <div className="filters">
-                            {seeFilters ? "Hide Filters" : "Show Filters"}
-                        </div>
-                    </ClickableOpacity>
-                </div>
-            </Row>
-            {
-                seeFilters ?
-                    (
-                        <FilterForm
-                            setProvinceFilter={setProvince}
-                            setCityFilter={setCity}
-                            setPositionFilter={setCoordinates}
-                            setRadiusFilter={setRadius}
-                            setMaxAscentFilter={setMaxAscent}
-                            setMinAscentFilter={setMinAscent}
-                            setMaxLengthFilter={setMinLength}
-                            setMinLengthFilter={setMaxLength}
-                            setMaxExpectedTimeFilter={setMaxExpectedTime}
-                            setMinExpectedTimeFilter={setMinExpectedTime}
-                            setMinDifficultyFilter={setMinDifficulty}
-                            setMaxDifficultyFilter={setMaxDifficulty}
-                        ></FilterForm>
-                    ) : undefined
+        <>
+            <div className="backImage" style={{ backgroundImage: `url(${img})` }}></div>
+            <Container >
+                <Row style={{ height: 30 }}></Row>
+                <Row className="m-3" style={{ margin: 0, padding: 0 }}>
+                    {
+                        user.role !== 'local guide' ?
+                            false
+                            :
+                            <>
+                                <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => navigate("/new-hike")}>New Hike</Button>
+                            </>
+                    }
+                    <Col style={{ margin: 0, padding: 0 }}>
 
-            }
-            <ListGroup>
+                        <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3 }} onClick={() => {
+                            setSeeFilters((val) => !val);
+                        }}>{seeFilters ? "Hide Filters" : "Show Filters"}</Button>
+
+                    </Col>
+                </Row>
                 {
-                    hikes
-                        .filter((h) => {
-                            if (province && !h.province.toLocaleLowerCase().includes(province.toLocaleLowerCase())) {
-                                return false;
-                            }
-                            if (city && !h.city.toLocaleLowerCase().includes(city.toLocaleLowerCase())) {
-                                return false;
-                            }
-                            if (maxAscent && maxAscent < h.ascendent_meters) {
-                                return false;
-                            }
-                            if (minAscent && minAscent > h.ascendent_meters) {
-                                return false;
-                            }
-                            if (maxLength && maxLength < h.length_kms) {
-                                return false;
-                            }
-                            if (minLength && minLength > h.length_kms) {
-                                return false;
-                            }
-                            if (maxExpectedTime && maxExpectedTime < h.expected_mins) {
-                                return false;
-                            }
-                            if (minExpectedTime && minExpectedTime > h.expected_mins) {
-                                return false;
-                            }
-                            if (maxDifficulty?.toLowerCase() === "tourist" && h.difficulty.toLowerCase() !== "tourist") {
-                                return false;
-                            }
-                            if (maxDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "professional hiker") {
-                                return false;
-                            }
-                            if (minDifficulty?.toLowerCase() === "professional hiker" && h.difficulty.toLowerCase() !== "professional hiker") {
-                                return false;
-                            }
-                            if (minDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "tourist") {
-                                return false;
-                            }
-                            if (coordinates && radius && calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon) > radius) {
-                                return false;
-                            }
-                            return true;
-                        })
-                        .sort((a, b) => a.title.trim().localeCompare(b.title.trim()))
-                        .map((h) => (
-                            <ListGroupItem key={h.id} className="m-3 border-2 rounded-3 shadow">
-                                <Col>
-                                    <Row>
-                                        <div className="title">{h.title}</div>
-                                    </Row>
-                                    <Row>
-                                        <div className="textGrayPrimary">{h.region}</div>
-                                    </Row>
-                                    <Row>
-                                        <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
-                                    </Row>
-                                    <Row>
-                                        <div className="textGrayPrimary">{"Ascent: " + h.ascendent_meters + " m"}</div>
-                                    </Row>
-                                    <Row>
-                                        <div className="textGrayPrimary">{"Length: " + h.length_kms + " km"}</div>
-                                    </Row>
-                                    <Row>
-                                        <div className="textGrayPrimary">{"Expected time: " + h.expected_mins + " min"}</div>
-                                    </Row>
-                                    <Row>
-                                        <div className="textGrayPrimary">{"Difficulty: " + h.difficulty}</div>
-                                    </Row>
-                                    <Row>
-                                        <div className="touchableOpacityWithTextContainer">
-                                            <ClickableOpacity
-                                                onClick={() => {
-                                                    navigate("/hike/" + h.id)
-                                                }}>
-                                                <div className="seeMore">
-                                                    see more
-                                                </div>
-                                            </ClickableOpacity>
-                                        </div>
-                                    </Row>
-                                </Col>
-                            </ListGroupItem>
-                        ))
+                    seeFilters ?
+                        (
+                            <FilterForm
+                                setProvinceFilter={setProvince}
+                                setCityFilter={setCity}
+                                setPositionFilter={setCoordinates}
+                                setRadiusFilter={setRadius}
+                                setMaxAscentFilter={setMaxAscent}
+                                setMinAscentFilter={setMinAscent}
+                                setMaxLengthFilter={setMinLength}
+                                setMinLengthFilter={setMaxLength}
+                                setMaxExpectedTimeFilter={setMaxExpectedTime}
+                                setMinExpectedTimeFilter={setMinExpectedTime}
+                                setMinDifficultyFilter={setMinDifficulty}
+                                setMaxDifficultyFilter={setMaxDifficulty}
+                            ></FilterForm>
+                        ) : undefined
+
                 }
 
-            </ListGroup>
-        </Container>
+                <ListGroup>
+                    <Row>
+
+                        {
+                            hikes
+                                .filter((h) => {
+                                    if (province && !h.province.toLocaleLowerCase().includes(province.toLocaleLowerCase())) {
+                                        return false;
+                                    }
+                                    if (city && !h.city.toLocaleLowerCase().includes(city.toLocaleLowerCase())) {
+                                        return false;
+                                    }
+                                    if (maxAscent && maxAscent < h.ascendent_meters) {
+                                        return false;
+                                    }
+                                    if (minAscent && minAscent > h.ascendent_meters) {
+                                        return false;
+                                    }
+                                    if (maxLength && maxLength < h.length_kms) {
+                                        return false;
+                                    }
+                                    if (minLength && minLength > h.length_kms) {
+                                        return false;
+                                    }
+                                    if (maxExpectedTime && maxExpectedTime < h.expected_mins) {
+                                        return false;
+                                    }
+                                    if (minExpectedTime && minExpectedTime > h.expected_mins) {
+                                        return false;
+                                    }
+                                    if (maxDifficulty?.toLowerCase() === "tourist" && h.difficulty.toLowerCase() !== "tourist") {
+                                        return false;
+                                    }
+                                    if (maxDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "professional hiker") {
+                                        return false;
+                                    }
+                                    if (minDifficulty?.toLowerCase() === "professional hiker" && h.difficulty.toLowerCase() !== "professional hiker") {
+                                        return false;
+                                    }
+                                    if (minDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "tourist") {
+                                        return false;
+                                    }
+                                    if (coordinates && radius && calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon) > radius) {
+                                        return false;
+                                    }
+                                    return true;
+                                })
+                                .sort((a, b) => a.title.trim().localeCompare(b.title.trim()))
+                                .map((h) => (
+                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                        <ListGroupItem style={{ height: 250, opacity: "85%" }} key={h.id} className="m-3 border-2 rounded-3 shadow">
+
+                                            <Row>
+                                                <div className="title">{h.title}</div>
+                                            </Row>
+                                            <Row>
+                                                <div className="textGrayPrimary">{h.region}</div>
+                                            </Row>
+                                            <Row>
+                                                <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
+                                            </Row>
+                                            <Row>
+                                                <div className="textGrayPrimary">{"Ascent: " + h.ascendent_meters + " m"}</div>
+                                            </Row>
+                                            <Row>
+                                                <div className="textGrayPrimary">{"Length: " + h.length_kms + " km"}</div>
+                                            </Row>
+                                            <Row>
+                                                <div className="textGrayPrimary">{"Expected time: " + h.expected_mins + " min"}</div>
+                                            </Row>
+                                            <Row>
+                                                <div className="textGrayPrimary">{"Difficulty: " + h.difficulty}</div>
+                                            </Row>
+                                            <Row style={{ position: "absolute", bottom: 0, paddingBottom: 10 }}>
+                                                <div className="touchableOpacityWithTextContainer">
+                                                    <ClickableOpacity
+                                                        onClick={() => {
+                                                            navigate("/hike/" + h.id)
+                                                        }}>
+                                                        <div className="seeMore">
+                                                            see more
+                                                        </div>
+                                                    </ClickableOpacity>
+                                                </div>
+                                            </Row>
+
+                                        </ListGroupItem>
+                                    </Col>
+                                ))
+                        }
+                    </Row>
+                </ListGroup>
+
+            </Container>
+        </>
+
     );
 }
 
@@ -291,6 +295,7 @@ function FilterForm({
                     textBoxWidth={150}
                 />
                 <div style={{ height: 5 }}></div>
+
                 <Form.Group>
                     <Row>
                         <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >

@@ -6,6 +6,7 @@ import API from "../API";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Map } from "./Map"
+import { getCoordsDetails } from "../utilities"
 let gpxParser = require('gpxparser');
 
 const HikeForm = (props) => {
@@ -29,6 +30,7 @@ const HikeForm = (props) => {
 	const [errMsg, setErrMsg] = useState("");
 	const [validated, setValidated] = useState(false);
 	const [allPoints, setAllPoints] = useState([]);
+	const [gpxPoints, setGpxPoints] = useState([])
 	const reader = new FileReader();
 	const navigate = useNavigate();
 
@@ -52,20 +54,19 @@ const HikeForm = (props) => {
 		setAllPoints(points);
 	}, [referencePoints.length, startPoint, endPoint])
 
-	const getValuesFromGPX = (fileGPX) => {
+	const getValuesFromGPX = async (fileGPX) => {
 		gpx.parse(fileGPX);
 		const l = parseFloat(gpx.tracks[0].distance.total).toFixed(2);
 		const a = parseFloat(gpx.tracks[0].elevation.max - gpx.tracks[0].elevation.min).toFixed(2);
-		setLength(l);
+		setGpxPoints(gpx.tracks[0].points)
+		setLength(l);	
 		setAscent(a);
-
 		let point = gpx.tracks[0].points[0];
 		const start = {
 			latitude: point.lat,
 			longitude: point.lon,
 			altitude: point.ele,
-			name: "",
-			address: ""
+			name: ""
 		}
 
 		point = gpx.tracks[0].points[gpx.tracks[0].points.length - 1];
@@ -76,12 +77,15 @@ const HikeForm = (props) => {
 			name: "",
 			address: ""
 		}
-
+		const startPointDetails = await getCoordsDetails(start);
+		setCity(startPointDetails.City)
+		setRegion(startPointDetails.Region)
+		setProvince(startPointDetails.SubregionCode)
+		start.address = startPointDetails.Address
+		end.address = (await getCoordsDetails(start)).Address
 		setStartPoint(start);
 		setEndPoint(end);
 	}
-
-
 	const handleSubmit = (event) => {
 		const form = event.currentTarget;
 		if (form.checkValidity() === false) {
@@ -114,11 +118,6 @@ const HikeForm = (props) => {
 			!regexpLongitude.test(point.longitude) ||
 			point.altitude === undefined || point.altitude === '' ||
 			point.altitude === null || isNaN(point.altitude);
-	}
-
-	const parseGPX = () => {
-		gpx.parse(fileGPX)
-		return gpx.tracks[0].points
 	}
 
 
@@ -172,216 +171,267 @@ const HikeForm = (props) => {
 	};
 
 	return (
-		<>
-			<Col className={"m-3"}>
-				<h1>Hike</h1>
-
-				<Form noValidate validated={validated} onSubmit={handleSubmit}>
-
-					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom01">
-						<Form.Label className={"fs-4"}>Title</Form.Label>
-						<Form.Control
-							required
-							type="text"
-							placeholder="Insert title"
-							value={title}
-							onChange={(e) => setTitle(e.target.value)}
-						/>
-						<Form.Control.Feedback type="invalid">Please insert title</Form.Control.Feedback>
-					</Form.Group>
+		<div className="p-3 mt-3">
+			<Row className="justify-content-center">
+				<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
+					<h1 >New Hike</h1>
+				</Col>
+			</Row>
 
 
-					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom03">
-						<Form.Label className={"fs-4"}>Expected Time</Form.Label>
-						<Form.Control
-							required
-							type="number"
-							placeholder="Insert expected time"
-							value={expectedTime}
-							onChange={(e) => setExpectedTime(e.target.value)}
-						/>
-						<Form.Control.Feedback type="invalid">Please insert correct expected time</Form.Control.Feedback>
-					</Form.Group>
+			<Form noValidate validated={validated} onSubmit={handleSubmit}>
+
+				<Row className={"mb-4"}></Row>
+
+				<Row className="justify-content-center">
+					<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
+						<Form.Group className={"mb-4"} controlId="validationCustom01">
+							<Form.Label className={"fs-4"}>Title</Form.Label>
+							<Form.Control
+								required
+								type="text"
+								placeholder="Insert title"
+								value={title}
+								onChange={(e) => setTitle(e.target.value)}
+							/>
+							<Form.Control.Feedback type="invalid">Please insert title</Form.Control.Feedback>
+						</Form.Group>
+					</Col>
+				</Row>
 
 
-					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom05">
-						<Form.Label className={"fs-4"}>Difficulty</Form.Label>
-						<Form.Select
-							value={difficulty}
-							onChange={(e) => setDifficulty(e.target.value)}>
-							<option value="Tourist">Tourist</option>
-							<option value="Hiker">Hiker</option>
-							<option value="Professional Hiker">Professional Hiker</option>
-						</Form.Select>
-						<Form.Control.Feedback type="invalid">Please insert correct difficulty</Form.Control.Feedback>
-					</Form.Group>
+				<Row className="justify-content-center">
+					<Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
+						<Form.Group className={"mb-4"} controlId="validationCustom03">
+							<Form.Label className={"fs-4"}>Expected Time</Form.Label>
+							<Form.Control
+								required
+								type="number"
+								placeholder="Insert expected time"
+								value={expectedTime}
+								onChange={(e) => setExpectedTime(e.target.value)}
+							/>
+							<Form.Control.Feedback type="invalid">Please insert correct expected time</Form.Control.Feedback>
+						</Form.Group>
+					</Col>
 
-					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom07">
+
+					<Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
+						<Form.Group className={"mb-4"} controlId="validationCustom05">
+							<Form.Label className={"fs-4"}>Difficulty</Form.Label>
+							<Form.Select
+								value={difficulty}
+								onChange={(e) => setDifficulty(e.target.value)}>
+								<option value="Tourist">Tourist</option>
+								<option value="Hiker">Hiker</option>
+								<option value="Professional Hiker">Professional Hiker</option>
+							</Form.Select>
+							<Form.Control.Feedback type="invalid">Please insert correct difficulty</Form.Control.Feedback>
+						</Form.Group>
+					</Col>
+				</Row>
+
+				<Row className="justify-content-center">
+
+					<Form.Group className={"mb-4"} as={Col} xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} controlId="validationCustom10">
 						<Form.Label className={"fs-4"}>Description</Form.Label>
 						<Form.Control
 							required
 							type="text"
+							as="textarea"
+							rows="3"
 							placeholder="Insert description"
 							value={description}
-							onChange={(e) => setDescription(e.target.value)}
+							onChange={(e) => {
+								setDescription(e.target.value);
+							}}
 						/>
 						<Form.Control.Feedback type="invalid">Please insert correct description</Form.Control.Feedback>
 					</Form.Group>
+				</Row>
 
-					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom07">
-						<Form.Label className={"fs-4"}>Region</Form.Label>
-						<Form.Control
-							required
-							type="text"
-							placeholder="Insert region"
-							value={region}
-							onChange={(e) => setRegion(e.target.value.replace(/[^a-z" "]/gi, ''))}
-						/>
-						<Form.Control.Feedback type="invalid">Please insert correct region</Form.Control.Feedback>
-					</Form.Group>
 
-					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom06">
-						<Form.Label className={"fs-4"}>Province</Form.Label>
-						<Form.Control
-							required
-							type="text"
-							placeholder="Insert province"
-							value={province}
-							maxLength={2}
-							onChange={(e) => setProvince(e.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
-						/>
-						<Form.Control.Feedback type="invalid">Please insert correct province</Form.Control.Feedback>
-					</Form.Group>
+				<Row className="justify-content-center">
+					<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
+						<Form.Group className={"mb-4"} controlId="validationCustom08">
+							<Form.Label className={"fs-4"}>GPX File</Form.Label>
+							<Form.Control
+								required
+								type="file"
+								placeholder="Insert GPX File"
+								value={GPX}
+								onChange={(e) => {
+									setGPX(e.target.value);
+									loadGPXContent(e.target.files);
 
-					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom07">
-						<Form.Label className={"fs-4"}>City</Form.Label>
-						<Form.Control
-							required
-							type="text"
-							placeholder="Insert city"
-							value={city}
-							onChange={(e) => setCity(e.target.value.replace(/[^a-z" "]/gi, ''))}
-						/>
-						<Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback>
-					</Form.Group>
+								}
+								}
+							/>
+							<Form.Control.Feedback type="invalid">Please insert a gpx file</Form.Control.Feedback>
+						</Form.Group>
+					</Col>
+				</Row>
 
-					<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom08">
-						<Form.Label className={"fs-4"}>GPX File</Form.Label>
-						<Form.Control
-							required
-							type="file"
-							placeholder="Insert GPX File"
-							value={GPX}
-							onChange={(e) => {
-								setGPX(e.target.value);
-								loadGPXContent(e.target.files);
+				{
+					!fileGPX
+						?
+						undefined
+						:
+						<>
 
-							}
-							}
-						/>
-						<Form.Control.Feedback type="invalid">Please insert a gpx file</Form.Control.Feedback>
-					</Form.Group>
-
-					{
-						!fileGPX
-							?
-							undefined
-							:
-							<>
-								<Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+							<Row className="justify-content-center">
+								<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
 									<Map hike={{ gpx: fileGPX, points: allPoints, huts: [], parking_lots: [] }}></Map>
 								</Col>
-								<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom02">
-									<Form.Label className={"fs-4"}>Length</Form.Label>
-									<Form.Control
-										required
-										disabled
-										type="text"
-										placeholder="Load GPX to get length"
-										value={length}
-									//onChange={(e) => setLength(e.target.value)}
-									/>
-									{/*<Form.Control.Feedback type="invalid">Please insert correct GPX to get length</Form.Control.Feedback>*/}
-								</Form.Group>
+							</Row>
+							
+							<Row className="justify-content-center">
 
-								<Form.Group className={"mb-3"} as={Col} md="4" controlId="validationCustom04">
-									<Form.Label className={"fs-4"}>Ascent</Form.Label>
-									<Form.Control
-										required
-										disabled
-										type="text"
-										placeholder="Load GPX file to get ascent"
-										value={ascent}
-									//onChange={(e) => setAscent(e.target.value)}
-									/>
-									{/*<Form.Control.Feedback type="invalid">Please insert correct GPX to get ascent</Form.Control.Feedback>*/}
-								</Form.Group>
-								{
-								(startPoint?.latitude === endPoint?.latitude && startPoint?.longitude === endPoint?.longitude) 
-								?
-								<Row>
-									<AddPointForm point={startPoint} setPoint={(el)=>{setStartPoint(el); setEndPoint(el)}} type={"Start and End point"}/>
-								</Row>
-								:
-								<>
-								<Row>
-									<AddPointForm point={startPoint} setPoint={setStartPoint} type={"Start point"}/>
-								</Row>
-								<Row>
-									<AddPointForm point={endPoint} setPoint={setEndPoint} type={"End point"}/>
-								</Row>
-								</>
-								}
-								{referencePoints.length > 0 ?
-									<Row className="mt-3"><h2>List of added points:</h2></Row>
+								<Col xs={12} sm={12} md={3} lg={3} xl={3} xxl={3}>
+
+									<Form.Group className={"mb-4"} controlId="validationCustom02">
+										<Form.Label className={"fs-4"}>Region</Form.Label>
+										<Form.Control
+											required
+											disabled
+											type="text"
+											placeholder="Insert region"
+											value={region}
+										// onChange={(e) => setRegion(e.target.value.replace(/[^a-z" "]/gi, ''))}
+										/>
+										<Form.Control.Feedback type="invalid">Please insert correct length</Form.Control.Feedback>
+									</Form.Group>
+								</Col>
+
+								<Col xs={12} sm={12} md={{ span: 3, offset: 1 }} lg={{ span: 3, offset: 1 }} xl={{ span: 3, offset: 1 }} xxl={{ span: 3, offset: 1 }}>
+									<Form.Group className={"mb-4"} controlId="validationCustom06">
+										<Form.Label className={"fs-4"}>Province</Form.Label>
+										<Form.Control
+											required
+											disabled
+											type="text"
+											placeholder="Insert province"
+											value={province}
+											maxLength={2}
+										// onChange={(e) => setProvince(e.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
+										/>
+										{/* <Form.Control.Feedback type="invalid">Please insert correct province</Form.Control.Feedback> */}
+									</Form.Group>
+								</Col>
+
+								<Col xs={12} sm={12} md={{ span: 3, offset: 1 }} lg={{ span: 3, offset: 1 }} xl={{ span: 3, offset: 1 }} xxl={{ span: 3, offset: 1 }}>
+									<Form.Group className={"mb-4"} controlId="validationCustom07">
+										<Form.Label className={"fs-4"}>City</Form.Label>
+										<Form.Control
+											required
+											disabled
+											type="text"
+											placeholder="Insert city"
+											value={city}
+										// onChange={(e) => setCity(e.target.value.replace(/[^a-z" "]/gi, ''))}
+										/>
+										{/* <Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback> */}
+									</Form.Group>
+								</Col>
+							</Row>
+
+
+
+							<Row className="justify-content-center">
+								<Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
+									<Form.Group className={"mb-4"} controlId="validationCustom02">
+										<Form.Label className={"fs-4"}>Length</Form.Label>
+										<Form.Control
+											required
+											disabled
+											type="text"
+											placeholder="Load GPX to get length"
+											value={length}
+										//onChange={(e) => setLength(e.target.value)}
+										/>
+										{/*<Form.Control.Feedback type="invalid">Please insert correct GPX to get length</Form.Control.Feedback>*/}
+									</Form.Group>
+								</Col>
+
+
+								<Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
+									<Form.Group className={"mb-4"} controlId="validationCustom04">
+										<Form.Label className={"fs-4"}>Ascent</Form.Label>
+										<Form.Control
+											required
+											disabled
+											type="text"
+											placeholder="Load GPX file to get ascent"
+											value={ascent}
+										//onChange={(e) => setAscent(e.target.value)}
+										/>
+										{/*<Form.Control.Feedback type="invalid">Please insert correct GPX to get ascent</Form.Control.Feedback>*/}
+									</Form.Group>
+								</Col>
+							</Row>
+
+
+							{
+								(startPoint?.latitude === endPoint?.latitude && startPoint?.longitude === endPoint?.longitude)
+									?
+									<AddPointForm point={startPoint} setPoint={(el) => { setStartPoint(el); setEndPoint(el) }} type={"Start and End point"} />
 									:
-									null
-								}
+									<>
 
-								{
-									referencePoints.map((point, index) => {
-										return (
-											<>
-												<Row className="mb-1" md={4}>
-													<Col className="fs-4">Point n°{index + 1}<Button className="mx-4" variant="danger" size="sm" onClick={() => deletePoint(point)}>Delete</Button></Col>
-												</Row>
-												<ConfirmedNewPoint point={point}></ConfirmedNewPoint>
-											</>
-										)
-									})
-								}
-
-								<Row>
-									<Col>
-										{showForm ?
-											<Col>
-												<AddPointForm points={parseGPX()} setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"}></AddPointForm>
-											</Col>
-											:
-											<Col>
-												<Button variant="outline-success" onClick={() => setShowForm(true)}>Add new point</Button>
-											</Col>
-										}
+										<AddPointForm point={startPoint} setPoint={setStartPoint} type={"Start point"} />
+										<AddPointForm point={endPoint} setPoint={setEndPoint} type={"End point"} />
+									</>
+							}
+							{referencePoints.length > 0 ?
+								<Row className="justify-content-center">
+									<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
+										<Row className="mt-3"><h2>List of added points:</h2></Row>
 									</Col>
 								</Row>
-							</>
-					}
-					<Col className="mt-4">
-						<Row className="mt-2" md={3}>{errMsg ? <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}</Row>
-						<Row md={3}>
-							<Button type="submit" variant="outline-success" onSubmit={handleSubmit}>Create new hike</Button>
-						</Row>
+								:
+								null
+							}
 
-						<Row md={3} className="my-3">
-							<Button variant="outline-danger" onClick={() => navigate("/")}>Cancel</Button>
-						</Row>
-					</Col>
+							{
+								referencePoints.map((point, index) => {
+									return (
+										<>
+											<Row className="justify-content-center">
 
-				</Form>
+												<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} className="fs-4">Point n°{index + 1}<Button className="mx-4" variant="danger" size="sm" onClick={() => deletePoint(point)}>Delete</Button></Col>
+											</Row>
+											<ConfirmedNewPoint point={point}></ConfirmedNewPoint>
+										</>
+									)
+								})
+							}
 
-			</Col>
+							<Row>
+								<Col>
+									{showForm ?
+										<AddPointForm points={gpxPoints} setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"}></AddPointForm>
+										:
+										<Row className="justify-content-center">
+											<Col className="mb-1 mt-2" xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
+												<Button variant="outline-success" style={{ width: 200, borderWidth: 3 }} onClick={() => setShowForm(true)}>Add new point</Button>
+											</Col>
+										</Row>
+									}
+								</Col>
+							</Row>
+						</>
+				}
+				<Row className="justify-content-center mt-2" xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>{errMsg ? <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}</Row>
+				<Row className="justify-content-center mt-5">
+					<div className='rowCentered'>
+						<Button type="submit" variant="outline-success" style={{ width: 200, borderWidth: 3 }}>Create new hike</Button>
+						<Button variant="outline-danger" style={{ width: 200, borderWidth: 3, marginLeft: 20 }} onClick={() => navigate("/")}>Cancel</Button>
+					</div>
+				</Row>
 
-		</>
+			</Form>
+			<Row className="mb-4" ></Row>
+		</div >
 	)
 }
 

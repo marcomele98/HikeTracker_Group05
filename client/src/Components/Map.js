@@ -42,7 +42,7 @@ const Map = (props) => {
                             center={positions[Math.floor(positions?.length / 2)]}
                             zoom={13}
                             scrollWheelZoom={true}
-                            style={{ height: "500px" }}
+                            style={{ height: "400px" }}
                         >
                             <MapMoover position={{ lat: positions[0][0], lng: positions[0][1] }}></MapMoover>
                             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -77,21 +77,23 @@ const Map = (props) => {
 }
 
 
-const MapEvents = ({ selected, setSelected }) => {
+const MapEvents = ({ selected, setSelected, clearAddress }) => {
     const map = useMapEvents({
         click: (e) => {
-            if (selected && (e.latlng.lat !== selected.lat || e.latlng.lng !== selected.lon))
+            if (selected && (e.latlng.lat !== selected.lat || e.latlng.lng !== selected.lon)){
                 setSelected("")
+                clearAddress()
+            }
         }
     })
     return <></>
 }
 
 
-const SelectorMap = ({ onClick, positions }) => {
+const SelectorMap = ({ onClick, positions, clearAddress }) => {
     const [selected, setSelected] = React.useState();
 
-    React.useEffect(()=>console.log(positions), [positions])
+    React.useEffect(()=>console.log(positions), [])
 
     const blueIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF"
     const greenIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|2ecc71&chf=a,s,ee00FFFF"
@@ -111,9 +113,9 @@ const SelectorMap = ({ onClick, positions }) => {
                                 center={positions[0]}
                                 zoom={13}
                                 scrollWheelZoom={true}
-                                style={{ height: "500px" }}
+                                style={{ height: "400px" }}
                             >
-                                <MapEvents selected={selected} setSelected={setSelected} />
+                                <MapEvents selected={selected} setSelected={setSelected} clearAddress={clearAddress}/>
                                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                                 <Polyline
                                     pathOptions={{ fillColor: 'red', color: 'blue' }}

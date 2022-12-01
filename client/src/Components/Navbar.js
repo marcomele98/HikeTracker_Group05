@@ -1,45 +1,62 @@
-import { Navbar, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { Bicycle } from "react-bootstrap-icons";
+import { GiMountaintop } from "react-icons/gi";
 import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import '../App.css';
 
 function NavigationBar(props) {
 
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
-    <Navbar className="d-flex flex-row justify-content-between" bg="success">
-      <div style={{ flex: 0.6, paddingLeft: "1%", }} className="d-flex flex-row">
-        <div
-          style={{
-            paddingLeft: "1%",
-            fontWeight: "500",
-            fontSize: 22,
-            color: "White",
-          }}
-        >Hike Tracker</div>
-      </div>
-      <div>
-        {props.loggedIn ? (
-          <Button variant="success" size="lg" onClick={() => { props.logout(); props.setLog(true) }}>Logout</Button>
-        )
-          :
-          (
-            props.log ?
-              <Row>
-                <Col>
-                  <Button variant="success" size="lg" onClick={() => { navigate('/login'); props.setLog(false) }}>Login</Button>
-                </Col>
-                <Col>
-                  <Button variant="success" size="lg" onClick={() => { navigate('/Register'); props.setLog(false) }}>Register</Button>
-                </Col>
-              </Row>
+    <Navbar className="fixed-top" style={{backgroundColor:'black', width:"100%", paddingLeft:0, paddingRight:0, margin:0}} collapseOnSelect expand="lg" bg="success" variant="dark">
+
+
+
+        <Navbar.Brand className="navbar-brand">
+              <GiMountaintop style={{marginLeft:20, marginRight:10}} size={30} ></GiMountaintop>
+            <h3 style={{lineHeight:1, padding:0, margin:0, marginRight:20}}>
+              HikeTracker
+            </h3>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav"  style={{marginRight:20}} />
+        <Navbar.Collapse id="responsive-navbar-nav"  style={{marginLeft:20}}>
+
+          <Nav className="me-auto" >
+            {props.user?.role === "local guide" || props.user?.role === "hiker" ?
+              <>
+                <Nav.Link  style={{fontSize:18}} active={location?.pathname === "/home"} onClick={() => navigate('/home')}>Hikes</Nav.Link>
+                <Nav.Link  style={{fontSize:18}} active={location?.pathname === "/huts"} onClick={() => navigate('/huts')}>Huts</Nav.Link>
+                <Nav.Link  style={{fontSize:18}} active={location?.pathname === "/parkingLots"} onClick={() => navigate('/parkingLots')}>Parking Lots</Nav.Link>
+              </>
+              : undefined
+            }
+          </Nav>
+          <Nav style={{marginRight:20}}>
+            {props.loggedIn ? (
+              <Nav.Link style={{fontSize:18}} onClick={() => { props.logout(); props.setLog(true) }}>Logout</Nav.Link>
+            )
               :
-              <Button variant="success" size="lg" onClick={() => { navigate('/home'); props.setLog(true) }}>Home</Button>
-          )
-        }
-      </div>
+              (
+                props.log ?
+                  <>
+                    <Nav.Link  style={{fontSize:18}} onClick={() => { navigate('/login'); props.setLog(false) }}>Login</Nav.Link>
+
+                    <Nav.Link  style={{fontSize:18}} onClick={() => { navigate('/Register'); props.setLog(false) }}>Register</Nav.Link>
+                  </>
+
+                  :
+                  <Nav.Link style={{fontSize:18}} onClick={() => { navigate('/home'); props.setLog(true) }}>Home</Nav.Link>
+              )
+            }
+          </Nav>
+        </Navbar.Collapse>
+
     </Navbar>
   );
 }

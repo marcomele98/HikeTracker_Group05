@@ -64,7 +64,7 @@ const PointMap = ({ position }) => {
                 <MapContainer
                     zoom={13}
                     scrollWheelZoom={true}
-                    style={{ height: "300px" }}
+                    style={{ height: "400px" }}
                     center={position}
                 >
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

@@ -107,7 +107,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             :
                             <Row>
                                 <ListGroup>
-                                    <RefPointSwitcher type={hike.start_point_type} point={hike.start_point} user={user} />
+                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                        <RefPointSwitcher type={hike.start_point_type} point={hike.start_point} user={user} />
+                                    </Col>
                                 </ListGroup>
 
                             </Row>
@@ -138,7 +140,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                 <EditStartEndPoint hike={hike} selected={"end point"} setIsLoading={setIsLoading} setHike={setHike} setEditable={setEditingEndPoint} />
                                 :
                                 <ListGroup>
-                                    <RefPointSwitcher type={hike.end_point_type} point={hike.end_point} user={user} />
+                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                        <RefPointSwitcher type={hike.end_point_type} point={hike.end_point} user={user} />
+                                    </Col>
                                 </ListGroup>
                         }
                     </Row>
@@ -166,13 +170,15 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             ?
                             (
                                 <ListGroup>
-                                    {
-                                        hike.huts
-                                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                            .map((h) =>
-                                                <Hut key={h.id} hut={h} user={user}></Hut>
-                                            )
-                                    }
+                                        {
+                                            hike.huts
+                                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                                .map((h) =>
+                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                        <Hut key={h.id} hut={h} user={user}></Hut>
+                                                    </Col>
+                                                )
+                                        }                                  
                                 </ListGroup>
                             )
                             :
@@ -202,14 +208,16 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         seeAllParksDetails
                             ?
                             (
-                                <ListGroup>
-                                    {
-                                        hike.parking_lots
-                                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                            .map((p) =>
-                                                <Park key={p.id} park={p} user={user}></Park>
-                                            )
-                                    }
+                                <ListGroup>            
+                                        {
+                                            hike.parking_lots
+                                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                                .map((p) =>
+                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                        <Park key={p.id} park={p} user={user}></Park>
+                                                    </Col>
+                                                )
+                                        }                                    
                                 </ListGroup>
                             )
                             :
@@ -239,14 +247,16 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         seeAllPointsDetails
                             ?
                             (
-                                <ListGroup>
-                                    {
-                                        hike.points
-                                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                            .map((p) =>
-                                                <Point key={p.id} point={p}></Point>
-                                            )
-                                    }
+                                <ListGroup>                        
+                                        {
+                                            hike.points
+                                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                                .map((p) =>
+                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                        <Point key={p.id} point={p}></Point>
+                                                    </Col>
+                                                )
+                                        }                                   
                                 </ListGroup>
                             )
                             :
@@ -477,7 +487,7 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
             <Row>
                 <div className='rowC'>
                     <Button type="submit" variant="outline-success" style={{ width: 100, borderWidth: 3 }}>Confirm</Button>
-                    <Button variant="outline-danger" style={{ width: 100, borderWidth: 3, marginLeft:20 }} onClick={() => { setEditable(false) }}>Cancel</Button>
+                    <Button variant="outline-danger" style={{ width: 100, borderWidth: 3, marginLeft: 20 }} onClick={() => { setEditable(false) }}>Cancel</Button>
                 </div>
             </Row>
             <Row style={{ height: 20 }} />

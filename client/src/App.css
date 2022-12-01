@@ -149,6 +149,29 @@
 
 .rowC{display:flex; flex-direction:row;}
 
+.rowCentered{
+  display:flex; 
+  flex-direction:row;
+  justify-content: center;
+}
 
 
-#map {height: 500px;}
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.backImage {
+  background-position: center; 
+  background-repeat: no-repeat; 
+  background-size: cover; 
+  height: 100vh;
+  position: fixed; 
+  background-attachment: fixed; 
+  z-index:-1;
+}
+
+
+#map {height: 400px;}
+
+

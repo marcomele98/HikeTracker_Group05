@@ -38,7 +38,7 @@ describe('parkingform e2e tset', () => {
     })    
     
     it('create new parking button test',()=>{
-        cy.get("svg").click({multiple: true})
+        cy.contains("New Parking Lot").click({force: true})
         cy.url().should('include', '/new-parking')
    })
     it('all info exist',()=>{
@@ -50,14 +50,14 @@ describe('parkingform e2e tset', () => {
     })
 
     it('submit form',()=>{
-       cy.get('input[id=validationCustom01]').type('Dash Kitchen').should('have.value', 'Dash Kitchen')
-       cy.get('input[id=validationCustom02]').type('Piemonte').should('have.value', 'Piemonte')
-       cy.get('input[id=validationCustom06]').type('TO').should('have.value', 'TO')
-       cy.get('input[id=validationCustom07]').type('Torino').should('have.value', 'Torino')
+       cy.get('input[id=validationCustom01]').click({force: true}).type('Dash Kitchen').should('have.value', 'Dash Kitchen')
+       cy.get('input[id=validationCustom03]').click({force: true}).type('200').should('have.value', '200')
+       cy.get('input[id=validationCustom02]').click({force: true}).type('Piemonte').should('have.value', 'Piemonte')
+       cy.get('input[id=validationCustom06]').click({force: true}).type('TO').should('have.value', 'TO')
+       cy.get('input[id=validationCustom07]').click({force: true}).type('Torino').should('have.value', 'Torino')
        //cy.get('.clickMap').should('have.value','45.058437, 7.678607')
        //cy.get('.clickMap').click('right')
-       cy.get('input[id=validationCustom03]').type('200').should('have.value', '200')
-       cy.contains('Create new parking lot').click()
+       cy.contains('Create new parking lot').click({force: true})
      })
 })
 
@@ -93,7 +93,7 @@ describe('cancel button test of parkingform e2e tset', () => {
     })    
     
     it('create new parking button test',()=>{
-        cy.get("svg").click({multiple: true})
+        cy.contains("New Parking Lot").click({force: true})
         cy.url().should('include', '/new-parking')
    })
     // it('all info exist',()=>{
@@ -113,8 +113,8 @@ describe('cancel button test of parkingform e2e tset', () => {
         })
     
         it('Cancel button test',()=>{
-        cy.contains('Cancel').click()
-        cy.url().should('include', '/home')
+        cy.contains('Cancel').click({force: true})
+        cy.url().should('include', '/parkingLots')
     })
 
   

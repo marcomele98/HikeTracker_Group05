@@ -7,6 +7,8 @@ const parkingDB = require('../Queries/parking');
 
 const possibleDiff = ['Tourist', 'Hiker', 'Professional Hiker'];
 const possibleTypes = ['general point', 'Parking point', 'Hut point'];
+// var NodeGeocoder = require('node-geocoder');
+
 
 
 class HikeDescription {
@@ -50,6 +52,26 @@ class HikeDescription {
             point.altitude === undefined || point.altitude === '' ||
             point.altitude === null || isNaN(point.altitude);
     }
+
+    // getCity = async (lat, lon) => {
+
+    //     console.log({lat, lon})
+    //     var geocoder = NodeGeocoder({
+    //         provider: 'google',
+    //         apiKey: 'AIzaSyChltbm9OptIco4UdxhjF09fRGLixuFzcE',
+    //         formatter: 'json' // 'gpx', 'string', ...
+    //       });
+
+    //     // Reverse Geocode
+    //     geocoder.reverse({lat, lon})
+    //         .then((res) => {
+    //             console.log(res);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+
+    // }
 
 
     async newHikeDescription(req, res) {
@@ -140,11 +162,13 @@ class HikeDescription {
             }
         }
 
+        // await this.getCity(hike.start_point.latitude, hike.start_point.longitude)
+
         try {
             let hike_id = await db.newHike(hike, lg_id);
             let end_point_id = await pointDB.storePoint(hike.end_point, hike_id)
             let start_point_id = end_point_id
-            if(hike.end_point !== hike.start_point) {
+            if (hike.end_point !== hike.start_point) {
                 start_point_id = await pointDB.storePoint(hike.start_point, hike_id)
             }
             await db.updateHike(end_point_id, "general point", start_point_id, "general point", hike_id)

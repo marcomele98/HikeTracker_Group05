@@ -16,8 +16,8 @@ tn_file3 = readFile('./GPX_files/Trentino/hike3.gpx',tn_file3); //Salita al Mont
 tn_file4 = readFile('./GPX_files/Trentino/hike4.gpx',tn_file4); //Salita al Bric Mindino e al Colle di Prato Rotondo
 tn_file5 = readFile('./GPX_files/Trentino/hike5.gpx',tn_file5); //Salita al Bric Mindino e al Colle di Prato Rotondo
 tn_file6 = readFile('./GPX_files/Trentino/hike6.gpx',tn_file6); //Salita al Bric Mindino e al Colle di Prato Rotondo
-tn_file7 = readFile('./GPX_files/Trentino/hike6.gpx',tn_file7); //Salita al Bric Mindino e al Colle di Prato Rotondo
-tn_file8 = readFile('./GPX_files/Trentino/hike6.gpx',tn_file8); //Salita al Bric Mindino e al Colle di Prato Rotondo
+tn_file7 = readFile('./GPX_files/Trentino/hike7.gpx',tn_file7); //Salita al Bric Mindino e al Colle di Prato Rotondo
+tn_file8 = readFile('./GPX_files/Trentino/hike8.gpx',tn_file8); //Salita al Bric Mindino e al Colle di Prato Rotondo
 
 module.exports.tn_file1 =   tn_file1 ;
 module.exports.tn_file2 =   tn_file2;
