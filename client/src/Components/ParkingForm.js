@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CliccableMap } from "./cliccableMap";
 import { toast } from "react-toastify";
 import API from "../API";
+import { getCoordsDetails } from "../utilities"
 
 
 const ParkingForm = (props) => {
@@ -19,6 +20,21 @@ const ParkingForm = (props) => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+
+        const positionChangeHandle = async () => {
+            const details = await getCoordsDetails({ latitude: position.lat, longitude: position.lng })
+            setCity(details.City)
+            setRegion(details.Region)
+            setProvince(details.SubregionCode)
+
+        }
+
+        if (position)
+            positionChangeHandle()
+
+    }, [position])
+
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -27,7 +43,11 @@ const ParkingForm = (props) => {
             event.stopPropagation();
         } else {
             event.preventDefault();
-            sendForm();
+            if (!position)
+                setErrMsg("Please select a point on the map.");
+            else {
+                sendForm();
+            }
         }
 
         setValidated(true);
@@ -116,60 +136,67 @@ const ParkingForm = (props) => {
                     </Col>
                 </Row>
 
-
-                <Row className="justify-content-center">
-
-                    <Col xs={12} sm={12} md={3} lg={3} xl={3} xxl={3}>
-
-                        <Form.Group className={"mb-4"} controlId="validationCustom02">
-                            <Form.Label className={"fs-4"}>Region</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                placeholder="Insert region"
-                                value={region}
-                                onChange={(e) => setRegion(e.target.value.replace(/[^a-z" "]/gi, ''))}
-                            />
-                            <Form.Control.Feedback type="invalid">Please insert correct length</Form.Control.Feedback>
-                        </Form.Group>
-                    </Col>
-
-                    <Col xs={12} sm={12} md={{ span: 3, offset: 1 }} lg={{ span: 3, offset: 1 }} xl={{ span: 3, offset: 1 }} xxl={{ span: 3, offset: 1 }}>
-                        <Form.Group className={"mb-4"} controlId="validationCustom06">
-                            <Form.Label className={"fs-4"}>Province</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                placeholder="Insert province"
-                                value={province}
-                                maxLength={2}
-                                onChange={(e) => setProvince(e.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
-                            />
-                            <Form.Control.Feedback type="invalid">Please insert correct province</Form.Control.Feedback>
-                        </Form.Group>
-                    </Col>
-
-                    <Col xs={12} sm={12} md={{ span: 3, offset: 1 }} lg={{ span: 3, offset: 1 }} xl={{ span: 3, offset: 1 }} xxl={{ span: 3, offset: 1 }}>
-                        <Form.Group className={"mb-4"} controlId="validationCustom07">
-                            <Form.Label className={"fs-4"}>City</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                placeholder="Insert city"
-                                value={city}
-                                onChange={(e) => setCity(e.target.value.replace(/[^a-z" "]/gi, ''))}
-                            />
-                            <Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback>
-                        </Form.Group>
-                    </Col>
-                </Row>
-
                 <Row className="justify-content-center mb-4">
                     <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
                         <CliccableMap position={position} setPosition={setPosition}></CliccableMap>
                     </Col>
                 </Row>
-                <Row className="justify-content-center mt-2" xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>{errMsg ? <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}</Row>
+                {
+                    !position ?
+                        false
+                        :
+                        <Row className="justify-content-center">
+
+                            <Col xs={12} sm={12} md={3} lg={3} xl={3} xxl={3}>
+
+                                <Form.Group className={"mb-4"} controlId="validationCustom02">
+                                    <Form.Label className={"fs-4"}>Region</Form.Label>
+                                    <Form.Control
+                                        required
+                                        disabled={true}
+                                        type="text"
+                                        placeholder="Insert region"
+                                        value={region}
+                                    />
+                                    <Form.Control.Feedback type="invalid">Please insert correct length</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+
+                            <Col xs={12} sm={12} md={{ span: 3, offset: 1 }} lg={{ span: 3, offset: 1 }} xl={{ span: 3, offset: 1 }} xxl={{ span: 3, offset: 1 }}>
+                                <Form.Group className={"mb-4"} controlId="validationCustom06">
+                                    <Form.Label className={"fs-4"}>Province</Form.Label>
+                                    <Form.Control
+                                        required
+                                        disabled={true}
+                                        type="text"
+                                        placeholder="Insert province"
+                                        value={province}
+                                        maxLength={2}
+                                    />
+                                    <Form.Control.Feedback type="invalid">Please insert correct province</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+
+                            <Col xs={12} sm={12} md={{ span: 3, offset: 1 }} lg={{ span: 3, offset: 1 }} xl={{ span: 3, offset: 1 }} xxl={{ span: 3, offset: 1 }}>
+                                <Form.Group className={"mb-4"} controlId="validationCustom07">
+                                    <Form.Label className={"fs-4"}>City</Form.Label>
+                                    <Form.Control
+                                        required
+                                        disabled={true}
+                                        type="text"
+                                        placeholder="Insert city"
+                                        value={city}
+                                    />
+                                    <Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                }
+                <Row className="justify-content-center mt-2" >
+                    <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>{errMsg ?
+                        <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}
+                    </Col>
+                </Row>
                 <Row className="justify-content-center">
                     <div className='rowCentered'>
                         <Button type="submit" variant="outline-success" style={{ width: 200, borderWidth: 3 }}>Create new parking lot</Button>

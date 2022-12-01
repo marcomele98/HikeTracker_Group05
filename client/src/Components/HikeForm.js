@@ -59,7 +59,7 @@ const HikeForm = (props) => {
 		const l = parseFloat(gpx.tracks[0].distance.total).toFixed(2);
 		const a = parseFloat(gpx.tracks[0].elevation.max - gpx.tracks[0].elevation.min).toFixed(2);
 		setGpxPoints(gpx.tracks[0].points)
-		setLength(l);	
+		setLength(l);
 		setAscent(a);
 		let point = gpx.tracks[0].points[0];
 		const start = {
@@ -86,6 +86,8 @@ const HikeForm = (props) => {
 		setStartPoint(start);
 		setEndPoint(end);
 	}
+
+
 	const handleSubmit = (event) => {
 		const form = event.currentTarget;
 		if (form.checkValidity() === false) {
@@ -93,32 +95,13 @@ const HikeForm = (props) => {
 			event.stopPropagation();
 		} else {
 			event.preventDefault();
-			if (isNotValidPoint(startPoint) || isNotValidPoint(endPoint)) {
-				setErrMsg("Please insert correct coordinates");
-			}
-			else {
-				sendForm();
-			}
+			sendForm();
 		}
-
 		setValidated(true);
 	};
 
 
-	const isNotValidPoint = (point) => {
-		let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
-		let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
 
-
-		return point.latitude === undefined || point.latitude === '' ||
-			point.latitude === null || point.latitude < -90 || point.latitude > 90 ||
-			!regexpLatitude.test(point.latitude) ||
-			point.longitude === undefined || point.longitude === '' ||
-			point.longitude === null || point.longitude < -180 || point.longitude > 180 ||
-			!regexpLongitude.test(point.longitude) ||
-			point.altitude === undefined || point.altitude === '' ||
-			point.altitude === null || isNaN(point.altitude);
-	}
 
 
 	useEffect(() => {
@@ -284,7 +267,7 @@ const HikeForm = (props) => {
 									<Map hike={{ gpx: fileGPX, points: allPoints, huts: [], parking_lots: [] }}></Map>
 								</Col>
 							</Row>
-							
+
 							<Row className="justify-content-center">
 
 								<Col xs={12} sm={12} md={3} lg={3} xl={3} xxl={3}>
@@ -297,9 +280,7 @@ const HikeForm = (props) => {
 											type="text"
 											placeholder="Insert region"
 											value={region}
-										// onChange={(e) => setRegion(e.target.value.replace(/[^a-z" "]/gi, ''))}
 										/>
-										<Form.Control.Feedback type="invalid">Please insert correct length</Form.Control.Feedback>
 									</Form.Group>
 								</Col>
 
@@ -312,10 +293,7 @@ const HikeForm = (props) => {
 											type="text"
 											placeholder="Insert province"
 											value={province}
-											maxLength={2}
-										// onChange={(e) => setProvince(e.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
 										/>
-										{/* <Form.Control.Feedback type="invalid">Please insert correct province</Form.Control.Feedback> */}
 									</Form.Group>
 								</Col>
 
@@ -328,9 +306,7 @@ const HikeForm = (props) => {
 											type="text"
 											placeholder="Insert city"
 											value={city}
-										// onChange={(e) => setCity(e.target.value.replace(/[^a-z" "]/gi, ''))}
 										/>
-										{/* <Form.Control.Feedback type="invalid">Please insert correct city</Form.Control.Feedback> */}
 									</Form.Group>
 								</Col>
 							</Row>

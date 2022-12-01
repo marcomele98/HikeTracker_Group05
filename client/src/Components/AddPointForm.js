@@ -13,24 +13,11 @@ const AddPointForm = (props) => {
 	const [address, setAddress] = useState("");
 	const [errMsg, setErrMsg] = useState("");
 
-	useEffect(()=>{
-		if(props.point?.address)
+	useEffect(() => {
+		if (props.point?.address)
 			setAddress(props.point.address)
 	}, [props.point])
 
-	const isNotValidPoint = (point) => {
-		let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
-		let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
-
-		return point.latitude === undefined || point.latitude === '' ||
-			point.latitude === null || point.latitude < -90 || point.latitude > 90 ||
-			!regexpLatitude.test(point.latitude) ||
-			point.longitude === undefined || point.longitude === '' ||
-			point.longitude === null || point.longitude < -180 || point.longitude > 180 ||
-			!regexpLongitude.test(point.longitude) ||
-			point.altitude === undefined || point.altitude === '' ||
-			point.altitude === null || isNaN(point.altitude);
-	}
 
 	const setPointAddress = async (coordinates) => {
 		const addr = (await getCoordsDetails(coordinates)).Address
@@ -47,8 +34,8 @@ const AddPointForm = (props) => {
 			address
 		}
 
-		if (isNotValidPoint(point)) {
-			setErrMsg("Please insert correct coordinates");
+		if (point) {
+			setErrMsg("Please select a point.");
 		}
 		else {
 			let referencePoints = props.referencePoints;
@@ -98,11 +85,11 @@ const AddPointForm = (props) => {
 					<Row className="justify-content-center">
 						<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
 							<SelectorMap
-								clearAddress={()=>setAddress("")}
+								clearAddress={() => setAddress("")}
 								onClick={(el) => {
 									setLat(el.lat);
 									setLong(el.lon)
-									setPointAddress({latitude: el.lat, longitude: el.lon});
+									setPointAddress({ latitude: el.lat, longitude: el.lon });
 									setHeight(el.ele)
 									confirmPoint(el.lat, el.lon, el.ele, name, address)
 								}}
@@ -155,7 +142,11 @@ const AddPointForm = (props) => {
 
 				{props.type === "New point" && props.points ?
 					<>
-						<Row className="mt-2" md={3}>{errMsg ? <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}</Row>
+						<Row className="justify-content-center">
+							<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
+								{errMsg ? <Alert variant='danger' onClose={() => setErrMsg('')} dismissible>{errMsg}</Alert> : false}
+							</Col>
+						</Row>
 						<Row className="justify-content-center">
 							<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
 								<Button variant="success" onClick={addReferencePoint}>Confirm point</Button>

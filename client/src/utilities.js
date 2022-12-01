@@ -26,7 +26,7 @@ let reverseGeoCoding = async (coordinates) => {
 
 let getCoordsDetails = async (coordinates) => {
     let details = await reverseGeoCoding(coordinates)
-    return {...details.address, SubregionCode: provinceToCode[details.address.Subregion]}
+    return {...details.address, SubregionCode: provinceToCode[details.address.Subregion] ? provinceToCode[details.address.Subregion] : details.address.Subregion}
 }
 
 const provinceToCode = {  
