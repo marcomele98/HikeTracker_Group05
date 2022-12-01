@@ -439,7 +439,7 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
                 let ps = await API.getParks()
                 ps = ps
                     .filter(p => {
-                        let first_cond = calcCrow(p.latitude, p.longitude, point.latitude, point.longitude) <= 0.3;
+                        let first_cond = calcCrow(p.latitude, p.longitude, point.latitude, point.longitude) <= 5;
                         let sec_cond = !(p.id === point.id && point_type === "Parking point")
                         return first_cond && sec_cond
                     })
@@ -448,7 +448,7 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
                 let hs = await API.getHuts()
                 hs = hs
                     .filter(h => {
-                        let first_cond = calcCrow(h.latitude, h.longitude, point.latitude, point.longitude) <= 0.3;
+                        let first_cond = calcCrow(h.latitude, h.longitude, point.latitude, point.longitude) <= 5;
                         let sec_cond = !(h.id === point.id && point_type === "Hut point")
                         return first_cond && sec_cond
                     })
