@@ -19,6 +19,7 @@ exports.all = (stmt, params) => {
 }
 
 
+
 exports.serialize = (f) => {
     db.serialize(f);
 }
