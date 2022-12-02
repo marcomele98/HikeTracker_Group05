@@ -455,7 +455,7 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
             setHike(res);
             setIsLoading(false);
             setEditable(false);
-            toast.success("Hike Updated Successively", { position: "top-center" }, { toastId: 110 });
+            toast.success("Hike Updated Successfully", { position: "top-center" }, { toastId: 110 });
 
         } catch (err) {
             setIsLoading(false);

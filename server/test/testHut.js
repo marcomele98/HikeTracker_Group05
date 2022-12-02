@@ -12,10 +12,10 @@ describe('test huts', () => {
         await testUtility.reset();
     });
 
-    newHut(201, hutObject.hut2, userObject.lg1Credentials);
-    newHut(422, {...hutObject.hut2, name: undefined}, userObject.lg1Credentials);
-    newHut(422, {...hutObject.hut2, latitude: ''}, userObject.lg1Credentials);
-    newHut(422, {...hutObject.hut2, province: ''}, userObject.lg1Credentials);
+    newHut(201, hutObject.hut2);
+    newHut(422, {...hutObject.hut2, name: undefined});
+    newHut(422, {...hutObject.hut2, latitude: ''});
+    newHut(422, {...hutObject.hut2, province: ''});
 
     getAllHuts(200, hutObject.hut, hutObject.hut3, hutObject.hut4, hutObject.hut5);
     getHutById(0, hutObject.hut, hutObject.hut3, hutObject.hut4, hutObject.hut5);

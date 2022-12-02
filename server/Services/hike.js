@@ -54,7 +54,7 @@ class HikeDescription {
             point.altitude === null || isNaN(point.altitude);
     }
 
-    deleteStartEndPoint = async (oldStartType, oldEndType, oldStartId, oldEndId) => {
+    deleteStartEndPoint = async (hikeId, oldStartType, oldEndType, oldStartId, oldEndId) => {
         if (oldStartType === 'Parking point' && (oldEndType !== 'Parking point' || (oldEndType === 'Parking point' && oldEndId !== oldStartId))) {
             await db.deleteParkForHike(hikeId, oldStartId);
         }
@@ -237,7 +237,7 @@ class HikeDescription {
                 let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
 
-                await this.deleteStartEndPoint(oldStartType, oldEndType, oldStartId, oldEndId);
+                await this.deleteStartEndPoint(hike.id, oldStartType, oldEndType, oldStartId, oldEndId);
 
                 await db.updateHike(oldEndId, oldEndType, update.start_point, update.type_start, hikeId);
 
@@ -293,7 +293,7 @@ class HikeDescription {
                 let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
 
-                await this.deleteStartEndPoint(oldEndType, oldStartType, oldEndId, oldStartId);
+                await this.deleteStartEndPoint(hike.id, oldEndType, oldStartType, oldEndId, oldStartId);
 
                 await db.updateHike(update.end_point, update.type_end, oldStartId, oldStartType, hikeId);
 
@@ -347,7 +347,7 @@ class HikeDescription {
                 let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
 
-                await this.deleteStartEndPoint(oldStartType, oldEndType, oldStartId, oldEndId);
+                await this.deleteStartEndPoint(hike.id, oldStartType, oldEndType, oldStartId, oldEndId);
 
                 let start_point_id = await pointDB.storePoint(update, hikeId);
                 await db.updateHike(hike.end_point, hike.end_point_type, start_point_id, "general point", hikeId)
@@ -390,7 +390,7 @@ class HikeDescription {
                 let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
 
-                await this.deleteStartEndPoint(oldEndType, oldStartType, oldEndId, oldStartId);
+                await this.deleteStartEndPoint(hike.id, oldEndType, oldStartType, oldEndId, oldStartId);
 
                 let end_point_id = await pointDB.storePoint(update, hikeId);
                 await db.updateHike(end_point_id, "general point", hike.start_point, hike.start_point_type, hikeId)

@@ -25,7 +25,20 @@ describe('test hikes apis', () => {
     newHikeDescription(422, hikeObject.hike_wrong_2);
     updateEndPoint(200,1,hikeObject.hike, hikeObject.updateEnd, hikeObject.updateEnd1 , hutObject.hut , parkObject.park);
     updateStartPoint(200,1,hikeObject.hike,hikeObject.updateStart, hikeObject.updateStart1 , hutObject.hut1 , parkObject.park1);
+    updateStartPoint(422,1,hikeObject.hike,hikeObject.updateStart, undefined , hutObject.hut1 , parkObject.park1);
 
+});
+
+describe('test hikes apis no login', () => {
+    beforeEach(async () => {
+        await testUtility.reset();
+    });
+
+    afterEach(async () => {
+        await testUtility.reset();
+    });
+
+    newHikeDescription(401, hikeObject.hike);
 });
 
 
@@ -127,6 +140,7 @@ function updateEndPoint(expectedHTTPStatus,id,hike,updateEnd, updateEnd1 , hut ,
                                                                 chaiUtility.agent.put('/api/hikeEnd/' + id)
                                                                     .send(updateEnd1)
                                                                     .then(function (res4) {
+                                                                        console.log(updateEnd1);
                                                                         if (id == 1) {
                                                                         res4.should.have.status(expectedHTTPStatus);
                                                                         done();
@@ -148,15 +162,15 @@ function updateEndPoint(expectedHTTPStatus,id,hike,updateEnd, updateEnd1 , hut ,
                                                     res2.should.have.status(404);
                                                     done();
                                                 }
-                                        }
-                                    });
+                                            }
+                                        });
+                                    }
+                                })
                             }
-                        })
-                }
-            })
-        }
-    });
-})
+                })
+            }
+        });
+    })
 }
 
 
@@ -191,6 +205,7 @@ function updateStartPoint(expectedHTTPStatus,id,hike,updateStart, updateStart1 ,
                                                                 chaiUtility.agent.put('/api/hikeStart/' + id)
                                                                     .send(updateStart1)
                                                                     .then(function (res4) {
+                                                                        console.log(updateStart1);
                                                                         if (id == 1) {
                                                                         res4.should.have.status(expectedHTTPStatus);
                                                                         done();
