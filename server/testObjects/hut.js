@@ -15,3 +15,56 @@ exports.hut1 = {
     ...this.hut,
     'altitude': '2185',
 }
+
+exports.hut2 = {
+    'name': 'Agririfugio Molini',
+    'latitude': '44.31912',
+    'longitude': '9.178627',
+    'altitude': '232',
+    'type': 'Refuge',
+    'region': 'Liguria',
+    'province': 'GE',
+    'city': 'Fruttuoso',
+    'number_of_beds': 11,
+    'description': 'Set on a hillside overlooking the Ligurian coast, this quiet, secluded farmhouse within Portofino Natural Park is only accessible via hiking trails.'
+};
+
+exports.hut3 ={
+    'name': 'Rifugio Asti',
+    'latitude': '45.19177',
+    'longitude': '7.07427',
+    'altitude': '2854',
+    'type': 'Refuge',
+    'region': 'Piemonte',
+    'province': 'TO',
+    'city': 'Mompantero',
+    'number_of_beds': 15,
+    'description': 'prova2'
+};
+
+
+exports.hut4 = {
+    'name': 'Rifugio Duca degli Abruzzi',
+    'latitude': '45.958891',
+    'longitude': '7.6441',
+    'altitude': '2798.2',
+    'type': 'Refuge',
+    'region': 'Valle d Aosta',
+    'province': 'AO',
+    'city': 'Breuil-Cervinia',
+    'number_of_beds': 22,
+    'description': 'prova3'
+}
+
+exports.hut5 = {
+    'name': 'Rifugio Sempronio',
+    'latitude': '45.312451',
+    'longitude': '7.1000',
+    'altitude': '2702.1',
+    'type': 'Refuge',
+    'region': 'Valle d Aosta',
+    'province': 'AO',
+    'city': 'Gressonet',
+    'number_of_beds': 16,
+    'description': 'prova4'
+}

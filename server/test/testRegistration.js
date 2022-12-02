@@ -1,21 +1,12 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-chai.use(chaiHttp);
-chai.should();
-const db = require('../Queries/DAO');
-
-
-const app = require('../index.js');
-var agent = chai.request.agent(app);
+const chaiUtility = require('../utilities/chaiUtilities');
+const testUtility = require('../utilities/apiTestUtilities');
 
 describe('test user registration', () => {
     beforeEach(async () => {
-        await db.run('DELETE FROM USER');
-        await db.run('DELETE FROM sqlite_sequence');
+        await testUtility.setup();
     });
     afterEach(async () => {
-        await db.run('DELETE FROM USER');
-        await db.run('DELETE FROM sqlite_sequence');
+        await testUtility.reset();
     });
     registerNewUser(201, 'Giorgio', 'Vanni', 'local guide', 'password', 'giorgiovanni@gmail.com', '3346254783');
     registerNewUser(400, 'Marco', undefined, 'hiker', 'password', 'marcoundefined@gmail.com', '3227672453');
@@ -27,7 +18,7 @@ describe('test user registration', () => {
 function registerNewUser(expectedHTTPStatus, name, surname, role, password, email, phone_number) {
     it('registering a new user', function (done) {
         let user = { name: name, surname: surname, role: role, password: password, email: email, phone_number: phone_number };
-        agent.post('/api/register')
+        chaiUtility.agent.post('/api/register')
             .send(user)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -39,11 +30,11 @@ function registerNewUser(expectedHTTPStatus, name, surname, role, password, emai
 function registerTwoTimeNewUser(expectedHTTPStatus, name, surname, role, password, email, phone_number) {
     it('registering two time a new user', function (done) {
         let user = { name: name, surname: surname, role: role, password: password, email: email, phone_number: phone_number };
-        agent.post('/api/register')
+        chaiUtility.agent.post('/api/register')
             .send(user)
-            .then(function (res) {
+            .then(function () {
                 let user = { name: name, surname: surname, role: role, password: password, email: email, phone_number: phone_number };
-                agent.post('/api/register')
+                chaiUtility.agent.post('/api/register')
                     .send(user)
                     .then(function (res) {
                         res.should.have.status(expectedHTTPStatus);

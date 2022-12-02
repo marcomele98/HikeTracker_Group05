@@ -1,45 +1,19 @@
-const daoUtility = require('../utilities/daoUtilities')
 const hikeObject = require('../testObjects/hike')
 const hutObject = require('../testObjects/hut')
 const parkObject = require('../testObjects/parks')
 
-const app = require('../index');
-const db = require('../Queries/DAO');
-const chaiUtility = require('../utilities/chaiUtilities')
+const chaiUtility = require('../utilities/chaiUtilities');
+const testUtility = require('../utilities/apiTestUtilities');
 
 
 describe('test hikes apis', () => {
     beforeEach(async () => {
-        await chaiUtility.logout()
-        await daoUtility.resetDB()
-        await daoUtility.createMarioRossi()
-        await chaiUtility.login()
+        await testUtility.setup();
     });
 
     afterEach(async () => {
-        await chaiUtility.logout()
-        await daoUtility.resetDB()
+        await testUtility.reset();
     });
-
-    let updateEnd = {
-        'end_point' : 1 ,
-        'type_end' : 'Hut point'
-    }
-
-    let updateEnd1 = {
-        'end_point' : 1 ,
-        'type_end' : 'Parking point'
-    }
-
-    let updateStart = {
-        'start_point' : 1 ,
-        'type_start' : 'Hut point'
-    }
-
-    let updateStart1 = {
-        'start_point' : 1 ,
-        'type_start' : 'Parking point'
-    }
 
     getHikes(hikeObject.hike);
     getHikeById(0, hikeObject.hike);
@@ -49,10 +23,10 @@ describe('test hikes apis', () => {
     newHikeDescription(201, hikeObject.hike);
     newHikeDescription(422, hikeObject.hike_wrong);
     newHikeDescription(422, hikeObject.hike_wrong_2);
-    updateEndPoint(200,1,hikeObject.hike, updateEnd, updateEnd1 , hutObject.hut , parkObject.park);
-    updateStartPoint(200,1,hikeObject.hike,updateStart, updateStart1 , hutObject.hut1 , parkObject.park1);
+    updateEndPoint(200,1,hikeObject.hike, hikeObject.updateEnd, hikeObject.updateEnd1 , hutObject.hut , parkObject.park);
+    updateStartPoint(200,1,hikeObject.hike,hikeObject.updateStart, hikeObject.updateStart1 , hutObject.hut1 , parkObject.park1);
 
-})
+});
 
 
 
