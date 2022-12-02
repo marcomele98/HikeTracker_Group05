@@ -371,7 +371,7 @@ class HikeDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        if (this.isNotValidPoint(hike)) {
+        if (this.isNotValidPoint(update)) {
             let message = "Invalid end point."
             return res.status(422).json(message);
         }
