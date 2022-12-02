@@ -354,6 +354,32 @@ const HikeForm = (props) => {
 									:
 									<>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+									
 										<AddPointForm point={startPoint} setPoint={setStartPoint} type={"Start point"} />
 										<AddPointForm point={endPoint} setPoint={setEndPoint} type={"End point"} />
 									</>

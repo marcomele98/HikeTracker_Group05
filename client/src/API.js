@@ -2,14 +2,14 @@
  * All the API calls
  */
 
- import { signInWithEmailAndPassword } from '@firebase/auth';
- import { toast } from 'react-toastify';
- import { auth, createUserWithEmailAndPassword, sendEmailVerification, signOut } from './firebase';
+import { signInWithEmailAndPassword } from '@firebase/auth';
+import { toast } from 'react-toastify';
+import { auth, createUserWithEmailAndPassword, sendEmailVerification, signOut } from './firebase';
 
- const APIURL = new URL('http://localhost:3001/api/');  // Do not forget '/' at the end
+const APIURL = new URL('http://localhost:3001/api/');  // Do not forget '/' at the end
 
- 
- async function logIn(credentials) {
+
+async function logIn(credentials) {
   let response = await fetch(new URL('sessions', APIURL), {
     method: 'POST',
     credentials: 'include',
@@ -23,33 +23,33 @@
     const userCredentials = await signInWithEmailAndPassword(auth, credentials.username, credentials.password);
     const verified = userCredentials.user.emailVerified;
     if (verified) {
-     return user;
+      return user;
     } else {
-     await sendEmailVerification(auth.currentUser);
-     throw "Your email is not verified. Please verify your email";
-    } 
+      await sendEmailVerification(auth.currentUser);
+      throw "Your email is not verified. Please verify your email";
+    }
   } else {
     const errDetail = await response.json();
     throw errDetail.message;
   }
 }
- 
- async function logOut() {
-   await fetch(new URL('sessions/current', APIURL), { method: 'DELETE', credentials: 'include' });
- }
- 
- async function getUserInfo() {
-   const response = await fetch(new URL('sessions/current', APIURL), {credentials: 'include'});
-   const userInfo = await response.json();
-   if (response.ok) {
-     return userInfo;
-   } else {
-     throw userInfo;  // an object with the error coming from the server
-   }
- }
+
+async function logOut() {
+  await fetch(new URL('sessions/current', APIURL), { method: 'DELETE', credentials: 'include' });
+}
+
+async function getUserInfo() {
+  const response = await fetch(new URL('sessions/current', APIURL), { credentials: 'include' });
+  const userInfo = await response.json();
+  if (response.ok) {
+    return userInfo;
+  } else {
+    throw userInfo;  // an object with the error coming from the server
+  }
+}
 
 
- async function getHikes() {
+async function getHikes() {
   const response = await fetch(new URL('hikes', APIURL));
   const hikes = await response.json();
   if (response) {
@@ -164,73 +164,107 @@ async function getHutById(id) {
 
 async function addUser(newUser) {
   // call: POST /api/register
-    let response = await fetch(new URL('register', APIURL), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUser),
-    });
-    if (response.ok) 
-    {
-      await createUserWithEmailAndPassword(auth, newUser.email, newUser.password)
-      .then( () => {
+  let response = await fetch(new URL('register', APIURL), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newUser),
+  });
+  if (response.ok) {
+    await createUserWithEmailAndPassword(auth, newUser.email, newUser.password)
+      .then(() => {
         sendEmailVerification(auth.currentUser);
         toast.warning("We sent you an email to verify your address. Please verify your email", { position: "top-center" }, { toastId: 2 });
       })
-      return null;
-    } 
-    else 
-    {
-      const errDetail = await response.json();
-      throw errDetail.error;
-    }
+    return null;
+  }
+  else {
+    const errDetail = await response.json();
+    throw errDetail.error;
+  }
 }
 
 async function updateHikeEndPoint(editHike, id) {
   // call: PUT /api/hikeEnd/:hikeId
-    let response = await fetch(new URL('hikeEnd/' + id, APIURL), {
-      method: "PUT",
-      credentials: 'include',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(editHike),
-    });
-    if (response.ok) 
-    {
-      return null;
-    } 
-    else 
-    {
-      throw response.status; 
-    }
+  let response = await fetch(new URL('hikeEnd/' + id, APIURL), {
+    method: "PUT",
+    credentials: 'include',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(editHike),
+  });
+  if (response.ok) {
+    return null;
+  }
+  else {
+    throw response.status;
+  }
 }
 
 async function updateHikeStartPoint(editHike, id) {
   // call: PUT /api/hikeStart/:hikeId
 
-    let response = await fetch(new URL('hikeStart/' + id, APIURL), {
-      method: "PUT",
-      credentials: 'include',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(editHike),
-    });
-    if (response.ok) 
-    {
-      return null;
-    } 
-    else 
-    {
-        throw response.status; 
-    }
+  let response = await fetch(new URL('hikeStart/' + id, APIURL), {
+    method: "PUT",
+    credentials: 'include',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(editHike),
+  });
+  if (response.ok) {
+    return null;
+  }
+  else {
+    throw response.status;
+  }
 }
- 
- const API = { logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription , addUser, getParks,
-               getParkById, newPark, getHuts, getHutById, newHut, updateHikeEndPoint,updateHikeStartPoint  };
+
+
+async function resetHikeEndPoint(editHike, id) {
+  // call: PUT /api/hikeEndReset/:hikeId
+  let response = await fetch(new URL('hikeEndReset/' + id, APIURL), {
+    method: "PUT",
+    credentials: 'include',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(editHike),
+  });
+  if (response.ok) {
+    return null;
+  }
+  else {
+    throw response.status;
+  }
+}
+
+async function resetHikeStartPoint(editHike, id) {
+  // call: PUT /api/hikeStartReset/:hikeId
+  let response = await fetch(new URL('hikeStartReset/' + id, APIURL), {
+    method: "PUT",
+    credentials: 'include',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(editHike),
+  });
+  if (response.ok) {
+    return null;
+  }
+  else {
+    throw response.status;
+  }
+}
+
+const API = {
+  logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription, addUser, getParks,
+  getParkById, newPark, getHuts, getHutById, newHut, updateHikeEndPoint, updateHikeStartPoint,
+  resetHikeEndPoint, resetHikeStartPoint
+};
 
 
 
- export default API;
+export default API;

@@ -7,6 +7,8 @@ import API from "../API";
 import { Pencil } from "react-bootstrap-icons";
 import { Map } from "./Map"
 import { calcCrow } from "../utilities";
+import AddPointForm from "./AddPointForm";
+let gpxParser = require('gpxparser');
 
 function HikePage({ setIsLoading, loggedIn, user }) {
     const [seeAllHutsDetails, setSeeAllHutsDetails] = useState(false);
@@ -103,7 +105,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     {
                         editingStartPoint
                             ?
-                            <EditStartEndPoint hike={hike} selected={"start point"} setIsLoading={setIsLoading} setHike={setHike} setEditable={setEditingStartPoint} />
+                            <EditStartEndPoint intialType={hike.start_point_type} hike={hike} selected={"start point"} setIsLoading={setIsLoading} setHike={setHike} setEditable={setEditingStartPoint} />
                             :
                             <Row>
                                 <ListGroup>
@@ -137,7 +139,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 
                             editingEndPoint
                                 ?
-                                <EditStartEndPoint hike={hike} selected={"end point"} setIsLoading={setIsLoading} setHike={setHike} setEditable={setEditingEndPoint} />
+                                <EditStartEndPoint intialType={hike.start_end_type} hike={hike} selected={"end point"} setIsLoading={setIsLoading} setHike={setHike} setEditable={setEditingEndPoint} />
                                 :
                                 <ListGroup>
                                     <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
@@ -170,15 +172,15 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             ?
                             (
                                 <ListGroup>
-                                        {
-                                            hike.huts
-                                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                                .map((h) =>
-                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                        <Hut key={h.id} hut={h} user={user}></Hut>
-                                                    </Col>
-                                                )
-                                        }                                  
+                                    {
+                                        hike.huts
+                                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                            .map((h) =>
+                                                <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                    <Hut key={h.id} hut={h} user={user}></Hut>
+                                                </Col>
+                                            )
+                                    }
                                 </ListGroup>
                             )
                             :
@@ -208,16 +210,16 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         seeAllParksDetails
                             ?
                             (
-                                <ListGroup>            
-                                        {
-                                            hike.parking_lots
-                                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                                .map((p) =>
-                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                        <Park key={p.id} park={p} user={user}></Park>
-                                                    </Col>
-                                                )
-                                        }                                    
+                                <ListGroup>
+                                    {
+                                        hike.parking_lots
+                                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                            .map((p) =>
+                                                <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                    <Park key={p.id} park={p} user={user}></Park>
+                                                </Col>
+                                            )
+                                    }
                                 </ListGroup>
                             )
                             :
@@ -247,16 +249,16 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         seeAllPointsDetails
                             ?
                             (
-                                <ListGroup>                        
-                                        {
-                                            hike.points
-                                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                                .map((p) =>
-                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                        <Point key={p.id} point={p}></Point>
-                                                    </Col>
-                                                )
-                                        }                                   
+                                <ListGroup>
+                                    {
+                                        hike.points
+                                            .sort((a, b) => a.name?.trim().localeCompare(b.name?.trim()))
+                                            .map((p) =>
+                                                <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                    <Point key={p.id} point={p}></Point>
+                                                </Col>
+                                            )
+                                    }
                                 </ListGroup>
                             )
                             :
@@ -303,7 +305,16 @@ const Point = ({ point, key }) => {
                     point.address
                         ?
                         (<Row>
-                            <div className="textGrayPrimary">{"Address: " + point.address}</div>
+                            <div className={point.name ? "textGrayPrimary" : "pointTitle"}>{"Address: " + point.address}</div>
+                        </Row>)
+                        :
+                        undefined
+                }
+                {
+                    !point.address && ! point.name
+                        ?
+                        (<Row>
+                            <div className="pointTitle">{point.latitude + ", " + point.longitude}</div>
                         </Row>)
                         :
                         undefined
@@ -392,13 +403,31 @@ const Park = ({ park, key, user }) => {
 
 
 const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable }) => {
-    const [type, setType] = useState("hut");
+    const [type, setType] = useState("default");
+    const [persistentType, setPersistentType] = useState();
     const [parks, setParks] = useState([]);
     const [huts, setHuts] = useState([]);
     const [newPoint, setNewPoint] = useState();
 
+    useEffect(() => {
+        console.log(hike.start_point_type)
+        console.log(hike.end_point_type)
+        if (type === "default") {
+            let gpx = new gpxParser();
+            gpx.parse(hike.gpx);
+            let point = selected ===
+                "start point"
+                ?
+                gpx.tracks[0].points[0]
+                :
+                gpx.tracks[0].points[gpx.tracks[0].points.length - 1];
+            setNewPoint({ latitude: point.lat, longitude: point.lon, altitude: point.ele })
+        }
+    }, [type])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(newPoint)
         const editHike = selected === "start point" ?
             {
                 start_point: newPoint,
@@ -413,9 +442,15 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
         try {
             setIsLoading(true);
             if (selected === "start point")
-                await API.updateHikeStartPoint(editHike, hike.id); //updateHike
+                if (type === "default")
+                    await API.resetHikeStartPoint(newPoint, hike.id)
+                else
+                    await API.updateHikeStartPoint(editHike, hike.id);
             else
-                await API.updateHikeEndPoint(editHike, hike.id)
+                if (type === "default")
+                    await API.resetHikeEndPoint(newPoint, hike.id)
+                else
+                    await API.updateHikeEndPoint(editHike, hike.id)
             const res = await API.getHikeById(hike.id);
             setHike(res);
             setIsLoading(false);
@@ -472,6 +507,9 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
                         onChange={(e) => { setType(e.target.value) }}
                         style={{ width: 400, borderWidth: 3 }}
                     >
+                        <option value={"default"}>
+                            Default
+                        </option>
                         <option value={"hut"}>
                             Hut
                         </option>
@@ -481,7 +519,13 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
                     </Form.Select>
                 </Form.Group>
                 <Row style={{ height: 10 }} />
-                <HutParkSelector list={type === "hut" ? huts : parks} type={type} setNewPoint={setNewPoint}></HutParkSelector>
+                {
+                    type === "default"
+                        ?
+                        <AddPointForm point={newPoint} setPoint={setNewPoint} type={selected==="start point" ? "Start point" : "End point"} />
+                        :
+                        <HutParkSelector list={type === "hut" ? huts : parks} type={type} setNewPoint={setNewPoint}></HutParkSelector>
+                }
             </Row>
             <Row style={{ height: 10 }} />
             <Row>

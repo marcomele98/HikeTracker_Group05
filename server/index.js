@@ -158,6 +158,14 @@ app.put('/api/hikeEnd/:hikeId', isLoggedIn, (req, res) => {
   return hike.updateEndPoint(req, res);
 })
 
+app.put('/api/hikeStartReset/:hikeId', isLoggedIn, (req, res) => {
+  return hike.resetStartPoint(req, res);
+})
+
+app.put('/api/hikeEndReset/:hikeId', isLoggedIn, (req, res) => {
+  return hike.resetEndPoint(req, res);
+})
+
 app.post('/api/parkingLot', isLoggedIn, (req, res) => {
   return parkin_lot.newParkingLot(req, res);
 });

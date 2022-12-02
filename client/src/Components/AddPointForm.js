@@ -34,15 +34,11 @@ const AddPointForm = (props) => {
 			address
 		}
 
-		if (point) {
+		if (!lat) {
 			setErrMsg("Please select a point.");
 		}
 		else {
-			let referencePoints = props.referencePoints;
-			referencePoints.push(point);
-
-			props.setReferencePoints(referencePoints);
-
+			props.setReferencePoints([...props.referencePoints, point]);
 			setLat("");
 			setLong("");
 			setHeight("");
@@ -52,18 +48,7 @@ const AddPointForm = (props) => {
 		}
 	}
 
-	const confirmPoint = (lat, long, height, name, address) => {
-		//TODO: validityCheck
-
-		const point = {
-			latitude: lat,
-			longitude: long,
-			altitude: height,
-			name,
-			address
-		}
-
-
+	const setStartEndPoint = (name, address) => {
 		if (props.type === "Start point" || props.type === "Start and End point" || props.type === "End point") {
 			props.setPoint({ ...props.point, name: name, address: address });
 		}
@@ -88,10 +73,9 @@ const AddPointForm = (props) => {
 								clearAddress={() => setAddress("")}
 								onClick={(el) => {
 									setLat(el.lat);
-									setLong(el.lon)
+									setLong(el.lon);
 									setPointAddress({ latitude: el.lat, longitude: el.lon });
 									setHeight(el.ele)
-									confirmPoint(el.lat, el.lon, el.ele, name, address)
 								}}
 								positions={props.points}
 							/>
@@ -109,8 +93,8 @@ const AddPointForm = (props) => {
 								placeholder="Insert name"
 								value={name}
 								onChange={(e) => {
-									setName(e.target.value);
-									confirmPoint(lat, long, height, e.target.value, address);
+									setName(e.target.value)
+									setStartEndPoint(e.target.value, address);
 								}}
 							/>
 						</Form.Group>
@@ -130,8 +114,6 @@ const AddPointForm = (props) => {
 										value={address}
 									/>
 								</Form.Group>
-
-
 								:
 								undefined
 						}
@@ -157,9 +139,6 @@ const AddPointForm = (props) => {
 					:
 					null
 				}
-
-
-
 			</>
 	)
 

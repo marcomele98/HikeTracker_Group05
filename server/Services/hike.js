@@ -40,6 +40,7 @@ class HikeDescription {
     }
 
     isNotValidPoint = (point) => {
+        console.log(point)
         let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
         let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
 
@@ -52,6 +53,24 @@ class HikeDescription {
             point.altitude === undefined || point.altitude === '' ||
             point.altitude === null || isNaN(point.altitude);
     }
+
+    deleteStartEndPoint = async (oldStartType, oldEndType, oldStartId, oldEndId) => {
+        if (oldStartType === 'Parking point' && (oldEndType !== 'Parking point' || (oldEndType === 'Parking point' && oldEndId !== oldStartId))) {
+            await db.deleteParkForHike(hikeId, oldStartId);
+        }
+        else if (oldStartType === 'Hut point' && (oldEndType !== 'Hut point' || (oldEndType === 'Hut point' && oldEndId !== oldStartId))) {
+            await db.deleteHutForHike(hikeId, oldStartId);
+        }
+        else if (oldStartType === 'general point' && (oldEndType !== 'general point' || (oldEndType === 'general point' && oldEndId !== oldStartId))) {
+            await pointDB.deletePointById(oldStartId);
+        }
+    }
+
+
+
+
+
+
 
     // getCity = async (lat, lon) => {
 
@@ -218,15 +237,7 @@ class HikeDescription {
                 let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
 
-                if (oldStartType === 'Parking point' && (oldEndType !== 'Parking point' || (oldEndType === 'Parking point' && oldEndId !== oldStartId))) {
-                    await db.deleteParkForHike(hikeId, oldStartId);
-                }
-                else if (oldStartType === 'Hut point' && (oldEndType !== 'Hut point' || (oldEndType === 'Hut point' && oldEndId !== oldStartId))) {
-                    await db.deleteHutForHike(hikeId, oldStartId);
-                }
-                else if (oldStartType === 'general point' && (oldEndType !== 'general point' || (oldEndType === 'general point' && oldEndId !== oldStartId))) {
-                    await pointDB.deletePointById(oldStartId);
-                }
+                await this.deleteStartEndPoint(oldStartType, oldEndType, oldStartId, oldEndId);
 
                 await db.updateHike(oldEndId, oldEndType, update.start_point, update.type_start, hikeId);
 
@@ -282,15 +293,7 @@ class HikeDescription {
                 let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
 
-                if (oldEndType === 'Parking point' && (oldStartType !== 'Parking point' || (oldStartType === 'Parking point' && oldEndId !== oldStartId))) {
-                    await db.deleteParkForHike(hikeId, oldEndId);
-                }
-                else if (oldEndType === 'Hut point' && (oldStartType !== 'Hut point' || (oldStartType === 'Hut point' && oldEndId !== oldStartId))) {
-                    await db.deleteHutForHike(hikeId, oldEndId);
-                }
-                else if (oldEndType === 'general point' && (oldStartType !== 'general point' || (oldStartType === 'general point' && oldEndId !== oldStartId))) {
-                    await pointDB.deletePointById(oldEndId);
-                }
+                await this.deleteStartEndPoint(oldEndType, oldStartType, oldEndId, oldStartId);
 
                 await db.updateHike(update.end_point, update.type_end, oldStartId, oldStartType, hikeId);
 
@@ -310,6 +313,98 @@ class HikeDescription {
             return res.status(503).json(message)
         }
     }
+
+
+    async resetStartPoint(req, res) {
+        let update = req.body;
+        let hikeId = req.params.hikeId
+        let role = req.user.role;
+        let message = ""
+
+        console.log(update)
+
+
+        if (role !== "local guide") {
+            return res.status(401).json("Not authenticated.");
+        }
+
+        if (this.isNotValidPoint(update)) {
+            let message = "Invalid start point."
+            return res.status(422).json(message);
+        }
+
+        try {
+            let hike = await db.getHikeById(hikeId);
+
+            if (hike === undefined) {
+                message = "Hike not found."
+                return res.status(404).json(message);
+            }
+            else {
+
+                let oldStartId = hike.start_point
+                let oldStartType = hike.start_point_type
+                let oldEndId = hike.end_point
+                let oldEndType = hike.end_point_type
+
+                await this.deleteStartEndPoint(oldStartType, oldEndType, oldStartId, oldEndId);
+
+                let start_point_id = await pointDB.storePoint(update, hikeId);
+                await db.updateHike(hike.end_point, hike.end_point_type, start_point_id, "general point", hikeId)
+                return res.status(200).end();
+            }
+        }
+        catch (err) {
+            message = "Server error"
+            return res.status(503).json(message)
+        }
+    }
+
+
+    async resetEndPoint(req, res) {
+        let update = req.body;
+        let hikeId = req.params.hikeId
+        let role = req.user.role;
+        let message = ""
+
+        if (role !== "local guide") {
+            return res.status(401).json("Not authenticated.");
+        }
+
+        if (this.isNotValidPoint(hike)) {
+            let message = "Invalid end point."
+            return res.status(422).json(message);
+        }
+
+        try {
+            let hike = await db.getHikeById(hikeId);
+
+            if (hike === undefined) {
+                message = "Hike not found."
+                return res.status(404).json(message);
+            }
+            else {
+
+                let oldStartId = hike.start_point
+                let oldStartType = hike.start_point_type
+                let oldEndId = hike.end_point
+                let oldEndType = hike.end_point_type
+
+                await this.deleteStartEndPoint(oldEndType, oldStartType, oldEndId, oldStartId);
+
+                let end_point_id = await pointDB.storePoint(update, hikeId);
+                await db.updateHike(end_point_id, "general point", hike.start_point, hike.start_point_type, hikeId)
+                return res.status(200).end();
+            }
+        }
+        catch (err) {
+            message = "Server error"
+            return res.status(503).json(message)
+        }
+    }
+
+
+
 }
 
 
