@@ -243,11 +243,13 @@ class HikeDescription {
                 if (update.type_start !== oldEndType || (update.type_start === oldEndType && update.start_point !== oldEndId)) {
                     if (update.type_start === 'Parking point') {
                         let old = await db.getHikesParkingsByIDs(hikeId, update.start_point)
+                        console.log(old)
                         if (old === undefined)
                             await db.insertParkForHike(hikeId, update.start_point)
                     }
                     else if (update.type_start === 'Hut point') {
                         let old = await db.getHikesHutsByIDs(hikeId, update.start_point)
+                        console.log(old)
                         if (old === undefined)
                             await db.insertHutForHike(hikeId, update.start_point)
                     }
@@ -302,11 +304,13 @@ class HikeDescription {
                 if (update.type_end !== oldStartType || (update.type_end === oldStartType && update.end_point !== oldStartId)) {
                     if (update.type_end === 'Parking point') {
                         let old = await db.getHikesParkingsByIDs(hikeId, update.end_point)
+                        console.log(old)
                         if (old === undefined)
                             await db.insertParkForHike(hikeId, update.end_point)
                     }
                     else if (update.type_end === 'Hut point') {
                         let old = await db.getHikesHutsByIDs(hikeId, update.end_point)
+                        console.log(old)
                         if (old === undefined)
                             await db.insertHutForHike(hikeId, update.end_point)
                     }

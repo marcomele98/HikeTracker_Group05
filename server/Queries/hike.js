@@ -46,12 +46,12 @@ exports.getHikesParkingsByHikeID = async (id) => {
 
 exports.getHikesHutsByIDs = async (hike_id, hut_id) => {
         const sql = 'SELECT * from HIKE_HUT WHERE hike_id=? AND hut_id=?';
-        return db.all(sql, [hike_id, hut_id]);
+        return db.get(sql, [hike_id, hut_id]);
 };
 
 exports.getHikesParkingsByIDs = async (hike_id, parking_id) => {
         const sql = 'SELECT * from HIKE_PARKING WHERE hike_id=? AND parking_id=?';
-        return await db.all(sql, [hike_id, parking_id]);
+        return await db.get(sql, [hike_id, parking_id]);
 };
 
 exports.deleteHutForHike = async (hike_id, hut_id) => {
@@ -65,13 +65,13 @@ exports.deleteParkForHike = async (hike_id, park_id) => {
 }
 
 exports.insertHutForHike = async (hike_id, hut_id) => {
-        const sql = "INSERT OR IGNORE INTO HIKE_HUT(hike_id , hut_id) VALUES(?, ?)"
+        const sql = "INSERT INTO HIKE_HUT(hike_id , hut_id) VALUES(?, ?)"
         let result =  db.run(sql, [hike_id, hut_id]);
         return result
 }
 
 exports.insertParkForHike = async (hike_id, park_id) => {
-        const sql = "INSERT OR IGNORE INTO HIKE_PARKING(hike_id , parking_id) VALUES(?, ?)"
+        const sql = "INSERT INTO HIKE_PARKING(hike_id , parking_id) VALUES(?, ?)"
         let result = await db.insert(sql, [hike_id, park_id]);
         return result
 }
