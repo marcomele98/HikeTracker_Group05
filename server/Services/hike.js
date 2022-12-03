@@ -40,7 +40,6 @@ class HikeDescription {
     }
 
     isNotValidPoint = (point) => {
-        console.log(point)
         let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
         let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
 
@@ -243,10 +242,14 @@ class HikeDescription {
 
                 if (update.type_start !== oldEndType || (update.type_start === oldEndType && update.start_point !== oldEndId)) {
                     if (update.type_start === 'Parking point') {
-                        await db.insertParkForHike(hikeId, update.start_point)
+                        let old = await db.getHikesParkingsByIDs(hikeId, update.start_point)
+                        if (old === undefined)
+                            await db.insertParkForHike(hikeId, update.start_point)
                     }
                     else if (update.type_start === 'Hut point') {
-                        await db.insertHutForHike(hikeId, update.start_point)
+                        let old = await db.getHikesHutsByIDs(hikeId, update.start_point)
+                        if (old === undefined)
+                            await db.insertHutForHike(hikeId, update.start_point)
                     }
                 }
                 return res.status(200).end();
@@ -281,7 +284,6 @@ class HikeDescription {
 
         try {
             let hike = await db.getHikeById(hikeId);
-            //console.log(hike)
 
             if (hike === undefined) {
                 message = "Hike not found."
@@ -299,10 +301,14 @@ class HikeDescription {
 
                 if (update.type_end !== oldStartType || (update.type_end === oldStartType && update.end_point !== oldStartId)) {
                     if (update.type_end === 'Parking point') {
-                        await db.insertParkForHike(hikeId, update.end_point)
+                        let old = await db.getHikesParkingsByIDs(hikeId, update.end_point)
+                        if (old === undefined)
+                            await db.insertParkForHike(hikeId, update.end_point)
                     }
                     else if (update.type_end === 'Hut point') {
-                        await db.insertHutForHike(hikeId, update.end_point)
+                        let old = await db.getHikesHutsByIDs(hikeId, update.end_point)
+                        if (old === undefined)
+                            await db.insertHutForHike(hikeId, update.end_point)
                     }
                 }
                 return res.status(200).end();
@@ -321,7 +327,6 @@ class HikeDescription {
         let role = req.user.role;
         let message = ""
 
-        console.log(update)
 
 
         if (role !== "local guide") {
@@ -349,7 +354,17 @@ class HikeDescription {
 
                 await this.deleteStartEndPoint(hike.id, oldStartType, oldEndType, oldStartId, oldEndId);
 
-                let start_point_id = await pointDB.storePoint(update, hikeId);
+                let start_point_id = 0;
+
+                let oldEnd = await pointDB.getPointById(oldEndId)
+                console.log(oldEnd)
+
+                if (oldEndType === "general point" && oldEnd.latitude == update.latitude && oldEnd.latitude == update.latitude) {
+                    start_point_id = oldEndId;
+                } else {
+                    start_point_id = await pointDB.storePoint(update, hikeId);
+                }
+
                 await db.updateHike(hike.end_point, hike.end_point_type, start_point_id, "general point", hikeId)
                 return res.status(200).end();
             }
@@ -392,7 +407,17 @@ class HikeDescription {
 
                 await this.deleteStartEndPoint(hike.id, oldEndType, oldStartType, oldEndId, oldStartId);
 
-                let end_point_id = await pointDB.storePoint(update, hikeId);
+                let end_point_id = 0;
+
+                let oldStart = await pointDB.getPointById(oldStartId)
+                console.log(oldStart)
+                console.log(update)
+
+                if (oldStartType === "general point" && oldStart.latitude == update.latitude && oldStart.latitude == update.latitude) {
+                    end_point_id = oldStartId;
+                } else {
+                    end_point_id = await pointDB.storePoint(update, hikeId);
+                }
                 await db.updateHike(end_point_id, "general point", hike.start_point, hike.start_point_type, hikeId)
                 return res.status(200).end();
             }
