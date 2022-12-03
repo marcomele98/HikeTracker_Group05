@@ -86,6 +86,11 @@ class ParkingLotsDescription {
             return res.status(422).json(message);
         }
 
+        if (this.isNotValidField(park.capacity)) {
+            message = "Invalid capacity"
+            return res.status(422).json(message);
+        }
+
         if (this.isNotValidProvince(park.province)) {
             message = "Invalid Province"
             return res.status(422).json(message);

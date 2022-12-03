@@ -86,6 +86,16 @@ class HutDescription {
             return res.status(422).json(message);
         }
 
+        if (this.isNotValidNumber(hut.phone)) {
+            message = "Invalid phone"
+            return res.status(422).json(message);
+        }
+
+        if (this.isNotValidField(hut.email)) {
+            message = "Invalid email"
+            return res.status(422).json(message);
+        }
+
         if (this.isNotValidField(hut.description)) {
             message = "Invalid Description"
             return res.status(422).json(message);
