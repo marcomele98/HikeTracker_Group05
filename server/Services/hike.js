@@ -187,7 +187,7 @@ class HikeDescription {
             let hike_id = await db.newHike(hike, lg_id);
             let end_point_id = await pointDB.storePoint(hike.end_point, hike_id)
             let start_point_id = end_point_id
-            if (hike.end_point !== hike.start_point) {
+            if ((hike.end_point.latitude !== hike.start_point.latitude) && (hike.end_point.longitude !== hike.start_point.longitude)) {
                 start_point_id = await pointDB.storePoint(hike.start_point, hike_id)
             }
             await db.updateHike(end_point_id, "general point", start_point_id, "general point", hike_id)
