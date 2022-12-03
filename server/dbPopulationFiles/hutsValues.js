@@ -17,7 +17,7 @@ var hutsvalues =
         ['Malga Valmaggiore', '46.291392', '11.646566', '1610', 'Restaurant', 'Trentino-Alto Adige', 'TN', 'Cavalese', 0, 'A typical restaurant in the magnificent scenery of Valmaggiore, the malga offers traditional Trentino cuisine and house dishes'],
         ['Ponale Alto Belvedere', '45.864402', '10.833777', '145', 'Restaurant', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 0, 'The restaurant is located on the road of the "ponale", unique and fabulous path. It starts from Riva del Garda, a town overlooking Lake Garda.'],
         ['Agririfugio Molini', '44.31912', '9.178627', '232', 'Refuge', 'Liguria', 'GE', 'Fruttuoso', 11, 'Set on a hillside overlooking the Ligurian coast, this quiet, secluded farmhouse within Portofino Natural Park is only accessible via hiking trails.'],
-        ['Rifúgio Barmasse', '45.87579', '7.593994', '2174.2', 'Refuge', 'Valle d Aosta', 'AO', 'Fontanaz-Valmartin', 25, 'The refuge is an excellent point of reference for summer excursions, mountain biking, lake fishing and loop trekking.'],
+        ['Rifúgio Barmasse', '45.87669', '7.593404', '2174.2', 'Refuge', 'Valle d Aosta', 'AO', 'Fontanaz-Valmartin', 25, 'The refuge is an excellent point of reference for summer excursions, mountain biking, lake fishing and loop trekking.'],
         ['Rifugio Duca degli Abruzzi all Oriondè', '45.958891', '7.6441', '2798.2', 'Refuge', 'Valle d Aosta', 'AO', 'Breuil-Cervinia', 22, 'The comfort and treatment are excellent, it will feel like staying in a small hotel'],
         ['Rifugio Barbustel', '45.649148', '7.588452', '2188', 'Refuge', 'Valle d Aosta', 'AO', 'Covarey', 40, 'The refuge is located at 2200 m near the Blanc, Noir, Cornu and Vallette lakes. At lunch you can eat typical Aosta Valley cuisine.'],
 
