@@ -1,23 +1,17 @@
 'use strict';
 
-const fs = require('fs');
-var va_file1,va_file2,va_file3,va_file4,va_file5,va_file6,va_file7,va_file8;
+const { readFile} = require('../../utilities/gpxUtilities');
 
-function readFile(filePath,content) {
-    const data = fs.readFileSync(filePath);
-    //console.log(data.toString());
-    content = data.toString();
-    return content;
-}
+
 //piemonte
-va_file1 = readFile('./GPX_files/valledaosta/hike1.gpx',va_file1); //Valtournenche - Lago di Cignana
-va_file2 = readFile('./GPX_files/valledaosta/hike2.gpx',va_file2); //Cervinia - Cappella 
-va_file3 = readFile('./GPX_files/valledaosta/hike3.gpx',va_file3); //Cime Bianche
-va_file4 = readFile('./GPX_files/valledaosta/hike4.gpx',va_file4); //Lac e Château De Villa
-va_file5 = readFile('./GPX_files/valledaosta/hike5.gpx',va_file5); //Monte Zerbion
-va_file6 = readFile('./GPX_files/valledaosta/hike6.gpx',va_file6); //Ospizio Sottile
-va_file7 = readFile('./GPX_files/valledaosta/hike7.gpx',va_file7); //Parco del Monte Avic
-va_file8 = readFile('./GPX_files/valledaosta/hike8.gpx',va_file8); //Torgnon
+const va_file1 = readFile('./GPX_files/valledaosta/hike1.gpx'); //Valtournenche - Lago di Cignana
+const va_file2 = readFile('./GPX_files/valledaosta/hike2.gpx'); //Cervinia - Cappella 
+const va_file3 = readFile('./GPX_files/valledaosta/hike3.gpx'); //Cime Bianche
+const va_file4 = readFile('./GPX_files/valledaosta/hike4.gpx'); //Lac e Château De Villa
+const va_file5 = readFile('./GPX_files/valledaosta/hike5.gpx'); //Monte Zerbion
+const va_file6 = readFile('./GPX_files/valledaosta/hike6.gpx'); //Ospizio Sottile
+const va_file7 = readFile('./GPX_files/valledaosta/hike7.gpx'); //Parco del Monte Avic
+const va_file8 = readFile('./GPX_files/valledaosta/hike8.gpx'); //Torgnon
 
 module.exports.va_file1 =   va_file1;
 module.exports.va_file2 =   va_file2;

@@ -4,55 +4,13 @@ const db = require('../Queries/hike');
 const pointDB = require('../Queries/point');
 const hutDB = require('../Queries/hut');
 const parkingDB = require('../Queries/parking');
-
-const possibleDiff = ['Tourist', 'Hiker', 'Professional Hiker'];
-const possibleTypes = ['general point', 'Parking point', 'Hut point'];
-// var NodeGeocoder = require('node-geocoder');
+const servicesUtility = require('../utilities/servicesUtilities')
 
 
 
 class HikeDescription {
 
     constructor() { }
-
-    isNotValidBody = (data) => {
-        return data === undefined || data === null || data.length === 0;
-    }
-
-    isNotValidType = (type) => {
-        return type === undefined || type === null || type === '' || !possibleTypes.includes(type);
-    }
-
-    isNotValidField = (field) => {
-        return field === undefined || field === '' || field === null;
-    }
-
-    isNotValidDiff = (field) => {
-        return field === undefined || field === '' || field === null || !possibleDiff.includes(field);
-    }
-
-    isNotValidProvince = (field) => {
-        return field === undefined || field === '' || field === null || field.length !== 2;
-    }
-
-    isNotValidNumber = (number) => {
-        return number === undefined || number === '' || number === null || isNaN(number);
-    }
-
-    isNotValidPoint = (point) => {
-        console.log(point)
-        let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
-        let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
-
-        return point.latitude === undefined || point.latitude === '' ||
-            point.latitude === null || point.latitude < -90 || point.latitude > 90 ||
-            !regexpLatitude.test(point.latitude) ||
-            point.longitude === undefined || point.longitude === '' ||
-            point.longitude === null || point.longitude < -180 || point.longitude > 180 ||
-            !regexpLongitude.test(point.longitude) ||
-            point.altitude === undefined || point.altitude === '' ||
-            point.altitude === null || isNaN(point.altitude);
-    }
 
     deleteStartEndPoint = async (hikeId, oldStartType, oldEndType, oldStartId, oldEndId) => {
         if (oldStartType === 'Parking point' && (oldEndType !== 'Parking point' || (oldEndType === 'Parking point' && oldEndId !== oldStartId))) {
@@ -67,32 +25,6 @@ class HikeDescription {
     }
 
 
-
-
-
-
-
-    // getCity = async (lat, lon) => {
-
-    //     console.log({lat, lon})
-    //     var geocoder = NodeGeocoder({
-    //         provider: 'google',
-    //         apiKey: 'AIzaSyChltbm9OptIco4UdxhjF09fRGLixuFzcE',
-    //         formatter: 'json' // 'gpx', 'string', ...
-    //       });
-
-    //     // Reverse Geocode
-    //     geocoder.reverse({lat, lon})
-    //         .then((res) => {
-    //             console.log(res);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-
-    // }
-
-
     async newHikeDescription(req, res) {
         let hike = req.body;
         let lg_id = req.user.id;
@@ -104,84 +36,82 @@ class HikeDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        if (this.isNotValidBody(hike)) {
+        if (servicesUtility.isNotValidBody(hike)) {
             message = "Invalid Body"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidField(hike.title)) {
+        if (servicesUtility.isNotValidField(hike.title)) {
             message = "Invalid Title"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidNumber(hike.length_kms)) {
+        if (servicesUtility.isNotValidNumber(hike.length_kms)) {
             message = "Invalid Length"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidNumber(hike.expected_mins)) {
+        if (servicesUtility.isNotValidNumber(hike.expected_mins)) {
             message = "Invalid Expected Time"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidNumber(hike.expected_mins)) {
+        if (servicesUtility.isNotValidNumber(hike.expected_mins)) {
             message = "Invalid Expected Time"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidNumber(hike.ascendent_meters)) {
+        if (servicesUtility.isNotValidNumber(hike.ascendent_meters)) {
             message = "Invalid Ascent"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidDiff(hike.difficulty)) {
+        if (servicesUtility.isNotValidDiff(hike.difficulty)) {
             message = "Invalid Difficulty"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidField(hike.description)) {
+        if (servicesUtility.isNotValidField(hike.description)) {
             message = "Invalid Description"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidField(hike.region)) {
+        if (servicesUtility.isNotValidField(hike.region)) {
             message = "Invalid Region"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidProvince(hike.province)) {
+        if (servicesUtility.isNotValidProvince(hike.province)) {
             message = "Invalid Province"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidField(hike.city)) {
+        if (servicesUtility.isNotValidField(hike.city)) {
             message = "Invalid City"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidField(hike.gpx)) {
+        if (servicesUtility.isNotValidField(hike.gpx)) {
             message = "Invalid gpx"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidPoint(hike.start_point)) {
+        if (servicesUtility.isNotValidPoint(hike.start_point)) {
             message = "Invalid start point"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidPoint(hike.end_point)) {
+        if (servicesUtility.isNotValidPoint(hike.end_point)) {
             message = "Invalid end point"
             return res.status(422).json(message);
         }
 
         for (var i = 0; i < hike.reference_points.length; i++) {
-            if (this.isNotValidPoint(hike.reference_points[i])) {
+            if (servicesUtility.isNotValidPoint(hike.reference_points[i])) {
                 let message = "Invalid reference points"
                 return res.status(422).json(message);
             }
         }
-
-        // await this.getCity(hike.start_point.latitude, hike.start_point.longitude)
 
         try {
             let hike_id = await db.newHike(hike, lg_id);
@@ -214,12 +144,12 @@ class HikeDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        if (this.isNotValidNumber(update.start_point)) {
+        if (servicesUtility.isNotValidNumber(update.start_point)) {
             message = "Invalid Start Point id."
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidType(update.type_start)) {
+        if (servicesUtility.isNotValidType(update.type_start)) {
             message = "Invalid Start Point type."
             return res.status(422).json(message);
         }
@@ -269,12 +199,12 @@ class HikeDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        if (this.isNotValidNumber(update.end_point)) {
+        if (servicesUtility.isNotValidNumber(update.end_point)) {
             message = "Invalid End Point id."
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidType(update.type_end)) {
+        if (servicesUtility.isNotValidType(update.type_end)) {
             message = "Invalid End Point type."
             return res.status(422).json(message);
         }
@@ -328,7 +258,7 @@ class HikeDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        if (this.isNotValidPoint(update)) {
+        if (servicesUtility.isNotValidPoint(update)) {
             let message = "Invalid start point."
             return res.status(422).json(message);
         }
@@ -371,7 +301,7 @@ class HikeDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        if (this.isNotValidPoint(update)) {
+        if (servicesUtility.isNotValidPoint(update)) {
             let message = "Invalid end point."
             return res.status(422).json(message);
         }
