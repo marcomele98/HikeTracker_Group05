@@ -290,7 +290,9 @@
     "region": "Piemonte",
     "province": "TO",
     "city": "Torino",
-    "number_of_beds": "30",
+    "number_of_beds": 30,
+    "phone" : 22 ,
+    "email": "HutTest@gmail.com"
     "description": "Huttest description"
 }
 ```
