@@ -73,6 +73,26 @@ function HutPage({ setIsLoading, user }) {
                                 <div className="textGrayPrimaryBig">{"Beds: " + hut.number_of_beds}</div>
                             </Row>
                     }
+
+{
+                        !hut.phone
+                            ?
+                            false
+                            :
+                            <Row>
+                                <div className="textGrayPrimaryBig">{"Phone number: " + hut.phone}</div>
+                            </Row>
+                    }
+
+{
+                        !hut.email
+                            ?
+                            false
+                            :
+                            <Row>
+                                <div className="textGrayPrimaryBig">{"Email: " + hut.email}</div>
+                            </Row>
+                    }
                     <Row>
                         <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
                             <PointMap position={{ name: hut.name, lat: hut.latitude, lng: hut.longitude, altitude: hut.altitude }}></PointMap>
