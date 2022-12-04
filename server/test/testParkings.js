@@ -11,11 +11,11 @@ describe('test parking lots', () => {
         await testUtility.reset();
     });
 
-    newParkingLot(201, 'Piazza Castello', '45.86524', '9.23645', '130', 'Piemonte', 'AL', 'Casale Monferrato');
-    newParkingLot(422, undefined, '45.86524', '9.23645', '130', 'Piemonte', 'AL', 'Casale Monferrato');
-    newParkingLot(422, 'Piazza Castelo', undefined, '9.23645', '130', 'Piemonte', 'AL', 'Casale Monferrato');
-    newParkingLot(422, 'Piazza Castllo', '45.86524', '9.23645', '130', 'Piemonte', 'AL', undefined);
-    newParkingLot(422, 'Piazza Castell', '45.86524', '9.23645', '', 'Piemonte', 'AL', 'Casale Monferrato');
+    newParkingLot(201, 'Piazza Castello', '45.86524', '9.23645', '130', 22,'Piemonte', 'AL', 'Casale Monferrato');
+    newParkingLot(422, undefined, '45.86524', '9.23645', '130',11, 'Piemonte', 'AL', 'Casale Monferrato');
+    newParkingLot(422, 'Piazza Castelo', undefined, '9.23645', '130', 30, 'Piemonte', 'AL', 'Casale Monferrato');
+    newParkingLot(422, 'Piazza Castllo', '45.86524', '9.23645', '130',undefined, 'Piemonte', 'AL', undefined);
+    newParkingLot(422, 'Piazza Castell', '45.86524', '9.23645', '',10, 'Piemonte', 'AL', 'Casale Monferrato');
 
     getAllParkings(200, parkObject.park, parkObject.park2, parkObject.park3, parkObject.park4);
     getParkingLotById(0, parkObject.park, parkObject.park2, parkObject.park3, parkObject.park4);
@@ -33,9 +33,9 @@ describe('test parking lots', () => {
 
 });
 
-function newParkingLot(expectedHTTPStatus, name, latitude, longitude, altitude, region, province, city) {
+function newParkingLot(expectedHTTPStatus, name, latitude, longitude, altitude,capacity, region, province, city) {
     it('adding a new Parking lot', function (done) {
-        let parking_lot = { name: name, latitude: latitude, longitude: longitude, altitude: altitude, region: region, province: province, city: city };
+        let parking_lot = { name: name, latitude: latitude, longitude: longitude, altitude: altitude, capacity:capacity, region: region, province: province, city: city };
         chaiUtility.agent.post('/api/parkingLot').send(parking_lot)
             .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);

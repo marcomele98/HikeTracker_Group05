@@ -1,6 +1,6 @@
 'use strict';
 
-var parkingvalues =
+let parkingvalues =
 [
 
     ['Piazzale di Valdinferno','44.19296', '7.95501','1192',20, 'Piemonte', 'CN','Garessio'],

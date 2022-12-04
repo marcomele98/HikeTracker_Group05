@@ -51,12 +51,12 @@ class HutDescription {
             return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidNumber(hut.phone)) {
+        if (servicesUtility.isNotValidPhone(hut.phone)) {
             message = "Invalid phone"
             return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidField(hut.email)) {
+        if (servicesUtility.isNotValidEmail(hut.email)) {
             message = "Invalid email"
             return res.status(422).json(message);
         }

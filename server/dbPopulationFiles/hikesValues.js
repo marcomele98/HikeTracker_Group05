@@ -9,7 +9,7 @@ const { ven_file1, ven_file2, ven_file3, ven_file4, ven_file5, ven_file6, ven_fi
 const { lo_file1, lo_file2, lo_file3, lo_file4, lo_file5, lo_file6, lo_file7, lo_file8 } = require('./hikes/lombardiagpx');
 
 
-var hikevalues =
+let hikevalues =
   [
     ['Path to Rocciamelone', 9, 420, 1353, 'Professional Hiker', 'Piemonte', 'TO', 'Mompantero', 1,
       pm_file1, 1, 'general point', 1, 'Hut point', 'A well-known route, much loved by Valsusini and beyond. It is long and challenging because of the difference in height, but very well signposted and above all with a support point about halfway'], //endpoint:1 pointtable,strtpoint:1 hut

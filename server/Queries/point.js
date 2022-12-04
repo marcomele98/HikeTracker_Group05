@@ -10,11 +10,6 @@ exports.storePoint = async (point, hike_id) => {
 }
 
 
-// exports.getPoints = () => {
-//         const sql = 'SELECT * from POINT';
-//         db.all(sql, []);
-// }
-
 exports.getPointById = (id) => {
   const sql = "SELECT * FROM POINT WHERE id=?";
   return db.get(sql, [id]);

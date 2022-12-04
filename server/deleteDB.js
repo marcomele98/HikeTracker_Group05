@@ -4,14 +4,14 @@ const fs = require('fs');
 
 const DBPath = "./HT.sqlite";
 
-var admin = require("firebase-admin");
-var serviceAccount = require("./admin.json");
+let admin = require("firebase-admin");
+let serviceAccount = require("./admin.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-var getAuth = admin.auth();
+let getAuth = admin.auth();
 
 const deleteAllUsers = (nextPageToken) => {
   getAuth.listUsers(1000, nextPageToken)

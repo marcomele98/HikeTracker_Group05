@@ -3,6 +3,7 @@ exports.park = {
     "latitude": "45.20353",
     "longitude": "7.07734",
     "altitude": "3500.161133",
+    "capacity": 20,
     "region": "Piemonte",
     "province": "TO",
     "city": "Mompantero"
@@ -20,6 +21,7 @@ exports.park2 = {
     "latitude": '44.21653',
     "longitude": '7.94425',
     "altitude": '1392',
+    "capacity": 12,
     "region": "Piemonte",
     "province": "CN",
     "city": "Garessio"
@@ -30,6 +32,7 @@ exports.park3 = {
     "latitude": '44.11318',
     "longitude": '8.06597',
     "altitude": '235',
+    "capacity": 11,
     "region": 'Liguria',
     "province": 'SV',
     "city": 'Castelbianco'
@@ -40,6 +43,7 @@ exports.park4 = {
     "latitude": '45.922613',
     "longitude": '10.785626',
     "altitude": '1040',
+    "capacity": 33,
     "region": 'Trentino-Alto Adige',
     "province": 'TN',
     "city": 'Riva del Garda'

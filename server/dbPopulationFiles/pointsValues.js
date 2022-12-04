@@ -1,6 +1,6 @@
 'use strict';
 
-var pointsvalues =
+let pointsvalues =
     [
 
         ['45.20353', '7.07734', '3538', 'Rocciamelone', 'Rocciamelone, Piedmont', 1],
