@@ -74,7 +74,7 @@ function HutPage({ setIsLoading, user }) {
                             </Row>
                     }
 
-{
+                    {
                         !hut.phone
                             ?
                             false
@@ -84,7 +84,7 @@ function HutPage({ setIsLoading, user }) {
                             </Row>
                     }
 
-{
+                    {
                         !hut.email
                             ?
                             false

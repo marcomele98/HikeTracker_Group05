@@ -31,76 +31,105 @@ function ListHuts({ setIsLoading, user }) {
         getHutsFromServer()
     }, [user])
 
+    const searchFilter = (el) => {
+        return (
+            el.name.toLowerCase().includes(search.toLowerCase()) ||
+            el.province.toLowerCase().includes(search.toLowerCase()) ||
+            el.city.toLowerCase().includes(search.toLowerCase()) ||
+            el.region.toLowerCase().includes(search.toLowerCase()) ||
+            (el.email && el.email.toLowerCase().includes(search.toLowerCase())) ||
+            (el.phone && el.phone.toLowerCase().includes(search.toLowerCase()))
+        )
+    }
+
 
     return (
 
         <>
-        <div className="backImage" style={{ backgroundImage: `url(${img})`}}></div>
-        <Container>
-            <Row style={{ height: 30 }}></Row>
-            <Row className="m-3" style={{ margin: 0, padding: 0 }}>
-                {
-                    user.role !== 'local guide'
-                        ?
-                        false
-                        :
-                        <>
-                            <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => navigate("/new-hut")}>New Hut</Button>
-
-                        </>
-                }
-                <Col style={{ margin: 0, padding: 0}}>
-                    <Form.Control
-                        onChange={(e) => setSearch(e.target.value)}
-                        style={{ borderWidth: 3}}
-                        value={search}
-                        type="text"
-                        placeholder="Search"
-                        className="md"
-                    />
-                </Col>
-            </Row>
-            <ListGroup>
-                <Row>
+            <div className="backImage" style={{ backgroundImage: `url(${img})` }}></div>
+            <Container>
+                <Row style={{ height: 30 }}></Row>
+                <Row className="m-3" style={{ margin: 0, padding: 0 }}>
                     {
+                        user.role !== 'local guide'
+                            ?
+                            false
+                            :
+                            <>
+                                <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => navigate("/new-hut")}>New Hut</Button>
 
-                        huts
-                            .filter(el => el.name.toLowerCase().includes(search.toLowerCase()))
-                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                            .map((h) => (
-                                <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                    <ListGroupItem style={{ height: 150, opacity:"85%"  }} key={h.id} className="m-3 border-2 rounded-3 shadow">
-
-                                        <Row>
-                                            <div className="title">{h.name + " (" + h.type + ")"}</div>
-                                        </Row>
-                                        <Row>
-                                            <div className="textGrayPrimary">{h.region}</div>
-                                        </Row>
-                                        <Row>
-                                            <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
-                                        </Row>
-
-                                        <Row style={{position:"absolute", bottom:0, paddingBottom:10}}>
-                                            <div className="touchableOpacityWithTextContainer">
-                                                <ClickableOpacity
-                                                    onClick={() => {
-                                                        navigate("/hut/" + h.id)
-                                                    }}>
-                                                    <div className="seeMore">
-                                                        see more
-                                                    </div>
-                                                </ClickableOpacity>
-                                            </div>
-                                        </Row>
-
-                                    </ListGroupItem>
-                                </Col>
-                            ))
+                            </>
                     }
+                    <Col style={{ margin: 0, padding: 0 }}>
+                        <Form.Control
+                            onChange={(e) => setSearch(e.target.value)}
+                            style={{ borderWidth: 3 }}
+                            value={search}
+                            type="text"
+                            placeholder="Search"
+                            className="md"
+                        />
+                    </Col>
                 </Row>
-            </ListGroup>
-        </Container>
+                <ListGroup>
+                    <Row>
+                        {
+
+                            huts
+                                .filter(searchFilter)
+                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                .map((h) => (
+                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                        <ListGroupItem style={{ height: 170, opacity: "85%" }} key={h.id} className="m-3 border-2 rounded-3 shadow">
+
+                                            <Row>
+                                                <div className="title">{h.name + " (" + h.type + ")"}</div>
+                                            </Row>
+                                            <Row>
+                                                <div className="textGrayPrimary">{h.region}</div>
+                                            </Row>
+                                            <Row>
+                                                <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
+                                            </Row>
+                                            {
+                                                !h.phone
+                                                    ?
+                                                    false
+                                                    :
+                                                    <Row>
+                                                        <div className="textGrayPrimary">{"Phone number: " + h.phone}</div>
+                                                    </Row>
+                                            }
+                                            {
+                                                !h.email
+                                                    ?
+                                                    false
+                                                    :
+                                                    <Row>
+                                                        <div className="textGrayPrimary">{"Email: " + h.email}</div>
+                                                    </Row>
+                                            }
+
+                                            <Row style={{ position: "absolute", bottom: 0, paddingBottom: 10 }}>
+                                                <div className="touchableOpacityWithTextContainer">
+                                                    <ClickableOpacity
+                                                        onClick={() => {
+                                                            navigate("/hut/" + h.id)
+                                                        }}>
+                                                        <div className="seeMore">
+                                                            see more
+                                                        </div>
+                                                    </ClickableOpacity>
+                                                </div>
+                                            </Row>
+
+                                        </ListGroupItem>
+                                    </Col>
+                                ))
+                        }
+                    </Row>
+                </ListGroup>
+            </Container>
         </>
     );
 }
