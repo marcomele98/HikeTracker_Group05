@@ -4,12 +4,12 @@ var pointsvalues =
     [
 
         ['45.20353', '7.07734', '3538', 'Rocciamelone', 'Rocciamelone, Piedmont', 1],
-        ['44.20647', '7.92800', '5300', 'La pianura dalle Alpi Liguri', 'Garessio, Cuneo, Piedmont', 2],
+        ['44.20665', '7.92856', '5300', 'La pianura dalle Alpi Liguri', 'Garessio, Cuneo, Piedmont', 2],
         ['44.23647', '7.95442', '3000', 'Bric Mindino', 'Garessio, Cuneo, Piedmont', 4],
         ['44.24295', '7.96880', '6900', 'Sentiero per il colle di prato rotondo', 'Garessio, Cuneo, Piedmont', 4],
         ['44.112593', '8.06666' , '150', 'Colletta di Castelbianco', 'Castelbianco, Savona, Liguria', 5],
         ['44.14146', '8.23625', '122', 'Waypoint', 'via santa libera, Loano, Savona, Liguria', 6],
-        ['44.14761', '8.23185', '3800', 'Chiesa di Santa Libera', 'Loano, Savona, Liguria', 6],
+        ['44.14761', '8.23184', '3800', 'Chiesa di Santa Libera', 'Loano, Savona, Liguria', 6],
         ['44.191998','7.914530', '4400', 'Colla Bassa', 'Garessio, Cuneo, Piedmont', 3],
         ['44.18735', '7.91421', '5500', 'Monte Antoroto', 'Garessio, Cuneo, Piedmont', 3],
         ['46.350742', '11.547654', '2016', 'Pampeago', 'Nova Ponente, Trentino', 8],
@@ -32,7 +32,7 @@ var pointsvalues =
         ['44.301454', '9.21121', '15', 'Chiesa di San Giorgio', '', 15],
         ['44.31023', '9.193915', '229', 'Prato', '', 15],
         ['44.311006', '9.180129', '220', 'Base Zero', '', 15],
-        ['44.316391', '9.17503', '4', 'Abbazzia di San Fruttuoso', '', 15],
+        ['44.316391', '9.175037', '4', 'Abbazzia di San Fruttuoso', '', 15],
         ['44.316232', '9.175788', '45', 'Torre Doria', '', 15],
         ['44.326869', '9.168772', '613', 'Semaforo Vecchio - Cima Monte Portofino', '', 15],
         ['44.327663', '9.16809', '603', 'Punto Panoramico', '', 15],
