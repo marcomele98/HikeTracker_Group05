@@ -389,7 +389,7 @@ class HikeDescription {
                 console.log(old)
                 if (old === undefined)
                      await db.insertHutForHike(hikeId, update.hut_id)
-                return res.status(200).end();
+                return res.status(201).end();
             }
         }
         catch (err) {
@@ -429,7 +429,7 @@ async addNewRefPoint(req, res) {
             else {
                 console.log(hike);
                 await pointDB.storePoint(point, hikeId);
-                return res.status(200).end();
+                return res.status(201).end();
             }
         }
         catch (err) {

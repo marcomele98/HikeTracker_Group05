@@ -51,12 +51,12 @@ class HutDescription {
             return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidPhone(hut.phone)) {
+        if (hut.phone && servicesUtility.isNotValidPhone(hut.phone)) {
             message = "Invalid phone"
             return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidEmail(hut.email)) {
+        if (hut.email && servicesUtility.isNotValidEmail(hut.email)) {
             message = "Invalid email"
             return res.status(422).json(message);
         }
@@ -65,6 +65,22 @@ class HutDescription {
             message = "Invalid Description"
             return res.status(422).json(message);
         }
+
+        if (hut.number_of_beds && servicesUtility.isNotValidNumber(hut.number_of_beds)) { 
+            message = "Invalid number_of_beds" 
+            return res.status(422).json(message); 
+        }
+
+        if(!hut.phone)
+            hut.phone = undefined
+
+        
+        if(!hut.email)
+            hut.email = undefined
+
+        
+        if(!hut.number_of_beds)
+            hut.number_of_beds = undefined
 
         try {
             await hutDB.addHut(hut);
