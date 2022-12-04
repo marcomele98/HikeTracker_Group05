@@ -51,6 +51,11 @@ class HutDescription {
             return res.status(422).json(message);
         }
 
+        if (this.isNotValidNumber(hut.number_of_beds)) {
+            message = "Invalid number_of_beds"
+            return res.status(422).json(message);
+        }
+
         if (servicesUtility.isNotValidNumber(hut.phone)) {
             message = "Invalid phone"
             return res.status(422).json(message);
