@@ -191,7 +191,6 @@ const HutForm = (props) => {
                         <Form.Group className={"mb-4"} controlId="validationCustom11">
                             <Form.Label className={"fs-4"}>Phone number</Form.Label>
                             <Form.Control
-                                required
                                 type="text"
                                 placeholder="Insert phone number"
                                 value={phone}
@@ -207,7 +206,6 @@ const HutForm = (props) => {
                         <Form.Group className={"mb-4"} controlId="validationCustom12">
                             <Form.Label className={"fs-4"}>Email</Form.Label>
                             <Form.Control
-                                required
                                 type="email"
                                 placeholder="Insert email"
                                 value={email}
