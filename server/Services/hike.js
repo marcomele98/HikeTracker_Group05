@@ -7,7 +7,6 @@ const parkingDB = require('../Queries/parking');
 const servicesUtility = require('../utilities/servicesUtilities')
 
 
-
 class HikeDescription {
 
     constructor() { }
@@ -361,6 +360,44 @@ class HikeDescription {
             message = "Server error"
             return res.status(503).json(message)
         }
+    }
+
+    async hikeHutLink(req, res){
+
+        let update = req.body; //hutid
+        let hikeId = req.params.hikeId
+        let role = req.user.role;
+        let message = ""
+
+        if (role !== "local guide") {
+            return res.status(401).json("Not authenticated.");
+        }
+
+        if (servicesUtility.isNotValidNumber(update.hut_id)) {
+            message = "Invalid hut Point id."
+            return res.status(422).json(message);
+        }
+
+        try {
+            let hike = await db.getHikeById(hikeId);
+
+            if (hike === undefined) {
+                message = "Hike not found."
+                return res.status(404).json(message);
+            }
+            else {
+                let old = await db.getHikesHutsByIDs(hikeId, update.hut_id)
+                console.log(old)
+                if (old === undefined)
+                     await db.insertHutForHike(hikeId, update.hut_id)
+                return res.status(200).end();
+            }
+        }
+        catch (err) {
+            message = "Server error"
+            return res.status(503).json(message)
+        }
+
     }
 
 
