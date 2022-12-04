@@ -53,7 +53,7 @@ function Home({ setIsLoading, user }) {
     return (
 
         <>
-            <div className="backImage" style={{ backgroundImage: `url(${img})` }}></div>
+            <div className="backImage" style={{ backgroundImage: `url(${img})`, opacity: seeFilters ? 0.2 : 1 }}></div>
             <Container >
                 <Row style={{ height: 30 }}></Row>
                 <Row className="m-3" style={{ margin: 0, padding: 0 }}>
@@ -89,6 +89,7 @@ function Home({ setIsLoading, user }) {
                                 setMinExpectedTimeFilter={setMinExpectedTime}
                                 setMinDifficultyFilter={setMinDifficulty}
                                 setMaxDifficultyFilter={setMaxDifficulty}
+                                setSeeFilters={setSeeFilters}
                             ></FilterForm>
                         ) : undefined
 
@@ -197,6 +198,7 @@ function Home({ setIsLoading, user }) {
 
 
 function FilterForm({
+    setSeeFilters,
     setProvinceFilter,
     setCityFilter,
     setPositionFilter,
@@ -272,53 +274,50 @@ function FilterForm({
         setMaxDifficultyFilter(maxDifficulty);
         setRadiusFilter(radius);
         setPositionFilter(position);
+        setSeeFilters(false)
     };
 
     return (
         <>
             <Form className="filterForm" onSubmit={handleSubmit}>
-                <FormElement
-                    label="Province:"
-                    onChange={(ev) => setProvince(ev.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
-                    type="text"
-                    placeholder="TO"
-                    value={province}
-                    textBoxWidth={36}
-                    maxLength={2}
-                />
-                <FormElement
-                    label="City:"
-                    onChange={(ev) => setCity(ev.target.value.replace(/[^a-z" "]/gi, ''))}
-                    type="text"
-                    placeholder="Tourin"
-                    value={city}
-                    textBoxWidth={150}
-                />
-                <div style={{ height: 5 }}></div>
+                <Row>
+                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
+                        <FormElement
+                            label="Province"
+                            onChange={(ev) => setProvince(ev.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
+                            type="text"
+                            placeholder="Insert province code"
+                            value={province}
+                            maxLength={2}
+                        />
+                    </Col>
+                    <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={{span: 5, offset:1}}>
+                        <FormElement
+                            label="City"
+                            onChange={(ev) => setCity(ev.target.value.replace(/[^a-z" "]/gi, ''))}
+                            type="text"
+                            placeholder="Insert city"
+                            value={city}
+                        />
+                    </Col>
+                </Row>
+                <div style={{ height: 20 }}></div>
 
                 <Form.Group>
-                    <Row>
-                        <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                            <div className="formLabel">{"Radius and Position"}</div>
-                        </Col>
-                    </Row>
                     <Row style={{ height: 10 }}></Row>
+                    <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} >
                     <FormElement
-                        label="Radius (km):"
+                        label="Radius (km)"
                         onChange={(ev) => setRadius(ev.target.value)}
                         type="number"
+                        placeholder={"Insert maximum distance from the selected point"}
                         value={radius}
-                        textBoxWidth={150}
                     />
-
+                    </Col>
                     <Row style={{ height: 5 }}></Row>
+
                     <Row>
-                        <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                            <Form.Label className="formLabel">{"Position:"}</Form.Label>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={12} sm={12} md={10} lg={8} xl={5} xxl={3} >
+                        <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} >
                             <CliccableMap
                                 setPosition={setPosition}
                                 position={position}
@@ -330,43 +329,51 @@ function FilterForm({
 
                 <div style={{ height: 30 }}></div>
 
-                <MaxMinRange
-                    label={"Ascent (m): "}
-                    setMax={setMaxAscent}
-                    setMin={setMinAscent}
-                    max={maxAscent}
-                    min={minAscent}
-                    rangeMax={7000}
-                    rangeMin={0}
-                />
+                <Row>
 
-                <MaxMinRange
-                    label={"Length (km): "}
-                    setMax={setMaxLength}
-                    setMin={setMinLength}
-                    max={maxLength}
-                    min={minLength}
-                    rangeMax={30}
-                    rangeMin={0}
-                />
-
-                <MaxMinRange
-                    label={"Expected time (min): "}
-                    setMax={setMaxExpectedTime}
-                    setMin={setMinExpectedTime}
-                    max={maxExpectedTime}
-                    min={minExpectedTime}
-                    rangeMax={600}
-                    rangeMin={0}
-                />
-
-                <DifficultyRange
-                    label="Difficulty:"
-                    setMin={setMinDifficulty}
-                    setMax={setMaxDifficulty}
-                    min={minDifficulty}
-                    max={maxDifficulty}
-                />
+                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={2}>
+                        <MaxMinRange
+                            label={"Ascent (m): "}
+                            setMax={setMaxAscent}
+                            setMin={setMinAscent}
+                            max={maxAscent}
+                            min={minAscent}
+                            rangeMax={7000}
+                            rangeMin={0}
+                        />
+                    </Col>
+                    <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={2}>
+                        <MaxMinRange
+                            label={"Length (km): "}
+                            setMax={setMaxLength}
+                            setMin={setMinLength}
+                            max={maxLength}
+                            min={minLength}
+                            rangeMax={30}
+                            rangeMin={0}
+                        />
+                    </Col>
+                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={2}>
+                        <MaxMinRange
+                            label={"Expected time (min): "}
+                            setMax={setMaxExpectedTime}
+                            setMin={setMinExpectedTime}
+                            max={maxExpectedTime}
+                            min={minExpectedTime}
+                            rangeMax={600}
+                            rangeMin={0}
+                        />
+                    </Col>
+                    <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={2}>
+                        <DifficultyRange
+                            label="Difficulty:"
+                            setMin={setMinDifficulty}
+                            setMax={setMaxDifficulty}
+                            min={minDifficulty}
+                            max={maxDifficulty}
+                        />
+                    </Col>
+                </Row>
                 <Row style={{ height: 40 }}></Row>
                 <Row>
                     <div className='rowC'>
@@ -385,23 +392,18 @@ function FormElement({ label, onChange, type, placeholder, textBoxWidth, value, 
 
     return (
         <Form.Group>
-            <Row>
-                <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                    <Form.Label className="formLabel">{label}</Form.Label>
-                </Col>
-                <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                    <Form.Control
-                        value={value}
-                        style={{ width: textBoxWidth, color: "#495057" }}
-                        placeholder={placeholder}
-                        onChange={onChange}
-                        maxLength={maxLength}
-                        type={type}
-                        step={step}
-                        size="sm"
-                    ></Form.Control>
-                </Col>
-            </Row>
+            <Form.Label className="formLabel">{label}</Form.Label>
+            <Form.Control
+                value={value}
+                style={{ width: textBoxWidth, color: "#495057" }}
+                placeholder={placeholder}
+                onChange={onChange}
+                maxLength={maxLength}
+                type={type}
+                step={step}
+                size="sm"
+                
+            ></Form.Control>
         </Form.Group>
     );
 }
@@ -410,22 +412,22 @@ function FormElement({ label, onChange, type, placeholder, textBoxWidth, value, 
 function MaxMinRange({ label, setMax, setMin, max, min, rangeMax, rangeMin }) {
 
     return (
-        <Form.Group>
+        <Form.Group column={false}>
             <Row>
-                <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                    <Form.Label className="formLabel">{label}</Form.Label>
+                <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12} >
+                    <Form.Label style={{ paddingLeft: 10 }} className="formLabel">{label}</Form.Label>
                 </Col>
             </Row>
             <Row style={{ marginLeft: 5 }}>
-                <Col xs={4} sm={3} md={2} lg={1} xl={1} xxl={1} >
-                    <div>{"Min: " + (min ? min : rangeMin)}</div>
+                <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6} >
+                    {"Min: " + (min ? min : rangeMin)}
                 </Col>
-                <Col xs={4} sm={3} md={2} lg={2} xl={2} xxl={2} >
-                    <div>{"Max: " + (max ? max : rangeMax + "+")}</div>
+                <Col style={{ textAlign: "right" }} xs={6} sm={6} md={6} lg={6} xl={6} xxl={6} >
+                    {"Max: " + (max ? max : rangeMax + "+")}
                 </Col>
             </Row>
             <Row style={{ marginLeft: 5, marginBottom: 20 }}>
-                <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
+                <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12} >
                     <Range min={rangeMin} max={rangeMax} allowCross={false} value={[min ? min : rangeMin, max ? max : rangeMax]} onChange={(range) => {
                         setMin(range[0] === rangeMin ? "" : range[0]);
                         setMax(range[1] === rangeMax ? "" : range[1]);
@@ -464,20 +466,20 @@ function DifficultyRange({ label, min, max, setMin, setMax }) {
     return (
         <Form.Group>
             <Row>
-                <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
-                    <Form.Label className="formLabel">{label}</Form.Label>
+                <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12} >
+                    <Form.Label style={{ paddingLeft: 10 }} className="formLabel">{label}</Form.Label>
                 </Col>
             </Row>
             <Row style={{ marginLeft: 5 }}>
-                <Col xs={4} sm={3} md={2} lg={1} xl={1} xxl={1} >
-                    <div>{"Min: " + (min === "Professional Hiker" ? "Prof. Hiker" : min)}</div>
+                <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6} >
+                    {"Min: " + (min === "Professional Hiker" ? "P. H.iker" : min)}
                 </Col>
-                <Col xs={5} sm={4} md={3} lg={3} xl={3} xxl={3} >
-                    <div>{"Max: " + (max === "Professional Hiker" ? "Prof. Hiker" : max)}</div>
+                <Col style={{ textAlign: "right" }} xs={6} sm={6} md={6} lg={6} xl={6} xxl={6} >
+                    {"Max: " + (max === "Professional Hiker" ? "P. Hiker" : max)}
                 </Col>
             </Row>
             <Row style={{ marginLeft: 5, marginBottom: 20 }}>
-                <Col xs={5} sm={4} md={3} lg={2} xl={2} xxl={2} >
+                <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12} >
                     <Range
                         tipProps={{ placement: 'none' }}
                         min={0}
@@ -488,7 +490,7 @@ function DifficultyRange({ label, min, max, setMin, setMax }) {
                             {
                                 0: "Tourist",
                                 1: "Hiker",
-                                2: "Prof. Hiker"
+                                2: "P. Hiker"
                             }
                         }
                         onChange={(range) => {
