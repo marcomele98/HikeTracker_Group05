@@ -8,6 +8,7 @@ import { Pencil } from "react-bootstrap-icons";
 import { Map } from "./Map"
 import { calcCrow } from "../utilities";
 import AddPointForm from "./AddPointForm";
+import { point } from 'leaflet';
 let gpxParser = require('gpxparser');
 
 function HikePage({ setIsLoading, loggedIn, user }) {
@@ -404,30 +405,34 @@ const Park = ({ park, key, user }) => {
 
 const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable }) => {
     const [type, setType] = useState("default");
-    const [persistentType, setPersistentType] = useState();
     const [parks, setParks] = useState([]);
     const [huts, setHuts] = useState([]);
-    const [newPoint, setNewPoint] = useState();
+    const [newPoint, setNewPoint] = useState({});
 
     useEffect(() => {
-        console.log(hike.start_point_type)
-        console.log(hike.end_point_type)
         if (type === "default") {
             let gpx = new gpxParser();
             gpx.parse(hike.gpx);
-            let point = selected ===
+            const point = selected ===
                 "start point"
                 ?
                 gpx.tracks[0].points[0]
                 :
                 gpx.tracks[0].points[gpx.tracks[0].points.length - 1];
-            setNewPoint({ latitude: point.lat, longitude: point.lon, altitude: point.ele })
+            const point_type = selected ===
+                "start point"
+                ?
+                hike.start_point_type
+                :
+                hike.end_point_type
+            if(point_type === "general point")
+                point.name = selected==="start point" ? hike.start_point.name : hike.end_point.name;
+            setNewPoint({ latitude: point.lat, longitude: point.lon, altitude: point.ele, name: point.name })
         }
     }, [type])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(newPoint)
         const editHike = selected === "start point" ?
             {
                 start_point: newPoint,
@@ -522,7 +527,7 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
                 {
                     type === "default"
                         ?
-                        <AddPointForm point={newPoint} setPoint={setNewPoint} type={selected==="start point" ? "Start point" : "End point"} />
+                        <AddPointForm autoGetAddress={type==="default"} rowClassName='justify-content-left' boxStyle={{ width: 400, borderWidth: 3}} hideTitle={true} textSmall={true} textStyle={{}} point={newPoint} setPoint={setNewPoint} type={selected==="start point" ? "Start point" : "End point"} />
                         :
                         <HutParkSelector list={type === "hut" ? huts : parks} type={type} setNewPoint={setNewPoint}></HutParkSelector>
                 }
@@ -550,7 +555,7 @@ const HutParkSelector = ({ list, type, setNewPoint }) => {
             {
                 list.length === 0
                     ?
-                    <div className='formLabel'>{"No addable " + type + " available in 300 meters"}</div>
+                    <div className='formLabel'>{"No addable " + type + " available in 5km"}</div>
                     :
                     <Form.Group>
                         <Form.Label className='formLabel'>{"Select the " + type + ":"}</Form.Label>

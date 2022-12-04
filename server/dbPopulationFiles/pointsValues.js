@@ -1,6 +1,6 @@
 'use strict';
 
-var pointsvalues =
+let pointsvalues =
     [
 
         ['45.20353', '7.07734', '3538', 'Rocciamelone', 'Rocciamelone, Piedmont', 1],
@@ -128,9 +128,9 @@ var pointsvalues =
         ['46.286291', '12.137649', '1936.438912', 'Forcella Moschesin', '', 43],
         ['46.289209', '12.140683', '1863.291032', 'Bel sentiero sotto Forcella Moschesin', '', 43],
         ['46.323958', '12.095348', '1627.525592', 'Passo Duran', '', 44],
-        ['46.323999', '12.139734', '1372.144516', 'Laghetto del Vach', '', 44],
-        ['46.319178', '12.045001', '1951.512271', 'Forcella', '', 45],
-        ['46.314687', '12.042224', '2015.895648', 'Forcella Sereje', '', 45],
+        ['46.323999', '12.139734', '1372.144516', 'Laghetto del Vach', '', 45],
+        ['46.319178', '12.045001', '1951.512271', 'Forcella', '', 46],
+        ['46.314687', '12.042224', '2015.895648', 'Forcella Sereje', '', 46],
 
         //lombardia
         //hike1

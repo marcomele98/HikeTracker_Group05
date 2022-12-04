@@ -91,6 +91,8 @@ db.serialize(function () {
        "province" TEXT NOT NULL,\
        "city" TEXT NOT NULL,\
        "number_of_beds" INTEGER,\
+       "phone" TEXT,\
+       "email" TEXT,\
        "description" TEXT,\
         PRIMARY KEY("id" AUTOINCREMENT)\
     );'
@@ -103,6 +105,7 @@ db.serialize(function () {
         "latitude" TEXT NOT NULL,\
         "longitude" TEXT NOT NULL,\
         "altitude" TEXT NOT NULL,\
+        "capacity" INTEGER,\
         "region" TEXT NOT NULL,\
         "province" TEXT NOT NULL,\
         "city" TEXT NOT NULL,\
@@ -233,9 +236,9 @@ db.serialize(function () {
 
   for (var i = 0; i < parkingvalues.length; i++) {
     db.run(
-      "INSERT INTO PARKING_LOT(name,latitude, longitude, altitude,region, province, city)\
-      VALUES (?,?,?,?,?,?,?)", parkingvalues[i][0], parkingvalues[i][1], parkingvalues[i][2], parkingvalues[i][3], parkingvalues[i][4],
-      parkingvalues[i][5], parkingvalues[i][6],
+      "INSERT INTO PARKING_LOT(name,latitude, longitude, altitude, capacity, region, province, city)\
+      VALUES (?,?,?,?,?,?,?,?)", parkingvalues[i][0], parkingvalues[i][1], parkingvalues[i][2], parkingvalues[i][3], parkingvalues[i][4],
+      parkingvalues[i][5], parkingvalues[i][6], parkingvalues[i][7],
       (err) => {
         if (err) {
           throw err;
@@ -247,9 +250,9 @@ db.serialize(function () {
 
   for (var i = 0; i < hutsvalues.length; i++) {
     db.run(
-      "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, city, number_of_beds, description)\
-      VALUES ( ?,?,?,?,?,?,?,?,?,?)", hutsvalues[i][0], hutsvalues[i][1], hutsvalues[i][2], hutsvalues[i][3], hutsvalues[i][4],
-      hutsvalues[i][5], hutsvalues[i][6], hutsvalues[i][7], hutsvalues[i][8], hutsvalues[i][9],
+      "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, city, number_of_beds,phone, email, description)\
+      VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?)", hutsvalues[i][0], hutsvalues[i][1], hutsvalues[i][2], hutsvalues[i][3], hutsvalues[i][4],
+      hutsvalues[i][5], hutsvalues[i][6], hutsvalues[i][7], hutsvalues[i][8], hutsvalues[i][9], hutsvalues[i][10], hutsvalues[i][11],
       (err) => {
         if (err) {
           throw err;

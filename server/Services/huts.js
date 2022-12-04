@@ -1,40 +1,10 @@
 "use strict"
 const hutDB = require('../Queries/hut');
-
+const servicesUtility = require('../utilities/servicesUtilities')
 
 class HutDescription {
 
     constructor() { }
-
-    isNotValidBody = (data) => {
-        return data === undefined || data === null || data.length === 0;
-    }
-
-    isNotValidField = (field) => {
-        return field === undefined || field === '' || field === null;
-    }
-
-    isNotValidProvince = (field) => {
-        return field === undefined || field === '' || field === null || field.length !== 2;
-    }
-
-    isNotValidNumber = (number) => {
-        return number === undefined || number === '' || number === null || isNaN(number);
-    }
-
-    isNotValidPoint = (point) => {
-        let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
-        let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
-
-        return point.latitude === undefined || point.latitude === '' ||
-            point.latitude === null || point.latitude < -90 || point.latitude > 90 ||
-            !regexpLatitude.test(point.latitude) ||
-            point.longitude === undefined || point.longitude === '' ||
-            point.longitude === null || point.longitude < -180 || point.longitude > 180 ||
-            !regexpLongitude.test(point.longitude) ||
-            point.altitude === undefined || point.altitude === '' ||
-            point.altitude === null || isNaN(point.altitude);
-    }
 
     async addHutDescription(req, res)
     {
@@ -46,47 +16,52 @@ class HutDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        if (this.isNotValidBody(hut)) {
+        if (servicesUtility.isNotValidBody(hut)) {
             message = "Invalid Body"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidField(hut.name)) {
+        if (servicesUtility.isNotValidField(hut.name)) {
             message = "Invalid Name"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidField(hut.type)) {
+        if (servicesUtility.isNotValidField(hut.type)) {
             message = "Invalid Type"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidPoint({...hut})) {
+        if (servicesUtility.isNotValidPoint({...hut})) {
             message = "Invalid point"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidField(hut.region)) {
+        if (servicesUtility.isNotValidField(hut.region)) {
             message = "Invalid Region"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidProvince(hut.province)) {
+        if (servicesUtility.isNotValidProvince(hut.province)) {
             message = "Invalid Province"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidField(hut.city)) {
+        if (servicesUtility.isNotValidField(hut.city)) {
             message = "Invalid City"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidNumber(hut.number_of_beds)) {
-            message = "Invalid number_of_beds"
+        if (servicesUtility.isNotValidPhone(hut.phone)) {
+            message = "Invalid phone"
             return res.status(422).json(message);
         }
 
-        if (this.isNotValidField(hut.description)) {
+        if (servicesUtility.isNotValidEmail(hut.email)) {
+            message = "Invalid email"
+            return res.status(422).json(message);
+        }
+
+        if (servicesUtility.isNotValidField(hut.description)) {
             message = "Invalid Description"
             return res.status(422).json(message);
         }
