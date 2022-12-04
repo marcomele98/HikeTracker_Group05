@@ -91,7 +91,7 @@ db.serialize(function () {
        "province" TEXT NOT NULL,\
        "city" TEXT NOT NULL,\
        "number_of_beds" INTEGER,\
-       "phone" INTEGER,\
+       "phone" TEXT,\
        "email" TEXT,\
        "description" TEXT,\
         PRIMARY KEY("id" AUTOINCREMENT)\
