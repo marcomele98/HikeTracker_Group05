@@ -2,6 +2,8 @@
 
 const possibleDiff = ['Tourist', 'Hiker', 'Professional Hiker'];
 const possibleTypes = ['general point', 'Parking point', 'Hut point'];
+const regex =
+        /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 exports.isNotValidBody = (data) => {
     return data === undefined || data === null || data.length === 0;
@@ -15,6 +17,10 @@ exports.isNotValidField = (field) => {
     return field === undefined || field === '' || field === null;
 }
 
+exports.isNotValidEmail = (email) => {
+    return regex.test(email) === false && email !== undefined && email !== '' && email !== null;
+}
+
 exports.isNotValidDiff = (field) => {
     return field === undefined || field === '' || field === null || !possibleDiff.includes(field);
 }
@@ -25,6 +31,10 @@ exports.isNotValidProvince = (field) => {
 
 exports.isNotValidNumber = (number) => {
     return number === undefined || number === '' || number === null || isNaN(number);
+}
+
+exports.isNotValidPhone = (number) => {
+    return isNaN(number) && number !== undefined && number !== '' && number !== null;
 }
 
 exports.isNotValidPoint = (point) => {

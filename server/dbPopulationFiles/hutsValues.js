@@ -1,6 +1,6 @@
 'use strict';
 
-var hutsvalues =
+let hutsvalues =
     [
 
 

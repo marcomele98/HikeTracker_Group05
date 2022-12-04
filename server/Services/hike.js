@@ -106,7 +106,7 @@ class HikeDescription {
             return res.status(422).json(message);
         }
 
-        for (var i = 0; i < hike.reference_points.length; i++) {
+        for (let i = 0; i < hike.reference_points.length; i++) {
             if (servicesUtility.isNotValidPoint(hike.reference_points[i])) {
                 let message = "Invalid reference points"
                 return res.status(422).json(message);
@@ -121,7 +121,7 @@ class HikeDescription {
                 start_point_id = await pointDB.storePoint(hike.start_point, hike_id)
             }
             await db.updateHike(end_point_id, "general point", start_point_id, "general point", hike_id)
-            for (var i = 0; i < hike.reference_points.length; i++) {
+            for (let i = 0; i < hike.reference_points.length; i++) {
                 await pointDB.storePoint(hike.reference_points[i], hike_id);
             }
             return res.status(201).end();
@@ -379,7 +379,7 @@ class HikesView {
     async getAllHikes(req, res) {
         try {
             let hikes = await db.getHikes();
-            for (var i = 0; i < hikes.length; i++) {
+            for (let i = 0; i < hikes.length; i++) {
                 if (hikes[i].start_point_type == 'general point') {
                     let startpointDetails = await pointDB.getPointById(hikes[i].start_point);
                     hikes[i].start_point_lat = ""
