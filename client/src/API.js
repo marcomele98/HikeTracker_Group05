@@ -259,10 +259,26 @@ async function resetHikeStartPoint(editHike, id) {
   }
 }
 
+async function addNewReferencePoint(point, id) {
+  let response = await fetch(new URL('newRefPoint/' + id, APIURL), {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(point),
+  });
+  if(response.ok) {
+    return null;
+  } else {
+    throw response.status;
+  }
+}
+
 const API = {
   logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription, addUser, getParks,
   getParkById, newPark, getHuts, getHutById, newHut, updateHikeEndPoint, updateHikeStartPoint,
-  resetHikeEndPoint, resetHikeStartPoint
+  resetHikeEndPoint, resetHikeStartPoint, addNewReferencePoint
 };
 
 

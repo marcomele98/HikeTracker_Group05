@@ -261,8 +261,6 @@ class HikeDescription {
         let role = req.user.role;
         let message = ""
 
-
-
         if (role !== "local guide") {
             return res.status(401).json("Not authenticated.");
         }
@@ -362,6 +360,7 @@ class HikeDescription {
         }
     }
 
+
     async hikeHutLink(req, res){
 
         let update = req.body; //hutid
@@ -401,7 +400,43 @@ class HikeDescription {
     }
 
 
+async addNewRefPoint(req, res) {
+        let point = req.body;
+        let hikeId = req.params.hikeId
+        let role = req.user.role;
+        let message = ""
 
+        if (role !== "local guide") {
+            return res.status(401).json("Not authenticated as a local guide.");
+        }
+
+        if (this.isNotValidPoint(point)) {
+            let message = "Invalid point."
+            return res.status(422).json(message);
+        }
+
+        try {
+            let hike = await db.getHikeById(hikeId);
+
+            if (hike === undefined) {
+                message = "Hike not found."
+                return res.status(404).json(message);
+            }
+            else if (hike.lg_id !== req.user.id) {
+                message = "Unauthorized";
+                return res.status(401).json(message);
+            }
+            else {
+                console.log(hike);
+                await pointDB.storePoint(point, hikeId);
+                return res.status(200).end();
+            }
+        }
+        catch (err) {
+            message = "Server error"
+            return res.status(503).json(message)
+        }
+    }
 }
 
 
