@@ -41,6 +41,28 @@ db.serialize(function () {
   );
 
   db.run(
+    'CREATE TABLE IF NOT EXISTS "HIKER_PREFRENCES" (\
+    "user_id" INTEGER NOT NULL,\
+    "max_length_kms" NUMERIC,\
+    "min_length_kms" NUMERIC,\
+    "max_expected_mins" INTEGER,\
+    "min_expected_mins" INTEGER,\
+    "max_ascendent_meters" INTEGER,\
+    "min_ascendent_meters" INTEGER,\
+    "max_difficulty" TEXT,\
+    "min_difficulty" TEXT,\
+    "point_latitude" TEXT,\
+    "point_longitude" TEXT,\
+    "radius" INTEGER,\
+    "region" TEXT,\
+    "province" TEXT,\
+    "city" TEXT,\
+    PRIMARY KEY ("user_id")\
+    FOREIGN KEY ("user_id") REFERENCES "USER"("id") on DELETE CASCADE\
+    );'
+  );
+
+  db.run(
     'CREATE TABLE IF NOT EXISTS "HIKE" (\
      "id"	INTEGER NOT NULL,\
      "title" TEXT NOT NULL,\
@@ -135,13 +157,13 @@ db.serialize(function () {
     );'
   );
 
-
   db.run(
     "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
        VALUES ('Mario', 'Rossi', 'local guide', \
               'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
               'lg1@p.it', '4783473632662333', '3334567980')"
   );
+
 
   try {
     admin.auth().createUser({
@@ -204,6 +226,14 @@ db.serialize(function () {
       disabled: false
     });
   } catch { }
+
+  db.run(
+    "INSERT OR IGNORE INTO HIKER_PREFRENCES(user_id, max_length_kms, min_length_kms, max_expected_mins, min_expected_mins,\
+     max_ascendent_meters, min_ascendent_meters, max_difficulty, min_difficulty, point_latitude, point_longitude, radius,\
+      region, province, city)\
+       VALUES (3, 110, 60, 120, 40, 200, 100, 'Hiker','Tourist', '44.19940', '7.93339', 50, 'Piemonte', 'CN', 'Garessio'),\
+              (4, 200, 110, 200, 100, 120, 100, 'Hiker','Hiker',  '44.21736', '7.94432',10, 'Piemonte', 'CN', 'Garessio')"
+  );
 
   for (let i = 0; i < hikevalues.length; i++) {
     db.run(
