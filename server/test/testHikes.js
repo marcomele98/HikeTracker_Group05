@@ -30,7 +30,9 @@ describe('test hikes apis', () => {
     newRefrencePoint(201,1,hikeObject.hike,pointObject.point1);
     newRefrencePoint(201,1,hikeObject.hike,pointObject.point2);
     newRefrencePoint(422,1,hikeObject.hike,pointObject.wrongPoint1);
-
+    hikeHutLink(201,1,hikeObject.hike,hutObject.hut);
+    hikeHutLink(201,1,hikeObject.hike,hutObject.hut2);
+    hikeHutLink(404,123,hikeObject.hike,hutObject.hut3);
 });
 
 describe('test hikes apis no login', () => {
@@ -271,5 +273,38 @@ function newRefrencePoint(expectedHTTPStatus,id,hike,point) {
                         })
                 }
             });
+    })
+}
+
+function hikeHutLink(expectedHTTPStatus,id,hike,hut){
+    it('link an hut to a reference point', function (done) {
+        chaiUtility.agent.post('/api/hike')
+            .send(hike)
+            .then(function (res) {
+                res.should.have.status(201);
+                if (res.status == 201) {
+                    chaiUtility.agent.post('/api/hut')
+                        .send(hut)
+                        .then(function (res1){
+                            res1.should.have.status(201);
+                            if (res1.status == 201) {
+                                chaiUtility.agent.post('/api/newRefPoint/'+ id)
+                                .send(hut)
+                                .then(function (res2) {
+                                    if (id == 1) {
+                                        console.log("prova");
+                                        res2.should.have.status(expectedHTTPStatus);
+                                        done();
+                                    }
+                                    else {
+                                        res2.should.have.status(404);
+                                        done();
+                                    }
+                                 
+                                })
+                            }
+                        })
+                }
+            })
     })
 }
