@@ -166,13 +166,11 @@ class HikeDescription {
                 if (update.type_start !== oldEndType || (update.type_start === oldEndType && update.start_point !== oldEndId)) {
                     if (update.type_start === 'Parking point') {
                         let old = await db.getHikesParkingsByIDs(hikeId, update.start_point)
-                        console.log(old)
                         if (old === undefined)
                             await db.insertParkForHike(hikeId, update.start_point)
                     }
                     else if (update.type_start === 'Hut point') {
                         let old = await db.getHikesHutsByIDs(hikeId, update.start_point)
-                        console.log(old)
                         if (old === undefined)
                             await db.insertHutForHike(hikeId, update.start_point)
                     }
@@ -227,13 +225,11 @@ class HikeDescription {
                 if (update.type_end !== oldStartType || (update.type_end === oldStartType && update.end_point !== oldStartId)) {
                     if (update.type_end === 'Parking point') {
                         let old = await db.getHikesParkingsByIDs(hikeId, update.end_point)
-                        console.log(old)
                         if (old === undefined)
                             await db.insertParkForHike(hikeId, update.end_point)
                     }
                     else if (update.type_end === 'Hut point') {
                         let old = await db.getHikesHutsByIDs(hikeId, update.end_point)
-                        console.log(old)
                         if (old === undefined)
                             await db.insertHutForHike(hikeId, update.end_point)
                     }
@@ -282,7 +278,6 @@ class HikeDescription {
                 let start_point_id = 0;
 
                 let oldEnd = await pointDB.getPointById(oldEndId)
-                console.log(oldEnd)
 
                 if (oldEndType === "general point" && oldEnd.latitude == update.latitude && oldEnd.latitude == update.latitude) {
                     start_point_id = oldEndId;
@@ -335,8 +330,6 @@ class HikeDescription {
                 let end_point_id = 0;
 
                 let oldStart = await pointDB.getPointById(oldStartId)
-                console.log(oldStart)
-                console.log(update)
 
                 if (oldStartType === "general point" && oldStart.latitude == update.latitude && oldStart.latitude == update.latitude) {
                     end_point_id = oldStartId;
@@ -354,7 +347,7 @@ class HikeDescription {
     }
 
 
-    async hikeHutLink(req, res){
+    async hikeHutLink(req, res) {
 
         let update = req.body; //hutid
         let hikeId = req.params.hikeId
@@ -379,9 +372,8 @@ class HikeDescription {
             }
             else {
                 let old = await db.getHikesHutsByIDs(hikeId, update.hut_id)
-                console.log(old)
                 if (old === undefined)
-                     await db.insertHutForHike(hikeId, update.hut_id)
+                    await db.insertHutForHike(hikeId, update.hut_id)
                 return res.status(201).end();
             }
         }
@@ -393,7 +385,7 @@ class HikeDescription {
     }
 
 
-async addNewRefPoint(req, res) {
+    async addNewRefPoint(req, res) {
         let point = req.body;
         let hikeId = req.params.hikeId
         let role = req.user.role;
@@ -420,7 +412,6 @@ async addNewRefPoint(req, res) {
                 return res.status(401).json(message);
             }
             else {
-                console.log(hike);
                 await pointDB.storePoint(point, hikeId);
                 return res.status(201).end();
             }
@@ -470,7 +461,6 @@ class HikesView {
 
         }
         catch (err) {
-            console.log(err);
             return res.status(500).json(err).end();
         }
 

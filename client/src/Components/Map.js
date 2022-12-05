@@ -90,10 +90,16 @@ const MapEvents = ({ selected, setSelected, clearAddress }) => {
 }
 
 
-const SelectorMap = ({ onClick, positions, clearAddress }) => {
+const SelectorMap = ({ onClick, positions, setPositions, clearAddress }) => {
     const [selected, setSelected] = React.useState();
+    const [points, setPoints] = React.useState([])
 
-    React.useEffect(()=>console.log(positions), [])
+    React.useEffect(()=>{
+        const maxHalfLength = 500;
+        const ratio = (positions.length / maxHalfLength).toFixed();
+        const filtered_positions =  positions.filter((el, i) => ratio<=2 || i%(ratio*2) == 0)
+        setPoints(filtered_positions);
+    }, [])
 
     const blueIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF"
     const greenIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|2ecc71&chf=a,s,ee00FFFF"
@@ -122,7 +128,7 @@ const SelectorMap = ({ onClick, positions, clearAddress }) => {
                                     positions={positions}
                                 />
                                 {
-                                    positions
+                                    points
                                         .filter(p => (!selected || (selected.lat === p.lat && selected.lon === p.lon)))
                                         .map((p, i) =>
                                             <Marker
