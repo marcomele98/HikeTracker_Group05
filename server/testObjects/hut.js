@@ -78,3 +78,13 @@ exports.hut5 = {
     'email': 'Rifugio_Sempronio@gmail.com',
     'description': 'prova4'
 }
+
+exports.wrongHut1 = {
+    ...this.hut,
+    'name': 123,
+}
+
+exports.wrongHut2 = {
+    ...this.hut,
+    'altitude': '200m',
+}
