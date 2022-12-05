@@ -25,8 +25,9 @@ async function logIn(credentials) {
     if (verified) {
       return user;
     } else {
-      await sendEmailVerification(auth.currentUser);
-      throw "Your email is not verified. Please verify your email";
+      await this.logOut()
+      const errDetail = await sendEmailVerification(auth.currentUser);
+      throw errDetail.message;
     }
   } else {
     const errDetail = await response.json();
