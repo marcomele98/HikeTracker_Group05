@@ -9,8 +9,6 @@ const servicesUtility = require('../utilities/servicesUtilities')
 
 class HikeDescription {
 
-    constructor() { }
-
     deleteStartEndPoint = async (hikeId, oldStartType, oldEndType, oldStartId, oldEndId) => {
         if (oldStartType === 'Parking point' && (oldEndType !== 'Parking point' || (oldEndType === 'Parking point' && oldEndId !== oldStartId))) {
             await db.deleteParkForHike(hikeId, oldStartId);
@@ -446,7 +444,6 @@ async addNewRefPoint(req, res) {
 
 class HikesView {
 
-    constructor() { }
 
     async getAllHikes(req, res) {
         try {

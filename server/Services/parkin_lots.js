@@ -4,8 +4,6 @@ const servicesUtility = require('../utilities/servicesUtilities')
 
 class ParkingLotsDescription {
 
-    constructor() { }
-
     async getAllParking_lots(req, res) {
         try {
             let parking_lots = await parkingDB.getParkings();

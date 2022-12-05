@@ -1,4 +1,3 @@
-import { point } from "leaflet";
 import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Button, Alert } from "react-bootstrap";
 import { SelectorMap } from "./Map"

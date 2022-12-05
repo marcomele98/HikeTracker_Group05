@@ -4,7 +4,7 @@
 
 import { signInWithEmailAndPassword } from '@firebase/auth';
 import { toast } from 'react-toastify';
-import { auth, createUserWithEmailAndPassword, sendEmailVerification, signOut } from './firebase';
+import { auth, createUserWithEmailAndPassword, sendEmailVerification } from './firebase';
 
 const APIURL = new URL('http://localhost:3001/api/');  // Do not forget '/' at the end
 

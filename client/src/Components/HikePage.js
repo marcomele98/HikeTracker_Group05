@@ -8,7 +8,6 @@ import { Pencil } from "react-bootstrap-icons";
 import { Map } from "./Map"
 import { calcCrow } from "../utilities";
 import AddPointForm from "./AddPointForm";
-import { point } from 'leaflet';
 let gpxParser = require('gpxparser');
 
 function HikePage({ setIsLoading, loggedIn, user }) {

@@ -5,8 +5,6 @@ const db = require('../Queries/user');
 
 class User {
 
-    constructor() { }
-
     async getUser(email, password) {
         
         let user = await db.getUser(email);

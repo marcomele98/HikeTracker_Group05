@@ -2,7 +2,7 @@
 
 const express = require('express');
 const morgan = require('morgan'); // logging middleware
-const { check, validationResult, validator, body } = require('express-validator'); // validation middleware
+const { validationResult, body } = require('express-validator'); // validation middleware
 const cors = require('cors');
 const passport = require('passport'); // auth middleware
 const LocalStrategy = require('passport-local').Strategy; // username and password for login

@@ -1,5 +1,3 @@
-import { TruckFlatbed } from "react-bootstrap-icons"
-
 //test confirm button when adding  a hut as start point of the hike
 describe('loginform e2e tset', () => { 
     it('1 access the webpage', () => {
