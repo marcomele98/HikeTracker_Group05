@@ -1,5 +1,6 @@
 const parking = require('../Queries/parking');
 const db = require('../Queries/DAO');
+const daoUtility = require('../utilities/daoUtilities');
 
 
 function Parking(id, name, latitude, longitude, altitude, region, province, city){
@@ -18,11 +19,7 @@ function Parking(id, name, latitude, longitude, altitude, region, province, city
 
 describe("ParkingsDao", () => {
     beforeAll(async () => {
-        await db.run('DELETE FROM HIKE_PARKING');
-        await db.run('DELETE FROM PARKING_LOT');
-        await db.run('DELETE FROM HIKE');
-        await db.run('DELETE FROM USER');
-        await db.run('DELETE FROM sqlite_sequence');
+        await daoUtility.resetDB();
         await db.run(
             "INSERT INTO PARKING_LOT(name, latitude, longitude, altitude, region, province, city)\
                 VALUES('Piazzale di Valdinferno','44.19296','7.95501','1192','Piemonte', 'CN','Garessio'),\
@@ -32,12 +29,7 @@ describe("ParkingsDao", () => {
     });
 
     afterAll(async () => {
-        await db.run('DELETE FROM HIKE_PARKING');
-        await db.run('DELETE FROM PARKING_LOT');
-        await db.run('DELETE FROM HIKE');
-        await db.run('DELETE FROM USER');
-        await db.run('DELETE FROM sqlite_sequence');
-
+        await daoUtility.resetDB();
     });
 
     test('test getAllParkings', async () => {
