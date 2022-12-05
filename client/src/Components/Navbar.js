@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import '../App.css';
-import { LogoutButton } from "./LoginComponents";
 
 function NavigationBar(props) {
 

@@ -11,9 +11,6 @@ import AddPointForm from "./AddPointForm";
 let gpxParser = require('gpxparser');
 
 function HikePage({ setIsLoading, loggedIn, user }) {
-    const [seeAllHutsDetails, setSeeAllHutsDetails] = useState(false);
-    const [seeAllParksDetails, setSeeAllParksDetails] = useState(false);
-    // const [seeAllPointsDetails, setSeeAllPointsDetails] = useState(false);
     const [editingStartPoint, setEditingStartPoint] = useState(false);
     const [editingEndPoint, setEditingEndPoint] = useState(false)
     const [hike, setHike] = useState();
