@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
 import { Navigate } from "react-router-dom";
 import './Login.css'
 

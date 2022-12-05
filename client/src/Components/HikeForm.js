@@ -11,7 +11,7 @@ let gpxParser = require('gpxparser');
 
 const HikeForm = (props) => {
 
-	var gpx = new gpxParser();
+	let gpx = new gpxParser();
 	const [GPX, setGPX] = useState("");
 	const [fileGPX, setFileGPX] = useState(null);
 	const [title, setTitle] = useState("");
