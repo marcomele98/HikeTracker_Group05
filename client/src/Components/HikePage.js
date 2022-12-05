@@ -146,7 +146,6 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         }
                     </Row>
 
-                    <Row style={{ height: 20 }}></Row>
                     
                     {
                         hike.huts.length === 0
@@ -155,6 +154,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             :
                             (
                                 <>
+                                <Row style={{ height: 20 }}></Row>
                                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Huts"}</div>
                                     <Row>
                                     <ListGroup>
@@ -173,7 +173,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             )
                     }
 
-                    <Row style={{ height: 20 }}></Row>
+                    
 
                     {
                         hike.parking_lots.length === 0
@@ -182,6 +182,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             :
                             (
                                 <>
+                                <Row style={{ height: 20 }}></Row>
                                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Parking Lots"}</div>
                                     <Row>
                                     < ListGroup >
@@ -199,8 +200,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                 </>)
                     }
 
-                    <Row style={{ height: 20 }}></Row>
-
+                    
                     {hike.points.length === 0
                         ?
                         undefined
@@ -549,6 +549,7 @@ const NewRefPoint = ({ user, hike, setIsLoading, setHike, }) => {
 
     return (
         <Row>
+             <Row style={{ height: 20 }}></Row>
             <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
             <ListGroup>
                 {
