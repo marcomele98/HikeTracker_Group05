@@ -330,7 +330,7 @@ function FilterForm({
 
                 <Row>
 
-                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={2}>
+                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
                         <MaxMinRange
                             label={"Ascent (m): "}
                             setMax={setMaxAscent}
@@ -341,7 +341,7 @@ function FilterForm({
                             rangeMin={0}
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={2}>
+                    <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={{span: 5, offset:1}}>
                         <MaxMinRange
                             label={"Length (km): "}
                             setMax={setMaxLength}
@@ -352,7 +352,7 @@ function FilterForm({
                             rangeMin={0}
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={2}>
+                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
                         <MaxMinRange
                             label={"Expected time (min): "}
                             setMax={setMaxExpectedTime}
@@ -363,7 +363,7 @@ function FilterForm({
                             rangeMin={0}
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={2}>
+                    <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={{span: 5, offset:1}}>
                         <DifficultyRange
                             label="Difficulty:"
                             setMin={setMinDifficulty}
