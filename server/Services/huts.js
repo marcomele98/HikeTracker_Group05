@@ -4,8 +4,6 @@ const servicesUtility = require('../utilities/servicesUtilities')
 
 class HutDescription {
 
-    constructor() { }
-
     async addHutDescription(req, res)
     {
         let hut = req.body;
