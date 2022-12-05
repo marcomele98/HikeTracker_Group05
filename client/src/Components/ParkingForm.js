@@ -25,9 +25,14 @@ const ParkingForm = (props) => {
 
         const positionChangeHandle = async () => {
             const details = await getCoordsDetails({ latitude: position.lat, longitude: position.lng })
-            setCity(details.City)
-            setRegion(details.Region)
-            setProvince(details.SubregionCode)
+            if (details.CountryCode !== "ITA") {
+                setErrMsg("At the moment are no accepted points outside ita.");
+                setPosition();
+            } else {
+                setCity(details.City)
+                setRegion(details.Region)
+                setProvince(details.SubregionCode)
+            }
 
         }
 

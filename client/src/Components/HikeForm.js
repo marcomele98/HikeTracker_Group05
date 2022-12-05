@@ -78,13 +78,19 @@ const HikeForm = (props) => {
 			address: ""
 		}
 		const startPointDetails = await getCoordsDetails(start);
-		setCity(startPointDetails.City)
-		setRegion(startPointDetails.Region)
-		setProvince(startPointDetails.SubregionCode)
-		start.address = startPointDetails.Address
-		end.address = (await getCoordsDetails(start)).Address
-		setStartPoint(start);
-		setEndPoint(end);
+		if (startPointDetails.CountryCode !== "ITA") {
+			toast.error("At the moment are no accepted hike outside ita.", { position: "top-center" }, { toastId: 10 });
+			setGPX("")
+			setFileGPX(null)
+		} else {
+			setCity(startPointDetails.City)
+			setRegion(startPointDetails.Region)
+			setProvince(startPointDetails.SubregionCode)
+			start.address = startPointDetails.Address
+			end.address = (await getCoordsDetails(start)).Address
+			setStartPoint(start);
+			setEndPoint(end);
+		}
 	}
 
 
@@ -379,7 +385,7 @@ const HikeForm = (props) => {
 
 
 
-									
+
 										<AddPointForm point={startPoint} setPoint={setStartPoint} type={"Start point"} />
 										<AddPointForm point={endPoint} setPoint={setEndPoint} type={"End point"} />
 									</>

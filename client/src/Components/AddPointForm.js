@@ -31,7 +31,6 @@ const AddPointForm = (props) => {
 
 	const setPointAddress = async (coordinates) => {
 		const addr = (await getCoordsDetails(coordinates)).Address
-		console.log(await getCoordsDetails(coordinates))
 		setAddress(addr)
 	}
 
