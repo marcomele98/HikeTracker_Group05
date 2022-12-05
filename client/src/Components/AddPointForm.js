@@ -31,11 +31,10 @@ const AddPointForm = (props) => {
 
 	const setPointAddress = async (coordinates) => {
 		const addr = (await getCoordsDetails(coordinates)).Address
-		console.log(await getCoordsDetails(coordinates))
 		setAddress(addr)
 	}
 
-	function addReferencePoint() {
+	function addReferencePoint(e) {
 
 		const point = {
 			latitude: lat,
@@ -55,6 +54,9 @@ const AddPointForm = (props) => {
 			setHeight("");
 			setName("");
 			setAddress("");
+			if (props.onConfirm){
+				props.onConfirm(e, point)
+			}
 			props.setShowForm(false);
 		}
 	}
@@ -149,8 +151,8 @@ const AddPointForm = (props) => {
 						</Row>
 						<Row className={props.rowClassName ? props.rowClassName : "justify-content-center"}>
 							<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
-								<Button variant="success" onClick={addReferencePoint}>Confirm point</Button>
-								<Button className="mx-4" variant="danger" onClick={() => props.setShowForm(false)}>Cancel point</Button>
+								<Button variant="outline-success" style={{ borderWidth: 3 }} onClick={addReferencePoint}>Confirm point</Button>
+								<Button className="mx-4" variant="outline-danger" style={{ borderWidth: 3 }} onClick={() => props.setShowForm(false)}>Cancel point</Button>
 							</Col>
 						</Row>
 					</>
