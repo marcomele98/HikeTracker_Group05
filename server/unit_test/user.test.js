@@ -2,12 +2,12 @@
 const hike = require('../Queries/hike');
 const db = require('../Queries/DAO');
 const user = require('../Queries/user');
+const daoUtility = require('../utilities/daoUtilities');
 
 
 describe("User test", () => {
     beforeAll(async () => {
-        await db.run('DELETE FROM USER');
-        await db.run('DELETE FROM sqlite_sequence');
+        await daoUtility.resetDB();
         await db.run(
             "INSERT OR IGNORE INTO USER(id, name, surname, role, password, email, salt, phone_number)\
              VALUES (1, 'Mario', 'Rossi', 'local guide', \
@@ -26,9 +26,7 @@ describe("User test", () => {
     });
 
     afterAll(async () => {
-        await db.run('DELETE FROM USER');
-        await db.run('DELETE FROM sqlite_sequence');
-
+        await daoUtility.resetDB();
     });
 
 
