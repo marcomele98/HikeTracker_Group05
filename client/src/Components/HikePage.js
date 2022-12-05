@@ -158,7 +158,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             :
                             (
                                 <>
-                                    <div className="textGrayPrimaryBig" style={hike.lg_id === user.id ? { marginLeft: 10 } : { marginLeft: 10 }}>{"Huts"}</div>
+                                    <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Huts"}</div>
                                     <Row>
                                     <ListGroup>
                                         {
@@ -185,7 +185,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             :
                             (
                                 <>
-                                    <div className="textGrayPrimaryBig" style={hike.lg_id === user.id ? { marginLeft: 10 } : { marginLeft: 10 }}>{"Parking Lots"}</div>
+                                    <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Parking Lots"}</div>
                                     <Row>
                                     < ListGroup >
                                         {
@@ -552,7 +552,7 @@ const NewRefPoint = ({ user, hike, setIsLoading, setHike, }) => {
 
     return (
         <Row>
-            <div className="textGrayPrimaryBig" style={hike.lg_id === user.id ? { marginLeft: 10 } : { marginLeft: 10 }}>{"Reference Points"}</div>
+            <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
             <ListGroup>
                 {
                     hike.points
