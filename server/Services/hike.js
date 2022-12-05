@@ -53,11 +53,6 @@ class HikeDescription {
             return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidNumber(hike.expected_mins)) {
-            message = "Invalid Expected Time"
-            return res.status(422).json(message);
-        }
-
         if (servicesUtility.isNotValidNumber(hike.ascendent_meters)) {
             message = "Invalid Ascent"
             return res.status(422).json(message);
@@ -408,7 +403,7 @@ async addNewRefPoint(req, res) {
             return res.status(401).json("Not authenticated as a local guide.");
         }
 
-        if (this.isNotValidPoint(point)) {
+        if (servicesUtility.isNotValidPoint(point)) {
             let message = "Invalid point."
             return res.status(422).json(message);
         }
