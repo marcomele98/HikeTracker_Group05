@@ -53,11 +53,6 @@ class HikeDescription {
             return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidNumber(hike.expected_mins)) {
-            message = "Invalid Expected Time"
-            return res.status(422).json(message);
-        }
-
         if (servicesUtility.isNotValidNumber(hike.ascendent_meters)) {
             message = "Invalid Ascent"
             return res.status(422).json(message);

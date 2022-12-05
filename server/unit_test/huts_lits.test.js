@@ -1,5 +1,6 @@
 const hut = require('../Queries/hut');
 const db = require('../Queries/DAO');
+const daoUtility = require('../utilities/daoUtilities');
 
 
 function Hut(id, name, latitude, longitude, altitude, type, region, province, city, number_of_beds, description){
@@ -21,11 +22,7 @@ function Hut(id, name, latitude, longitude, altitude, type, region, province, ci
 
 describe("hutsDao", () => {
     beforeAll(async () => {
-        await db.run('DELETE FROM HIKE_HUT');
-        await db.run('DELETE FROM HUT');
-        await db.run('DELETE FROM HIKE');
-        await db.run('DELETE FROM USER');
-        await db.run('DELETE FROM sqlite_sequence');
+        await daoUtility.resetDB();
         await db.run(
             "INSERT INTO HUT(id,name,latitude, longitude, altitude, type, region, province, city, number_of_beds, description)\
                  VALUES (1, 'Refuge La Riposa','45.17778', '7.08337', '2185','Refuge', 'Piemonte', 'TO','Mompantero', 20, 'prova1'),\
@@ -35,11 +32,7 @@ describe("hutsDao", () => {
     });
 
     afterAll(async () => {
-        await db.run('DELETE FROM HIKE_HUT');
-        await db.run('DELETE FROM HUT');
-        await db.run('DELETE FROM HIKE');
-        await db.run('DELETE FROM USER');
-        await db.run('DELETE FROM sqlite_sequence');
+        await daoUtility.resetDB();
 
     });
 

@@ -1,4 +1,4 @@
-import { Row, Container, Col, Form, ListGroupItem, ListGroup, Alert, Button } from "react-bootstrap";
+import { Row, Container, Col, Form, ListGroupItem, ListGroup, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { ClickableOpacity } from "./clickableOpacity";
@@ -100,43 +100,19 @@ function Home({ setIsLoading, user }) {
                         {
                             hikes
                                 .filter((h) => {
-                                    if (province && !h.province.toLocaleLowerCase().includes(province.toLocaleLowerCase())) {
-                                        return false;
-                                    }
-                                    if (city && !h.city.toLocaleLowerCase().includes(city.toLocaleLowerCase())) {
-                                        return false;
-                                    }
-                                    if (maxAscent && maxAscent < h.ascendent_meters) {
-                                        return false;
-                                    }
-                                    if (minAscent && minAscent > h.ascendent_meters) {
-                                        return false;
-                                    }
-                                    if (maxLength && maxLength < h.length_kms) {
-                                        return false;
-                                    }
-                                    if (minLength && minLength > h.length_kms) {
-                                        return false;
-                                    }
-                                    if (maxExpectedTime && maxExpectedTime < h.expected_mins) {
-                                        return false;
-                                    }
-                                    if (minExpectedTime && minExpectedTime > h.expected_mins) {
-                                        return false;
-                                    }
-                                    if (maxDifficulty?.toLowerCase() === "tourist" && h.difficulty.toLowerCase() !== "tourist") {
-                                        return false;
-                                    }
-                                    if (maxDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "professional hiker") {
-                                        return false;
-                                    }
-                                    if (minDifficulty?.toLowerCase() === "professional hiker" && h.difficulty.toLowerCase() !== "professional hiker") {
-                                        return false;
-                                    }
-                                    if (minDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "tourist") {
-                                        return false;
-                                    }
-                                    if (coordinates && radius && calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon) > radius) {
+                                    if ((province && !h.province.toLocaleLowerCase().includes(province.toLocaleLowerCase()))
+                                        || (city && !h.city.toLocaleLowerCase().includes(city.toLocaleLowerCase()))
+                                        || (maxAscent && maxAscent < h.ascendent_meters)
+                                        || (minAscent && minAscent > h.ascendent_meters) 
+                                        || (maxLength && maxLength < h.length_kms) 
+                                        || (minLength && minLength > h.length_kms) 
+                                        || (maxExpectedTime && maxExpectedTime < h.expected_mins)
+                                        || (minExpectedTime && minExpectedTime > h.expected_mins)
+                                        || (maxDifficulty?.toLowerCase() === "tourist" && h.difficulty.toLowerCase() !== "tourist") 
+                                        || (maxDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "professional hiker") 
+                                        || (minDifficulty?.toLowerCase() === "professional hiker" && h.difficulty.toLowerCase() !== "professional hiker") 
+                                        || (minDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "tourist") 
+                                        || (coordinates && radius && calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon) > radius)) {
                                         return false;
                                     }
                                     return true;
@@ -293,7 +269,7 @@ function FilterForm({
                     <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={{span: 5, offset:1}}>
                         <FormElement
                             label="City"
-                            onChange={(ev) => setCity(ev.target.value.replace(/[^a-z" "]/gi, ''))}
+                            onChange={(ev) => setCity(ev.target.value.replace(/[^a-z\s]/gi, ''))}
                             type="text"
                             placeholder="Insert city"
                             value={city}

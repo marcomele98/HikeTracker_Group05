@@ -8,11 +8,9 @@ import { toast } from "react-toastify";
 function LoginForm(props) {
   const [username, setUsername] = useState(''); //si possono anche lasciare per l'esame
   const [password, setPassword] = useState(''); //così testano direttamente con questo utente
-  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (event) => {
-    event.preventDefault(); //evita di ricaricare la pagina
-    setErrorMessage('');
+    event.preventDefault(); //evita di ricaricare la pagina+
     const credentials = { username, password };
 
     // SOME VALIDATION, ADD MORE!!!
@@ -20,12 +18,11 @@ function LoginForm(props) {
     if (username === '' || password === '' || password.length < 6) {
       valid = false;
       toast.error("Username and/or password wrong. Try again.", { position: "top-center" }, { toastId: 2 })
-      //setErrorMessage('Email cannot be empty and password must be at least six character long.');
     }
 
     if (valid) {
       props.login(credentials) //gestiamo un'eventuale errore
-        .catch((err) => { setErrorMessage(err); })
+        .catch((err) => { toast.error(err, { position: "top-center" }, { toastId: 4 }) })
         ;
     }
   };

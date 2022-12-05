@@ -13,9 +13,9 @@ const db = new sqlite.Database(dbname, (err) => {
   if (err) throw err;
 });
 
-var admin = require("firebase-admin");
+let admin = require("firebase-admin");
 
-var serviceAccount = require("./admin.json");
+let serviceAccount = require("./admin.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -205,7 +205,7 @@ db.serialize(function () {
     });
   } catch { }
 
-  for (var i = 0; i < hikevalues.length; i++) {
+  for (let i = 0; i < hikevalues.length; i++) {
     db.run(
       "INSERT OR IGNORE INTO HIKE(title,length_kms,expected_mins,ascendent_meters,difficulty,region,province, city, lg_id, gpx,\
        end_point, end_point_type, start_point, start_point_type, description)\
@@ -220,7 +220,7 @@ db.serialize(function () {
   };
 
 
-  for (var i = 0; i < pointsvalues.length; i++) {
+  for (let i = 0; i < pointsvalues.length; i++) {
     db.run(
       "INSERT INTO POINT( latitude, longitude, altitude, name, address, hike_id )\
      VALUES (?,?,?,?,?,?) ", pointsvalues[i][0], pointsvalues[i][1], pointsvalues[i][2], pointsvalues[i][3], pointsvalues[i][4], pointsvalues[i][5],
@@ -234,7 +234,7 @@ db.serialize(function () {
   };
 
 
-  for (var i = 0; i < parkingvalues.length; i++) {
+  for (let i = 0; i < parkingvalues.length; i++) {
     db.run(
       "INSERT INTO PARKING_LOT(name,latitude, longitude, altitude, capacity, region, province, city)\
       VALUES (?,?,?,?,?,?,?,?)", parkingvalues[i][0], parkingvalues[i][1], parkingvalues[i][2], parkingvalues[i][3], parkingvalues[i][4],
@@ -248,7 +248,7 @@ db.serialize(function () {
   };
 
 
-  for (var i = 0; i < hutsvalues.length; i++) {
+  for (let i = 0; i < hutsvalues.length; i++) {
     db.run(
       "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, city, number_of_beds,phone, email, description)\
       VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?)", hutsvalues[i][0], hutsvalues[i][1], hutsvalues[i][2], hutsvalues[i][3], hutsvalues[i][4],

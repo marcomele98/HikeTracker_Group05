@@ -21,7 +21,7 @@ const MapMoover = ({ position }) => {
 
 
 const Map = (props) => {
-    var gpx;
+    let gpx;
     const [positions, setPositions] = React.useState();
     React.useEffect(() => {
         gpx = new gpxParser();
@@ -78,7 +78,7 @@ const Map = (props) => {
 
 
 const MapEvents = ({ selected, setSelected, clearAddress }) => {
-    const map = useMapEvents({
+    useMapEvents({
         click: (e) => {
             if (selected && (e.latlng.lat !== selected.lat || e.latlng.lng !== selected.lon)){
                 setSelected("")

@@ -30,9 +30,14 @@ const HutForm = (props) => {
     useEffect(() => {
         const positionChangeHandle = async () => {
             const details = await getCoordsDetails({ latitude: position.lat, longitude: position.lng })
-            setCity(details.City)
-            setRegion(details.Region)
-            setProvince(details.SubregionCode)
+            if (details.CountryCode !== "ITA") {
+                setErrMsg("At the moment are no accepted points outside ita.");
+                setPosition();
+            } else {
+                setCity(details.City)
+                setRegion(details.Region)
+                setProvince(details.SubregionCode)
+            }
         }
         if (position)
             positionChangeHandle()
@@ -59,11 +64,7 @@ const HutForm = (props) => {
     };
 
     const isNotValidNumber = (number) => {
-        if (number < 0) {
-            return true;
-        }
-        else
-            return false;
+        return (number < 0)
     }
 
 
@@ -182,7 +183,7 @@ const HutForm = (props) => {
                             <Form.Control.Feedback type="invalid">Please insert correct altitude</Form.Control.Feedback>
                         </Form.Group>
                     </Col>
-                    
+
 
                 </Row>
 
@@ -216,7 +217,7 @@ const HutForm = (props) => {
                             <Form.Control.Feedback type="invalid">Please insert correct email</Form.Control.Feedback>
                         </Form.Group>
                     </Col>
-                    
+
 
                 </Row>
 
