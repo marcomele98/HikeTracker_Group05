@@ -251,6 +251,39 @@
 - **Permissions allowed**:  All users and visitors.
 - **Error responses**: `503 Service Unavailable` (generic error).
 
+### GET
+
+#### **/api/preferences/:userId**
+- **Returns the preferences set by an hiker.**
+- **Request header** has a line: `Content-Type: application/json`.
+- **Request body**: none.
+- **Response**
+- **Response header**:  `200 Ok` (success). 
+- **Response body**: : a JSON object containing all preferences for a specific hiker.
+
+```
+        {
+              "user_id": 4,
+              "max_length_kms": 200,
+              "min_length_kms": 110,
+              "max_expected_mins": 200,
+              "min_expected_mins": 100,
+              "max_ascendent_meters": 120,
+              "min_ascendent_meters": 100,
+              "max_difficulty": "Hiker",
+              "min_difficulty": "Hiker",
+              "point_latitude": "44.21736",
+              "point_longitude": "7.94432",
+              "radius": 10,
+              "region": "Piemonte",
+              "province": "CN",
+              "city": "Garessio"
+        }    
+```
+- **Permissions allowed**:  All hikers.
+- **Error responses**: `503 Service Unavailable` (generic error).
+
+
 
 ####  **POST /api/register**
 - **Registers a new user**
