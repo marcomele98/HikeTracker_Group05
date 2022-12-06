@@ -65,7 +65,7 @@ describe('insert a start point and insert name of start point test', ()=>{
         .invoke('val')
         .should('eq', 'default')
         cy.contains('Name')
-        cy.get("#validationCustom04").type('porta nuova').should('have.value','porta nuova')
+        cy.get("#validationCustom04").type('porta nuova',{force:true}).should('have.value','porta nuova')
         cy.contains('Confirm')
         cy.contains('Cancel').click({force:true})
     })
@@ -90,7 +90,7 @@ describe('insert a start point and insert name of start point test', ()=>{
         .select('Parking place Malga Grassi', { force: true })
         .invoke('val')
         .should('deep.equal', '4')
-          cy.contains('Confirm').click{force:true}
+          cy.contains('Confirm').click({force:true})
     })
    
   
