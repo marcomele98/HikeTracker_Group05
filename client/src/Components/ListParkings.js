@@ -1,13 +1,12 @@
-import { Row, Container, Col, Form, ListGroupItem, ListGroup, Alert, Button } from "react-bootstrap";
+import { Row, Container, Col, ListGroupItem, ListGroup, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { ClickableOpacity } from "./clickableOpacity";
 import { toast } from "react-toastify";
-import { PlusCircle } from "react-bootstrap-icons";
 import API from "../API";
 import img from "../Assets/Images/parking.jpeg"
 
-function ListParkings({ setIsLoading, loggedIn, user }) {
+function ListParkings({ setIsLoading, user }) {
 
     const [parks, setParks] = useState([]);
     const navigate = useNavigate();

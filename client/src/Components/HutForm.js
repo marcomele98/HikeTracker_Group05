@@ -17,6 +17,8 @@ const HutForm = (props) => {
     const [altitude, setAltitude] = useState("");
     const [type, setType] = useState("");
     const [numberBeds, setNumberBeds] = useState("");
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
     const [description, setDescription] = useState("");
     const [validated, setValidated] = useState(false);
     const [errMsg, setErrMsg] = useState("");
@@ -28,9 +30,14 @@ const HutForm = (props) => {
     useEffect(() => {
         const positionChangeHandle = async () => {
             const details = await getCoordsDetails({ latitude: position.lat, longitude: position.lng })
-            setCity(details.City)
-            setRegion(details.Region)
-            setProvince(details.SubregionCode)
+            if (details.CountryCode !== "ITA") {
+                setErrMsg("At the moment are no accepted points outside ita.");
+                setPosition();
+            } else {
+                setCity(details.City)
+                setRegion(details.Region)
+                setProvince(details.SubregionCode)
+            }
         }
         if (position)
             positionChangeHandle()
@@ -57,11 +64,7 @@ const HutForm = (props) => {
     };
 
     const isNotValidNumber = (number) => {
-        if (number < 0) {
-            return true;
-        }
-        else
-            return false;
+        return (number < 0)
     }
 
 
@@ -85,6 +88,8 @@ const HutForm = (props) => {
             altitude,
             type,
             number_of_beds: numberBeds,
+            phone,
+            email,
             description
         }
 
@@ -152,7 +157,6 @@ const HutForm = (props) => {
                         <Form.Group className={"mb-4"} controlId="validationCustom09">
                             <Form.Label className={"fs-4"}>Number of beds</Form.Label>
                             <Form.Control
-                                required
                                 type="number"
                                 placeholder="Insert number of beds"
                                 value={numberBeds}
@@ -179,6 +183,41 @@ const HutForm = (props) => {
                             <Form.Control.Feedback type="invalid">Please insert correct altitude</Form.Control.Feedback>
                         </Form.Group>
                     </Col>
+
+
+                </Row>
+
+                <Row className="justify-content-center">
+                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
+                        <Form.Group className={"mb-4"} controlId="validationCustom11">
+                            <Form.Label className={"fs-4"}>Phone number</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Insert phone number"
+                                value={phone}
+                                onChange={(e) => {
+                                    setPhone(e.target.value);
+                                }}
+                            />
+                            <Form.Control.Feedback type="invalid">Please insert correct phone number</Form.Control.Feedback>
+                        </Form.Group>
+                    </Col>
+
+                    <Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
+                        <Form.Group className={"mb-4"} controlId="validationCustom12">
+                            <Form.Label className={"fs-4"}>Email</Form.Label>
+                            <Form.Control
+                                type="email"
+                                placeholder="Insert email"
+                                value={email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                            />
+                            <Form.Control.Feedback type="invalid">Please insert correct email</Form.Control.Feedback>
+                        </Form.Group>
+                    </Col>
+
 
                 </Row>
 

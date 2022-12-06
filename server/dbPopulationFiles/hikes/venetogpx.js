@@ -1,10 +1,6 @@
 'use strict';
 
-const fs = require('fs');
-
-function readFile(filePath) {
-    return fs.readFileSync(filePath).toString();
-}
+const { readFile} = require('../../utilities/gpxUtilities');
 
 const ven_file1 = readFile('GPX_files/veneto/hike1.gpx');
 const ven_file2 = readFile('GPX_files/veneto/hike2.gpx');

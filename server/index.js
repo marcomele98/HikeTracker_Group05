@@ -2,7 +2,7 @@
 
 const express = require('express');
 const morgan = require('morgan'); // logging middleware
-const { check, validationResult, validator, body } = require('express-validator'); // validation middleware
+const { validationResult, body } = require('express-validator'); // validation middleware
 const cors = require('cors');
 const passport = require('passport'); // auth middleware
 const LocalStrategy = require('passport-local').Strategy; // username and password for login
@@ -13,13 +13,15 @@ const crypto = require('crypto');
 const User = require('./Services/user');
 const user = new User;
 
-const {HikeDescription , HikesView}  = require('./Services/hike');
-const {ParkingLotsDescription} = require('./Services/parkin_lots');
+const { HikeDescription, HikesView } = require('./Services/hike');
+const { ParkingLotsDescription } = require('./Services/parkin_lots');
 const { HutDescription } = require('./Services/huts');
+const { Preferences } = require('./Services/preferences');
 const parkin_lot = new ParkingLotsDescription;
 const hut = new HutDescription;
 const hike = new HikeDescription;
 const hikeviews = new HikesView;
+const preferences = new Preferences;
 
 /*** Set up Passport ***/
 // set up the "username and password" login strategy
@@ -96,23 +98,25 @@ app.use(passport.session());
 
 // POST /sessions 
 // login
-app.post('/api/sessions', function(req, res, next) {
+app.post('/api/sessions', function (req, res, next) {
   passport.authenticate('local', (err, user, info) => {
     if (err)
       return next(err);
-      if (!user) {
-        // display wrong login messages
-        return res.status(401).json(info);
-      }
+    if (!user) {
+      // display wrong login messages
+      return res.status(401).json(info);
+    }
+    else {
       // success, perform the login
       req.login(user, (err) => {
         if (err)
           return next(err);
-        
+
         // req.user contains the authenticated user, we send all the user info back
         // this is coming from userDao.getUser()
         return res.json(req.user);
       });
+    }
   })(req, res, next);
 });
 
@@ -121,15 +125,17 @@ app.post('/api/sessions', function(req, res, next) {
 // DELETE /sessions/current 
 // logout
 app.delete('/api/sessions/current', (req, res) => {
-  req.logout( ()=> { res.end(); } );
+  req.logout(() => { res.end(); });
 });
 
 // GET /sessions/current
 // check whether the user is logged in or not
-app.get('/api/sessions/current', (req, res) => {  if(req.isAuthenticated()) {
-    res.status(200).json(req.user);}
-  else
-    res.status(401).json({error: 'Unauthenticated user!'});;
+app.get('/api/sessions/current', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.status(200).json(req.user);
+  }
+  else 
+    res.status(401).json({ error: 'Unauthenticated user!' });
 });
 
 
@@ -139,15 +145,17 @@ app.get('/api/sessions/current', (req, res) => {  if(req.isAuthenticated()) {
 
 
 app.post('/api/hike', isLoggedIn, (req, res) => {
-    return hike.newHikeDescription(req, res);
+  return hike.newHikeDescription(req, res);
 });
 
 app.get('/api/hikes', (req, res) => {
-  return hikeviews.getAllHikes(req,res);}
+  return hikeviews.getAllHikes(req, res);
+}
 );
 
 app.get('/api/hike/:hikeId', (req, res) => {
-  return hikeviews.getHikeById(req,res);}
+  return hikeviews.getHikeById(req, res);
+}
 );
 
 app.put('/api/hikeStart/:hikeId', isLoggedIn, (req, res) => {
@@ -166,29 +174,48 @@ app.put('/api/hikeEndReset/:hikeId', isLoggedIn, (req, res) => {
   return hike.resetEndPoint(req, res);
 })
 
+
+app.post('/api/newRefPoint/:hikeId', isLoggedIn, (req, res) => {
+  return hike.addNewRefPoint(req, res);
+});
+
+app.post('/api/hikeHutLink/:hikeId', isLoggedIn, (req, res) => {
+  return hike.hikeHutLink(req, res);
+})
+
+
 app.post('/api/parkingLot', isLoggedIn, (req, res) => {
   return parkin_lot.newParkingLot(req, res);
 });
 
 app.get('/api/parkingLots', (req, res) => {
-  return parkin_lot.getAllParking_lots(req,res);}
+  return parkin_lot.getAllParking_lots(req, res);
+}
 );
 
 app.get('/api/parkingLot/:parkingLotId', (req, res) => {
-  return parkin_lot.getParkingLotById(req,res);}
+  return parkin_lot.getParkingLotById(req, res);
+}
 );
 
 app.get('/api/huts', (req, res) => {
-  return hut.getAllHuts(req,res);}
+  return hut.getAllHuts(req, res);
+}
 );
 
 app.get('/api/hut/:hutId', (req, res) => {
-  return hut.getHutById(req,res);}
+  return hut.getHutById(req, res);
+}
 );
 
 app.post('/api/hut', isLoggedIn, (req, res) => {
-  return hut.addHutDescription(req,res);
+  return hut.addHutDescription(req, res);
 });
+
+app.get('/api/preferences/:userId', (req, res) => {
+  return preferences.getPreferencesByUserId(req, res);
+}
+);
 
 
 
@@ -206,7 +233,7 @@ const validationBodyRules = [
 const checkRules = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ errors: errors.array() });
   }
   next()
 };
@@ -217,12 +244,12 @@ app.post('/api/register', validationBodyRules, checkRules, async (req, res) => {
   try {
     await user.registerUser(req.body);
     res.status(201).end();
-  } catch(err) {
+  } catch (err) {
     console.log(err);
-    if(err.includes("SQLITE_CONSTRAINT")) {
-      res.status(400).json({error: `The user is already registered`});
+    if (err.includes("SQLITE_CONSTRAINT")) {
+      res.status(400).json({ error: `The user is already registered` });
     } else {
-      res.status(500).json({error: `Database error during the registration`});
+      res.status(500).json({ error: `Database error during the registration` });
     }
   }
 });

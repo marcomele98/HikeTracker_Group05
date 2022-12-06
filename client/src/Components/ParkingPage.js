@@ -50,6 +50,9 @@ function ParkingPage({ setIsLoading, loggedIn, user }) {
                     <Row>
                         <div className="textGrayPrimaryBig">{park.city + " (" + park.province + ")"}</div>
                     </Row>
+                    <Row>
+                    <div className="textGrayPrimaryBig">{"Parking places: " + park.capacity }</div>
+                    </Row>
 
                     <Row>
                         <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>

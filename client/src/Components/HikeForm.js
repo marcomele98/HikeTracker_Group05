@@ -11,7 +11,7 @@ let gpxParser = require('gpxparser');
 
 const HikeForm = (props) => {
 
-	var gpx = new gpxParser();
+	let gpx = new gpxParser();
 	const [GPX, setGPX] = useState("");
 	const [fileGPX, setFileGPX] = useState(null);
 	const [title, setTitle] = useState("");
@@ -78,13 +78,19 @@ const HikeForm = (props) => {
 			address: ""
 		}
 		const startPointDetails = await getCoordsDetails(start);
-		setCity(startPointDetails.City)
-		setRegion(startPointDetails.Region)
-		setProvince(startPointDetails.SubregionCode)
-		start.address = startPointDetails.Address
-		end.address = (await getCoordsDetails(start)).Address
-		setStartPoint(start);
-		setEndPoint(end);
+		if (startPointDetails.CountryCode !== "ITA") {
+			toast.error("At the moment are no accepted hike outside ita.", { position: "top-center" }, { toastId: 10 });
+			setGPX("")
+			setFileGPX(null)
+		} else {
+			setCity(startPointDetails.City)
+			setRegion(startPointDetails.Region)
+			setProvince(startPointDetails.SubregionCode)
+			start.address = startPointDetails.Address
+			end.address = (await getCoordsDetails(start)).Address
+			setStartPoint(start);
+			setEndPoint(end);
+		}
 	}
 
 
@@ -354,32 +360,6 @@ const HikeForm = (props) => {
 									:
 									<>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-									
 										<AddPointForm point={startPoint} setPoint={setStartPoint} type={"Start point"} />
 										<AddPointForm point={endPoint} setPoint={setEndPoint} type={"End point"} />
 									</>
@@ -400,7 +380,7 @@ const HikeForm = (props) => {
 										<>
 											<Row className="justify-content-center">
 
-												<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} className="fs-4">Point n°{index + 1}<Button className="mx-4" variant="danger" size="sm" onClick={() => deletePoint(point)}>Delete</Button></Col>
+												<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} className="fs-4">Point n°{index + 1}<Button className="mx-4" variant="outline-danger" style={{ borderWidth: 3 }} size="sm" onClick={() => deletePoint(point)}>Delete</Button></Col>
 											</Row>
 											<ConfirmedNewPoint point={point}></ConfirmedNewPoint>
 										</>

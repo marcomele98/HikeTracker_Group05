@@ -13,9 +13,9 @@ const db = new sqlite.Database(dbname, (err) => {
   if (err) throw err;
 });
 
-var admin = require("firebase-admin");
+let admin = require("firebase-admin");
 
-var serviceAccount = require("./admin.json");
+let serviceAccount = require("./admin.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -37,6 +37,28 @@ db.serialize(function () {
     "salt" TEXT NOT NULL,\
     "phone_number" TEXT,\
     PRIMARY KEY("id" AUTOINCREMENT)\
+    );'
+  );
+
+  db.run(
+    'CREATE TABLE IF NOT EXISTS "HIKER_PREFRENCES" (\
+    "user_id" INTEGER NOT NULL,\
+    "max_length_kms" NUMERIC,\
+    "min_length_kms" NUMERIC,\
+    "max_expected_mins" INTEGER,\
+    "min_expected_mins" INTEGER,\
+    "max_ascendent_meters" INTEGER,\
+    "min_ascendent_meters" INTEGER,\
+    "max_difficulty" TEXT,\
+    "min_difficulty" TEXT,\
+    "point_latitude" TEXT,\
+    "point_longitude" TEXT,\
+    "radius" INTEGER,\
+    "region" TEXT,\
+    "province" TEXT,\
+    "city" TEXT,\
+    PRIMARY KEY ("user_id")\
+    FOREIGN KEY ("user_id") REFERENCES "USER"("id") on DELETE CASCADE\
     );'
   );
 
@@ -91,6 +113,8 @@ db.serialize(function () {
        "province" TEXT NOT NULL,\
        "city" TEXT NOT NULL,\
        "number_of_beds" INTEGER,\
+       "phone" TEXT,\
+       "email" TEXT,\
        "description" TEXT,\
         PRIMARY KEY("id" AUTOINCREMENT)\
     );'
@@ -103,6 +127,7 @@ db.serialize(function () {
         "latitude" TEXT NOT NULL,\
         "longitude" TEXT NOT NULL,\
         "altitude" TEXT NOT NULL,\
+        "capacity" INTEGER,\
         "region" TEXT NOT NULL,\
         "province" TEXT NOT NULL,\
         "city" TEXT NOT NULL,\
@@ -132,13 +157,13 @@ db.serialize(function () {
     );'
   );
 
-
   db.run(
     "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
        VALUES ('Mario', 'Rossi', 'local guide', \
               'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
               'lg1@p.it', '4783473632662333', '3334567980')"
   );
+
 
   try {
     admin.auth().createUser({
@@ -202,7 +227,15 @@ db.serialize(function () {
     });
   } catch { }
 
-  for (var i = 0; i < hikevalues.length; i++) {
+  db.run(
+    "INSERT OR IGNORE INTO HIKER_PREFRENCES(user_id, max_length_kms, min_length_kms, max_expected_mins, min_expected_mins,\
+     max_ascendent_meters, min_ascendent_meters, max_difficulty, min_difficulty, point_latitude, point_longitude, radius,\
+      region, province, city)\
+       VALUES (3, 110, 60, 120, 40, 200, 100, 'Hiker','Tourist', '44.19940', '7.93339', 50, 'Piemonte', 'CN', 'Garessio'),\
+              (4, 200, 110, 200, 100, 120, 100, 'Hiker','Hiker',  '44.21736', '7.94432',10, 'Piemonte', 'CN', 'Garessio')"
+  );
+
+  for (let i = 0; i < hikevalues.length; i++) {
     db.run(
       "INSERT OR IGNORE INTO HIKE(title,length_kms,expected_mins,ascendent_meters,difficulty,region,province, city, lg_id, gpx,\
        end_point, end_point_type, start_point, start_point_type, description)\
@@ -217,7 +250,7 @@ db.serialize(function () {
   };
 
 
-  for (var i = 0; i < pointsvalues.length; i++) {
+  for (let i = 0; i < pointsvalues.length; i++) {
     db.run(
       "INSERT INTO POINT( latitude, longitude, altitude, name, address, hike_id )\
      VALUES (?,?,?,?,?,?) ", pointsvalues[i][0], pointsvalues[i][1], pointsvalues[i][2], pointsvalues[i][3], pointsvalues[i][4], pointsvalues[i][5],
@@ -231,11 +264,11 @@ db.serialize(function () {
   };
 
 
-  for (var i = 0; i < parkingvalues.length; i++) {
+  for (let i = 0; i < parkingvalues.length; i++) {
     db.run(
-      "INSERT INTO PARKING_LOT(name,latitude, longitude, altitude,region, province, city)\
-      VALUES (?,?,?,?,?,?,?)", parkingvalues[i][0], parkingvalues[i][1], parkingvalues[i][2], parkingvalues[i][3], parkingvalues[i][4],
-      parkingvalues[i][5], parkingvalues[i][6],
+      "INSERT INTO PARKING_LOT(name,latitude, longitude, altitude, capacity, region, province, city)\
+      VALUES (?,?,?,?,?,?,?,?)", parkingvalues[i][0], parkingvalues[i][1], parkingvalues[i][2], parkingvalues[i][3], parkingvalues[i][4],
+      parkingvalues[i][5], parkingvalues[i][6], parkingvalues[i][7],
       (err) => {
         if (err) {
           throw err;
@@ -245,11 +278,11 @@ db.serialize(function () {
   };
 
 
-  for (var i = 0; i < hutsvalues.length; i++) {
+  for (let i = 0; i < hutsvalues.length; i++) {
     db.run(
-      "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, city, number_of_beds, description)\
-      VALUES ( ?,?,?,?,?,?,?,?,?,?)", hutsvalues[i][0], hutsvalues[i][1], hutsvalues[i][2], hutsvalues[i][3], hutsvalues[i][4],
-      hutsvalues[i][5], hutsvalues[i][6], hutsvalues[i][7], hutsvalues[i][8], hutsvalues[i][9],
+      "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, city, number_of_beds,phone, email, description)\
+      VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?)", hutsvalues[i][0], hutsvalues[i][1], hutsvalues[i][2], hutsvalues[i][3], hutsvalues[i][4],
+      hutsvalues[i][5], hutsvalues[i][6], hutsvalues[i][7], hutsvalues[i][8], hutsvalues[i][9], hutsvalues[i][10], hutsvalues[i][11],
       (err) => {
         if (err) {
           throw err;

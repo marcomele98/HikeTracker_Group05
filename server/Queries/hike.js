@@ -44,6 +44,16 @@ exports.getHikesParkingsByHikeID = async (id) => {
         return await db.all(sql, [id]);
 };
 
+exports.getHikesHutsByIDs = async (hike_id, hut_id) => {
+        const sql = 'SELECT * from HIKE_HUT WHERE hike_id=? AND hut_id=?';
+        return db.get(sql, [hike_id, hut_id]);
+};
+
+exports.getHikesParkingsByIDs = async (hike_id, parking_id) => {
+        const sql = 'SELECT * from HIKE_PARKING WHERE hike_id=? AND parking_id=?';
+        return await db.get(sql, [hike_id, parking_id]);
+};
+
 exports.deleteHutForHike = async (hike_id, hut_id) => {
         const sql = "DELETE FROM HIKE_HUT WHERE hike_id = ? AND hut_id = ?"
         return await db.run(sql, [hike_id, hut_id]);

@@ -4,7 +4,7 @@
 
 import { signInWithEmailAndPassword } from '@firebase/auth';
 import { toast } from 'react-toastify';
-import { auth, createUserWithEmailAndPassword, sendEmailVerification, signOut } from './firebase';
+import { auth, createUserWithEmailAndPassword, sendEmailVerification } from './firebase';
 
 const APIURL = new URL('http://localhost:3001/api/');  // Do not forget '/' at the end
 
@@ -25,8 +25,9 @@ async function logIn(credentials) {
     if (verified) {
       return user;
     } else {
-      await sendEmailVerification(auth.currentUser);
-      throw "Your email is not verified. Please verify your email";
+      await this.logOut()
+      const errDetail = await sendEmailVerification(auth.currentUser);
+      throw errDetail.message;
     }
   } else {
     const errDetail = await response.json();
@@ -259,10 +260,36 @@ async function resetHikeStartPoint(editHike, id) {
   }
 }
 
+async function addNewReferencePoint(point, id) {
+  let response = await fetch(new URL('newRefPoint/' + id, APIURL), {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(point),
+  });
+  if(response.ok) {
+    return null;
+  } else {
+    throw response.status;
+  }
+}
+
+async function getPreferencesByUserId(id) {
+  const response = await fetch(new URL('preferences/' + id, APIURL));
+  const preferences = await response.json();
+  if (response.ok) {
+    return preferences;
+  } else {
+    throw response.status;  // an object with the error coming from the server
+  }
+}
+
 const API = {
   logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription, addUser, getParks,
   getParkById, newPark, getHuts, getHutById, newHut, updateHikeEndPoint, updateHikeStartPoint,
-  resetHikeEndPoint, resetHikeStartPoint
+  resetHikeEndPoint, resetHikeStartPoint, addNewReferencePoint, getPreferencesByUserId
 };
 
 

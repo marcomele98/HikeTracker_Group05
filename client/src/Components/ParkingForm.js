@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Row, Col, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { CliccableMap } from "./cliccableMap";
@@ -15,6 +15,7 @@ const ParkingForm = (props) => {
     const [region, setRegion] = useState("");
     const [position, setPosition] = useState();
     const [altitude, setAltitude] = useState("");
+    const [capacity, setCapacity] = useState("");
     const [validated, setValidated] = useState(false);
     const [errMsg, setErrMsg] = useState("");
 
@@ -24,9 +25,14 @@ const ParkingForm = (props) => {
 
         const positionChangeHandle = async () => {
             const details = await getCoordsDetails({ latitude: position.lat, longitude: position.lng })
-            setCity(details.City)
-            setRegion(details.Region)
-            setProvince(details.SubregionCode)
+            if (details.CountryCode !== "ITA") {
+                setErrMsg("At the moment are no accepted points outside ita.");
+                setPosition();
+            } else {
+                setCity(details.City)
+                setRegion(details.Region)
+                setProvince(details.SubregionCode)
+            }
 
         }
 
@@ -72,6 +78,7 @@ const ParkingForm = (props) => {
             region,
             province,
             city,
+            capacity,
             latitude: pos.lat,
             longitude: pos.lng,
             altitude
@@ -104,7 +111,7 @@ const ParkingForm = (props) => {
                 <Row className={"mb-4"}></Row>
 
                 <Row className="justify-content-center">
-                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
+                    <Col xs={12} sm={12} md={3} lg={3} xl={3} xxl={3}>
                         <Form.Group className={"mb-4"} controlId="validationCustom01">
                             <Form.Label className={"fs-4"}>Name</Form.Label>
                             <Form.Control
@@ -115,11 +122,10 @@ const ParkingForm = (props) => {
                                 onChange={(e) => setName(e.target.value)}
                             />
                             <Form.Control.Feedback type="invalid">Please insert name</Form.Control.Feedback>
-                        </Form.Group>
+                        </Form.Group>            
                     </Col>
 
-
-                    <Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
+                    <Col xs={12} sm={12} md={{ span: 3, offset: 1 }} lg={{ span: 3, offset: 1 }} xl={{ span: 3, offset: 1 }} xxl={{ span: 3, offset: 1 }}>
                         <Form.Group className={"mb-4"} controlId="validationCustom03">
                             <Form.Label className={"fs-4"}>Altitude</Form.Label>
                             <Form.Control
@@ -132,6 +138,22 @@ const ParkingForm = (props) => {
                                 }}
                             />
                             <Form.Control.Feedback type="invalid">Please insert correct altitude</Form.Control.Feedback>
+                        </Form.Group>
+                    </Col>
+
+                    <Col xs={12} sm={12} md={{ span: 3, offset: 1 }} lg={{ span: 3, offset: 1 }} xl={{ span: 3, offset: 1 }} xxl={{ span: 3, offset: 1 }}>
+                        <Form.Group className={"mb-4"} controlId="validationCustom02">
+                            <Form.Label className={"fs-4"}>Capacity</Form.Label>
+                            <Form.Control
+                                required
+                                type="number"
+                                placeholder="Insert capacity"
+                                value={capacity}
+                                onChange={(e) => {
+                                    setCapacity(e.target.value);
+                                }}
+                            />
+                            <Form.Control.Feedback type="invalid">Please insert correct capacity</Form.Control.Feedback>
                         </Form.Group>
                     </Col>
                 </Row>

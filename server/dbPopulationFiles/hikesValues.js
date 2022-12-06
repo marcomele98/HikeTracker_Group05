@@ -9,7 +9,7 @@ const { ven_file1, ven_file2, ven_file3, ven_file4, ven_file5, ven_file6, ven_fi
 const { lo_file1, lo_file2, lo_file3, lo_file4, lo_file5, lo_file6, lo_file7, lo_file8 } = require('./hikes/lombardiagpx');
 
 
-var hikevalues =
+let hikevalues =
   [
     ['Path to Rocciamelone', 9, 420, 1353, 'Professional Hiker', 'Piemonte', 'TO', 'Mompantero', 1,
       pm_file1, 1, 'general point', 1, 'Hut point', 'A well-known route, much loved by Valsusini and beyond. It is long and challenging because of the difference in height, but very well signposted and above all with a support point about halfway'], //endpoint:1 pointtable,strtpoint:1 hut
@@ -96,7 +96,7 @@ var hikevalues =
     ['Col di Luna Itinerario ad anello da Voltago Agordino', 12.9, 297, 770, 'Hiker', 'Veneto', 'BL', 'Voltago Agrodino', 1, ven_file3, 118, 'general point', 118, 'general point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point and accessible by public transportation.'],
     ['Giardino alpino Antonio Segni  – Rifugio Mario Vazzoler Itinerario ad anello da Listolade (Ristolade)', 12.3, 312, 730, 'Professional Hiker', 'Veneto', 'BL', 'Taibon Agrodino', 1, ven_file4, 17, 'Parking point', 17, 'Parking point', 'Hiking route for experts. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point is near a parking lot.'],
     ['Malga di Pramper – Forcella Moschesin Itinerario ad anello da Villaggio Baron', 16.9, 446, 1110, 'Professional Hiker', 'Veneto', 'BL', 'Forno di Zoldo', 1, ven_file5, 20, 'Hut point', 20, 'Hut point', 'Hiking route for experts. Good training required. Sure-footedness, sturdy footwear and mountaineering experience required.'],
-    ['Passo Duran Itinerario ad anello da Fusine', 5.32, 99, 190, 'Hiker', 'Veneto', 'BL', 'La Valle Agordina', 1, ven_file6, 23, 'Hut point', 23, 'Rifugio Tomé is a \'cozy building located at Passo Duran-a pass between the Zoldo and Cordevole valleys-that provides an excellent starting point for penetrating the Civetta and Moiazza groups, as well as the lesser-known but equally fascinating Tamer and San Sebastiano mountain groups.'],
+    ['Passo Duran Itinerario ad anello da Fusine', 5.32, 99, 190, 'Hiker', 'Veneto', 'BL', 'La Valle Agordina', 1, ven_file6, 23, 'Hut point', 23, 'Hut point', "Intermediate hiking route. Suitable for all training levels. Mostly accessible trails. Surefootedness required."],
     ['Laghetto del Vach – Itinerario ad anello da Ligont', 7.28, 147, 380, 'Hiker', 'Veneto', 'BL', 'Val di Zoldo', 1, ven_file7, 18, 'Parking point', 18, 'Parking point', 'Intermediate hiking route. Good training required. Easily passable trails. Suitable for all skill levels.'],
     ['Forcella – Forcella Sejere Itinerario ad anello da Còi di Pèden', 8.77, 227, 590, 'Hiker', 'Veneto', 'BL', 'Agrodo', 1, ven_file8, 19, 'Parking point', 19, 'Parking point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required.'],
 

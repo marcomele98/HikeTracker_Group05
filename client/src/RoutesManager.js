@@ -1,8 +1,8 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { NavigationBar } from "./Components/Navbar";
-import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { LoginForm } from "./Components/LoginComponents";
 import { ToastContainer } from "react-toastify";
 import { Home } from "./Components/home";
@@ -13,8 +13,6 @@ import HikeForm from "./Components/HikeForm";
 import HutForm from "./Components/HutForm";
 import { ListParkings } from "./Components/ListParkings";
 import { ParkingPage } from "./Components/ParkingPage";
-import { ClickableOpacity } from "./Components/clickableOpacity";
-import { useNavigate } from 'react-router-dom';
 import { ListHuts } from "./Components/ListHuts";
 import { HutPage } from './Components/HutPage'
 
@@ -30,8 +28,6 @@ const RoutesManager = ({
     log,
     setLog
 }) => {
-    const location = useLocation();
-    const navigate = useNavigate()
 
     return (
         <div className="container-fluid">

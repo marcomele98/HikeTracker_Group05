@@ -13,6 +13,10 @@ describe('test huts', () => {
     });
 
     newHut(201, hutObject.hut2);
+    newHut(201, {...hutObject.hut2, phone: undefined});
+    newHut(201, {...hutObject.hut2, email: undefined});
+    newHut(422, {...hutObject.hut2, phone: 's78907654'});
+    newHut(422, {...hutObject.hut2, email: 'invalidmail.com'});
     newHut(422, {...hutObject.hut2, name: undefined});
     newHut(422, {...hutObject.hut2, latitude: ''});
     newHut(422, {...hutObject.hut2, province: ''});

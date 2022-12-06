@@ -5,6 +5,7 @@ const parking = require('../Queries/parking');
 const hut = require('../Queries/hut');
 const point = require('../Queries/point');
 const db = require('../Queries/DAO');
+const daoUtility = require('../utilities/daoUtilities');
 
 function HikesParkings(hike_id, parking_id) {
     this.hike_id = hike_id;
@@ -18,20 +19,8 @@ function HikesHuts(hike_id, hut_id) {
 
 describe("Update start/arrival for an hike", () => {
     beforeAll(async () => {
-        await db.run('DELETE FROM HIKE');
-        await db.run('DELETE FROM HUT');
-        await db.run('DELETE FROM HIKE_HUT');
-        await db.run('DELETE FROM HIKE_PARKING');
-        await db.run('DELETE FROM PARKING_LOT');
-        await db.run('DELETE FROM POINT');
-        await db.run('DELETE FROM USER');
-        await db.run('DELETE FROM SQLITE_SEQUENCE');
-        await db.run(
-            "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
-               VALUES ('Mario', 'Rossi', 'local guide', \
-                      'df34c7212613dcb7c25593f91fbb74fb99793a440a2b9fe8972cbadb0436a333', \
-                      'lg1@p.it', '4783473632662333', '3334567980')"
-        );
+        await daoUtility.resetDB();
+        await daoUtility.createMarioRossi();
         await db.run("INSERT INTO HIKE(title, length_kms, expected_mins, ascendent_meters, difficulty, description, region, province, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
             VALUES ('ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', '', 'Piemonte', 'TO', 'Montepantero', 1, 'gpx_content', 1, 'general point', 1, 'general point'),\
             ('Salita al Monte Antoroto', 17, 444, 400, 'Professional Hiker', '', 'Piemonte', 'CN', 'Garessio', 1, 'gpx_content', 2, 'general point', 2, 'general point')"
@@ -55,14 +44,7 @@ describe("Update start/arrival for an hike", () => {
     });
 
     afterAll(async () => {
-        await db.run('DELETE FROM HIKE');
-        await db.run('DELETE FROM HUT');
-        await db.run('DELETE FROM HIKE_HUT');
-        await db.run('DELETE FROM HIKE_PARKING');
-        await db.run('DELETE FROM PARKING_LOT');
-        await db.run('DELETE FROM POINT');
-        await db.run('DELETE FROM USER');
-        await db.run('DELETE FROM SQLITE_SEQUENCE');
+        await daoUtility.resetDB();
     });
 
 
@@ -73,9 +55,9 @@ describe("Update start/arrival for an hike", () => {
         expect(data[0]).toBe(undefined);
         expect(data[1]).toBe(undefined);
 
-        let tableCounter;
-        tableCounter = await hike.insertParkForHike(1,1);
-        tableCounter = await hike.insertParkForHike(1,2);
+        
+        await hike.insertParkForHike(1,1);
+        await hike.insertParkForHike(1,2);
 
         data = await hike.getHikesParkingsByHikeID(1);
         expect(data.length).toEqual(2);
@@ -91,7 +73,7 @@ describe("Update start/arrival for an hike", () => {
 
     test('Test insertHutForHike', async () => {
 
-        let tableCounter;
+        
         let data;
         data = await hike.getHikesHutsByHikeID(1);
         expect(data[0]).toBe(undefined);
@@ -101,8 +83,8 @@ describe("Update start/arrival for an hike", () => {
         expect(data[0]).toBe(undefined);
         expect(data[1]).toBe(undefined);
 
-        tableCounter = await hike.insertHutForHike(1,1);
-        tableCounter = await hike.insertHutForHike(2,2);
+        await hike.insertHutForHike(1,1);
+        await hike.insertHutForHike(2,2);
 
         data = await hike.getHikesHutsByHikeID(1);
         expect(data.length).toEqual(1);
@@ -116,7 +98,7 @@ describe("Update start/arrival for an hike", () => {
 
     test('Test deleteParkForHike', async () => {
         
-        let log;
+        
         let data;
 
         data = await hike.getHikesParkingsByHikeID(1);
@@ -125,14 +107,14 @@ describe("Update start/arrival for an hike", () => {
         expect(data[1]).not.toBe(undefined);
 
        
-        log = await hike.deleteParkForHike(1,1); 
+        await hike.deleteParkForHike(1,1); 
         data = await hike.getHikesParkingsByHikeID(1);
         expect(data.length).toEqual(1);
         expect(data[0]).not.toBe(1);
         expect(data[1]).toBe(undefined);
         expect(data[0].parking_id).toEqual(2);
 
-        log = await hike.deleteParkForHike(1,2); 
+        await hike.deleteParkForHike(1,2); 
         data = await hike.getHikesParkingsByHikeID(1);
         expect(data.length).toEqual(0);
         expect(data[0]).toBe(undefined);
@@ -143,14 +125,14 @@ describe("Update start/arrival for an hike", () => {
 
     test('Test deleteHutForHike', async () => {
 
-        let log;
+        
         let data;
 
         data = await hike.getHikesHutsByHikeID(1);
         expect(data.length).toEqual(1);
         expect(data[0]).not.toBe(undefined);
 
-        log = await hike.deleteHutForHike(1,1); 
+        await hike.deleteHutForHike(1,1); 
         data = await hike.getHikesHutsByHikeID(1);
         expect(data.length).toEqual(0);
         expect(data[0]).toBe(undefined);
@@ -159,7 +141,7 @@ describe("Update start/arrival for an hike", () => {
         expect(data.length).toEqual(1);
         expect(data[0]).not.toBe(undefined);
 
-        log = await hike.deleteHutForHike(2,2); 
+        await hike.deleteHutForHike(2,2); 
         data = await hike.getHikesHutsByHikeID(2);
         expect(data.length).toEqual(0);
         expect(data[0]).toBe(undefined);
@@ -169,7 +151,7 @@ describe("Update start/arrival for an hike", () => {
     test('Test deletePointById', async () => {
       
         let data;
-        let log;
+        
         
         data = await point.getPointsByHikeId(2);
         expect(data.length).toEqual(3);
@@ -177,7 +159,7 @@ describe("Update start/arrival for an hike", () => {
         //delete point2 (hike2)
         data = await point.getPointById(2);
         expect(data).not.toBe(undefined);
-        log = await point.deletePointById(2);
+        await point.deletePointById(2);
         data = await point.getPointById(2);
         expect(data).toBe(undefined);
 
@@ -187,7 +169,7 @@ describe("Update start/arrival for an hike", () => {
         //delete point4 (hike2)
         data = await point.getPointById(4);
         expect(data).not.toBe(undefined);
-        log = await point.deletePointById(4);
+        await point.deletePointById(4);
         data = await point.getPointById(4);
         expect(data).toBe(undefined);
 
@@ -205,7 +187,7 @@ describe("Update start/arrival for an hike", () => {
         
         let hike_data;
         let data_check;
-        let log;
+        
 
         const park_data = await parking.getParkingById(1); //it will be the start point
         const hut_data = await hut.getHutById(1); //it will be the end point
@@ -219,7 +201,7 @@ describe("Update start/arrival for an hike", () => {
 
 
         //after changes
-        log = await hike.updateHike(hut_data.id,'Hut point',park_data.id,'Parking point',2);
+        await hike.updateHike(hut_data.id,'Hut point',park_data.id,'Parking point',2);
         hike_data = await hike.getHikeById(2);
         
         //checking types
@@ -234,7 +216,7 @@ describe("Update start/arrival for an hike", () => {
 
 
         //try to change just the end point to make a ring
-        log = await hike.updateHike(park_data.id,'Parking point',park_data.id,'Parking point',2);
+        await hike.updateHike(park_data.id,'Parking point',park_data.id,'Parking point',2);
         hike_data = await hike.getHikeById(2);
 
         //checking types

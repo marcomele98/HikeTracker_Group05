@@ -11,9 +11,6 @@ import AddPointForm from "./AddPointForm";
 let gpxParser = require('gpxparser');
 
 function HikePage({ setIsLoading, loggedIn, user }) {
-    const [seeAllHutsDetails, setSeeAllHutsDetails] = useState(false);
-    const [seeAllParksDetails, setSeeAllParksDetails] = useState(false);
-    const [seeAllPointsDetails, setSeeAllPointsDetails] = useState(false);
     const [editingStartPoint, setEditingStartPoint] = useState(false);
     const [editingEndPoint, setEditingEndPoint] = useState(false)
     const [hike, setHike] = useState();
@@ -148,6 +145,8 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                 </ListGroup>
                         }
                     </Row>
+
+                    
                     {
                         hike.huts.length === 0
                             ?
@@ -155,120 +154,66 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             :
                             (
                                 <>
-                                    <Row style={{ height: 20 }}></Row>
+                                <Row style={{ height: 20 }}></Row>
+                                    <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Huts"}</div>
                                     <Row>
-                                        <div className="seePointsButtonContainer">
-                                            <ClickableOpacity
-                                                onClick={() => setSeeAllHutsDetails(val => !val)}>
-                                                <div className="seePointsButton">{seeAllHutsDetails ? "Hide details for all huts" : "See details for all huts"}</div>
-                                            </ClickableOpacity>
-                                        </div>
+                                    <ListGroup>
+                                        {
+                                            hike.huts
+                                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                                .map((h) =>
+                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                        <Hut key={h.id} hut={h} user={user}></Hut>
+                                                    </Col>
+                                                )
+                                        }
+                                    </ListGroup>
                                     </Row>
                                 </>
                             )
                     }
-                    {
-                        seeAllHutsDetails
-                            ?
-                            (
-                                <ListGroup>
-                                    {
-                                        hike.huts
-                                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                            .map((h) =>
-                                                <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                    <Hut key={h.id} hut={h} user={user}></Hut>
-                                                </Col>
-                                            )
-                                    }
-                                </ListGroup>
-                            )
-                            :
-                            undefined
-                    }
+
+                    
+
                     {
                         hike.parking_lots.length === 0
                             ?
                             undefined
                             :
                             (
-
                                 <>
-                                    <Row style={{ height: 20 }}></Row>
+                                <Row style={{ height: 20 }}></Row>
+                                    <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Parking Lots"}</div>
                                     <Row>
-                                        <div className="seePointsButtonContainer">
-                                            <ClickableOpacity
-                                                onClick={() => setSeeAllParksDetails(val => !val)}>
-                                                <div className="seePointsButton">{seeAllParksDetails ? "Hide details for all parking lots" : "See details for all parking lots"}</div>
-                                            </ClickableOpacity>
-                                        </div>
+                                    < ListGroup >
+                                        {
+                                            hike.parking_lots
+                                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                                .map((p) =>
+                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                        <Park key={p.id} park={p} user={user}></Park>
+                                                    </Col>
+                                                )
+                                        }
+                                    </ListGroup>
                                     </Row>
-                                </>
-                            )
+                                </>)
                     }
-                    {
-                        seeAllParksDetails
-                            ?
-                            (
-                                <ListGroup>
-                                    {
-                                        hike.parking_lots
-                                            .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                            .map((p) =>
-                                                <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                    <Park key={p.id} park={p} user={user}></Park>
-                                                </Col>
-                                            )
-                                    }
-                                </ListGroup>
-                            )
-                            :
-                            undefined
-                    }
-                    {
-                        hike.points.length === 0
-                            ?
-                            undefined
-                            :
-                            (
 
-                                <>
-                                    <Row style={{ height: 20 }}></Row>
-                                    <Row>
-                                        <div className="seePointsButtonContainer">
-                                            <ClickableOpacity
-                                                onClick={() => setSeeAllPointsDetails(val => !val)}>
-                                                <div className="seePointsButton">{seeAllPointsDetails ? "Hide details for all points" : "See details for all points"}</div>
-                                            </ClickableOpacity>
-                                        </div>
-                                    </Row>
-                                </>
-                            )
-                    }
-                    {
-                        seeAllPointsDetails
-                            ?
-                            (
-                                <ListGroup>
-                                    {
-                                        hike.points
-                                            .sort((a, b) => a.name?.trim().localeCompare(b.name?.trim()))
-                                            .map((p) =>
-                                                <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                    <Point key={p.id} point={p}></Point>
-                                                </Col>
-                                            )
-                                    }
-                                </ListGroup>
-                            )
-                            :
-                            undefined
+                    
+                    {hike.points.length === 0
+                        ?
+                        undefined
+                        :
+                        (
+                            <NewRefPoint user={user} hike={hike} setIsLoading={setIsLoading} setHike={setHike}></NewRefPoint>
+                        )
                     }
                     <Row style={{ height: 80 }}></Row>
                 </Col>
 
 
-            </Container>
+            </Container >
     );
 }
 
@@ -311,7 +256,7 @@ const Point = ({ point, key }) => {
                         undefined
                 }
                 {
-                    !point.address && ! point.name
+                    !point.address && !point.name
                         ?
                         (<Row>
                             <div className="pointTitle">{point.latitude + ", " + point.longitude}</div>
@@ -404,30 +349,34 @@ const Park = ({ park, key, user }) => {
 
 const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable }) => {
     const [type, setType] = useState("default");
-    const [persistentType, setPersistentType] = useState();
     const [parks, setParks] = useState([]);
     const [huts, setHuts] = useState([]);
-    const [newPoint, setNewPoint] = useState();
+    const [newPoint, setNewPoint] = useState({});
 
     useEffect(() => {
-        console.log(hike.start_point_type)
-        console.log(hike.end_point_type)
         if (type === "default") {
             let gpx = new gpxParser();
             gpx.parse(hike.gpx);
-            let point = selected ===
+            const point = selected ===
                 "start point"
                 ?
                 gpx.tracks[0].points[0]
                 :
                 gpx.tracks[0].points[gpx.tracks[0].points.length - 1];
-            setNewPoint({ latitude: point.lat, longitude: point.lon, altitude: point.ele })
+            const point_type = selected ===
+                "start point"
+                ?
+                hike.start_point_type
+                :
+                hike.end_point_type
+            if (point_type === "general point")
+                point.name = selected === "start point" ? hike.start_point.name : hike.end_point.name;
+            setNewPoint({ latitude: point.lat, longitude: point.lon, altitude: point.ele, name: point.name })
         }
     }, [type])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(newPoint)
         const editHike = selected === "start point" ?
             {
                 start_point: newPoint,
@@ -522,7 +471,7 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
                 {
                     type === "default"
                         ?
-                        <AddPointForm point={newPoint} setPoint={setNewPoint} type={selected==="start point" ? "Start point" : "End point"} />
+                        <AddPointForm autoGetAddress={type === "default"} rowClassName='justify-content-left' boxStyle={{ width: 400, borderWidth: 3 }} hideTitle={true} textSmall={true} textStyle={{}} point={newPoint} setPoint={setNewPoint} type={selected === "start point" ? "Start point" : "End point"} />
                         :
                         <HutParkSelector list={type === "hut" ? huts : parks} type={type} setNewPoint={setNewPoint}></HutParkSelector>
                 }
@@ -550,7 +499,7 @@ const HutParkSelector = ({ list, type, setNewPoint }) => {
             {
                 list.length === 0
                     ?
-                    <div className='formLabel'>{"No addable " + type + " available in 300 meters"}</div>
+                    <div className='formLabel'>{"No addable " + type + " available in 5km"}</div>
                     :
                     <Form.Group>
                         <Form.Label className='formLabel'>{"Select the " + type + ":"}</Form.Label>
@@ -566,6 +515,73 @@ const HutParkSelector = ({ list, type, setNewPoint }) => {
             }
         </Row>
     );
+}
+
+const NewRefPoint = ({ user, hike, setIsLoading, setHike, }) => {
+
+    const [gpxPoints, setGpxPoints] = useState([]);
+    const [showForm, setShowForm] = useState(false);
+    const [referencePoints, setReferencePoints] = useState([]);
+
+
+    useEffect(() => {
+        let gpx = new gpxParser();
+        gpx.parse(hike.gpx);
+        const points = gpx.tracks[0].points
+        setGpxPoints(points);
+    }, [hike])
+
+    const onConfirm = async (e, point) => {
+        e.preventDefault();
+        try {
+            setIsLoading(true);
+            await API.addNewReferencePoint(point, hike.id)
+            const res = await API.getHikeById(hike.id);
+            setHike(res);
+            setIsLoading(false);
+            toast.success("Hike Updated Successfully", { position: "top-center" }, { toastId: 110 });
+
+        } catch (err) {
+            setIsLoading(false);
+            toast.error(err, { position: "top-center" }, { toastId: 120 });
+        }
+    }
+
+    return (
+        <Row>
+             <Row style={{ height: 20 }}></Row>
+            <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
+            <ListGroup>
+                {
+                    hike.points
+                        .sort((a, b) => a.name?.trim().localeCompare(b.name?.trim()))
+                        .map((p) =>
+                            <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                <Point key={p.id} point={p}></Point>
+                            </Col>
+                        )
+                }
+            </ListGroup>
+
+            {hike.lg_id === user.id
+                ?
+                <div style={{ marginLeft: 10 }}>
+
+                    <Col className="mb-1 mt-2" xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+                        {showForm ?
+                            <AddPointForm points={gpxPoints} setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"} onConfirm={onConfirm} rowClassName='justify-content-left' boxStyle={{ width: 400, borderWidth: 3 }} hideTitle={true} textSmall={true} textStyle={{}} ></AddPointForm>
+                            :
+                            <Col className="mb-1 mt-2" xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
+                                <Button variant="outline-success" style={{ width: 200, borderWidth: 3 }} onClick={() => setShowForm(true)}>Add new point</Button>
+                            </Col>
+
+                        }
+                    </Col>
+                </div>
+                : false
+            }
+        </Row>
+    )
 }
 
 
