@@ -16,10 +16,12 @@ const user = new User;
 const { HikeDescription, HikesView } = require('./Services/hike');
 const { ParkingLotsDescription } = require('./Services/parkin_lots');
 const { HutDescription } = require('./Services/huts');
+const { Preferences } = require('./Services/preferences');
 const parkin_lot = new ParkingLotsDescription;
 const hut = new HutDescription;
 const hike = new HikeDescription;
 const hikeviews = new HikesView;
+const preferences = new Preferences;
 
 /*** Set up Passport ***/
 // set up the "username and password" login strategy
@@ -209,6 +211,11 @@ app.get('/api/hut/:hutId', (req, res) => {
 app.post('/api/hut', isLoggedIn, (req, res) => {
   return hut.addHutDescription(req, res);
 });
+
+app.get('/api/preferences/:userId', (req, res) => {
+  return preferences.getPreferencesByUserId(req, res);
+}
+);
 
 
 

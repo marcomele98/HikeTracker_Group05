@@ -276,10 +276,20 @@ async function addNewReferencePoint(point, id) {
   }
 }
 
+async function getPreferencesByUserId(id) {
+  const response = await fetch(new URL('preferences/' + id, APIURL));
+  const preferences = await response.json();
+  if (response.ok) {
+    return preferences;
+  } else {
+    throw response.status;  // an object with the error coming from the server
+  }
+}
+
 const API = {
   logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription, addUser, getParks,
   getParkById, newPark, getHuts, getHutById, newHut, updateHikeEndPoint, updateHikeStartPoint,
-  resetHikeEndPoint, resetHikeStartPoint, addNewReferencePoint
+  resetHikeEndPoint, resetHikeStartPoint, addNewReferencePoint, getPreferencesByUserId
 };
 
 
