@@ -89,6 +89,18 @@ function Home({ setIsLoading, user }) {
                                 setMinDifficultyFilter={setMinDifficulty}
                                 setMaxDifficultyFilter={setMaxDifficulty}
                                 setSeeFilters={setSeeFilters}
+                                prov={province}
+                                cit={city}
+                                pos={coordinates}
+                                rad={radius}
+                                maxA={maxAscent}
+                                minA={minAscent}
+                                maxL={maxLength}
+                                minL={minLength}
+                                maxE={maxExpectedTime}
+                                minE={minExpectedTime}
+                                maxD={maxDifficulty}
+                                minD={minDifficulty}
                             ></FilterForm>
                         ) : undefined
 
@@ -103,15 +115,15 @@ function Home({ setIsLoading, user }) {
                                     if ((province && !h.province.toLocaleLowerCase().includes(province.toLocaleLowerCase()))
                                         || (city && !h.city.toLocaleLowerCase().includes(city.toLocaleLowerCase()))
                                         || (maxAscent && maxAscent < h.ascendent_meters)
-                                        || (minAscent && minAscent > h.ascendent_meters) 
-                                        || (maxLength && maxLength < h.length_kms) 
-                                        || (minLength && minLength > h.length_kms) 
+                                        || (minAscent && minAscent > h.ascendent_meters)
+                                        || (maxLength && maxLength < h.length_kms)
+                                        || (minLength && minLength > h.length_kms)
                                         || (maxExpectedTime && maxExpectedTime < h.expected_mins)
                                         || (minExpectedTime && minExpectedTime > h.expected_mins)
-                                        || (maxDifficulty?.toLowerCase() === "tourist" && h.difficulty.toLowerCase() !== "tourist") 
-                                        || (maxDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "professional hiker") 
-                                        || (minDifficulty?.toLowerCase() === "professional hiker" && h.difficulty.toLowerCase() !== "professional hiker") 
-                                        || (minDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "tourist") 
+                                        || (maxDifficulty?.toLowerCase() === "tourist" && h.difficulty.toLowerCase() !== "tourist")
+                                        || (maxDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "professional hiker")
+                                        || (minDifficulty?.toLowerCase() === "professional hiker" && h.difficulty.toLowerCase() !== "professional hiker")
+                                        || (minDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "tourist")
                                         || (coordinates && radius && calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon) > radius)) {
                                         return false;
                                     }
@@ -185,7 +197,20 @@ function FilterForm({
     setMaxExpectedTimeFilter,
     setMinExpectedTimeFilter,
     setMinDifficultyFilter,
-    setMaxDifficultyFilter }) {
+    setMaxDifficultyFilter,
+    prov,
+    cit,
+    pos,
+    rad,
+    maxA,
+    minA,
+    maxL,
+    minL,
+    maxE,
+    minE,
+    maxD,
+    minD,
+}) {
 
     const [province, setProvince] = useState("");
     const [city, setCity] = useState("");
@@ -202,18 +227,18 @@ function FilterForm({
 
 
     const resetForm = () => {
-        setProvinceFilter(province);
-        setCityFilter(city);
-        setMaxAscentFilter(maxAscent);
-        setMinAscentFilter(minAscent);
-        setMaxLengthFilter(maxLength);
-        setMinLengthFilter(minLength);
-        setMaxExpectedTimeFilter(maxExpectedTime);
-        setMinExpectedTimeFilter(minExpectedTime);
-        setMinDifficultyFilter(minDifficulty);
-        setMaxDifficultyFilter(maxDifficulty);
-        setRadiusFilter(radius);
-        setPositionFilter(position);
+        setProvince(prov);
+        setCity(cit);
+        setMaxAscent(maxA);
+        setMinAscent(minA);
+        setMaxLength(maxL);
+        setMinLength(minL);
+        setMaxExpectedTime(maxE);
+        setMinExpectedTime(minE);
+        setMinDifficulty(minD);
+        setMaxDifficulty(maxD);
+        setRadius(rad);
+        setPosition(pos);
     }
 
     useEffect(() => {
@@ -266,7 +291,7 @@ function FilterForm({
                             maxLength={2}
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={{span: 5, offset:1}}>
+                    <Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
                         <FormElement
                             label="City"
                             onChange={(ev) => setCity(ev.target.value.replace(/[^a-z\s]/gi, ''))}
@@ -281,13 +306,13 @@ function FilterForm({
                 <Form.Group>
                     <Row style={{ height: 10 }}></Row>
                     <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} >
-                    <FormElement
-                        label="Radius (km)"
-                        onChange={(ev) => setRadius(ev.target.value)}
-                        type="number"
-                        placeholder={"Insert maximum distance from the selected point"}
-                        value={radius}
-                    />
+                        <FormElement
+                            label="Radius (km)"
+                            onChange={(ev) => setRadius(ev.target.value)}
+                            type="number"
+                            placeholder={"Insert maximum distance from the selected point"}
+                            value={radius}
+                        />
                     </Col>
                     <Row style={{ height: 5 }}></Row>
 
@@ -317,7 +342,7 @@ function FilterForm({
                             rangeMin={0}
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={{span: 5, offset:1}}>
+                    <Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
                         <MaxMinRange
                             label={"Length (km): "}
                             setMax={setMaxLength}
@@ -339,7 +364,7 @@ function FilterForm({
                             rangeMin={0}
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={{span: 5, offset:1}} lg={{span: 5, offset:1}} xl={{span: 5, offset:1}} xxl={{span: 5, offset:1}}>
+                    <Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
                         <DifficultyRange
                             label="Difficulty:"
                             setMin={setMinDifficulty}
@@ -377,7 +402,7 @@ function FormElement({ label, onChange, type, placeholder, textBoxWidth, value, 
                 type={type}
                 step={step}
                 size="sm"
-                
+
             ></Form.Control>
         </Form.Group>
     );

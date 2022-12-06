@@ -146,7 +146,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         }
                     </Row>
 
-                    
+
                     {
                         hike.huts.length === 0
                             ?
@@ -154,26 +154,26 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             :
                             (
                                 <>
-                                <Row style={{ height: 20 }}></Row>
+                                    <Row style={{ height: 20 }}></Row>
                                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Huts"}</div>
                                     <Row>
-                                    <ListGroup>
-                                        {
-                                            hike.huts
-                                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                                .map((h) =>
-                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                        <Hut key={h.id} hut={h} user={user}></Hut>
-                                                    </Col>
-                                                )
-                                        }
-                                    </ListGroup>
+                                        <ListGroup>
+                                            {
+                                                hike.huts
+                                                    .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                                    .map((h) =>
+                                                        <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                            <Hut key={h.id} hut={h} user={user}></Hut>
+                                                        </Col>
+                                                    )
+                                            }
+                                        </ListGroup>
                                     </Row>
                                 </>
                             )
                     }
 
-                    
+
 
                     {
                         hike.parking_lots.length === 0
@@ -182,33 +182,27 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             :
                             (
                                 <>
-                                <Row style={{ height: 20 }}></Row>
+                                    <Row style={{ height: 20 }}></Row>
                                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Parking Lots"}</div>
                                     <Row>
-                                    < ListGroup >
-                                        {
-                                            hike.parking_lots
-                                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                                .map((p) =>
-                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                        <Park key={p.id} park={p} user={user}></Park>
-                                                    </Col>
-                                                )
-                                        }
-                                    </ListGroup>
+                                        < ListGroup >
+                                            {
+                                                hike.parking_lots
+                                                    .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                                    .map((p) =>
+                                                        <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                            <Park key={p.id} park={p} user={user}></Park>
+                                                        </Col>
+                                                    )
+                                            }
+                                        </ListGroup>
                                     </Row>
                                 </>)
                     }
 
-                    
-                    {hike.points.length === 0
-                        ?
-                        undefined
-                        :
-                        (
-                            <NewRefPoint user={user} hike={hike} setIsLoading={setIsLoading} setHike={setHike}></NewRefPoint>
-                        )
-                    }
+
+                    <NewRefPoint user={user} hike={hike} setIsLoading={setIsLoading} setHike={setHike}></NewRefPoint>
+
                     <Row style={{ height: 80 }}></Row>
                 </Col>
 
@@ -549,19 +543,29 @@ const NewRefPoint = ({ user, hike, setIsLoading, setHike, }) => {
 
     return (
         <Row>
-             <Row style={{ height: 20 }}></Row>
-            <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
-            <ListGroup>
-                {
-                    hike.points
-                        .sort((a, b) => a.name?.trim().localeCompare(b.name?.trim()))
-                        .map((p) =>
-                            <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                <Point key={p.id} point={p}></Point>
-                            </Col>
-                        )
-                }
-            </ListGroup>
+            <Row style={{ height: 20 }}></Row>
+
+            {hike.points.length === 0
+                ?
+                undefined
+                :
+                (
+                    <>
+                        <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
+                        <ListGroup>
+                            {
+                                hike.points
+                                    .sort((a, b) => a.name?.trim().localeCompare(b.name?.trim()))
+                                    .map((p) =>
+                                        <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                            <Point key={p.id} point={p}></Point>
+                                        </Col>
+                                    )
+                            }
+                        </ListGroup>
+                    </>
+                )
+            }
 
             {hike.lg_id === user.id
                 ?
