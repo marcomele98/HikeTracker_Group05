@@ -1,26 +1,10 @@
 import { TruckFlatbed } from "react-bootstrap-icons"
-
 //test confirm button when adding  a hut as start point of the hike
-describe('loginform e2e tset', () => { 
-    it('1 access the webpage', () => {
-       cy.visit('http://localhost:3000/')
-    })
-    
-    it('Login button exists',()=>{
-        cy.contains('Login').click()
-    })
-
-    it('login form test',()=>{
-        cy.get('input[id=username]').clear()
-        cy.get('input[id=password]').clear()
-        cy.get('input[id=username]').type('lg1@p.it').should('have.value', 'lg1@p.it')
-        cy.get('input[id=password]').type('password').should('have.value', 'password')
-        cy.contains('Login').click()
-        cy.url().should('include', '/home')    
-    })
-})
-
 describe('get the hikes list', () => { 
+    it('login ', () => {
+        cy.login("lg1@p.it","password")
+    })
+
     it('jump into certain hike page test',()=>{
         cy.contains('Great War: from Malga Grassi to Rifugio Pernici').parent().parent()
         .within(() => {     
@@ -35,91 +19,80 @@ describe('get the hikes list', () => {
             })
     })
 
-    it('adding hut point as start point test',() =>{
-        cy.contains('hut')
-        cy.contains('Confirm').click({force:true})
-        
-    })
-    
-    it('start point change successfully test',()=>{
-        cy.visit('http://localhost:3000/hike/7')
-       cy.get('.pointTitle').contains('Rifugio Nino Pernici (Refuge)')
+    it('adding a hut point as start point test',() =>{
+        //test first select input:choose type of start point
+        cy.contains('Select the new start point:')
+        cy.get('select')
+        .eq(0)
+        .select('Hut',{force: true})
+        .invoke('val')
+        .should('eq', 'hut')
+        //test second select input:choose one certain hut name
+        cy.contains('Select the hut:')
+        cy.get('select')
+        .eq(1)
+        .select('Rifugio Capanna', { force: true })
+        .invoke('val')
+        .should('deep.equal', '9')
+
+        cy.contains('Confirm').click()
     })
 })
 
 //test cancel button when adding  a hut as start point of the hike
 describe('cancel button test', ()=>{
-    it('Login button exists',()=>{
-        cy.contains('Login').click()
-    })
-
-    it('login form test',()=>{
-        cy.get('input[id=username]').clear()
-        cy.get('input[id=password]').clear()
-        cy.get('input[id=username]').type('lg1@p.it').should('have.value', 'lg1@p.it')
-        cy.get('input[id=password]').type('password').should('have.value', 'password')
-        cy.contains('Login').click()
-        cy.url().should('include', '/home')
-        
-    })
     it('jump into certain hike page test',()=>{
-        cy.contains('Great War: from Malga Grassi to Rifugio Pernici').parent().parent()
-        .within(() => {     
-        cy.contains('see more').click({force:true})
-        })
-    })  
-    
-    it('edit button test',() => {
-        cy.contains('Start Point').parent()
-        .within(() => {     
-            cy.get('button').click({force:true})
-            })
-    })
-  
-    it('Cancel button test',()=>{
-        cy.contains('Start Point').parent()
-        cy.contains('Cancel').click({force:true}) 
-    })
-})
-// //test confirm button when adding  a parking lot as start point of the hike
-describe('adding a hut as end point test', ()=>{
-    it('start point change successfully test',()=>{
+        cy.login("lg1@p.it","password")
         cy.visit('http://localhost:3000/hike/7')
-      
-    })
-
-    it('Login button exists',()=>{
-        cy.contains('Login').click()
-    })
-
-    it('login form test',()=>{
-        cy.get('input[id=username]').clear()
-        cy.get('input[id=password]').clear()
-        cy.get('input[id=username]').type('lg1@p.it').should('have.value', 'lg1@p.it')
-        cy.get('input[id=password]').type('password').should('have.value', 'password')
-        cy.contains('Login').click()
-        cy.url().should('include', '/home')
-    })
-
-    it('jump into certain hike page test',()=>{
-        cy.contains('Great War: from Malga Grassi to Rifugio Pernici').parent().parent()
-        .within(() => {     
-        cy.contains('see more').click({force:true})
-        })
-    })  
-    
-    it('edit button test',() => {
-        cy.contains('End Point').parent()
+        cy.contains('Start Point').parent()
         .within(() => {     
             cy.get('button').click({force:true})
-            })
+        })
+        cy.contains('Cancel').click()
+        cy.get('select').should('not.exist')
+
+    })  
+})
+// test user manually insert a start point and insert name of start point 
+describe('insert a start point and insert name of start point test', ()=>{
+    it('start point change successfully test',()=>{
+        cy.contains('Start Point').parent()
+        .within(() => {     
+            cy.get('button').click({force:true})
+        })
+        cy.get('select')
+        .eq(0)
+        .select('Default',{force: true})
+        .invoke('val')
+        .should('eq', 'default')
+        cy.contains('Name')
+        cy.get("#validationCustom04").type('porta nuova').should('have.value','porta nuova')
+        cy.contains('Confirm')
+        cy.contains('Cancel').click()
     })
+ })
+
+  //test add a parking lot as a start point 
+  describe('add a parking lot as a start point',()=>{
+    it('adding a parking lot as start point test',()=>{
+        cy.contains('Start Point').parent()
+        .within(() => {     
+        cy.get('button').click({force:true})
+        })
+        cy.get('select')
+        .eq(0)
+        .select('Parking Lot',{force: true})
+        .invoke('val')
+        .should('eq', 'parking lot')
+        //test second select input:choose one certain hut name
+        cy.contains('Select the parking lot:')
+        cy.get('select')
+        .eq(1)
+        .select('Parking place Malga Grassi', { force: true })
+        .invoke('val')
+        .should('deep.equal', '4')
+          cy.contains('Confirm').click()
+    })
+   
   
-    it('adding hut as end point test',() =>{
-        cy.contains('hut')
-        cy.contains('Confirm').click({force:true})
-      
-       
-    })
- 
 })
