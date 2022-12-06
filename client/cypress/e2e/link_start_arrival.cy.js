@@ -34,7 +34,7 @@ describe('get the hikes list', () => {
         .invoke('val')
         .should('deep.equal', '9')
 
-        cy.contains('Confirm').click()
+        cy.contains('Confirm').click({force:true})
     })
 })
 
@@ -47,7 +47,7 @@ describe('cancel button test', ()=>{
         .within(() => {     
             cy.get('button').click({force:true})
         })
-        cy.contains('Cancel').click()
+        cy.contains('Cancel').click({force:true})
         cy.get('select').should('not.exist')
 
     })  
@@ -67,7 +67,7 @@ describe('insert a start point and insert name of start point test', ()=>{
         cy.contains('Name')
         cy.get("#validationCustom04").type('porta nuova').should('have.value','porta nuova')
         cy.contains('Confirm')
-        cy.contains('Cancel').click()
+        cy.contains('Cancel').click({force:true})
     })
  })
 
@@ -90,7 +90,7 @@ describe('insert a start point and insert name of start point test', ()=>{
         .select('Parking place Malga Grassi', { force: true })
         .invoke('val')
         .should('deep.equal', '4')
-          cy.contains('Confirm').click()
+          cy.contains('Confirm').click{force:true}
     })
    
   
