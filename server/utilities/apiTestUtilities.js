@@ -9,5 +9,13 @@ exports.reset = async() => {
 exports.setup = async() => {
     await this.reset();
     await daoUtility.createMarioRossi();
-    await chaiUtility.login();
+    await chaiUtility.loginLocalGuide();
+}
+
+exports.setupPreferences = async() => {
+    await this.reset();
+    await daoUtility.createMarioRossi();
+    await daoUtility.createLuigiVerdi();
+    await daoUtility.savePreferencesForLuigiVerdi();
+    await chaiUtility.loginHiker();
 }

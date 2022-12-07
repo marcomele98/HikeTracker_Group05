@@ -26,7 +26,7 @@ exports.createLuigiVerdi = async () => {
         "INSERT OR IGNORE INTO USER(name, surname, role, password, email, salt, phone_number)\
             VALUES('Luigi', 'Verdi', 'hiker', \
                     '47b5880cd28fb469b027514f66ea88bb70cfdc09f74da5b57cf10a5e99f79987', \
-                    'lg2@p.it', '7753261635033673', '3334567981')"
+                    'h1@p.it', '7753261635033673', '3334567981')"
     );
 }
 
