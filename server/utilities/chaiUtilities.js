@@ -12,9 +12,17 @@ exports.logout = async () => {
     await this.agent.delete('/api/sessions/current')
 }
 
-exports.login = async () => {
+exports.loginLocalGuide = async () => {
     await this.agent.post('/api/sessions')
         .send(user.lg1Credentials)
+        .then(function (res) {
+            res.should.have.status(200);
+        });
+}
+
+exports.loginHiker = async () => {
+    await this.agent.post('/api/sessions')
+        .send(user.h1Credentials)
         .then(function (res) {
             res.should.have.status(200);
         });
