@@ -51,3 +51,16 @@ exports.isNotValidPoint = (point) => {
         point.altitude === undefined || point.altitude === '' ||
         point.altitude === null || isNaN(point.altitude);
 }
+
+exports.isNotValidPointUser = (point) => {
+    console.log(point)
+    let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
+    let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
+
+    return point.point_latitude === undefined || point.point_latitude === '' ||
+        point.point_latitude === null || point.point_latitude < -90 || point.point_latitude > 90 ||
+        !regexpLatitude.test(point.point_latitude) ||
+        point.point_longitude === undefined || point.point_longitude === '' ||
+        point.point_longitude === null || point.point_longitude < -180 || point.point_longitude > 180 ||
+        !regexpLongitude.test(point.point_longitude);
+}
