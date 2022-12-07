@@ -276,6 +276,25 @@ async function addNewReferencePoint(point, id) {
   }
 }
 
+
+
+async function hutHikeLink(hut, id) {
+  let response = await fetch(new URL('hikeHutLink/' + id, APIURL), {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(hut),
+  });
+  if(response.ok) {
+    return null;
+  } else {
+    throw response.status;
+  }
+}
+
+
 async function getPreferencesByUserId(id) {
   const response = await fetch(new URL('preferences/' + id, APIURL));
   const preferences = await response.json();
@@ -289,7 +308,7 @@ async function getPreferencesByUserId(id) {
 const API = {
   logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription, addUser, getParks,
   getParkById, newPark, getHuts, getHutById, newHut, updateHikeEndPoint, updateHikeStartPoint,
-  resetHikeEndPoint, resetHikeStartPoint, addNewReferencePoint, getPreferencesByUserId
+  resetHikeEndPoint, resetHikeStartPoint, addNewReferencePoint, getPreferencesByUserId, hutHikeLink
 };
 
 

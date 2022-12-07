@@ -72,9 +72,9 @@ describe('insert a start point and insert name of start point test', ()=>{
  })
 
   //test add a parking lot as a start point 
-  describe('add a parking lot as a start point',()=>{
-    it('adding a parking lot as start point test',()=>{
-        cy.contains('Start Point').parent()
+  describe('add a parking lot as a end point',()=>{
+    it('adding a parking lot as end point test',()=>{
+        cy.contains('End Point').parent()
         .within(() => {     
         cy.get('button').click({force:true})
         })
@@ -83,7 +83,7 @@ describe('insert a start point and insert name of start point test', ()=>{
         .select('Parking Lot',{force: true})
         .invoke('val')
         .should('eq', 'parking lot')
-        //test second select input:choose one certain hut name
+        //test second select input:choose one certain park name
         cy.contains('Select the parking lot:')
         cy.get('select')
         .eq(1)

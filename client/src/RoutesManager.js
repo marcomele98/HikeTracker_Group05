@@ -26,7 +26,8 @@ const RoutesManager = ({
     user,
     addUser,
     log,
-    setLog
+    setLog,
+    setUser
 }) => {
 
     return (
@@ -50,7 +51,7 @@ const RoutesManager = ({
                     
                     <Route
                         path="/home"
-                        element={<Home setIsLoading={setIsLoading} user={user} />}
+                        element={<Home setIsLoading={setIsLoading} user={user} setUser={setUser}/>}
                     />
 
                     <Route
