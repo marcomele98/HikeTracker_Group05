@@ -32,18 +32,19 @@ function ListParkings({ setIsLoading, user }) {
 
     return (
         <>
-            <div className="backImage" style={{ backgroundImage: `url(${img})`}}></div>
+            <div className="backImage" style={{ backgroundImage: `url(${img})` }}></div>
             <Container>
 
-                <Row style={{ height: 30 }}></Row>
-                <Row className="m-3" style={{ margin: 0, padding: 0}}>
+                {/* <Row style={{ height: 30 }}></Row> */}
+                <Row className="m-3" style={{ margin: 0, padding: 0 }}>
                     {
                         user.role !== 'local guide'
                             ?
                             false
                             :
                             <>
-                                <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => navigate("/new-parking")}>New Parking Lot</Button>
+                                <Row style={{ height: 30 }}></Row>
+                                <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10, width: 200 }} onClick={() => navigate("/new-parking")}>New Parking Lot</Button>
 
                             </>
                     }
