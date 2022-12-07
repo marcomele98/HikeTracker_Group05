@@ -214,8 +214,11 @@ app.post('/api/hut', isLoggedIn, (req, res) => {
 
 app.get('/api/preferences/:userId', (req, res) => {
   return preferences.getPreferencesByUserId(req, res);
-}
-);
+});
+
+app.post('/api/preferences', isLoggedIn, (req, res) => {
+  return preferences.addPreferences(req, res);
+});
 
 
 
