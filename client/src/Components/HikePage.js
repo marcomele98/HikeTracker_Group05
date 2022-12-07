@@ -146,16 +146,17 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         }
                     </Row>
 
+                    <Row style={{ height: 20 }}></Row>
+                    <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Huts"}</div>
+
 
                     {
                         hike.huts.length === 0
                             ?
-                            undefined
+                            <div className="textGrayPrimary" style={{marginLeft:10}}>No hut linked to this hike</div>
                             :
                             (
                                 <>
-                                    <Row style={{ height: 20 }}></Row>
-                                    <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Huts"}</div>
                                     <Row>
                                         <ListGroup>
                                             {
@@ -173,17 +174,19 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             )
                     }
 
+                    <NewHut user={user} hike={hike} setIsLoading={setIsLoading} setHike={setHike} />
 
+                    <Row style={{ height: 20 }}></Row>
+                    <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Parking Lots"}</div>
 
                     {
+
                         hike.parking_lots.length === 0
                             ?
-                            undefined
+                            <div className="textGrayPrimary" style={{marginLeft:10}}>No parking lots linked to this hike</div>
                             :
                             (
                                 <>
-                                    <Row style={{ height: 20 }}></Row>
-                                    <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Parking Lots"}</div>
                                     <Row>
                                         < ListGroup >
                                             {
@@ -200,6 +203,32 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                 </>)
                     }
 
+
+                    <Row style={{ height: 20 }}></Row>
+                    <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
+
+                    {hike.points.length === 0
+                        ?
+                        <div className="textGrayPrimary" style={{marginLeft:10}}>No reference points linked to this hike</div>
+                        :
+                        (
+                            <>
+                                <Row>
+                                    <ListGroup>
+                                        {
+                                            hike.points
+                                                .sort((a, b) => a.name?.trim().localeCompare(b.name?.trim()))
+                                                .map((p) =>
+                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                        <Point key={p.id} point={p}></Point>
+                                                    </Col>
+                                                )
+                                        }
+                                    </ListGroup>
+                                </Row>
+                            </>
+                        )
+                    }
 
                     <NewRefPoint user={user} hike={hike} setIsLoading={setIsLoading} setHike={setHike}></NewRefPoint>
 
@@ -346,6 +375,7 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
     const [parks, setParks] = useState([]);
     const [huts, setHuts] = useState([]);
     const [newPoint, setNewPoint] = useState({});
+    let condition = type === "default" || (type === "hut" && huts.length !== 0) || (type === "parking lot" && parks.length !== 0)
 
     useEffect(() => {
         if (type === "default") {
@@ -470,12 +500,24 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
                         <HutParkSelector list={type === "hut" ? huts : parks} type={type} setNewPoint={setNewPoint}></HutParkSelector>
                 }
             </Row>
-            <Row style={{ height: 10 }} />
+            {
+                type === "default" ?
+                    <Row style={{ height: 0 }} />
+                    :
+                    <Row style={{ height: 20 }} />
+            }
             <Row>
-                <div className='rowC'>
-                    <Button type="submit" variant="outline-success" style={{ width: 100, borderWidth: 3 }}>Confirm</Button>
-                    <Button variant="outline-danger" style={{ width: 100, borderWidth: 3, marginLeft: 20 }} onClick={() => { setEditable(false) }}>Cancel</Button>
-                </div>
+                {
+                    <div className='rowC'>
+                        {
+                            condition ?
+                                <Button type="submit" variant="outline-success" style={{ width: 100, borderWidth: 3 }}>Confirm</Button>
+                                :
+                                false
+                        }
+                        <Button variant="outline-danger" style={{ width: 100, borderWidth: 3, marginLeft: condition ? 20 : 0 }} onClick={() => { setEditable(false) }}>Cancel</Button>
+                    </div>
+                }
             </Row>
             <Row style={{ height: 20 }} />
         </Form>
@@ -543,29 +585,6 @@ const NewRefPoint = ({ user, hike, setIsLoading, setHike, }) => {
 
     return (
         <Row>
-            <Row style={{ height: 20 }}></Row>
-
-            {hike.points.length === 0
-                ?
-                undefined
-                :
-                (
-                    <>
-                        <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
-                        <ListGroup>
-                            {
-                                hike.points
-                                    .sort((a, b) => a.name?.trim().localeCompare(b.name?.trim()))
-                                    .map((p) =>
-                                        <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                            <Point key={p.id} point={p}></Point>
-                                        </Col>
-                                    )
-                            }
-                        </ListGroup>
-                    </>
-                )
-            }
 
             {hike.lg_id === user.id
                 ?
@@ -587,6 +606,90 @@ const NewRefPoint = ({ user, hike, setIsLoading, setHike, }) => {
         </Row>
     )
 }
+
+
+
+
+const NewHut = ({ user, hike, setIsLoading, setHike }) => {
+
+    const [showForm, setShowForm] = useState(false);
+    const [availableHuts, setAvailableHuts] = useState([]);
+    const [hut, setHut] = useState()
+
+    useEffect(() => {
+        const getHuts = async () => {
+            setIsLoading(true)
+            let huts = await API.getHuts()
+            let gpx = new gpxParser();
+            gpx.parse(hike.gpx);
+            const points = gpx.tracks[0].points
+            huts = huts.filter((h) =>
+                points.find(p => calcCrow(h.latitude, h.longitude, p.lat, p.lon) < 5) && !hike.huts.find((h2) => h.id === h2.id)
+            )
+            setAvailableHuts(huts);
+            setIsLoading(false);
+        }
+        getHuts()
+    }, [hike])
+
+
+    const onConfirm = async (e) => {
+        e.preventDefault();
+        try {
+            setIsLoading(true);
+            console.log(hut)
+            await API.hutHikeLink({ hut_id: hut }, hike.id)
+            const res = await API.getHikeById(hike.id);
+            setHike(res);
+            setIsLoading(false);
+            toast.success("Hike Updated Successfully", { position: "top-center" }, { toastId: 210 });
+            setShowForm(false)
+
+        } catch (err) {
+            setIsLoading(false);
+            toast.error(err, { position: "top-center" }, { toastId: 130 });
+        }
+    }
+
+    return (
+        <Row>
+            {hike.lg_id === user.id
+                ?
+                <div style={{ marginLeft: 10 }}>
+
+                    <Col className="mb-1 mt-2" xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+                        {showForm ?
+                            <>
+                                <HutParkSelector list={availableHuts} type="hut" setNewPoint={setHut}></HutParkSelector>
+                                <Row style={{ height: 10 }} />
+                                <Row>
+                                    <div className='rowC'>
+                                        {availableHuts.length !== 0
+                                            ?
+                                            <Button type="submit" variant="outline-success" onClick={onConfirm} style={{ width: 100, borderWidth: 3 }}>Confirm</Button>
+                                            :
+                                            <></>
+                                        }
+                                        <Button variant="outline-danger" style={{ width: 100, borderWidth: 3, marginLeft: availableHuts.length !== 0 ? 20 : 0 }} onClick={() => { setShowForm(false) }}>Cancel</Button>
+                                    </div>
+                                </Row>
+                                <Row style={{ height: 20 }} />
+                            </>
+                            :
+                            <Col className="mb-1 mt-2" xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
+                                <Button variant="outline-success" style={{ width: 200, borderWidth: 3 }} onClick={() => setShowForm(true)}>Add new hut</Button>
+                            </Col>
+
+                        }
+                    </Col>
+                </div>
+                : false
+            }
+        </Row>
+    )
+}
+
+
 
 
 
