@@ -111,9 +111,27 @@ function Home({ setIsLoading, user, setUser }) {
                 setIsLoading(false);
             }
         };
+        // if(user)
         getUserFilters()
         getHikesFromServer()
     }, [])
+
+    useEffect(() => {
+        if (!user.filters) {
+            setProvince("");
+            setCity("");
+            setMaxAscent("");
+            setMinAscent("");
+            setMaxLength("");
+            setMinLength("");
+            setMaxExpectedTime("");
+            setMinExpectedTime("");
+            setMinDifficulty("Tourist");
+            setMaxDifficulty("Professional Hiker");
+            setRadius("");
+            setCoordinates(undefined);
+        }
+    }, [user])
 
 
     return (
@@ -128,7 +146,7 @@ function Home({ setIsLoading, user, setUser }) {
                             false
                             :
                             <>
-                                <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10, width:200 }} onClick={() => navigate("/new-hike")}>New Hike</Button>
+                                <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10, width: 200 }} onClick={() => navigate("/new-hike")}>New Hike</Button>
                             </>
 
                     }
@@ -137,7 +155,7 @@ function Home({ setIsLoading, user, setUser }) {
                             false
                             :
                             <>
-                                <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width:200  }} onClick={() => {
+                                <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width: 200 }} onClick={() => {
                                     getPreferences();
                                 }}>Preferences</Button>
                             </>
@@ -145,7 +163,7 @@ function Home({ setIsLoading, user, setUser }) {
                     }
 
                     <Col style={{ margin: 0, padding: 0 }}>
-                        <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3, width:200  }} onClick={() => {
+                        <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3, width: 200 }} onClick={() => {
                             setSeeFilters((val) => !val);
                         }}>{seeFilters ? "Hide Filters" : "Show Filters"}</Button>
                     </Col>
@@ -468,7 +486,7 @@ function FilterForm({
                             user.role !== 'hiker' ?
                                 false
                                 :
-                                <Button type="submit" variant="outline-secondary" style={{borderWidth: 3, marginLeft: 20, width: 200 }} onClick={setPreferences}>Save Preferences</Button>
+                                <Button type="submit" variant="outline-secondary" style={{ borderWidth: 3, marginLeft: 20, width: 200 }} onClick={setPreferences}>Save Preferences</Button>
                         }
                     </div>
                 </Row>
