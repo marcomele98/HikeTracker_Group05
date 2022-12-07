@@ -11,6 +11,7 @@ describe('get hiker preferences', () => {
     
     getPreferencesByUserId(404, 1);
     getPreferencesByUserId(200, 2);
+    getPreferencesByUserId(200, 3);
     getPreferencesByUserId(404, 100);
 
 });
