@@ -41,7 +41,7 @@ db.serialize(function () {
   );
 
   db.run(
-    'CREATE TABLE IF NOT EXISTS "HIKER_PREFRENCES" (\
+    'CREATE TABLE IF NOT EXISTS "HIKER_PREFERENCES" (\
     "user_id" INTEGER NOT NULL,\
     "max_length_kms" NUMERIC,\
     "min_length_kms" NUMERIC,\
@@ -228,7 +228,7 @@ db.serialize(function () {
   } catch { }
 
   db.run(
-    "INSERT OR IGNORE INTO HIKER_PREFRENCES(user_id, max_length_kms, min_length_kms, max_expected_mins, min_expected_mins,\
+    "INSERT OR IGNORE INTO HIKER_PREFERENCES(user_id, max_length_kms, min_length_kms, max_expected_mins, min_expected_mins,\
      max_ascendent_meters, min_ascendent_meters, max_difficulty, min_difficulty, point_latitude, point_longitude, radius,\
       region, province, city)\
        VALUES (3, 110, 60, 120, 40, 200, 100, 'Hiker','Tourist', '44.19940', '7.93339', 50, 'Piemonte', 'CN', 'Garessio'),\
