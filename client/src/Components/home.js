@@ -15,7 +15,7 @@ const Range = createSliderWithTooltip(Slider.Range);
 
 
 
-function Home({ setIsLoading, user }) {
+function Home({ setIsLoading, user, setUser }) {
 
     const [seeFilters, setSeeFilters] = useState(false);
     const [province, setProvince] = useState("");
@@ -33,6 +33,72 @@ function Home({ setIsLoading, user }) {
     const [hikes, setHikes] = useState([]);
     const navigate = useNavigate();
 
+    const getPreferences = async () => {
+        try {
+            const preferences = await API.getPreferencesByUserId(user.id);
+            setProvince(preferences.province ? preferences.province : "");
+            setCity(preferences.city ? preferences.city : "");
+            setRadius(preferences.radius);
+            setCoordinates((preferences.point_latitude && preferences.point_longitude) ? { lat: preferences.point_latitude, lng: preferences.point_longitude } : undefined);
+            setMaxAscent(preferences.max_ascendent_meters ? preferences.max_ascendent_meters : "");
+            setMinAscent(preferences.min_ascendent_meters ? preferences.min_ascendent_meters : "");
+            setMaxLength(preferences.max_length_kms ? preferences.max_length_kms : "");
+            setMinLength(preferences.min_length_kms ? preferences.min_length_kms : "");
+            setMaxExpectedTime(preferences.max_expected_mins ? preferences.max_expected_mins : "");
+            setMinExpectedTime(preferences.min_expected_mins ? preferences.min_expected_mins : "");
+            setMaxDifficulty(preferences.max_difficulty ? preferences.max_difficulty : "Professional Hiker");
+            setMinDifficulty(preferences.min_difficulty ? preferences.min_difficulty : "Tourist");
+        } catch {
+            toast.error("Server error.", { position: "top-center" }, { toastId: 25 });
+            setIsLoading(false);
+        }
+    }
+
+    const setPreferences = async () => {
+
+    }
+
+    useEffect(() => {
+        const setUserFilters = async () => {
+            setUser({
+                ...user,
+                filters: {
+                    province: province,
+                    coordinates: coordinates ? { ...coordinates } : undefined,
+                    radius: radius,
+                    city: city,
+                    maxAscent: maxAscent,
+                    minAscent: minAscent,
+                    maxLength: maxLength,
+                    minLength: minLength,
+                    maxExpectedTime: maxExpectedTime,
+                    minExpectedTime: minExpectedTime,
+                    minDifficulty: minDifficulty,
+                    maxDifficulty: maxDifficulty
+                }
+            })
+        }
+        setUserFilters()
+    }, [province, coordinates, radius, city, maxAscent, minAscent, maxLength, minLength, maxExpectedTime, minExpectedTime, minDifficulty, maxDifficulty])
+
+
+    const getUserFilters = () => {
+        if (user.filters) {
+            setProvince(user.filters.province ? user.filters.province : "");
+            setCity(user.filters.city ? user.filters.city : "");
+            setRadius(user.filters.radius);
+            setCoordinates(user.filters.coordinates ? { ...user.filters.coordinates } : undefined);
+            setMaxAscent(user.filters.maxAscent ? user.filters.maxAscent : "");
+            setMinAscent(user.filters.minAscent ? user.filters.minAscent : "");
+            setMaxLength(user.filters.maxLength ? user.filters.maxLength : "");
+            setMinLength(user.filters.minLength ? user.filters.minLength : "");
+            setMaxExpectedTime(user.filters.maxExpectedTime ? user.filters.maxExpectedTime : "");
+            setMinExpectedTime(user.filters.minExpectedTime ? user.filters.minExpectedTime : "");
+            setMaxDifficulty(user.filters.maxDifficulty ? user.filters.maxDifficulty : "Professional Hiker");
+            setMinDifficulty(user.filters.minDifficulty ? user.filters.minDifficulty : "Tourist");
+        }
+    }
+
     useEffect(() => {
         const getHikesFromServer = async () => {
             try {
@@ -45,6 +111,7 @@ function Home({ setIsLoading, user }) {
                 setIsLoading(false);
             }
         };
+        getUserFilters()
         getHikesFromServer()
     }, [])
 
@@ -61,16 +128,29 @@ function Home({ setIsLoading, user }) {
                             false
                             :
                             <>
-                                <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => navigate("/new-hike")}>New Hike</Button>
+                                <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10, width:200 }} onClick={() => navigate("/new-hike")}>New Hike</Button>
                             </>
-                    }
-                    <Col style={{ margin: 0, padding: 0 }}>
 
-                        <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3 }} onClick={() => {
+                    }
+                    {
+                        user.role !== 'hiker' ?
+                            false
+                            :
+                            <>
+                                <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width:200  }} onClick={() => {
+                                    getPreferences();
+                                }}>Preferences</Button>
+                            </>
+
+                    }
+
+                    <Col style={{ margin: 0, padding: 0 }}>
+                        <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3, width:200  }} onClick={() => {
                             setSeeFilters((val) => !val);
                         }}>{seeFilters ? "Hide Filters" : "Show Filters"}</Button>
-
                     </Col>
+
+
                 </Row>
                 {
                     seeFilters ?
@@ -82,8 +162,8 @@ function Home({ setIsLoading, user }) {
                                 setRadiusFilter={setRadius}
                                 setMaxAscentFilter={setMaxAscent}
                                 setMinAscentFilter={setMinAscent}
-                                setMaxLengthFilter={setMinLength}
-                                setMinLengthFilter={setMaxLength}
+                                setMaxLengthFilter={setMaxLength}
+                                setMinLengthFilter={setMinLength}
                                 setMaxExpectedTimeFilter={setMaxExpectedTime}
                                 setMinExpectedTimeFilter={setMinExpectedTime}
                                 setMinDifficultyFilter={setMinDifficulty}
@@ -101,6 +181,8 @@ function Home({ setIsLoading, user }) {
                                 minE={minExpectedTime}
                                 maxD={maxDifficulty}
                                 minD={minDifficulty}
+                                setPreferences={setPreferences}
+                                user={user}
                             ></FilterForm>
                         ) : undefined
 
@@ -124,7 +206,7 @@ function Home({ setIsLoading, user }) {
                                         || (maxDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "professional hiker")
                                         || (minDifficulty?.toLowerCase() === "professional hiker" && h.difficulty.toLowerCase() !== "professional hiker")
                                         || (minDifficulty?.toLowerCase() === "hiker" && h.difficulty.toLowerCase() === "tourist")
-                                        || (coordinates && radius && calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon) > radius)) {
+                                        || (coordinates !== undefined && radius && calcCrow(coordinates.lat, coordinates.lng, h.start_point_lat, h.start_point_lon) > radius)) {
                                         return false;
                                     }
                                     return true;
@@ -210,6 +292,8 @@ function FilterForm({
     minE,
     maxD,
     minD,
+    setPreferences,
+    user
 }) {
 
     const [province, setProvince] = useState("");
@@ -243,7 +327,7 @@ function FilterForm({
 
     useEffect(() => {
         resetForm();
-    }, [])
+    }, [prov, cit, maxA, minA, maxL, minL, maxE, minE, minD, maxD, rad, pos])
 
     const deleteAllFilters = () => {
         setProvince("");
@@ -259,6 +343,7 @@ function FilterForm({
         setRadius("");
         setPosition(undefined);
     }
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -379,6 +464,12 @@ function FilterForm({
                     <div className='rowC'>
                         <Button type="submit" variant="outline-success" style={{ width: 100, borderWidth: 3 }}>Confirm</Button>
                         <Button variant="outline-danger" style={{ width: 100, borderWidth: 3, marginLeft: 20 }} onClick={deleteAllFilters}>Delete</Button>
+                        {
+                            user.role !== 'hiker' ?
+                                false
+                                :
+                                <Button type="submit" variant="outline-secondary" style={{borderWidth: 3, marginLeft: 20, width: 200 }} onClick={setPreferences}>Save Preferences</Button>
+                        }
                     </div>
                 </Row>
                 <div style={{ height: 40 }}></div>

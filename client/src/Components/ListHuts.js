@@ -55,7 +55,7 @@ function ListHuts({ setIsLoading, user }) {
                             false
                             :
                             <>
-                                <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => navigate("/new-hut")}>New Hut</Button>
+                                <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10, width:200  }} onClick={() => navigate("/new-hut")}>New Hut</Button>
 
                             </>
                     }

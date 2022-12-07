@@ -85,6 +85,7 @@ const LogicContainer = () => {
             addUser = {addUser}
             log={log}
             setLog={setLog}
+            setUser={setUser}
         />
     );
 };
