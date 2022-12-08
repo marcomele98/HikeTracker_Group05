@@ -55,13 +55,15 @@ function Home({ setIsLoading, user, setUser }) {
     }
 
     const setPreferences = async () => {
+        var lat = coordinates ? parseFloat(coordinates?.lat).toFixed(6) : null
+        var lon = coordinates ? parseFloat(coordinates?.lng).toFixed(6) : null
         try {
             setIsLoading(true);
             await API.setPreferences(
                 {
                     province: province,
-                    point_latitude: coordinates?.lat.toFixed(6),
-                    point_longitude: coordinates?.lng.toFixed(6),
+                    point_latitude: lat,
+                    point_longitude: lon,
                     radius: radius,
                     city: city,
                     max_ascendent_meters: maxAscent,
@@ -166,19 +168,19 @@ function Home({ setIsLoading, user, setUser }) {
             <Container >
                 <Row style={{ height: 30 }}></Row>
                 <Row className="m-3" style={{ margin: 0, padding: 0 }}>
-                    {
-                        user.role !== 'local guide' ?
-                            false
-                            :
-                            <>
-                                <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10, width: 200 }} onClick={() => navigate("/new-hike")}>New Hike</Button>
-                            </>
-
-                    }
 
                     <Row>
+                        {
+                            user.role !== 'local guide' ?
+                                false
+                                :
+                                <>
+                                    <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10, width: 200 }} onClick={() => navigate("/new-hike")}>New Hike</Button>
+                                </>
+
+                        }
                         <Col style={{ margin: 0, padding: 0, marginBottom: 10 }}>
-                            <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3, width: 250 }} onClick={() => {
+                            <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3, width: 200 }} onClick={() => {
                                 setSeeFilters((val) => !val);
                             }}>{seeFilters ? "Hide Filters" : "Show Filters"}</Button>
                         </Col>
@@ -190,7 +192,7 @@ function Home({ setIsLoading, user, setUser }) {
                                     <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width: 250, marginBottom: 10 }} onClick={() => {
                                         getPreferences();
                                     }}>Get Filters From Preferences</Button>
-                                    <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width: 250, marginBottom: 10 }} onClick={setPreferences}>Save Filters As Preferences</Button>
+                                    <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width: 250, marginBottom: 10 }} onClick={() => {setPreferences()}}>Save Filters As Preferences</Button>
                                 </>
 
                         }
