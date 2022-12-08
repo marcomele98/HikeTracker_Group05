@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "resetDB": "node deleteDB; node initDB",
-    "test": "set NODE_ENV=test&& jest ./unit_test --runInBand --detectOpenHandles --forceExit --coverage",
+    "test": "set NODE_ENV=test&& jest ./unit_test --runInBand --detectOpenHandles --forceExit --coverage > ./coverage/lcov.info",
     "server": "set NODE_ENV=development&& nodemon index.js",
     "apiTest": "npx mocha --runInBand --timeout 10000 --exit"
   },
