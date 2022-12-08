@@ -305,10 +305,28 @@ async function getPreferencesByUserId(id) {
   }
 }
 
+async function setPreferences(preferences) {
+  let response = await fetch(new URL('preferences/', APIURL), {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(preferences),
+  });
+  if(response.ok) {
+    return null;
+  } else {
+    console.log(response)
+    throw response.status;
+  }
+}
+
 const API = {
   logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription, addUser, getParks,
   getParkById, newPark, getHuts, getHutById, newHut, updateHikeEndPoint, updateHikeStartPoint,
-  resetHikeEndPoint, resetHikeStartPoint, addNewReferencePoint, getPreferencesByUserId, hutHikeLink
+  resetHikeEndPoint, resetHikeStartPoint, addNewReferencePoint, getPreferencesByUserId, hutHikeLink,
+  setPreferences
 };
 
 

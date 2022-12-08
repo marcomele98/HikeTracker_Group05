@@ -9,7 +9,7 @@ exports.getPreferencesByUserId = (id) => {
 
 exports.addPreferences = async (preference,id) => {
 
-    const sql = 'INSERT INTO HIKER_PREFRENCES(user_id, max_length_kms, min_length_kms, max_expected_mins, min_expected_mins,\
+    const sql = 'INSERT INTO HIKER_PREFERENCES(user_id, max_length_kms, min_length_kms, max_expected_mins, min_expected_mins,\
          max_ascendent_meters, min_ascendent_meters, max_difficulty, min_difficulty, point_latitude, point_longitude, radius,\
          region, province, city) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
@@ -22,9 +22,7 @@ exports.addPreferences = async (preference,id) => {
 };
 
 exports.deletePreferences = async (id) => {
-
-    const sql = "DELETE FROM HIKER_PREFRENCES WHERE user_id = ?"
-
+    const sql = "DELETE FROM HIKER_PREFERENCES WHERE user_id = ?"
     return await db.run(sql, [id]);
 };
 

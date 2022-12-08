@@ -30,77 +30,67 @@ class Preferences{
 
         if (servicesUtility.isNotValidBody(preference)) {
             message = "Invalid Body"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidNumber(preference.max_length_kms)) {
+        if (preference.max_length_kms && servicesUtility.isNotValidNumber(preference.max_length_kms)) {
             message = "Invalid Maximum Length"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidNumber(preference.min_length_kms)) {
+        if (preference.min_length_kms && servicesUtility.isNotValidNumber(preference.min_length_kms)) {
             message = "Invalid Minimum Length"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidNumber(preference.max_expected_mins)) {
+        if (preference.max_expected_mins && servicesUtility.isNotValidNumber(preference.max_expected_mins)) {
             message = "Invalid Maximum Expected Time"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidNumber(preference.min_expected_mins)) {
+        if (preference.min_expected_mins && servicesUtility.isNotValidNumber(preference.min_expected_mins)) {
             message = "Invalid Minimum Expected Time"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidNumber(preference.max_ascendent_meters)) {
+        if (preference.max_ascendent_meters && servicesUtility.isNotValidNumber(preference.max_ascendent_meters)) {
             message = "Invalid Maximum Ascent"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidNumber(preference.min_ascendent_meters)) {
+        if (preference.min_ascendent_meters && servicesUtility.isNotValidNumber(preference.min_ascendent_meters)) {
             message = "Invalid Minimum Ascent"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidDiff(preference.max_difficulty)) {
+        if (preference.max_difficulty && servicesUtility.isNotValidDiff(preference.max_difficulty)) {
             message = "Invalid Maximum Difficulty"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidDiff(preference.min_difficulty)) {
+        if (preference.min_difficulty && servicesUtility.isNotValidDiff(preference.min_difficulty)) {
             message = "Invalid Minimum Difficulty"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidNumber(preference.radius)) {
+        if (preference.radius && servicesUtility.isNotValidNumber(preference.radius)) {
             message = "Invalid Radius"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidField(preference.region)) {
+        if (preference.region && servicesUtility.isNotValidField(preference.region)) {
             message = "Invalid Region"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidProvince(preference.province)) {
+        if (preference.province && servicesUtility.isNotValidProvince(preference.province)) {
             message = "Invalid Province"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidField(preference.city)) {
+        if (preference.city && servicesUtility.isNotValidField(preference.city)) {
             message = "Invalid City"
-            return res.status(422).json(message);
         }
 
-        if (servicesUtility.isNotValidPointUser({...preference})) {
+        if (preference.point_latitude && preference.point_longitude && servicesUtility.isNotValidPointUser({...preference})) {
             message = "Invalid point"
+        }
+
+        if(message){
             return res.status(422).json(message);
         }
 
         try{
             let oldPreference = await preferencesDB.getPreferencesByUserId(id);
-            if (oldPreference === undefined) {
+            if (!oldPreference) {
                 await preferencesDB.addPreferences(preference,id);
             }
             else{
@@ -112,6 +102,7 @@ class Preferences{
 
         }
         catch (err) {
+            console.log(err)
             message = "Server error"
             return res.status(503).json(message)
         }

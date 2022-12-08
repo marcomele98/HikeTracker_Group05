@@ -55,7 +55,32 @@ function Home({ setIsLoading, user, setUser }) {
     }
 
     const setPreferences = async () => {
-
+        try {
+            setIsLoading(true);
+            await API.setPreferences(
+                {
+                    province: province,
+                    point_latitude: coordinates?.lat.toFixed(6),
+                    point_longitude: coordinates?.lng.toFixed(6),
+                    radius: radius,
+                    city: city,
+                    max_ascendent_meters: maxAscent,
+                    min_ascendent_meters: minAscent,
+                    max_length_kms: maxLength,
+                    min_length_kms: minLength,
+                    max_expected_mins: maxExpectedTime,
+                    min_expected_mins: minExpectedTime,
+                    min_difficulty: minDifficulty,
+                    max_difficulty: maxDifficulty
+                }
+            )
+            toast.success("Preferences saved correctly.", { position: "top-center" }, { toastId: 83 });
+            setIsLoading(false);
+        } catch (err) {
+            console.log("aaa", err)
+            toast.error(err, { position: "top-center" }, { toastId: 97 });
+            setIsLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -150,23 +175,26 @@ function Home({ setIsLoading, user, setUser }) {
                             </>
 
                     }
-                    {
-                        user.role !== 'hiker' ?
-                            false
-                            :
-                            <>
-                                <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width: 200 }} onClick={() => {
-                                    getPreferences();
-                                }}>Preferences</Button>
-                            </>
 
-                    }
+                    <Row>
+                        <Col style={{ margin: 0, padding: 0, marginBottom: 10 }}>
+                            <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3, width: 250 }} onClick={() => {
+                                setSeeFilters((val) => !val);
+                            }}>{seeFilters ? "Hide Filters" : "Show Filters"}</Button>
+                        </Col>
+                        {
+                            user.role !== 'hiker' ?
+                                false
+                                :
+                                <>
+                                    <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width: 250, marginBottom: 10 }} onClick={() => {
+                                        getPreferences();
+                                    }}>Get Filters From Preferences</Button>
+                                    <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width: 250, marginBottom: 10 }} onClick={setPreferences}>Save Filters As Preferences</Button>
+                                </>
 
-                    <Col style={{ margin: 0, padding: 0 }}>
-                        <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3, width: 200 }} onClick={() => {
-                            setSeeFilters((val) => !val);
-                        }}>{seeFilters ? "Hide Filters" : "Show Filters"}</Button>
-                    </Col>
+                        }
+                    </Row>
 
 
                 </Row>
@@ -199,7 +227,6 @@ function Home({ setIsLoading, user, setUser }) {
                                 minE={minExpectedTime}
                                 maxD={maxDifficulty}
                                 minD={minDifficulty}
-                                setPreferences={setPreferences}
                                 user={user}
                             ></FilterForm>
                         ) : undefined
@@ -310,7 +337,6 @@ function FilterForm({
     minE,
     maxD,
     minD,
-    setPreferences,
     user
 }) {
 
@@ -482,12 +508,6 @@ function FilterForm({
                     <div className='rowC'>
                         <Button type="submit" variant="outline-success" style={{ width: 100, borderWidth: 3 }}>Confirm</Button>
                         <Button variant="outline-danger" style={{ width: 100, borderWidth: 3, marginLeft: 20 }} onClick={deleteAllFilters}>Delete</Button>
-                        {
-                            user.role !== 'hiker' ?
-                                false
-                                :
-                                <Button type="submit" variant="outline-secondary" style={{ borderWidth: 3, marginLeft: 20, width: 200 }} onClick={setPreferences}>Save Preferences</Button>
-                        }
                     </div>
                 </Row>
                 <div style={{ height: 40 }}></div>
