@@ -661,7 +661,7 @@ const NewHut = ({ user, hike, setIsLoading, setHike }) => {
                         {showForm ?
                             <>
                                 <HutParkSelector list={availableHuts} type="hut" setNewPoint={setHut}></HutParkSelector>
-                                <Row style={{ height: 10 }} />
+                                <Row style={{ height: 20 }} />
                                 <Row>
                                     <div className='rowC'>
                                         {availableHuts.length !== 0
