@@ -1,0 +1,124 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-12-08T10:12:54.106Z",
+    "end": "2022-12-08T10:12:57.800Z",
+    "duration": 3694,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "f601ce89-1cfd-4c32-8a4c-3093729f8fcb",
+      "title": "",
+      "fullFile": "cypress/e2e/link_hut.cy.js",
+      "file": "cypress/e2e/link_hut.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "a7127382-51bf-4b45-ad39-4b81f1ccaf49",
+          "title": "the local guide wants to link a hut to a hike",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "jump into certain hike page test",
+              "fullTitle": "the local guide wants to link a hut to a hike jump into certain hike page test",
+              "timedOut": null,
+              "duration": 2500,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.login(\"lg1@p.it\", \"password\");\ncy.get('.title').contains('Laghetto del Vach – Colcerver Itinerario ad anello da Ligont').parent().parent().within(() => {\n  cy.contains('see more').click({\n    force: true\n  });\n});\ncy.get('.titleBig').should('contain', 'Laghetto del Vach – Colcerver Itinerario ad anello da Ligont');",
+              "err": {},
+              "uuid": "f46b129d-e150-499b-abe4-7c51301c7f7a",
+              "parentUUID": "a7127382-51bf-4b45-ad39-4b81f1ccaf49",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "add new hut for hike test",
+              "fullTitle": "the local guide wants to link a hut to a hike add new hut for hike test",
+              "timedOut": null,
+              "duration": 493,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('No hut linked to this hike');\ncy.contains('Add new hut').click({\n  force: true\n});\ncy.contains('Select the hut:');\ncy.contains('Cancel').click({\n  force: true\n}); //test cancel button before confirm button\ncy.get('select').should('not.exist');\ncy.get('button').contains('Add new hut').click({\n  force: true\n});\ncy.get('.form-select').children().should('have.length', 5); //test the number of optional huts\ncy.get('select').select('Rifugio Sommariva al Pramperet', {\n  force: true\n}).invoke('val').should('eq', '22');\ncy.get(\"[type='submit']\").contains('Confirm').click({\n  force: true\n});",
+              "err": {},
+              "uuid": "5f968c58-4cf4-4c66-8e9a-144d6f92285e",
+              "parentUUID": "a7127382-51bf-4b45-ad39-4b81f1ccaf49",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f46b129d-e150-499b-abe4-7c51301c7f7a",
+            "5f968c58-4cf4-4c66-8e9a-144d6f92285e"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2993,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

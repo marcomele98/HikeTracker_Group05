@@ -1,0 +1,279 @@
+{
+  "stats": {
+    "suites": 4,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-12-08T10:13:00.887Z",
+    "end": "2022-12-08T10:13:07.237Z",
+    "duration": 6350,
+    "testsRegistered": 7,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "4c9eb596-4da7-4df6-976e-284a9e31e045",
+      "title": "",
+      "fullFile": "cypress/e2e/link_start_arrival.cy.js",
+      "file": "cypress/e2e/link_start_arrival.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "9ef52b7f-d749-4b75-a600-f8c81a5721be",
+          "title": "get the hikes list",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "login ",
+              "fullTitle": "get the hikes list login ",
+              "timedOut": null,
+              "duration": 2436,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.login(\"lg1@p.it\", \"password\");",
+              "err": {},
+              "uuid": "4301ea5f-2360-4f34-95e8-4efd52cb34ba",
+              "parentUUID": "9ef52b7f-d749-4b75-a600-f8c81a5721be",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "jump into certain hike page test",
+              "fullTitle": "get the hikes list jump into certain hike page test",
+              "timedOut": null,
+              "duration": 230,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('Great War: from Malga Grassi to Rifugio Pernici').parent().parent().within(() => {\n  cy.contains('see more').click({\n    force: true\n  });\n});",
+              "err": {},
+              "uuid": "d3835816-043d-4f61-96ef-9a22921b7b50",
+              "parentUUID": "9ef52b7f-d749-4b75-a600-f8c81a5721be",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "edit button test",
+              "fullTitle": "get the hikes list edit button test",
+              "timedOut": null,
+              "duration": 103,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('Start Point').parent().within(() => {\n  cy.get('button').click({\n    force: true\n  });\n});",
+              "err": {},
+              "uuid": "c9d5173f-ddcb-4c32-a644-9401f2787d19",
+              "parentUUID": "9ef52b7f-d749-4b75-a600-f8c81a5721be",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "adding a hut point as start point test",
+              "fullTitle": "get the hikes list adding a hut point as start point test",
+              "timedOut": null,
+              "duration": 333,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "//test first select input:choose type of start point\ncy.contains('Select the new start point:');\ncy.get('select').eq(0).select('Hut', {\n  force: true\n}).invoke('val').should('eq', 'hut'); //test second select input:choose one certain hut name\ncy.contains('Select the hut:');\ncy.get('select').eq(1).select('Rifugio Capanna', {\n  force: true\n}).invoke('val').should('deep.equal', '9');\ncy.contains('Confirm').click({\n  force: true\n});",
+              "err": {},
+              "uuid": "5bb1388a-22eb-4699-95f5-31b64fa345e5",
+              "parentUUID": "9ef52b7f-d749-4b75-a600-f8c81a5721be",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "4301ea5f-2360-4f34-95e8-4efd52cb34ba",
+            "d3835816-043d-4f61-96ef-9a22921b7b50",
+            "c9d5173f-ddcb-4c32-a644-9401f2787d19",
+            "5bb1388a-22eb-4699-95f5-31b64fa345e5"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 3102,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "ad4be439-3517-41e5-ad2b-63ced14f5db5",
+          "title": "cancel button test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "jump into certain hike page test",
+              "fullTitle": "cancel button test jump into certain hike page test",
+              "timedOut": null,
+              "duration": 1620,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.login(\"lg1@p.it\", \"password\");\ncy.visit('http://localhost:3000/hike/7');\ncy.contains('Start Point').parent().within(() => {\n  cy.get('button').click({\n    force: true\n  });\n});\ncy.contains('Cancel').click({\n  force: true\n});\ncy.get('select').should('not.exist');",
+              "err": {},
+              "uuid": "1956f144-02c1-4838-8063-f8779a30381a",
+              "parentUUID": "ad4be439-3517-41e5-ad2b-63ced14f5db5",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "1956f144-02c1-4838-8063-f8779a30381a"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1620,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "7af8377d-b906-4d66-8209-73eb78187674",
+          "title": "insert a start point and insert name of start point test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "start point change successfully test",
+              "fullTitle": "insert a start point and insert name of start point test start point change successfully test",
+              "timedOut": null,
+              "duration": 541,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('Start Point').parent().within(() => {\n  cy.get('button').click({\n    force: true\n  });\n});\ncy.get('select').eq(0).select('Default', {\n  force: true\n}).invoke('val').should('eq', 'default');\ncy.contains('Name');\ncy.get(\"#validationCustom04\").type('porta nuova', {\n  force: true\n}).should('have.value', 'porta nuova');\ncy.contains('Confirm');\ncy.contains('Cancel').click({\n  force: true\n});",
+              "err": {},
+              "uuid": "9b6dc7e4-91f1-459a-8fc3-542324cf3ec0",
+              "parentUUID": "7af8377d-b906-4d66-8209-73eb78187674",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "9b6dc7e4-91f1-459a-8fc3-542324cf3ec0"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 541,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "cf4cad73-bba5-4545-a556-95f24f52548b",
+          "title": "add a parking lot as a end point",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "adding a parking lot as end point test",
+              "fullTitle": "add a parking lot as a end point adding a parking lot as end point test",
+              "timedOut": null,
+              "duration": 377,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('End Point').parent().within(() => {\n  cy.get('button').click({\n    force: true\n  });\n});\ncy.get('select').eq(0).select('Parking Lot', {\n  force: true\n}).invoke('val').should('eq', 'parking lot'); //test second select input:choose one certain park name\ncy.contains('Select the parking lot:');\ncy.get('select').eq(1).select('Parking place Malga Grassi', {\n  force: true\n}).invoke('val').should('deep.equal', '4');\ncy.contains('Confirm').click({\n  force: true\n});",
+              "err": {},
+              "uuid": "17f37fa1-44c6-4b26-be5d-5a30fa92b634",
+              "parentUUID": "cf4cad73-bba5-4545-a556-95f24f52548b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "17f37fa1-44c6-4b26-be5d-5a30fa92b634"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 377,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

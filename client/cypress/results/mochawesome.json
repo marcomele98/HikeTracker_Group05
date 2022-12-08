@@ -1,0 +1,181 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-12-08T10:12:43.687Z",
+    "end": "2022-12-08T10:12:50.392Z",
+    "duration": 6705,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "d873099f-c3d4-495a-863f-55483f921a71",
+      "title": "",
+      "fullFile": "cypress/e2e/add_reference_point.cy.js",
+      "file": "cypress/e2e/add_reference_point.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "1a08fb51-74cc-447e-9bdc-afd14f8a7142",
+          "title": "the local guide wants to define reference points",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "jump into certain hike page test",
+              "fullTitle": "the local guide wants to define reference points jump into certain hike page test",
+              "timedOut": null,
+              "duration": 3204,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.login(\"lg1@p.it\", \"password\");\ncy.get('.title').contains('Alassio, San Bernardo, Poggio Brea, Laigueglia, Metta, Torre Pisana e Moglio').parent().parent().within(() => {\n  cy.contains('see more').click({\n    force: true\n  });\n});",
+              "err": {},
+              "uuid": "71c35c5b-bd29-47d3-8a0a-f893e92572e7",
+              "parentUUID": "1a08fb51-74cc-447e-9bdc-afd14f8a7142",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "test cancel button",
+              "fullTitle": "the local guide wants to define reference points test cancel button",
+              "timedOut": null,
+              "duration": 1095,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('button').contains('Add new point').click();\ncy.get('#validationCustom04').clear().type('yyyyy').should('have.value', 'yyyyy');\ncy.get('button').contains('Cancel').click();\ncy.get('#validationCustom04').should('not.exist');\ncy.contains('Add new point');",
+              "err": {},
+              "uuid": "5216e006-f2b6-4f02-8b2b-1a061614f438",
+              "parentUUID": "1a08fb51-74cc-447e-9bdc-afd14f8a7142",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "add new reference point without select a point on the map test",
+              "fullTitle": "the local guide wants to define reference points add new reference point without select a point on the map test",
+              "timedOut": null,
+              "duration": 506,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('button').contains('Add new point').click();\ncy.get('#validationCustom04').type('wy').should('have.value', 'wy');\ncy.contains('Confirm point').click();\ncy.on('window:alert', alert => {\n  expect(alert).to.eq('Please select a point.');\n});\ncy.get('.btn-close').click();",
+              "err": {},
+              "uuid": "fe91e624-f8e0-4c54-83b8-a2f87161d9a8",
+              "parentUUID": "1a08fb51-74cc-447e-9bdc-afd14f8a7142",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "add new reference point after selecting a point on the map test",
+              "fullTitle": "the local guide wants to define reference points add new reference point after selecting a point on the map test",
+              "timedOut": null,
+              "duration": 899,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('.list-group').eq(5).trigger('click', {\n  multiple: true\n});\ncy.contains('Address');\ncy.get('#validationCustom05').should('have.value', 'Via Alessandro Battaglia');\ncy.get('button').contains('Confirm point').click();",
+              "err": {},
+              "uuid": "a158ea5c-1397-4799-8fda-0589f4ff2baa",
+              "parentUUID": "1a08fb51-74cc-447e-9bdc-afd14f8a7142",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "add new reference point without login test",
+              "fullTitle": "the local guide wants to define reference points add new reference point without login test",
+              "timedOut": null,
+              "duration": 152,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('http://localhost:3000/hike/20');\ncy.get('button').contains('Add new point').should('not.exist');",
+              "err": {},
+              "uuid": "85195b88-806b-4b60-82f0-5cc001d28cc7",
+              "parentUUID": "1a08fb51-74cc-447e-9bdc-afd14f8a7142",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "71c35c5b-bd29-47d3-8a0a-f893e92572e7",
+            "5216e006-f2b6-4f02-8b2b-1a061614f438",
+            "fe91e624-f8e0-4c54-83b8-a2f87161d9a8",
+            "a158ea5c-1397-4799-8fda-0589f4ff2baa",
+            "85195b88-806b-4b60-82f0-5cc001d28cc7"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5856,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
