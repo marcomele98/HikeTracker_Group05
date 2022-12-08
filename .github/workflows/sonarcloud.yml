@@ -14,9 +14,9 @@ jobs:
         with:
           fetch-depth: 0  
       - name: Install dependencies
-        run: yarn
+        run: cd server; npm install
       - name: Test and coverage
-        run: cd server; yarn jest --coverage
+        run: cd server; npm run resetDB; npm run test
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
