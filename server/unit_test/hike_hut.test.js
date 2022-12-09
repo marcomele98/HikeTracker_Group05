@@ -58,5 +58,18 @@ describe("hutsDao", () => {
         expect(data2[0].hut_id).toBe(2);
     });
 
+    test('test getHikesHutsByIDs', async() =>  {
 
+        let data1 = await hike.getHikesHutsByIDs(1,1); 
+        let data2 = await hike.getHikesHutsByIDs(2,2); 
+
+        expect(data1.hut_id).toStrictEqual(1);
+        expect(data1.hike_id).toStrictEqual(1);
+        
+        expect(data2.hut_id).toStrictEqual(2);
+        expect(data2.hike_id).toStrictEqual(2);
+
+        let data3 = await hike.getHikesHutsByIDs(2,3);
+        expect(data3).toBe(undefined);
+    });
 })
