@@ -55,4 +55,18 @@ describe("HikeParkingDao", () => {
         expect(data2[0].parking_id).toBe(2);
     });
 
+    test('test getHikesParkingsByIDs', async() =>  {
+
+        let data1 = await hike.getHikesParkingsByIDs(1,1); 
+        let data2 = await hike.getHikesParkingsByIDs(2,2); 
+
+        expect(data1.parking_id).toStrictEqual(1);
+        expect(data1.hike_id).toStrictEqual(1);
+        
+        expect(data2.parking_id).toStrictEqual(2);
+        expect(data2.hike_id).toStrictEqual(2);
+
+        let data3 = await hike.getHikesParkingsByIDs(2,3);
+        expect(data3).toBe(undefined);
+    });
 })
