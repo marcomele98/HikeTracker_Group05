@@ -33,3 +33,13 @@ exports.preferences2 = {
     "province": "CN", 
     "city": "Garessio"
 };
+
+exports.wrongPreferences1 = {
+    ...this.preferences1,
+    'max_length_kms': "110m",
+}
+
+exports.wrongPreferences2 = {
+    ...this.preferences1,
+    'max_difficulty': "High",
+}
