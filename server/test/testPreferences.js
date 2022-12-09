@@ -1,6 +1,5 @@
 const chaiUtility = require('../utilities/chaiUtilities');
 const testUtility = require('../utilities/apiTestUtilities');
-const userObject = require('../testObjects/user');
 const preferencesObject = require('../testObjects/preferences');
 
 describe('get hiker preferences', () => {

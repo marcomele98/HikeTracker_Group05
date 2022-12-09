@@ -1,5 +1,4 @@
 const hutObject = require('../testObjects/hut');
-const userObject = require('../testObjects/user');
 
 const chaiUtility = require('../utilities/chaiUtilities');
 const testUtility = require('../utilities/apiTestUtilities');
