@@ -10,7 +10,9 @@ function ListHuts({ setIsLoading, user }) {
 
     const [huts, setHuts] = useState([]);
     const [search, setSearch] = useState("");
+    const [searchMargin, setSearchMargin] = useState(0);
     const navigate = useNavigate();
+    let search_dim = user.role === 'local guide' ? 10 : 12;
 
     useEffect(() => {
         if (user === "" || (user.role !== 'local guide' && user.role !== 'hiker')) {
@@ -55,19 +57,24 @@ function ListHuts({ setIsLoading, user }) {
                             false
                             :
                             <>
-                                <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10, width:200  }} onClick={() => navigate("/new-hut")}>New Hut</Button>
+                                <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginBottom: 10 }} onClick={() => navigate("/new-hut")}>New Hut</Button>
 
                             </>
                     }
-                    <Col style={{ margin: 0, padding: 0 }} xs={12} sm={12} md={10} lg={10} xl={10} xxl={10}>
-                        <Form.Control
-                            onChange={(e) => setSearch(e.target.value)}
-                            style={{ borderWidth: 3}}
-                            value={search}
-                            type="text"
-                            placeholder="Search"
-                            className="md"
-                        />
+                    <Col style={{ margin: 0 }} className="p-0" xs={12} sm={12} md={search_dim} lg={search_dim} xl={search_dim} xxl={search_dim}>
+                        <Row>
+                            <Col xs={0} sm={0} md={1} lg={1} xl={1} xxl={1}></Col>
+                            <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
+                                <Form.Control
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    style={{ borderWidth: 3 }}
+                                    value={search}
+                                    type="text"
+                                    placeholder="Search"
+                                    className="md"
+                                />
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
                 <ListGroup>
