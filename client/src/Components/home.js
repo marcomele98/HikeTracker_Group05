@@ -48,8 +48,9 @@ function Home({ setIsLoading, user, setUser }) {
             setMinExpectedTime(preferences.min_expected_mins ? preferences.min_expected_mins : "");
             setMaxDifficulty(preferences.max_difficulty ? preferences.max_difficulty : "Professional Hiker");
             setMinDifficulty(preferences.min_difficulty ? preferences.min_difficulty : "Tourist");
-        } catch {
-            toast.error("Server error.", { position: "top-center" }, { toastId: 25 });
+        } catch(err) {
+            console.log(err)
+            toast.error(err===404 ? "No saved preferences" : "Server error.", { position: "top-center" }, { toastId: 25 });
             setIsLoading(false);
         }
     }

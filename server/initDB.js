@@ -231,8 +231,7 @@ db.serialize(function () {
     "INSERT OR IGNORE INTO HIKER_PREFERENCES(user_id, max_length_kms, min_length_kms, max_expected_mins, min_expected_mins,\
      max_ascendent_meters, min_ascendent_meters, max_difficulty, min_difficulty, point_latitude, point_longitude, radius,\
       region, province, city)\
-       VALUES (3, 10, 4, 300, 40, 2000, 500, 'Hiker','Tourist', '44.199400', '7.933390', 50, 'Piemonte', 'CN', 'Garessio'),\
-              (4, 20, 5, 400, 70, 800, 100, 'Hiker','Hiker',  '44.217360', '7.944320', 10, 'Piemonte', 'CN', 'Garessio')"
+       VALUES (4, 20, 5, 400, 70, 800, 100, 'Hiker','Hiker',  '44.217360', '7.944320', 10, 'Piemonte', 'CN', 'Garessio')"
   );
 
   for (let i = 0; i < hikevalues.length; i++) {

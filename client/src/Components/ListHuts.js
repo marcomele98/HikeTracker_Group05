@@ -59,10 +59,10 @@ function ListHuts({ setIsLoading, user }) {
 
                             </>
                     }
-                    <Col style={{ margin: 0, padding: 0 }}>
+                    <Col style={{ margin: 0, padding: 0 }} xs={12} sm={12} md={10} lg={10} xl={10} xxl={10}>
                         <Form.Control
                             onChange={(e) => setSearch(e.target.value)}
-                            style={{ borderWidth: 3 }}
+                            style={{ borderWidth: 3}}
                             value={search}
                             type="text"
                             placeholder="Search"
