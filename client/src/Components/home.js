@@ -48,9 +48,9 @@ function Home({ setIsLoading, user, setUser }) {
             setMinExpectedTime(preferences.min_expected_mins ? preferences.min_expected_mins : "");
             setMaxDifficulty(preferences.max_difficulty ? preferences.max_difficulty : "Professional Hiker");
             setMinDifficulty(preferences.min_difficulty ? preferences.min_difficulty : "Tourist");
-        } catch(err) {
+        } catch (err) {
             console.log(err)
-            toast.error(err===404 ? "No saved preferences" : "Server error.", { position: "top-center" }, { toastId: 25 });
+            toast.error(err === 404 ? "No saved preferences" : "Server error.", { position: "top-center" }, { toastId: 25 });
             setIsLoading(false);
         }
     }
@@ -166,40 +166,41 @@ function Home({ setIsLoading, user, setUser }) {
 
         <>
             <div className="backImage" style={{ backgroundImage: `url(${img})`, opacity: seeFilters ? 0.2 : 1 }}></div>
-            <Container >
+            <Container>
                 <Row style={{ height: 30 }}></Row>
                 <Row className="m-3" style={{ margin: 0, padding: 0 }}>
 
-                    <Row>
+                    
                         {
                             user.role !== 'local guide' ?
                                 false
                                 :
                                 <>
-                                    <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10, width: 200 }} onClick={() => navigate("/new-hike")}>New Hike</Button>
+                                    <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginBottom: 10, marginRight:10 }} onClick={() => navigate("/new-hike")}>New Hike</Button>
                                 </>
 
                         }
+                        
                         <Col style={{ margin: 0, padding: 0, marginBottom: 10 }}>
-                            <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3, width: 200 }} onClick={() => {
+                        <>
+                            <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3 }} onClick={() => {
                                 setSeeFilters((val) => !val);
                             }}>{seeFilters ? "Hide Filters" : "Show Filters"}</Button>
+                            </>
                         </Col>
+    
                         {
                             user.role !== 'hiker' ?
                                 false
                                 :
                                 <>
-                                    <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width: 250, marginBottom: 10 }} onClick={() => {
+                                    <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10,  marginBottom: 10 }} onClick={() => {
                                         getPreferences();
                                     }}>Get Filters From Preferences</Button>
-                                    <Button as={Col} xs={12} sm={12} md={3} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, width: 250, marginBottom: 10 }} onClick={() => {setPreferences()}}>Save Filters As Preferences</Button>
+                                    <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => { setPreferences() }}>Save Filters As Preferences</Button>
                                 </>
 
                         }
-                    </Row>
-
-
                 </Row>
                 {
                     seeFilters ?

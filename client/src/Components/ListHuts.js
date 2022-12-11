@@ -58,13 +58,17 @@ function ListHuts({ setIsLoading, user }) {
                             :
                             <>
                                 <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginBottom: 10 }} onClick={() => navigate("/new-hut")}>New Hut</Button>
-
                             </>
                     }
                     <Col style={{ margin: 0 }} className="p-0" xs={12} sm={12} md={search_dim} lg={search_dim} xl={search_dim} xxl={search_dim}>
                         <Row>
-                            <Col xs={0} sm={0} md={1} lg={1} xl={1} xxl={1}></Col>
-                            <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
+                            {
+                                user.role === 'local guide'
+                                    ?
+                                    <Col xs={0} sm={0} md={1} lg={1} xl={1} xxl={1}></Col>
+                                    : false
+                            }
+                            <Col xs={12} sm={12} md={11} lg={user.role === 'local guide' ? 11 : 12} xl={user.role === 'local guide' ? 11 : 12} xxl={user.role === 'local guide' ? 11 : 12}>
                                 <Form.Control
                                     onChange={(e) => setSearch(e.target.value)}
                                     style={{ borderWidth: 3 }}
