@@ -68,7 +68,7 @@ function ListHuts({ setIsLoading, user }) {
                                     <Col xs={0} sm={0} md={1} lg={1} xl={1} xxl={1}></Col>
                                     : false
                             }
-                            <Col xs={12} sm={12} md={11} lg={user.role === 'local guide' ? 11 : 12} xl={user.role === 'local guide' ? 11 : 12} xxl={user.role === 'local guide' ? 11 : 12}>
+                            <Col>
                                 <Form.Control
                                     onChange={(e) => setSearch(e.target.value)}
                                     style={{ borderWidth: 3 }}
