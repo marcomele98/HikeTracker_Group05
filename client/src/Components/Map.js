@@ -5,6 +5,7 @@ import { ListGroupItem, ListGroup } from "react-bootstrap";
 import '../App.css';
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from 'leaflet'
+import { calcCrow } from '../utilities';
 let gpxParser = require('gpxparser');
 
 
@@ -80,10 +81,7 @@ const Map = (props) => {
 const MapEvents = ({ selected, setSelected, clearAddress }) => {
     useMapEvents({
         click: (e) => {
-            if (selected && (e.latlng.lat !== selected.lat || e.latlng.lng !== selected.lon)){
-                setSelected("")
-                clearAddress()
-            }
+            setSelected({ lat: e.latlng.lat, lon: e.latlng.lng })
         }
     })
     return <></>
@@ -92,13 +90,32 @@ const MapEvents = ({ selected, setSelected, clearAddress }) => {
 
 const SelectorMap = ({ onClick, positions, setPositions, clearAddress }) => {
     const [selected, setSelected] = React.useState();
+    const [point, setPoint] = React.useState();
     const [points, setPoints] = React.useState([])
 
-    React.useEffect(()=>{
-        const maxHalfLength = 500;
-        const ratio = (positions.length / maxHalfLength).toFixed();
-        const filtered_positions =  positions.filter((el, i) => ratio<=2 || i%(ratio*2) == 0)
-        setPoints(filtered_positions);
+    React.useEffect(() => {
+        if (selected) {
+            let minPoint = positions[0];
+            let min = calcCrow(minPoint.lat, minPoint.lon, selected.lat, selected.lon);
+            for (const pos of positions) {
+                const dist = calcCrow(pos.lat, pos.lon, selected.lat, selected.lon)
+                if (dist < min) {
+                    min = dist;
+                    minPoint = pos;
+                }
+            }
+            setPoint(minPoint)
+            onClick(minPoint)
+        } 
+    }, [selected])
+
+
+    React.useEffect(() => {
+        console.log(positions)
+        // const maxHalfLength = 500;
+        // const ratio = (positions.length / maxHalfLength).toFixed();
+        // const filtered_positions =  positions.filter((el, i) => ratio<=2 || i%(ratio*2) == 0)
+        // setPoints(filtered_positions);
     }, [])
 
     const blueIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF"
@@ -121,13 +138,13 @@ const SelectorMap = ({ onClick, positions, setPositions, clearAddress }) => {
                                 scrollWheelZoom={true}
                                 style={{ height: "400px" }}
                             >
-                                <MapEvents selected={selected} setSelected={setSelected} clearAddress={clearAddress}/>
+                                <MapEvents selected={selected} setSelected={setSelected} clearAddress={clearAddress} />
                                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                                 <Polyline
                                     pathOptions={{ fillColor: 'red', color: 'blue' }}
                                     positions={positions}
                                 />
-                                {
+                                {/* {
                                     points
                                         .filter(p => (!selected || (selected.lat === p.lat && selected.lon === p.lon)))
                                         .map((p, i) =>
@@ -145,6 +162,19 @@ const SelectorMap = ({ onClick, positions, setPositions, clearAddress }) => {
                                                     {p.name ? ("Name: " + p.name) : ""} {p.name ? <br /> : false} {"'" + p.lat + "', '" + p.lon + "', '" + p.ele + "', "}
                                                 </Popup>
                                             </Marker>)
+                                } */}
+                                {
+                                    !point ?
+                                        false
+                                        :
+                                        <Marker
+
+                                            position={[point.lat, point.lon, point.ele]}
+                                            icon={new Icon({ iconUrl: greenIconUrl, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+                                            <Popup>
+                                                {point.name ? ("Name: " + point.name) : ""} {point.name ? <br /> : false} {"'" + point.lat + "', '" + point.lon + "', '" + point.ele + "', "}
+                                            </Popup>
+                                        </Marker>
                                 }
                             </MapContainer>
                         </div>

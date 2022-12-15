@@ -1,5 +1,6 @@
 'use strict';
 
+
 const { pm_file1, pm_file2, pm_file3, pm_file4, pm_file5, pm_file6 } = require('./hikes/piemontegpx');
 const { tn_file1, tn_file2, tn_file3, tn_file4, tn_file5, tn_file6, tn_file7, tn_file8 } = require('./hikes/trentinogpx');
 const { li_file1, li_file2, li_file3, li_file4, li_file5, li_file6, li_file7, li_file8 } = require('./hikes/liguriagpx');
@@ -7,7 +8,8 @@ const { va_file1, va_file2, va_file3, va_file4, va_file5, va_file6, va_file7, va
 const { ca_file1, ca_file2, ca_file3, ca_file4, ca_file5, ca_file6, ca_file7, ca_file8 } = require('./hikes/calabriagpx');
 const { ven_file1, ven_file2, ven_file3, ven_file4, ven_file5, ven_file6, ven_file7, ven_file8 } = require('./hikes/venetogpx');
 const { lo_file1, lo_file2, lo_file3, lo_file4, lo_file5, lo_file6, lo_file7, lo_file8 } = require('./hikes/lombardiagpx');
-
+const {ve_h1_img, ve_h2_img, ve_h3_img, ve_h4_img, ve_h5_img, ve_h6_img, ve_h7_img, ve_h8_img} = require("./images/veneto/hikes/getImages.js");
+const {ca_h1_img, ca_h2_img, ca_h3_img, ca_h4_img, ca_h5_img, ca_h6_img, ca_h7_img, ca_h8_img} = require("./images/calabria/hikes/getImages.js");
 
 let hikevalues =
   [
@@ -74,31 +76,31 @@ let hikevalues =
       va_file8, 14, 'Parking point', 14, 'Parking point', 'Good ring route starting from the Summer Park, in the path you can stop to watch the beatiful Tzan lake'],
 
     ['Camigliatello Loop from Camigliatello Silano', 4.08, 77, 110, 'Hiker', 'Calabria', 'CS', 'Spezzano della Sila', 1,
-      ca_file1, 15, 'Parking point', 15, 'Parking point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.'],
+      ca_file1, 15, 'Parking point', 15, 'Parking point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.', ca_h1_img],
     ['Bosco – Parco Nazionale della Sila Loop from Campo San Lorenzo, Easy', 4.70, 90, 140, 'Hiker', 'Calabria', 'CS', 'Spezzano della Sila', 1,
-      ca_file2, 16, 'Parking point', 16, 'Parking point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.'],
+      ca_file2, 16, 'Parking point', 16, 'Parking point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.', ca_h2_img],
     ['La Locomotiva Cafe Loop from San Nicola-Silvana Mansio', 7.64, 132, 190, 'Hiker', 'Calabria', 'CS', 'Casali del Manco', 1,
-      ca_file3, 95, 'general point', 95, 'general point', 'Intermediate Hiking Tour. Good fitness required. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is accessible with public transport.'],
+      ca_file3, 95, 'general point', 95, 'general point', 'Intermediate Hiking Tour. Good fitness required. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is accessible with public transport.', ca_h3_img],
     ['Camigliatello – Acqua Loop from Camigliatello Silano', 6.36, 109, 150, 'Tourist', 'Calabria', 'CS', 'Spezzano della Sila', 1,
-      ca_file4, 97, 'general point', 97, 'general point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is accessible with public transport.'],
+      ca_file4, 97, 'general point', 97, 'general point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is accessible with public transport.', ca_h4_img],
     ['Lago Ampollino Loop from Villaggio Baffa', 4.97, 84, 100, 'Tourist', 'Calabria', 'KR', 'Caprara', 1,
-      ca_file5, 17, 'Hut point', 17, 'Hut point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels.'],
+      ca_file5, 17, 'Hut point', 17, 'Hut point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels.', ca_h5_img],
     ['Riserva I Giganti della Sila Loop from Croce di Magara', 1.57, 33, 40, 'Hiker', 'Calabria', 'CS', 'Spezzano Piccolo', 1,
-      ca_file6, 103, 'general point', 103, 'general point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required.'],
+      ca_file6, 103, 'general point', 103, 'general point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required.', ca_h6_img],
     ['Bosco – Parco Nazionale della Sila Loop from Campo San Lorenzo, Hard', 18.6, 391, 480, 'Professional Hiker', 'Calabria', 'CS', 'Spezzano della Sila', 1,
-      ca_file7, 16, 'Parking point', 16, 'Parking point', 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.'],
+      ca_file7, 16, 'Parking point', 16, 'Parking point', 'Expert Hiking Tour. Very good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.', ca_h7_img],
     ['San Fili Loop', 5.7, 117, 292, 'Hiker', 'Calabria', 'CS', 'San Fili', 1,
-      ca_file8, 109, 'general point', 109, 'general point', 'It starts from San Fili and follows part of the path of San Francesco da Paola to then intersect with the path that runs along the Emoli stream and then returns to the starting point.'],
+      ca_file8, 109, 'general point', 109, 'general point', 'It starts from San Fili and follows part of the path of San Francesco da Paola to then intersect with the path that runs along the Emoli stream and then returns to the starting point.', ca_h8_img],
 
 
-    ['Giardino alpino Antonio Segni – Rifugio Mario Vazzoler ', 8.77, 239, 570, 'Hiker', 'Veneto', 'BL', 'Taibon Agrodino', 1, ven_file1, 17, 'Parking point', 17, 'Parking point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point is near a parking lot.'],
-    ['Laghetto del Vach – Colcerver Itinerario ad anello da Ligont', 11.3, 269, 710, 'Professional Hiker', 'Veneto', 'BL', 'Val di Zoldo', 1, ven_file2, 18, 'Parking point', 18, 'Parking point', 'Hiking route for experts. Good training required. Sure-footedness, sturdy footwear and mountaineering experience required.'],
-    ['Col di Luna Itinerario ad anello da Voltago Agordino', 12.9, 297, 770, 'Hiker', 'Veneto', 'BL', 'Voltago Agrodino', 1, ven_file3, 118, 'general point', 118, 'general point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point and accessible by public transportation.'],
-    ['Giardino alpino Antonio Segni  – Rifugio Mario Vazzoler Itinerario ad anello da Listolade (Ristolade)', 12.3, 312, 730, 'Professional Hiker', 'Veneto', 'BL', 'Taibon Agrodino', 1, ven_file4, 17, 'Parking point', 17, 'Parking point', 'Hiking route for experts. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point is near a parking lot.'],
-    ['Malga di Pramper – Forcella Moschesin Itinerario ad anello da Villaggio Baron', 16.9, 446, 1110, 'Professional Hiker', 'Veneto', 'BL', 'Forno di Zoldo', 1, ven_file5, 20, 'Hut point', 20, 'Hut point', 'Hiking route for experts. Good training required. Sure-footedness, sturdy footwear and mountaineering experience required.'],
-    ['Passo Duran Itinerario ad anello da Fusine', 5.32, 99, 190, 'Hiker', 'Veneto', 'BL', 'La Valle Agordina', 1, ven_file6, 23, 'Hut point', 23, 'Hut point', "Intermediate hiking route. Suitable for all training levels. Mostly accessible trails. Surefootedness required."],
-    ['Laghetto del Vach – Itinerario ad anello da Ligont', 7.28, 147, 380, 'Hiker', 'Veneto', 'BL', 'Val di Zoldo', 1, ven_file7, 18, 'Parking point', 18, 'Parking point', 'Intermediate hiking route. Good training required. Easily passable trails. Suitable for all skill levels.'],
-    ['Forcella – Forcella Sejere Itinerario ad anello da Còi di Pèden', 8.77, 227, 590, 'Hiker', 'Veneto', 'BL', 'Agrodo', 1, ven_file8, 19, 'Parking point', 19, 'Parking point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required.'],
+    ['Giardino alpino Antonio Segni – Rifugio Mario Vazzoler ', 8.77, 239, 570, 'Hiker', 'Veneto', 'BL', 'Taibon Agrodino', 1, ven_file1, 17, 'Parking point', 17, 'Parking point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point is near a parking lot.', ve_h1_img],
+    ['Laghetto del Vach – Colcerver Itinerario ad anello da Ligont', 11.3, 269, 710, 'Professional Hiker', 'Veneto', 'BL', 'Val di Zoldo', 1, ven_file2, 18, 'Parking point', 18, 'Parking point', 'Hiking route for experts. Good training required. Sure-footedness, sturdy footwear and mountaineering experience required.', ve_h2_img],
+    ['Col di Luna Itinerario ad anello da Voltago Agordino', 12.9, 297, 770, 'Hiker', 'Veneto', 'BL', 'Voltago Agrodino', 1, ven_file3, 118, 'general point', 118, 'general point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point and accessible by public transportation.', ve_h3_img],
+    ['Giardino alpino Antonio Segni  – Rifugio Mario Vazzoler Itinerario ad anello da Listolade (Ristolade)', 12.3, 312, 730, 'Professional Hiker', 'Veneto', 'BL', 'Taibon Agrodino', 1, ven_file4, 17, 'Parking point', 17, 'Parking point', 'Hiking route for experts. Good training required. Mostly accessible trails. Safe walking pace required. Tour starting point is near a parking lot.', ve_h4_img],
+    ['Malga di Pramper – Forcella Moschesin Itinerario ad anello da Villaggio Baron', 16.9, 446, 1110, 'Professional Hiker', 'Veneto', 'BL', 'Forno di Zoldo', 1, ven_file5, 20, 'Hut point', 20, 'Hut point', 'Hiking route for experts. Good training required. Sure-footedness, sturdy footwear and mountaineering experience required.', ve_h5_img],
+    ['Passo Duran Itinerario ad anello da Fusine', 5.32, 99, 190, 'Hiker', 'Veneto', 'BL', 'La Valle Agordina', 1, ven_file6, 23, 'Hut point', 23, 'Hut point', "Intermediate hiking route. Suitable for all training levels. Mostly accessible trails. Surefootedness required.", ve_h6_img],
+    ['Laghetto del Vach – Itinerario ad anello da Ligont', 7.28, 147, 380, 'Hiker', 'Veneto', 'BL', 'Val di Zoldo', 1, ven_file7, 18, 'Parking point', 18, 'Parking point', 'Intermediate hiking route. Good training required. Easily passable trails. Suitable for all skill levels.', ve_h7_img],
+    ['Forcella – Forcella Sejere Itinerario ad anello da Còi di Pèden', 8.77, 227, 590, 'Hiker', 'Veneto', 'BL', 'Agrodo', 1, ven_file8, 19, 'Parking point', 19, 'Parking point', 'Intermediate hiking route. Good training required. Mostly accessible trails. Safe walking pace required.', ve_h8_img],
 
     //hike1:
     ['Ritorno alla Cascata Del Cenghen alle Falesie dei Campelli ', 10.28, 159, 715, 'Tourist', 'Lombardia', 'LC', 'Abbadia Lariana', 1,

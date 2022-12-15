@@ -38,6 +38,7 @@ function ListHuts({ setIsLoading, user }) {
             el.province.toLowerCase().includes(search.toLowerCase()) ||
             el.city.toLowerCase().includes(search.toLowerCase()) ||
             el.region.toLowerCase().includes(search.toLowerCase()) ||
+            el.type.toLowerCase().includes(search.toLowerCase()) ||
             (el.email && el.email.toLowerCase().includes(search.toLowerCase())) ||
             (el.phone && el.phone.toLowerCase().includes(search.toLowerCase()))
         )
@@ -87,13 +88,13 @@ function ListHuts({ setIsLoading, user }) {
 
                             huts
                                 .filter(searchFilter)
-                                .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                .sort((a, b) => (a.type.trim() + a.name.trim()).localeCompare(b.type.trim() + b.name.trim()))
                                 .map((h) => (
                                     <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
                                         <ListGroupItem style={{ height: 170, opacity: "85%" }} key={h.id} className="m-3 border-2 rounded-3 shadow">
 
                                             <Row>
-                                                <div className="title">{h.name + " (" + h.type + ")"}</div>
+                                                <div className="title">{h.type + " "+h.name}</div>
                                             </Row>
                                             <Row>
                                                 <div className="textGrayPrimary">{h.region}</div>

@@ -29,6 +29,14 @@ let getCoordsDetails = async (coordinates) => {
     return {...details.address, SubregionCode: provinceToCode[details.address.Subregion] ? provinceToCode[details.address.Subregion] : details.address.Subregion}
 }
 
+let loadImageContent = (file, setImage) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+        setImage(reader.result)
+    }
+    reader.readAsDataURL(file);
+}
+
 const provinceToCode = {  
 
     'Agrigento': 'AG',
@@ -479,4 +487,4 @@ const codeToProvince = {
 
 
 
-export {calcCrow, codeToProvince, provinceToCode, getCoordsDetails}
+export {calcCrow, codeToProvince, provinceToCode, getCoordsDetails, loadImageContent}

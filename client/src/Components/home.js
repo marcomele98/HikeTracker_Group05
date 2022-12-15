@@ -168,7 +168,7 @@ function Home({ setIsLoading, user, setUser }) {
             <div className="backImage" style={{ backgroundImage: `url(${img})`, opacity: seeFilters ? 0.2 : 1 }}></div>
             <Container>
                 <Row style={{ height: 30 }}></Row>
-                <Row className="m-3" style={{ margin: 0, padding: 0 }}>
+                <Row className="m-3" style={{ margin: 0, padding: 0, }}>
 
                     
                         {
@@ -196,8 +196,8 @@ function Home({ setIsLoading, user, setUser }) {
                                 <>
                                     <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10,  marginBottom: 10 }} onClick={() => {
                                         getPreferences();
-                                    }}>Get Filters From Preferences</Button>
-                                    <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => { setPreferences() }}>Save Filters As Preferences</Button>
+                                    }}>Get Preferences</Button>
+                                    <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => { setPreferences() }}>Save Preferences</Button>
                                 </>
 
                         }
@@ -414,7 +414,7 @@ function FilterForm({
         <>
             <Form className="filterForm" onSubmit={handleSubmit}>
                 <Row>
-                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
+                    <Col xs={11} sm={11} md={5} lg={5} xl={5} xxl={5}>
                         <FormElement
                             label="Province"
                             onChange={(ev) => setProvince(ev.target.value.toUpperCase().replace(/[^a-z]/gi, ''))}
@@ -424,7 +424,7 @@ function FilterForm({
                             maxLength={2}
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
+                    <Col xs={11} sm={11} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
                         <FormElement
                             label="City"
                             onChange={(ev) => setCity(ev.target.value.replace(/[^a-z\s]/gi, ''))}
@@ -438,7 +438,7 @@ function FilterForm({
 
                 <Form.Group>
                     <Row style={{ height: 10 }}></Row>
-                    <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} >
+                    <Col xs={11} sm={11} md={11} lg={11} xl={11} xxl={11} >
                         <FormElement
                             label="Radius (km)"
                             onChange={(ev) => setRadius(ev.target.value)}
@@ -450,7 +450,7 @@ function FilterForm({
                     <Row style={{ height: 5 }}></Row>
 
                     <Row>
-                        <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} >
+                        <Col xs={11} sm={11} md={11} lg={11} xl={11} xxl={11} >
                             <CliccableMap
                                 setPosition={setPosition}
                                 position={position}
@@ -464,7 +464,7 @@ function FilterForm({
 
                 <Row>
 
-                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
+                    <Col xs={11} sm={11} md={5} lg={5} xl={5} xxl={5}>
                         <MaxMinRange
                             label={"Ascent (m): "}
                             setMax={setMaxAscent}
@@ -475,7 +475,7 @@ function FilterForm({
                             rangeMin={0}
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
+                    <Col xs={11} sm={11} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
                         <MaxMinRange
                             label={"Length (km): "}
                             setMax={setMaxLength}
@@ -486,7 +486,7 @@ function FilterForm({
                             rangeMin={0}
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
+                    <Col xs={11} sm={11} md={5} lg={5} xl={5} xxl={5}>
                         <MaxMinRange
                             label={"Expected time (min): "}
                             setMax={setMaxExpectedTime}
@@ -497,7 +497,7 @@ function FilterForm({
                             rangeMin={0}
                         />
                     </Col>
-                    <Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
+                    <Col xs={11} sm={11} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
                         <DifficultyRange
                             label="Difficulty:"
                             setMin={setMinDifficulty}

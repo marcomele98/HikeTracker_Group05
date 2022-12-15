@@ -4,8 +4,8 @@ const db = require('./DAO');
 
 
 exports.newHike = async (hike, lg_id) => {
-        const sql = 'INSERT INTO HIKE(title, length_kms, expected_mins, ascendent_meters, difficulty, description, region, province, city, lg_id, gpx) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-        let result = await db.insert(sql, [hike.title, hike.length_kms, hike.expected_mins, hike.ascendent_meters, hike.difficulty, hike.description, hike.region, hike.province.toUpperCase(), hike.city, lg_id, hike.gpx]);
+        const sql = 'INSERT INTO HIKE(title, length_kms, expected_mins, ascendent_meters, difficulty, description, region, province, city, lg_id, gpx, image) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        let result = await db.insert(sql, [hike.title, hike.length_kms, hike.expected_mins, hike.ascendent_meters, hike.difficulty, hike.description, hike.region, hike.province.toUpperCase(), hike.city, lg_id, hike.gpx, hike.image]);
         return result;
 }
 

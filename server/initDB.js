@@ -80,6 +80,7 @@ db.serialize(function () {
      "start_point" INTEGER,\
      "start_point_type" TEXT,\
      "description"TEXT,\
+     "image" TEXT,\
      PRIMARY KEY("id" AUTOINCREMENT),\
      FOREIGN KEY("lg_id") REFERENCES "USER"("id") on DELETE CASCADE\
     );'
@@ -116,6 +117,7 @@ db.serialize(function () {
        "phone" TEXT,\
        "email" TEXT,\
        "description" TEXT,\
+       "image" TEXT,\
         PRIMARY KEY("id" AUTOINCREMENT)\
     );'
   );
@@ -237,9 +239,9 @@ db.serialize(function () {
   for (let i = 0; i < hikevalues.length; i++) {
     db.run(
       "INSERT OR IGNORE INTO HIKE(title,length_kms,expected_mins,ascendent_meters,difficulty,region,province, city, lg_id, gpx,\
-       end_point, end_point_type, start_point, start_point_type, description)\
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ", hikevalues[i][0], hikevalues[i][1], hikevalues[i][2], hikevalues[i][3], hikevalues[i][4], hikevalues[i][5], hikevalues[i][6],
-      hikevalues[i][7], hikevalues[i][8], hikevalues[i][9], hikevalues[i][10], hikevalues[i][11], hikevalues[i][12], hikevalues[i][13], hikevalues[i][14],
+       end_point, end_point_type, start_point, start_point_type, description, image)\
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?, ?) ", hikevalues[i][0], hikevalues[i][1], hikevalues[i][2], hikevalues[i][3], hikevalues[i][4], hikevalues[i][5], hikevalues[i][6],
+      hikevalues[i][7], hikevalues[i][8], hikevalues[i][9], hikevalues[i][10], hikevalues[i][11], hikevalues[i][12], hikevalues[i][13], hikevalues[i][14], hikevalues[i][15],
       (err) => {
         if (err) {
           throw err;
@@ -279,9 +281,9 @@ db.serialize(function () {
 
   for (let i = 0; i < hutsvalues.length; i++) {
     db.run(
-      "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, city, number_of_beds,phone, email, description)\
-      VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?)", hutsvalues[i][0], hutsvalues[i][1], hutsvalues[i][2], hutsvalues[i][3], hutsvalues[i][4],
-      hutsvalues[i][5], hutsvalues[i][6], hutsvalues[i][7], hutsvalues[i][8], hutsvalues[i][9], hutsvalues[i][10], hutsvalues[i][11],
+      "INSERT INTO HUT(name,latitude, longitude, altitude,type, region, province, city, number_of_beds,phone, email, description, image)\
+      VALUES ( ?,?,?,?,?,?,?,?,?,?,?,?, ?)", hutsvalues[i][0], hutsvalues[i][1], hutsvalues[i][2], hutsvalues[i][3], hutsvalues[i][4],
+      hutsvalues[i][5], hutsvalues[i][6], hutsvalues[i][7], hutsvalues[i][8], hutsvalues[i][9], hutsvalues[i][10], hutsvalues[i][11], hutsvalues[i][12],
       (err) => {
         if (err) {
           throw err;

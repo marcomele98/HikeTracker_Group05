@@ -5,7 +5,7 @@ import { CliccableMap } from "./cliccableMap";
 import { toast } from "react-toastify";
 import API from "../API";
 import { getCoordsDetails } from "../utilities"
-
+import { ImageInput } from "./imageInput"
 
 const HutForm = (props) => {
 
@@ -22,6 +22,8 @@ const HutForm = (props) => {
     const [description, setDescription] = useState("");
     const [validated, setValidated] = useState(false);
     const [errMsg, setErrMsg] = useState("");
+    const [image, setImage] = useState();
+	const [imagePath, setImagePath] = useState("");
 
     const navigate = useNavigate();
 
@@ -90,7 +92,8 @@ const HutForm = (props) => {
             number_of_beds: numberBeds,
             phone,
             email,
-            description
+            description, 
+            image
         }
 
 
@@ -170,7 +173,7 @@ const HutForm = (props) => {
 
                     <Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
                         <Form.Group className={"mb-4"} controlId="validationCustom03">
-                            <Form.Label className={"fs-4"}>Altitude</Form.Label>
+                            <Form.Label className={"fs-4"}>{"Altitude (m)"}</Form.Label>
                             <Form.Control
                                 required
                                 type="number"
@@ -240,6 +243,8 @@ const HutForm = (props) => {
                     </Form.Group>
                 </Row>
 
+                <ImageInput setImage={setImage} imagePath={imagePath} setImagePath={setImagePath}></ImageInput>
+
                 <Row className="justify-content-center mb-4">
                     <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
                         <CliccableMap position={position} setPosition={setPosition}></CliccableMap>
@@ -263,7 +268,7 @@ const HutForm = (props) => {
                                             placeholder="Insert region"
                                             value={region}
                                         />
-                                        <Form.Control.Feedback type="invalid">Please insert correct length</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid">Please insert correct region</Form.Control.Feedback>
                                     </Form.Group>
                                 </Col>
 

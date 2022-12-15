@@ -7,7 +7,9 @@ import API from "../API";
 import { Pencil } from "react-bootstrap-icons";
 import { Map } from "./Map"
 import { calcCrow } from "../utilities";
+import { ImageComponent } from './imageFromBase64';
 import AddPointForm from "./AddPointForm";
+
 let gpxParser = require('gpxparser');
 
 function HikePage({ setIsLoading, loggedIn, user }) {
@@ -35,38 +37,63 @@ function HikePage({ setIsLoading, loggedIn, user }) {
         getHikesFromServer()
     }, [hikeId])
 
+    // useEffect(() => {
+    //     if(hike?.image){
+    //         console.log(hike.image)
+    //     }
+    // }, [hike?.image])
+
+
     return (
         !hike ?
             undefined
             :
             <Container>
                 <Col>
+
+                    {
+                        hike.image ?
+                            <>
+                                <Row style={{ height: 20 }}></Row>
+                                <ImageComponent base64String={hike.image}></ImageComponent>
+                            </>
+                            : false
+                    }
                     <Row style={{ height: 20 }}></Row>
-                    <Row>
+                    <Row >
                         <div className="titleBig">{hike.title}</div>
                     </Row>
                     <Row style={{ height: 20 }}></Row>
-                    <Row>
-                        <div className="textGrayPrimaryItalic">{hike.description}</div>
+
+                    <Row >
+                        <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                            <div className="textGrayPrimaryBig">{hike.region + " - " + hike.city + " (" + hike.province + ")"}</div>
+                        </Col>
                     </Row>
                     <Row style={{ height: 20 }}></Row>
-                    <Row>
-                        <div className="textGrayPrimaryBig">{hike.region}</div>
+                    <Row >
+                        <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                            <div className="textGrayPrimaryItalic">{hike.description}</div>
+                        </Col>
                     </Row>
-                    <Row>
-                        <div className="textGrayPrimaryBig">{hike.city + " (" + hike.province + ")"}</div>
-                    </Row>
-                    <Row>
-                        <div className="textGrayPrimaryBig">{"Ascent: " + hike.ascendent_meters + " m"}</div>
-                    </Row>
-                    <Row>
-                        <div className="textGrayPrimaryBig">{"Length: " + hike.length_kms + " km"}</div>
-                    </Row>
-                    <Row>
-                        <div className="textGrayPrimaryBig">{"Expected time: " + hike.expected_mins + " min"}</div>
-                    </Row>
-                    <Row>
-                        <div className="textGrayPrimaryBig">{"Difficulty: " + hike.difficulty}</div>
+
+
+                    <Row style={{ height: 20 }}></Row>
+                    <Row >
+
+                        <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                            <div className="textGrayPrimaryBig">{"Ascent: " + hike.ascendent_meters + " m"}</div>
+                        </Col>
+                        <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                            <div className="textGrayPrimaryBig">{"Length: " + hike.length_kms + " km"}</div>
+                        </Col>
+                        <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                            <div className="textGrayPrimaryBig">{"Expected time: " + hike.expected_mins + " min"}</div>
+                        </Col>
+                        <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                            <div className="textGrayPrimaryBig">{"Difficulty: " + hike.difficulty}</div>
+                        </Col>
+
                     </Row>
                     <Row style={{ height: 20 }}></Row>
                     {
@@ -74,7 +101,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             (
                                 <>
                                     <Row>
-                                        <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+                                        <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                                             <Map hike={hike}></Map>
                                         </Col>
                                     </Row>
@@ -153,7 +180,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     {
                         hike.huts.length === 0
                             ?
-                            <div className="textGrayPrimary" style={{marginLeft:10}}>No hut linked to this hike</div>
+                            <div className="textGrayPrimary" style={{ marginLeft: 10 }}>No hut linked to this hike</div>
                             :
                             (
                                 <>
@@ -161,7 +188,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                         <ListGroup>
                                             {
                                                 hike.huts
-                                                    .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
+                                                    .sort((a, b) => (a.type.trim() + a.name.trim()).localeCompare(b.type.trim() + b.name.trim()))
                                                     .map((h) =>
                                                         <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
                                                             <Hut key={h.id} hut={h} user={user}></Hut>
@@ -183,7 +210,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 
                         hike.parking_lots.length === 0
                             ?
-                            <div className="textGrayPrimary" style={{marginLeft:10}}>No parking lots linked to this hike</div>
+                            <div className="textGrayPrimary" style={{ marginLeft: 10 }}>No parking lots linked to this hike</div>
                             :
                             (
                                 <>
@@ -209,7 +236,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 
                     {hike.points.length === 0
                         ?
-                        <div className="textGrayPrimary" style={{marginLeft:10}}>No reference points linked to this hike</div>
+                        <div className="textGrayPrimary" style={{ marginLeft: 10 }}>No reference points linked to this hike</div>
                         :
                         (
                             <>
@@ -302,7 +329,7 @@ const Hut = ({ hut, key, user }) => {
         <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
             <Col className='point'>
                 <Row>
-                    <div className="pointTitle">{hut.name + " (" + hut.type + ")"}</div>
+                    <div className="pointTitle">{hut.type + " " + hut.name}</div>
                 </Row>
                 <Row>
                     <div className="textGrayPrimary">{hut.region}</div>
@@ -473,33 +500,37 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
     return (
         <Form className='m-3' onSubmit={handleSubmit}>
             <Row style={{ height: 20 }} />
-            <Row>
+
+            <Col className="mb-1 mt-2" xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
                 <Form.Group>
                     <Form.Label className='formLabel'>{"Select the new " + selected + ":"}</Form.Label>
-                    <Form.Select
-                        onChange={(e) => { setType(e.target.value) }}
-                        style={{ width: 400, borderWidth: 3 }}
-                    >
-                        <option value={"default"}>
-                            Default
-                        </option>
-                        <option value={"hut"}>
-                            Hut
-                        </option>
-                        <option value={"parking lot"}>
-                            Parking Lot
-                        </option>
-                    </Form.Select>
+                    <Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
+                        <Form.Select
+                            onChange={(e) => { setType(e.target.value) }}
+                            style={{ borderWidth: 3 }}
+                        >
+                            <option value={"default"}>
+                                Default
+                            </option>
+                            <option value={"hut"}>
+                                Hut
+                            </option>
+                            <option value={"parking lot"}>
+                                Parking Lot
+                            </option>
+                        </Form.Select>
+                    </Col>
                 </Form.Group>
                 <Row style={{ height: 10 }} />
                 {
                     type === "default"
                         ?
-                        <AddPointForm autoGetAddress={type === "default"} rowClassName='justify-content-left' boxStyle={{ width: 400, borderWidth: 3 }} hideTitle={true} textSmall={true} textStyle={{}} point={newPoint} setPoint={setNewPoint} type={selected === "start point" ? "Start point" : "End point"} />
+                        <AddPointForm autoGetAddress={type === "default"} rowClassName='justify-content-left' boxStyle={{ borderWidth: 3 }} hideTitle={true} textSmall={true} textStyle={{}} point={newPoint} setPoint={setNewPoint} type={selected === "start point" ? "Start point" : "End point"} />
                         :
                         <HutParkSelector list={type === "hut" ? huts : parks} type={type} setNewPoint={setNewPoint}></HutParkSelector>
                 }
-            </Row>
+            </Col>
+
             {
                 type === "default" ?
                     <Row style={{ height: 0 }} />
@@ -541,7 +572,7 @@ const HutParkSelector = ({ list, type, setNewPoint }) => {
                         <Form.Label className='formLabel'>{"Select the " + type + ":"}</Form.Label>
                         <Form.Select
                             onChange={(e) => { setNewPoint(e.target.value) }}
-                            style={{ width: 400, borderWidth: 3 }}
+                            style={{ borderWidth: 3 }}
                         >
                             {
                                 list.map(l => <option key={l.id} value={l.id}>{l.name}</option>)
@@ -584,7 +615,7 @@ const NewRefPoint = ({ user, hike, setIsLoading, setHike, }) => {
     }
 
     return (
-        <Row>
+        <>
 
             {hike.lg_id === user.id
                 ?
@@ -592,7 +623,7 @@ const NewRefPoint = ({ user, hike, setIsLoading, setHike, }) => {
 
                     <Col className="mb-1 mt-2" xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
                         {showForm ?
-                            <AddPointForm points={gpxPoints} setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"} onConfirm={onConfirm} rowClassName='justify-content-left' boxStyle={{ width: 400, borderWidth: 3 }} hideTitle={true} textSmall={true} textStyle={{}} ></AddPointForm>
+                            <AddPointForm points={gpxPoints} setShowForm={setShowForm} setReferencePoints={setReferencePoints} referencePoints={referencePoints} type={"New point"} onConfirm={onConfirm} rowClassName='justify-content-left' boxStyle={{ borderWidth: 3 }} hideTitle={true} textSmall={true} textStyle={{}} ></AddPointForm>
                             :
                             <Col className="mb-1 mt-2" xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
                                 <Button variant="outline-success" style={{ width: 200, borderWidth: 3 }} onClick={() => setShowForm(true)}>Add new point</Button>
@@ -603,7 +634,7 @@ const NewRefPoint = ({ user, hike, setIsLoading, setHike, }) => {
                 </div>
                 : false
             }
-        </Row>
+        </>
     )
 }
 

@@ -127,7 +127,7 @@ const ParkingForm = (props) => {
 
                     <Col xs={12} sm={12} md={{ span: 3, offset: 1 }} lg={{ span: 3, offset: 1 }} xl={{ span: 3, offset: 1 }} xxl={{ span: 3, offset: 1 }}>
                         <Form.Group className={"mb-4"} controlId="validationCustom03">
-                            <Form.Label className={"fs-4"}>Altitude</Form.Label>
+                            <Form.Label className={"fs-4"}>{"Altitude (m)"}</Form.Label>
                             <Form.Control
                                 required
                                 type="number"
@@ -143,11 +143,11 @@ const ParkingForm = (props) => {
 
                     <Col xs={12} sm={12} md={{ span: 3, offset: 1 }} lg={{ span: 3, offset: 1 }} xl={{ span: 3, offset: 1 }} xxl={{ span: 3, offset: 1 }}>
                         <Form.Group className={"mb-4"} controlId="validationCustom02">
-                            <Form.Label className={"fs-4"}>Capacity</Form.Label>
+                            <Form.Label className={"fs-4"}>Available Slots</Form.Label>
                             <Form.Control
                                 required
                                 type="number"
-                                placeholder="Insert capacity"
+                                placeholder="Insert available slots"
                                 value={capacity}
                                 onChange={(e) => {
                                     setCapacity(e.target.value);

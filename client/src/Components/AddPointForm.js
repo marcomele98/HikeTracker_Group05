@@ -102,8 +102,8 @@ const AddPointForm = (props) => {
 					: <></>
 				}
 
-				<Row className={props.rowClassName ? props.rowClassName : "justify-content-center"}>
-					<Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
+				<Row  className={props.rowClassName ? props.rowClassName : "justify-content-center"}>
+					<Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5} style={{paddingRight:0}}>
 						<Form.Group className={"mb-4"} controlId="validationCustom04">
 							<Form.Label className={props.textSmall ? "formLabel" : "fs-4"}>Name</Form.Label>
 							<Form.Control
@@ -120,7 +120,7 @@ const AddPointForm = (props) => {
 					</Col>
 
 
-					<Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
+					<Col style={{paddingRight:0}} xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
 						{
 							address
 								?

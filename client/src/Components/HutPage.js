@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { Row, Container, Col } from "react-bootstrap";
 import { PointMap } from "./cliccableMap";
+import { ImageComponent } from './imageFromBase64';
 import API from "../API";
 
 
@@ -40,9 +41,19 @@ function HutPage({ setIsLoading, user }) {
         (hut) ?
             <Container>
                 <Col>
+
+                    {
+                        hut.image ?
+                            <>
+                                <Row style={{ height: 20 }}></Row>
+                                <ImageComponent base64String={hut.image}></ImageComponent>
+                            </>
+                            : false
+                    }
+
                     <Row style={{ height: 20 }}></Row>
                     <Row>
-                        <div className="titleBig">{hut.name + " (" + hut.type + ")"}</div>
+                        <div className="titleBig">{hut.type + " " + hut.name}</div>
                     </Row>
                     {
                         !hut.description
@@ -57,44 +68,46 @@ function HutPage({ setIsLoading, user }) {
                                 <Row style={{ height: 20 }}></Row>
                             </>
                     }
-                    <Row>
-                        <div className="textGrayPrimaryBig">{hut.region}</div>
+                    <Row >
+                        <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                            <div className="textGrayPrimaryBig">{hut.region + " - " + hut.city + " (" + hut.province + ")"}</div>
+                        </Col>
+                    </Row>
+                    <Row style={{ height: 20 }}></Row>
+                    <Row >
+
+                        {
+                            !hut.phone
+                                ?
+                                false
+                                :
+                                <Col xs={12} sm={12} md={12} lg={12} xl={4} xxl={4}>
+                                    <div className="textGrayPrimaryBig">{"Phone number: " + hut.phone}</div>
+                                </Col>
+                        }
+
+                        {
+                            !hut.email
+                                ?
+                                false
+                                :
+                                <Col xs={12} sm={12} md={12} lg={12} xl={4} xxl={4}>
+                                    <div className="textGrayPrimaryBig">{"Email: " + hut.email}</div>
+                                </Col>
+                        }
+                        {
+                            !hut.number_of_beds
+                                ?
+                                false
+                                :
+                                <Col xs={12} sm={12} md={12} lg={12} xl={4} xxl={4}>
+                                    <div className="textGrayPrimaryBig">{"Beds: " + hut.number_of_beds}</div>
+                                </Col>
+                        }
+
                     </Row>
                     <Row>
-                        <div className="textGrayPrimaryBig">{hut.city + " (" + hut.province + ")"}</div>
-                    </Row>
-
-                    {
-                        !hut.number_of_beds
-                            ?
-                            false
-                            :
-                            <Row>
-                                <div className="textGrayPrimaryBig">{"Beds: " + hut.number_of_beds}</div>
-                            </Row>
-                    }
-
-                    {
-                        !hut.phone
-                            ?
-                            false
-                            :
-                            <Row>
-                                <div className="textGrayPrimaryBig">{"Phone number: " + hut.phone}</div>
-                            </Row>
-                    }
-
-                    {
-                        !hut.email
-                            ?
-                            false
-                            :
-                            <Row>
-                                <div className="textGrayPrimaryBig">{"Email: " + hut.email}</div>
-                            </Row>
-                    }
-                    <Row>
-                        <Col xs={12} sm={10} md={8} lg={8} xl={8} xxl={8}>
+                        <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                             <PointMap position={{ name: hut.name, lat: hut.latitude, lng: hut.longitude, altitude: hut.altitude }}></PointMap>
                         </Col>
                     </Row>

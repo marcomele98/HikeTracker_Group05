@@ -49,7 +49,7 @@
 .titleBig {
   font-size: 30px;
   text-align: left;
-  margin-left: 1%;
+  margin-left: 1vh;
 }
 
 .marginLeft1{
@@ -71,14 +71,14 @@
   font-size: 17px;
   color: #6f747a;
   font-style: italic;
-  margin-left: 1%;
+  margin-left: 3vh;
 }
 
 .textGrayPrimaryBig {
   text-align: left;
   font-size: 20px;
   color: #495057;
-  margin-left: 1%;
+  margin-left: 3vh;
 }
 
 .filterForm {
@@ -171,6 +171,11 @@
   z-index:-1;
 }
 
+#hikeImage {
+  height: 500px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
 
 
 #map {height: 400px;}

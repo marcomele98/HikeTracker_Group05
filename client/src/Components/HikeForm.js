@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Map } from "./Map"
 import { getCoordsDetails } from "../utilities"
+import { ImageInput } from "./imageInput"
 let gpxParser = require('gpxparser');
 
 const HikeForm = (props) => {
@@ -31,7 +32,9 @@ const HikeForm = (props) => {
 	const [validated, setValidated] = useState(false);
 	const [allPoints, setAllPoints] = useState([]);
 	const [gpxPoints, setGpxPoints] = useState([])
-	const reader = new FileReader();
+	const [image, setImage] = useState();
+	const [imagePath, setImagePath] = useState("");
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -56,7 +59,7 @@ const HikeForm = (props) => {
 
 	const getValuesFromGPX = async (fileGPX) => {
 		gpx.parse(fileGPX);
-		const l = parseFloat(gpx.tracks[0].distance.total).toFixed(2);
+		const l = parseFloat(gpx.tracks[0].distance.total / 1000).toFixed(2);
 		const a = parseFloat(gpx.tracks[0].elevation.max - gpx.tracks[0].elevation.min).toFixed(2);
 		setGpxPoints(gpx.tracks[0].points)
 		setLength(l);
@@ -107,9 +110,6 @@ const HikeForm = (props) => {
 	};
 
 
-
-
-
 	useEffect(() => {
 		if (!props.user !== "" && props.user.role !== 'local guide') {
 			navigate("/");
@@ -117,12 +117,16 @@ const HikeForm = (props) => {
 
 	}, [props.user]);
 
+
+
 	const loadGPXContent = (file) => {
+		const reader = new FileReader();
 		reader.readAsText(file[0]);
 		reader.onloadend = () => {
 			setFileGPX(reader.result);
 		}
 	}
+
 
 
 	const deletePoint = (point) => {
@@ -142,6 +146,7 @@ const HikeForm = (props) => {
 			province,
 			city,
 			gpx: fileGPX,
+			image,
 			start_point: startPoint,
 			end_point: endPoint,
 			reference_points: referencePoints
@@ -192,7 +197,7 @@ const HikeForm = (props) => {
 				<Row className="justify-content-center">
 					<Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
 						<Form.Group className={"mb-4"} controlId="validationCustom03">
-							<Form.Label className={"fs-4"}>Expected Time</Form.Label>
+							<Form.Label className={"fs-4"}>{"Expected Time (mins)"}</Form.Label>
 							<Form.Control
 								required
 								type="number"
@@ -238,6 +243,8 @@ const HikeForm = (props) => {
 						<Form.Control.Feedback type="invalid">Please insert correct description</Form.Control.Feedback>
 					</Form.Group>
 				</Row>
+
+				<ImageInput setImage={setImage} imagePath={imagePath} setImagePath={setImagePath}></ImageInput>
 
 
 				<Row className="justify-content-center">
@@ -322,7 +329,7 @@ const HikeForm = (props) => {
 							<Row className="justify-content-center">
 								<Col xs={12} sm={12} md={5} lg={5} xl={5} xxl={5}>
 									<Form.Group className={"mb-4"} controlId="validationCustom02">
-										<Form.Label className={"fs-4"}>Length</Form.Label>
+										<Form.Label className={"fs-4"}>{"Length (km)"}</Form.Label>
 										<Form.Control
 											required
 											disabled
@@ -338,7 +345,7 @@ const HikeForm = (props) => {
 
 								<Col xs={12} sm={12} md={{ span: 5, offset: 1 }} lg={{ span: 5, offset: 1 }} xl={{ span: 5, offset: 1 }} xxl={{ span: 5, offset: 1 }}>
 									<Form.Group className={"mb-4"} controlId="validationCustom04">
-										<Form.Label className={"fs-4"}>Ascent</Form.Label>
+										<Form.Label className={"fs-4"}>{"Ascent (m)"}</Form.Label>
 										<Form.Control
 											required
 											disabled

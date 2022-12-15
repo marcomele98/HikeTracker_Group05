@@ -17,6 +17,7 @@ const { HikeDescription, HikesView } = require('./Services/hike');
 const { ParkingLotsDescription } = require('./Services/parkin_lots');
 const { HutDescription } = require('./Services/huts');
 const { Preferences } = require('./Services/preferences');
+const bodyParser = require('body-parser');
 const parkin_lot = new ParkingLotsDescription;
 const hut = new HutDescription;
 const hike = new HikeDescription;
@@ -65,7 +66,7 @@ const port = 3001;
 
 // set-up the middlewares
 app.use(morgan('dev'));
-app.use(express.json());
+app.use(express.json({limit: "50mb"}));
 const corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true,
