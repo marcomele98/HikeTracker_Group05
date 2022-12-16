@@ -48,6 +48,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 
 
     const onHandleStart = async(timestamp) => {
+        handleClose();
         try {
             setIsLoading(true);
             await API.startHike(hike.id, timestamp)
@@ -63,6 +64,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
     }
 
     const onHandleEnd = async(timestamp) => {
+        handleClose();
         console.log("passerò al backend: " + timestamp)
     }
 

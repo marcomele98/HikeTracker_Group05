@@ -11,7 +11,6 @@ const EditDateModal = (props) => {
 
     React.useEffect(()=>{
         if(props.show===true){
-            console.log("aggiorno date e time")
             setDate(moment().format('YYYY-MM-DD'))
             setTime(dayjs().format('HH:mm'))
         }
@@ -27,8 +26,7 @@ const EditDateModal = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.onHandle(date + " " + time + ":00");
-        props.handleClose();
+        props.onHandle(date + " " + time + ":00");   
     }
 
     return (
@@ -53,7 +51,7 @@ const EditDateModal = (props) => {
                             <Form.Control 
                             type="time" 
                             value={time} 
-                            onChange={handleTimeChange} />
+                            onChange={handleTimeChange}/>
                         </InputGroup>
                     </Form.Group>
                     <br/>
