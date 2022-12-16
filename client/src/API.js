@@ -61,12 +61,31 @@ async function getHikes() {
 }
 
 async function getHikeById(id) {
-  const response = await fetch(new URL('hike/' + id, APIURL));
+  const response = await fetch(new URL('hike/' + id, APIURL), {
+    credentials: 'include',
+  });
   const hike = await response.json();
   if (response.ok) {
     return hike;
   } else {
     throw response.status;  // an object with the error coming from the server
+  }
+}
+
+async function startHike(id, date_time) {
+  const response = await fetch(new URL('startHike/' + id, APIURL), {
+    method: 'POST', 
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(date_time),
+  });
+  if (response.ok) {
+    return null;
+  } else {
+    const errDetail = await response.json();
+    throw errDetail
   }
 }
 
