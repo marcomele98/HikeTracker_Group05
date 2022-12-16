@@ -421,6 +421,34 @@ class HikeDescription {
             return res.status(503).json(message)
         }
     }
+
+    async startHikeByHiker(req, res) {
+        let hikeId = req.params.hikeId;
+        let hikerId = req.user.id;
+        let role = req.user.role;
+        let date_time = req.body.date_time;
+        let message = "";
+
+        console.log(date_time);
+
+        if (role !== "hiker") {
+            return res.status(401).json("Not authenticated as a hiker.");
+        }
+
+        if (servicesUtility.isNotValidDateTime(date_time)) {
+            let message = "Invalid date-time format."
+            return res.status(422).json(message);
+        }
+
+        try {
+            await db.startHikeByHiker(hikeId, hikerId, date_time);
+            return res.status(200).end();
+        }
+        catch (err) {
+            message = "Server error"
+            return res.status(503).json(err)
+        }
+    }
 }
 
 

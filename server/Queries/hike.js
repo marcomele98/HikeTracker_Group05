@@ -82,7 +82,10 @@ exports.getHikeByHiker = async (hike_id, hiker_id) => {
         return result;
 }
 
-exports.startHikeByHiker = async (hike_id, hiker_id) => {
-        
+exports.startHikeByHiker = async (hike_id, hiker_id, start_time) => {
+        const sql = "INSERT INTO HIKE_HIKER(hike_id, hiker_id, start_time)\
+                        VALUES(?, ?, ?)"
+        let result = db.insert(sql, [hike_id, hiker_id, start_time]);
+        return result;
 }
 

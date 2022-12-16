@@ -72,6 +72,23 @@ async function getHikeById(id) {
   }
 }
 
+async function startHike(id, date_time) {
+  const response = await fetch(new URL('startHike/' + id, APIURL), {
+    method: 'POST', 
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(date_time),
+  });
+  if (response.ok) {
+    return null;
+  } else {
+    const errDetail = await response.json();
+    throw errDetail
+  }
+}
+
 async function newHikeDescription(hike) {
   let response = await fetch(new URL('hike', APIURL), {
 

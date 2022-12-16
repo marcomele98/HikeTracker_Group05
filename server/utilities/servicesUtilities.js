@@ -64,3 +64,13 @@ exports.isNotValidPointUser = (point) => {
         point.point_longitude === null || point.point_longitude < -180 || point.point_longitude > 180 ||
         !regexpLongitude.test(point.point_longitude);
 }
+
+exports.isNotValidDateTime = (date_time) => {
+    let date = date_time.split(" ")[0];
+    let time = date_time.split(" ")[1];
+    
+    let regexp_date = new RegExp('^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$');
+    let regexp_time = new RegExp('(2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]')
+
+    return !regexp_date.test(date) || !regexp_time.test(time);
+}
