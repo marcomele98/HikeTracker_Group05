@@ -61,7 +61,9 @@ async function getHikes() {
 }
 
 async function getHikeById(id) {
-  const response = await fetch(new URL('hike/' + id, APIURL));
+  const response = await fetch(new URL('hike/' + id, APIURL), {
+    credentials: 'include',
+  });
   const hike = await response.json();
   if (response.ok) {
     return hike;

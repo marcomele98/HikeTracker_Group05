@@ -76,3 +76,13 @@ exports.insertParkForHike = async (hike_id, park_id) => {
         return result
 }
 
+exports.getHikeByHiker = async (hike_id, hiker_id) => {
+        const sql = "SELECT * FROM HIKE_HIKER WHERE hike_id = ? AND hiker_id = ?"
+        let result = db.get(sql, [hike_id, hiker_id]);
+        return result;
+}
+
+exports.startHikeByHiker = async (hike_id, hiker_id) => {
+        
+}
+

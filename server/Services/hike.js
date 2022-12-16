@@ -457,6 +457,7 @@ class HikesView {
                     hikes[i].start_point_lon = startpointDetails.longitude;
                 }
             }
+
             return res.status(200).json(hikes);
 
         }
@@ -528,6 +529,19 @@ class HikesView {
                 let points = await pointDB.getPointsByHikeId(req.params.hikeId)
                 hike.points = [];
                 hike.points = points;
+
+                console.log(req.user);
+
+                if (req.user != undefined && req.user.role == 'hiker') {
+                    let hike_hiker = await db.getHikeByHiker(hike.id, req.user.id);
+                    console.log(hike_hiker);
+                    if (hike_hiker != undefined) {
+                        hike.start_time = hike_hiker.start_time;
+                        hike.end_time = hike_hiker.end_time;
+                    }
+                }
+
+                console.log(hike);
 
                 return res.status(200).json(hike);
             }
