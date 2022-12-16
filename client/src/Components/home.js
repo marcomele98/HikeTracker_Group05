@@ -168,7 +168,7 @@ function Home({ setIsLoading, user, setUser }) {
         <>
             <div className="backImage" style={{ backgroundImage: `url(${img})`, opacity: seeFilters ? 0.2 : 1 }}></div>
             <Container>
-                <Row style={{ height: 30 }}></Row>
+                <br/>
                 <Row className="m-3" style={{ margin: 0, padding: 0, }}>
 
                     

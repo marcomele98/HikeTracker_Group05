@@ -190,6 +190,11 @@
   margin-top: 7px !important;
 }
 
+.styleButtonWidth100 {
+  border-width: 3px !important;
+  width: 100% !important;
+}
+
 .paddingHorizontal {
   padding-left: 2vh;
   padding-right: 2vh;

@@ -9,7 +9,9 @@ import { Map } from "./Map"
 import { calcCrow } from "../utilities";
 import { ImageComponent } from './imageFromBase64';
 import AddPointForm from "./AddPointForm";
+import EditDateModal from "./dateModal"
 import "../App.css"
+
 
 let gpxParser = require('gpxparser');
 
@@ -17,6 +19,12 @@ function HikePage({ setIsLoading, loggedIn, user }) {
     const [editingStartPoint, setEditingStartPoint] = useState(false);
     const [editingEndPoint, setEditingEndPoint] = useState(false)
     const [hike, setHike] = useState();
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const navigate = useNavigate();
 
     const { hikeId } = useParams();
@@ -38,11 +46,26 @@ function HikePage({ setIsLoading, loggedIn, user }) {
         getHikesFromServer()
     }, [hikeId])
 
-    // useEffect(() => {
-    //     if(hike?.image){
-    //         console.log(hike.image)
-    //     }
-    // }, [hike?.image])
+
+    const onHandleStart = async(timestamp) => {
+        try {
+            setIsLoading(true);
+            await API.startHike(hike.id, timestamp)
+            const res = await API.getHikeById(hike.id);
+            setHike(res);
+            setIsLoading(false);
+            toast.success("Hike Started Successfully", { position: "top-center" }, { toastId: 110 });
+
+        } catch (err) {
+            setIsLoading(false);
+            toast.error(err, { position: "top-center" }, { toastId: 120 });
+        }
+    }
+
+    const onHandleEnd = async(timestamp) => {
+        console.log("passerò al backend: " + timestamp)
+    }
+
 
 
     return (
@@ -67,13 +90,16 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         </Col>
                         {
                             (user.role === "hiker" && !hike.end_time) ?
-                                <Button className="styleButton" variant={!hike.start_time ? "outline-success" : "outline-danger"} as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2}>
-                                    {!hike.start_time ? "Start" : "End"}
-                                </Button>
+                                <>
+                                <EditDateModal onHandle={!hike.start_time ? onHandleStart : onHandleEnd} start_time={hike.start_time} onHide={handleClose} show={show}></EditDateModal>
+                                    <Button className="styleButton" variant={!hike.start_time ? "outline-success" : "outline-danger"} as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2}
+                                        onClick={handleShow}>
+                                        {!hike.start_time ? "Start" : "End"}
+                                    </Button>
+                                </>
                                 : false
                         }
                     </Row>
-                    
                     {
                         user.role !== "hiker" || !hike.start_time
                             ?
@@ -301,7 +327,6 @@ const RefPointSwitcher = ({ point, type, user }) => {
         case "general point":
             return (<Point point={point} key={point.id} />);
         default:
-            console.log("Errore, tipo :" + type + "non valido per un ref. point");
             return (<></>);
     }
 }
@@ -484,7 +509,6 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
 
         } catch (err) {
             setIsLoading(false);
-            console.log(err)
             toast.error(err, { position: "top-center" }, { toastId: 120 });
         }
 
@@ -693,7 +717,6 @@ const NewHut = ({ user, hike, setIsLoading, setHike }) => {
         e.preventDefault();
         try {
             setIsLoading(true);
-            console.log(hut)
             await API.hutHikeLink({ hut_id: hut }, hike.id)
             const res = await API.getHikeById(hike.id);
             setHike(res);
