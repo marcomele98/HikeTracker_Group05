@@ -45,15 +45,17 @@ function HutPage({ setIsLoading, user }) {
                     {
                         hut.image ?
                             <>
-                                <Row style={{ height: 20 }}></Row>
+                                <br/>
                                 <ImageComponent base64String={hut.image}></ImageComponent>
                             </>
                             : false
                     }
 
-                    <Row style={{ height: 20 }}></Row>
-                    <Row>
-                        <div className="titleBig">{hut.type + " " + hut.name}</div>
+                    <br/>
+                    <Row className="paddingHorizontal">
+                        <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                            <div className="titleBig">{hut.type + " " + hut.name}</div>
+                        </Col>
                     </Row>
                     {
                         !hut.description
@@ -61,11 +63,11 @@ function HutPage({ setIsLoading, user }) {
                             false
                             :
                             <>
-                                <Row style={{ height: 20 }}></Row>
+                                <br/>
                                 <Row>
                                     <div className="textGrayPrimaryItalic">{hut.description}</div>
                                 </Row>
-                                <Row style={{ height: 20 }}></Row>
+                                <br/>
                             </>
                     }
                     <Row >
@@ -73,7 +75,7 @@ function HutPage({ setIsLoading, user }) {
                             <div className="textGrayPrimaryBig">{hut.region + " - " + hut.city + " (" + hut.province + ")"}</div>
                         </Col>
                     </Row>
-                    <Row style={{ height: 20 }}></Row>
+                    <br/>
                     <Row >
 
                         {

@@ -9,6 +9,7 @@ import { Map } from "./Map"
 import { calcCrow } from "../utilities";
 import { ImageComponent } from './imageFromBase64';
 import AddPointForm from "./AddPointForm";
+import "../App.css"
 
 let gpxParser = require('gpxparser');
 
@@ -54,23 +55,47 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     {
                         hike.image ?
                             <>
-                                <Row style={{ height: 20 }}></Row>
+                                <br />
                                 <ImageComponent base64String={hike.image}></ImageComponent>
                             </>
                             : false
                     }
-                    <Row style={{ height: 20 }}></Row>
-                    <Row >
-                        <div className="titleBig">{hike.title}</div>
+                    <br />
+                    <Row className='paddingHorizontal'>
+                        <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={10} xl={10} xxl={10}>
+                            <div className="titleBig">{hike.title}</div>
+                        </Col>
+                        {
+                            (user.role === "hiker" && !hike.end_time) ?
+                                <Button className="styleButton" variant={!hike.start_time ? "outline-success" : "outline-danger"} as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2}>
+                                    {!hike.start_time ? "Start" : "End"}
+                                </Button>
+                                : false
+                        }
                     </Row>
-                    <Row style={{ height: 20 }}></Row>
-
+                    
+                    {
+                        user.role !== "hiker" || !hike.start_time
+                            ?
+                            false
+                            :
+                            <>
+                                <Row className='paddingHorizontal'>
+                                    <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                                        <div className={!hike.end_time ? "textStarted" : "textCompleted"}>
+                                            {!hike.end_time ? "STARTED" : "COMPLETED"}
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <br />
+                            </>
+                    }
                     <Row >
                         <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                             <div className="textGrayPrimaryBig">{hike.region + " - " + hike.city + " (" + hike.province + ")"}</div>
                         </Col>
                     </Row>
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <Row >
                         <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                             <div className="textGrayPrimaryItalic">{hike.description}</div>
@@ -78,7 +103,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     </Row>
 
 
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <Row >
 
                         <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
@@ -95,7 +120,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         </Col>
 
                     </Row>
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     {
                         (loggedIn && (user.role === "local guide" || user.role === "hiker")) ?
                             (
@@ -105,7 +130,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                             <Map hike={hike}></Map>
                                         </Col>
                                     </Row>
-                                    <Row style={{ height: 20 }}></Row>
+                                    <br />
                                 </>
                             ) : false
 
@@ -141,7 +166,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             </Row>
                     }
 
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <Row>
                         <div className='rowC' style={{ marginLeft: 10 }}>
                             {hike.lg_id === user.id
@@ -173,7 +198,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         }
                     </Row>
 
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Huts"}</div>
 
 
@@ -203,7 +228,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 
                     <NewHut user={user} hike={hike} setIsLoading={setIsLoading} setHike={setHike} />
 
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Parking Lots"}</div>
 
                     {
@@ -231,7 +256,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     }
 
 
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
 
                     {hike.points.length === 0
