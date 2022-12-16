@@ -10,6 +10,8 @@ const { ven_file1, ven_file2, ven_file3, ven_file4, ven_file5, ven_file6, ven_fi
 const { lo_file1, lo_file2, lo_file3, lo_file4, lo_file5, lo_file6, lo_file7, lo_file8 } = require('./hikes/lombardiagpx');
 const {ve_h1_img, ve_h2_img, ve_h3_img, ve_h4_img, ve_h5_img, ve_h6_img, ve_h7_img, ve_h8_img} = require("./images/veneto/hikes/getImages.js");
 const {ca_h1_img, ca_h2_img, ca_h3_img, ca_h4_img, ca_h5_img, ca_h6_img, ca_h7_img, ca_h8_img} = require("./images/calabria/hikes/getImages.js");
+const {va_h1_img, va_h2_img, va_h3_img, va_h4_img, va_h5_img, va_h6_img, va_h7_img, va_h8_img} = require("./images/valledaosta/hikes/getImages.js");
+
 
 let hikevalues =
   [
@@ -59,21 +61,21 @@ let hikevalues =
       li_file8, 59, 'general point', 59, 'general point', 'Easy hike for everyone that takes you to the Castello della Pietra, a real gem of this area'],
 
     ['Valtournenche - Lago di Cignana', 10.03, 340, 796, 'Hiker', 'Valle d Aosta', 'AO', 'Fontanaz-Valmartin', 1,
-      va_file1, 68, 'general point', 68, 'general point', 'Great route for hiking lovers with a beatiful lake to see'],
+      va_file1, 68, 'general point', 68, 'general point', 'Great route for hiking lovers with a beatiful lake to see',va_h1_img],
     ['Cervinia - Cappella Battaglione Alpini Sciatori Monte Cervino -Rifugio Duca degli Abruzzi all Oriondé', 19.04, 420, 832, 'Hiker', 'Valle d Aosta', 'AO', 'Breuil-Cervinia', 1,
-      va_file2, 9, 'Parking point', 9, 'Parking point', 'Excellent ring route with a refuge where you can refresh yourself and spend the night'],
+      va_file2, 9, 'Parking point', 9, 'Parking point', 'Excellent ring route with a refuge where you can refresh yourself and spend the night',va_h2_img],
     ['Cime - Bianche', 8.1, 233, 1293, 'Tourist', 'Valle d Aosta', 'AO', 'San Giacomo', 1,
-      va_file3, 73, 'general point', 74, 'general point', 'Beautiful route with an amazing view of white mountains, good also for beginners'],
+      va_file3, 73, 'general point', 74, 'general point', 'Beautiful route with an amazing view of white mountains, good also for beginners',va_h3_img],
     ['Lac e Château De Villa, Mont Saint Gilles e Belvedere da Torille', 11.86, 288, 770, 'Tourist', 'Valle d Aosta', 'AO', 'Torille-Rivarolla', 1,
-      va_file4, 10, 'Parking point', 10, 'Parking point', 'Great ring route even for beginners with many panoramic spots and things to view'],
+      va_file4, 10, 'Parking point', 10, 'Parking point', 'Great ring route even for beginners with many panoramic spots and things to view',va_h4_img],
     ['Monte Zerbion da Antagnod', 8.51, 140, 996, 'Tourist', 'Valle d Aosta', 'AO', 'Lignod', 1,
-      va_file5, 11, 'Parking point', 11, 'Parking point', 'Easy route that allows you to reach the top of Mount Zerbion, one of the most popular destinations in the Val D Ayas'],
+      va_file5, 11, 'Parking point', 11, 'Parking point', 'Easy route that allows you to reach the top of Mount Zerbion, one of the most popular destinations in the Val D Ayas',va_h5_img],
     ['Ospizio Sottile, Colle Valdobbia e lago della Balma da Gressoney Saint Jean', 12.27, 344, 1252, 'Tourist', 'Valle d Aosta', 'AO', 'Gressoney-Saint-Jean', 1,
-      va_file6, 12, 'Parking point', 12, 'Parking point', 'Really good path with many things to view, suitable for beginners'],
+      va_file6, 12, 'Parking point', 12, 'Parking point', 'Really good path with many things to view, suitable for beginners',va_h6_img],
     ['Parco del Monte Avic: Rifugio Barbustel da Covarey', 16.37, 404, 970, 'Hiker', 'Valle d Aosta', 'AO', 'Covarey', 1,
-      va_file7, 13, 'Parking point', 13, 'Parking point', 'This park is one of the most popular destinations for hikers in Valle d Aosta'],
+      va_file7, 13, 'Parking point', 13, 'Parking point', 'This park is one of the most popular destinations for hikers in Valle d Aosta',va_h7_img],
     ['Summer Park - Bivacco Tzan - Lago Tzan ', 20.9, 346, 871, 'Hiker', 'Valle d Aosta', 'AO', 'Septumian', 1,
-      va_file8, 14, 'Parking point', 14, 'Parking point', 'Good ring route starting from the Summer Park, in the path you can stop to watch the beatiful Tzan lake'],
+      va_file8, 14, 'Parking point', 14, 'Parking point', 'Good ring route starting from the Summer Park, in the path you can stop to watch the beatiful Tzan lake',va_h8_img],
 
     ['Camigliatello Loop from Camigliatello Silano', 4.08, 77, 110, 'Hiker', 'Calabria', 'CS', 'Spezzano della Sila', 1,
       ca_file1, 15, 'Parking point', 15, 'Parking point', 'Intermediate Hiking Tour. Great for any fitness level. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.', ca_h1_img],
