@@ -112,6 +112,17 @@ db.serialize(function () {
     );'
   );
 
+  db.run(
+    'CREATE TABLE IF NOT EXISTS "HIKER_POINT" (\
+        "point_id" INTEGER NOT NULL,\
+        "hiker_id" INTEGER NOT NULL,\
+        "time" DATETIME,\
+        PRIMARY KEY("point_id", "hiker_id")\
+        FOREIGN KEY("hiker_id") REFERENCES "USER"("id") on DELETE CASCADE,\
+        FOREIGN KEY("point_id") REFERENCES "POINT"("id") on DELETE CASCADE\
+    );'
+  )
+
 
   //extra info of the hut will be added here
   db.run(
@@ -266,13 +277,14 @@ db.serialize(function () {
     "INSERT OR IGNORE INTO HIKE_HIKER(hike_id, hiker_id, start_time, end_time)\
     VALUES(1, 3, '2022-11-16 12:00:00', '2022-11-16 18:00:00'),\
           (2, 3, '2022-11-09 12:00:00', '2022-11-09 18:00:00'),\
-          (14, 4, '2022-11-09 12:00:00', '2022-11-09 18:00:00'),\
+          (14, 4, '2022-11-09 12:00:00', NULL),\
           (12, 4, '2022-11-07 12:00:00', '2022-11-07 18:00:00'),\
-          (18, 3, '2022-12-13 12:00:00', '2022-12-13 18:00:00'),\
+          (18, 3, '2022-12-13 12:00:00', NULL),\
           (26, 3, '2022-12-09 12:00:00', '2022-12-09 18:00:00'),\
-          (38, 4, '2022-12-14 12:00:00', '2022-12-14 18:00:00'),\
-          (45, 4, '2022-12-23 12:00:00', '2022-12-23 18:00:00')"
+          (38, 4, '2022-12-14 16:00:00', '2022-12-14 18:00:00'),\
+          (45, 4, '2022-12-23 14:00:00', '2022-12-23 17:00:00')"
   );
+
 
 
   for (let i = 0; i < pointsvalues.length; i++) {
@@ -315,6 +327,18 @@ db.serialize(function () {
       }
     );
   };
+
+  db.run(
+    "INSERT OR IGNORE INTO HIKER_POINT(point_id, hiker_id, time)\
+     VALUES(2, 3, '2022-11-09 14:30:00'),\
+          (52, 3, '2022-12-13 12:40:00'),\
+          (51, 3, '2022-12-13 13:10:00'),\
+          (78, 3, '2022-12-09 16:30:00'),\
+          (79, 3, '2022-12-09 15:00:00'),\
+          (77, 3, '2022-12-09 14:00:00'),\
+          (110, 4, '2022-12-14 16:20:00'),\
+          (125, 4, '2022-12-23 15:15:00')"
+  );
 
 
   db.run(

@@ -29,6 +29,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
     const navigate = useNavigate();
 
     const { hikeId } = useParams();
+
+    const isNotStartOrEnd = (p) => (!(hike.start_point_type === "general point" && p.id === hike.start_point.id) && !(hike.end_point_type === "general point" && p.id === hike.end_point.id))
+
     useEffect(() => {
         const getHikesFromServer = async () => {
             try {
@@ -330,9 +333,11 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     <br />
                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
 
-                    {hike.points.length === 0
+                    {hike.points
+                    .filter(isNotStartOrEnd)
+                    .length === 0
                         ?
-                        <div className="textGrayPrimary" style={{ marginLeft: 10 }}>No reference points linked to this hike</div>
+                        <div className="textGrayPrimary" style={{ marginLeft: 10 }}>No reference points for this hike</div>
                         :
                         (
                             <>
@@ -340,6 +345,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                     <ListGroup>
                                         {
                                             hike.points
+                                                .filter(isNotStartOrEnd)
                                                 .sort((a, b) => a.name?.trim().localeCompare(b.name?.trim()))
                                                 .map((p) =>
                                                     <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
