@@ -532,6 +532,13 @@ class HikesView {
                     hikes[i].start_point_lat = startpointDetails.latitude;
                     hikes[i].start_point_lon = startpointDetails.longitude;
                 }
+                if (req.user != undefined && req.user.role == 'hiker') {
+                    let hike_hiker = await db.getHikeByHiker(hikes[i].id, req.user.id);
+                    if (hike_hiker != undefined) {
+                        hikes[i].start_time = hike_hiker.start_time;
+                        hikes[i].end_time = hike_hiker.end_time;
+                    }
+                }
             }
 
             return res.status(200).json(hikes);
