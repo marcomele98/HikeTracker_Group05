@@ -10,6 +10,7 @@ import { calcCrow } from "../utilities";
 import { ImageComponent } from './imageFromBase64';
 import AddPointForm from "./AddPointForm";
 import EditDateModal from "./dateModal"
+import moment from 'moment';
 import "../App.css"
 
 
@@ -47,7 +48,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
     }, [hikeId])
 
 
-    const onHandleStart = async(timestamp) => {
+    const onHandleStart = async (timestamp) => {
         handleClose();
         try {
             setIsLoading(true);
@@ -63,7 +64,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
         }
     }
 
-    const onHandleEnd = async(timestamp) => {
+    const onHandleEnd = async (timestamp) => {
         handleClose();
         try {
             setIsLoading(true);
@@ -75,7 +76,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 
         } catch (err) {
             setIsLoading(false);
-            toast.error(err, { position: "top-center" }, { toastId: 120 });
+            toast.error(err, { position: "top-center" }, { toastId: 121 });
         }
         //console.log("passerò al backend: " + timestamp)
     }
@@ -105,7 +106,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         {
                             (user.role === "hiker" && !hike.end_time) ?
                                 <>
-                                <EditDateModal onHandle={!hike.start_time ? onHandleStart : onHandleEnd} start_time={hike.start_time} onHide={handleClose} show={show}></EditDateModal>
+                                    <EditDateModal onHandle={!hike.start_time ? onHandleStart : onHandleEnd} start_time={hike.start_time} onHide={handleClose} show={show}></EditDateModal>
                                     <Button className="styleButton" variant={!hike.start_time ? "outline-success" : "outline-danger"} as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2}
                                         onClick={handleShow}>
                                         {!hike.start_time ? "Start" : "End"}
@@ -123,7 +124,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                 <Row className='paddingHorizontal'>
                                     <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                                         <div className={!hike.end_time ? "textStarted" : "textCompleted"}>
-                                            {!hike.end_time ? "STARTED" : "COMPLETED"}
+                                            {!hike.end_time ? "STARTED" : ("COMPLETED IN " + (moment(hike.end_time).diff(moment(hike.start_time), 'minutes') + " MINS"))}
                                         </div>
                                     </Col>
                                 </Row>
@@ -153,13 +154,43 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             <div className="textGrayPrimaryBig">{"Length: " + hike.length_kms + " km"}</div>
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
-                            <div className="textGrayPrimaryBig">{"Expected time: " + hike.expected_mins + " min"}</div>
+                            <div className="textGrayPrimaryBig">{"Expected time: " + hike.expected_mins + " mins"}</div>
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
                             <div className="textGrayPrimaryBig">{"Difficulty: " + hike.difficulty}</div>
                         </Col>
 
                     </Row>
+                    {
+                        !hike.start_time ?
+                            false
+                            :
+                            <>
+                                <br />
+                                <Row >
+                                    <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                                        <div className="textGrayPrimaryBig">{"Start date: " + hike.start_time.split(" ")[0]}</div>
+                                    </Col>
+                                    <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                                        <div className="textGrayPrimaryBig">{"Start time: " + hike.start_time.split(" ")[1]}</div>
+                                    </Col>
+                                    {
+                                        !hike.end_time ?
+                                            false
+                                            :
+                                            <>
+                                                <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                                                    <div className="textGrayPrimaryBig">{"End date: " + hike.end_time.split(" ")[0]}</div>
+                                                </Col>
+                                                <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                                                    <div className="textGrayPrimaryBig">{"End time: " + hike.end_time.split(" ")[1]}</div>
+                                                </Col>
+                                            </>
+                                    }
+                                </Row>
+                            </>
+                    }
+
                     <br />
                     {
                         (loggedIn && (user.role === "local guide" || user.role === "hiker")) ?

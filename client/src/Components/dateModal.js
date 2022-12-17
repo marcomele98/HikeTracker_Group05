@@ -41,6 +41,7 @@ const EditDateModal = (props) => {
                         <Form.Control
                             type='date'
                             value={date}
+                            min={props.start_time ? props.start_time.split(" ")[0] : undefined}
                             onChange={handleDateChange}>
                         </Form.Control>
                     </Form.Group>
@@ -51,6 +52,7 @@ const EditDateModal = (props) => {
                             <Form.Control 
                             type="time" 
                             value={time} 
+                            min={(props.start_time && props.start_time.split(" ")[0] === date)?props.start_time.split(" ")[1]:undefined}
                             onChange={handleTimeChange}/>
                         </InputGroup>
                     </Form.Group>
