@@ -9,6 +9,10 @@ import { Map } from "./Map"
 import { calcCrow } from "../utilities";
 import { ImageComponent } from './imageFromBase64';
 import AddPointForm from "./AddPointForm";
+import EditDateModal from "./dateModal"
+import moment from 'moment';
+import "../App.css"
+
 
 let gpxParser = require('gpxparser');
 
@@ -16,6 +20,12 @@ function HikePage({ setIsLoading, loggedIn, user }) {
     const [editingStartPoint, setEditingStartPoint] = useState(false);
     const [editingEndPoint, setEditingEndPoint] = useState(false)
     const [hike, setHike] = useState();
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const navigate = useNavigate();
 
     const { hikeId } = useParams();
@@ -37,11 +47,40 @@ function HikePage({ setIsLoading, loggedIn, user }) {
         getHikesFromServer()
     }, [hikeId])
 
-    // useEffect(() => {
-    //     if(hike?.image){
-    //         console.log(hike.image)
-    //     }
-    // }, [hike?.image])
+
+    const onHandleStart = async (timestamp) => {
+        handleClose();
+        try {
+            setIsLoading(true);
+            await API.startHike(hike.id, timestamp)
+            const res = await API.getHikeById(hike.id);
+            setHike(res);
+            setIsLoading(false);
+            toast.success("Hike Started Successfully", { position: "top-center" }, { toastId: 110 });
+
+        } catch (err) {
+            setIsLoading(false);
+            toast.error(err, { position: "top-center" }, { toastId: 120 });
+        }
+    }
+
+    const onHandleEnd = async (timestamp) => {
+        handleClose();
+        try {
+            setIsLoading(true);
+            await API.endHike(hike.id, timestamp)
+            const res = await API.getHikeById(hike.id);
+            setHike(res);
+            setIsLoading(false);
+            toast.success("Hike Ended Successfully", { position: "top-center" }, { toastId: 111 });
+
+        } catch (err) {
+            setIsLoading(false);
+            toast.error(err, { position: "top-center" }, { toastId: 121 });
+        }
+        //console.log("passerò al backend: " + timestamp)
+    }
+
 
 
     return (
@@ -54,23 +93,50 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     {
                         hike.image ?
                             <>
-                                <Row style={{ height: 20 }}></Row>
+                                <br />
                                 <ImageComponent base64String={hike.image}></ImageComponent>
                             </>
                             : false
                     }
-                    <Row style={{ height: 20 }}></Row>
-                    <Row >
-                        <div className="titleBig">{hike.title}</div>
+                    <br />
+                    <Row className='paddingHorizontal'>
+                        <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={10} xl={10} xxl={10}>
+                            <div className="titleBig">{hike.title}</div>
+                        </Col>
+                        {
+                            (user.role === "hiker" && !hike.end_time) ?
+                                <>
+                                    <EditDateModal onHandle={!hike.start_time ? onHandleStart : onHandleEnd} start_time={hike.start_time} onHide={handleClose} show={show}></EditDateModal>
+                                    <Button className="styleButton" variant={!hike.start_time ? "outline-success" : "outline-danger"} as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2}
+                                        onClick={handleShow}>
+                                        {!hike.start_time ? "Start" : "End"}
+                                    </Button>
+                                </>
+                                : false
+                        }
                     </Row>
-                    <Row style={{ height: 20 }}></Row>
-
+                    {
+                        user.role !== "hiker" || !hike.start_time
+                            ?
+                            false
+                            :
+                            <>
+                                <Row className='paddingHorizontal'>
+                                    <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                                        <div className={!hike.end_time ? "textStarted" : "textCompleted"}>
+                                            {!hike.end_time ? "STARTED" : ("COMPLETED IN " + (moment(hike.end_time).diff(moment(hike.start_time), 'minutes') + " MINS"))}
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <br />
+                            </>
+                    }
                     <Row >
                         <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                             <div className="textGrayPrimaryBig">{hike.region + " - " + hike.city + " (" + hike.province + ")"}</div>
                         </Col>
                     </Row>
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <Row >
                         <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                             <div className="textGrayPrimaryItalic">{hike.description}</div>
@@ -78,7 +144,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     </Row>
 
 
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <Row >
 
                         <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
@@ -88,14 +154,44 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             <div className="textGrayPrimaryBig">{"Length: " + hike.length_kms + " km"}</div>
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
-                            <div className="textGrayPrimaryBig">{"Expected time: " + hike.expected_mins + " min"}</div>
+                            <div className="textGrayPrimaryBig">{"Expected time: " + hike.expected_mins + " mins"}</div>
                         </Col>
                         <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
                             <div className="textGrayPrimaryBig">{"Difficulty: " + hike.difficulty}</div>
                         </Col>
 
                     </Row>
-                    <Row style={{ height: 20 }}></Row>
+                    {
+                        !hike.start_time ?
+                            false
+                            :
+                            <>
+                                <br />
+                                <Row >
+                                    <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                                        <div className="textGrayPrimaryBig">{"Start date: " + hike.start_time.split(" ")[0]}</div>
+                                    </Col>
+                                    <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                                        <div className="textGrayPrimaryBig">{"Start time: " + hike.start_time.split(" ")[1]}</div>
+                                    </Col>
+                                    {
+                                        !hike.end_time ?
+                                            false
+                                            :
+                                            <>
+                                                <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                                                    <div className="textGrayPrimaryBig">{"End date: " + hike.end_time.split(" ")[0]}</div>
+                                                </Col>
+                                                <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
+                                                    <div className="textGrayPrimaryBig">{"End time: " + hike.end_time.split(" ")[1]}</div>
+                                                </Col>
+                                            </>
+                                    }
+                                </Row>
+                            </>
+                    }
+
+                    <br />
                     {
                         (loggedIn && (user.role === "local guide" || user.role === "hiker")) ?
                             (
@@ -105,7 +201,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                             <Map hike={hike}></Map>
                                         </Col>
                                     </Row>
-                                    <Row style={{ height: 20 }}></Row>
+                                    <br />
                                 </>
                             ) : false
 
@@ -141,7 +237,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             </Row>
                     }
 
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <Row>
                         <div className='rowC' style={{ marginLeft: 10 }}>
                             {hike.lg_id === user.id
@@ -173,7 +269,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         }
                     </Row>
 
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Huts"}</div>
 
 
@@ -203,7 +299,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 
                     <NewHut user={user} hike={hike} setIsLoading={setIsLoading} setHike={setHike} />
 
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Parking Lots"}</div>
 
                     {
@@ -231,7 +327,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     }
 
 
-                    <Row style={{ height: 20 }}></Row>
+                    <br />
                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
 
                     {hike.points.length === 0
@@ -276,7 +372,6 @@ const RefPointSwitcher = ({ point, type, user }) => {
         case "general point":
             return (<Point point={point} key={point.id} />);
         default:
-            console.log("Errore, tipo :" + type + "non valido per un ref. point");
             return (<></>);
     }
 }
@@ -459,7 +554,6 @@ const EditStartEndPoint = ({ hike, selected, setIsLoading, setHike, setEditable 
 
         } catch (err) {
             setIsLoading(false);
-            console.log(err)
             toast.error(err, { position: "top-center" }, { toastId: 120 });
         }
 
@@ -668,7 +762,6 @@ const NewHut = ({ user, hike, setIsLoading, setHike }) => {
         e.preventDefault();
         try {
             setIsLoading(true);
-            console.log(hut)
             await API.hutHikeLink({ hut_id: hut }, hike.id)
             const res = await API.getHikeById(hike.id);
             setHike(res);

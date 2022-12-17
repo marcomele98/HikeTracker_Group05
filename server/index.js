@@ -182,6 +182,14 @@ app.post('/api/newRefPoint/:hikeId', isLoggedIn, (req, res) => {
 
 app.post('/api/hikeHutLink/:hikeId', isLoggedIn, (req, res) => {
   return hike.hikeHutLink(req, res);
+});
+
+app.post('/api/startHike/:hikeId', isLoggedIn, (req, res) => {
+  return hike.startHikeByHiker(req, res);
+});
+
+app.put('/api/endHike/:hikeId', isLoggedIn, (req, res) => {
+  return hike.endHikeByHiker(req, res);
 })
 
 

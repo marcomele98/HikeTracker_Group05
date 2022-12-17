@@ -50,7 +50,7 @@ function ListHuts({ setIsLoading, user }) {
         <>
             <div className="backImage" style={{ backgroundImage: `url(${img})` }}></div>
             <Container>
-                <Row style={{ height: 30 }}></Row>
+            <br/>
                 <Row className="m-3" style={{ margin: 0, padding: 0 }}>
                     {
                         user.role !== 'local guide'

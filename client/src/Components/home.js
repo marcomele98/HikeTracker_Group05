@@ -8,6 +8,7 @@ import 'rc-slider/assets/index.css';
 import { CliccableMap } from "./cliccableMap";
 import { calcCrow } from "../utilities";
 import img from "../Assets/Images/home.jpeg"
+import "../App.css"
 
 const Slider = require('rc-slider');
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
@@ -167,7 +168,7 @@ function Home({ setIsLoading, user, setUser }) {
         <>
             <div className="backImage" style={{ backgroundImage: `url(${img})`, opacity: seeFilters ? 0.2 : 1 }}></div>
             <Container>
-                <Row style={{ height: 30 }}></Row>
+                <br/>
                 <Row className="m-3" style={{ margin: 0, padding: 0, }}>
 
                     
@@ -176,7 +177,7 @@ function Home({ setIsLoading, user, setUser }) {
                                 false
                                 :
                                 <>
-                                    <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginBottom: 10, marginRight:10 }} onClick={() => navigate("/new-hike")}>New Hike</Button>
+                                    <Button className="styleButtonMargin" as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" onClick={() => navigate("/new-hike")}>New Hike</Button>
                                 </>
 
                         }
@@ -194,10 +195,10 @@ function Home({ setIsLoading, user, setUser }) {
                                 false
                                 :
                                 <>
-                                    <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10,  marginBottom: 10 }} onClick={() => {
+                                    <Button className="styleButtonMargin" as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success"  onClick={() => {
                                         getPreferences();
                                     }}>Get Preferences</Button>
-                                    <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" style={{ borderWidth: 3, marginRight: 10, marginBottom: 10 }} onClick={() => { setPreferences() }}>Save Preferences</Button>
+                                    <Button className="styleButtonMargin" as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success"  onClick={() => { setPreferences() }}>Save Preferences</Button>
                                 </>
 
                         }

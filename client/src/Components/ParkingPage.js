@@ -40,17 +40,19 @@ function ParkingPage({ setIsLoading, loggedIn, user }) {
         (park) ?
             <Container>
                 <Col>
-                    <Row style={{ height: 20 }}></Row>
-                    <Row>
-                        <div className="titleBig">{park.name}</div>
+                    <br/>
+                    <Row className="paddingHorizontal">
+                        <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                            <div className="titleBig">{park.name}</div>
+                        </Col>
                     </Row>
                     <Row >
-                        <Col  xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                        <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                             <div className="textGrayPrimaryBig">{park.region + " - " + park.city + " (" + park.province + ")"}</div>
                         </Col>
                     </Row>
                     <Row>
-                    <div className="textGrayPrimaryBig">{"Parking places: " + park.capacity }</div>
+                        <div className="textGrayPrimaryBig">{"Parking places: " + park.capacity}</div>
                     </Row>
 
                     <Row>

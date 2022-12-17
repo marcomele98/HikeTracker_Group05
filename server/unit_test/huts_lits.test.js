@@ -27,7 +27,7 @@ describe("hutsDao", () => {
             "INSERT INTO HUT(id,name,latitude, longitude, altitude, type, region, province, city, number_of_beds, description)\
                  VALUES (1, 'Refuge La Riposa','45.17778', '7.08337', '2185','Refuge', 'Piemonte', 'TO','Mompantero', 20, 'prova1'),\
                         (2, 'Refugio Asti'   ,'45.19177', '7.07427','2854','Refuge', 'Piemonte', 'TO','Mompantero', 15, 'prova2'),\
-                        (3, 'Rifugio Duca degli Abruzzi','45.958891','7.6441','2798.2','Refuge','Valle d Aosta','AO','Breuil-Cervinia',22,'prova3')"
+                        (3, 'Rifugio Duca degli Abruzzi','45.958891','7.6441','2798.2','Refuge',"Valle d'Aosta",'AO','Breuil-Cervinia',22,'prova3')"
         );
     });
 
@@ -40,7 +40,7 @@ describe("hutsDao", () => {
         let data = await hut.getHuts();
         let hut1 = new Hut(1, 'Refuge La Riposa','45.17778', '7.08337', '2185','Refuge', 'Piemonte', 'TO','Mompantero', 20, 'prova1');
         let hut2 = new Hut(2, 'Refugio Asti'   ,'45.19177', '7.07427','2854','Refuge', 'Piemonte', 'TO','Mompantero', 15, 'prova2');
-        let hut3 = new Hut(3, 'Rifugio Duca degli Abruzzi','45.958891','7.6441','2798.2','Refuge','Valle d Aosta','AO','Breuil-Cervinia',22,'prova3');
+        let hut3 = new Hut(3, 'Rifugio Duca degli Abruzzi','45.958891','7.6441','2798.2','Refuge',"Valle d'Aosta",'AO','Breuil-Cervinia',22,'prova3');
         expect(data.length).toStrictEqual(3);
         let hut_check1 = new Hut(data[0].id, data[0].name, data[0].latitude, data[0].longitude, data[0].altitude, data[0].type, data[0].region, data[0].province, data[0].city, data[0].number_of_beds, data[0].description);
         let hut_check2 = new Hut(data[1].id, data[1].name, data[1].latitude, data[1].longitude, data[1].altitude, data[1].type, data[1].region, data[1].province, data[1].city, data[1].number_of_beds, data[1].description);
@@ -54,7 +54,7 @@ describe("hutsDao", () => {
         let data;
         let hut1 = new Hut(1, 'Refuge La Riposa','45.17778', '7.08337', '2185','Refuge', 'Piemonte', 'TO','Mompantero', 20, 'prova1');
         let hut2 = new Hut(2, 'Refugio Asti'   ,'45.19177', '7.07427','2854','Refuge', 'Piemonte', 'TO','Mompantero', 15, 'prova2');
-        let hut3 = new Hut(3, 'Rifugio Duca degli Abruzzi','45.958891','7.6441','2798.2','Refuge','Valle d Aosta','AO','Breuil-Cervinia',22,'prova3');
+        let hut3 = new Hut(3, 'Rifugio Duca degli Abruzzi','45.958891','7.6441','2798.2','Refuge',"Valle d'Aosta",'AO','Breuil-Cervinia',22,'prova3');
 
         data = await hut.getHutById(1);
         let hut_check1 = new Hut(data.id, data.name, data.latitude, data.longitude, data.altitude, data.type, data.region, data.province, data.city, data.number_of_beds, data.description);
