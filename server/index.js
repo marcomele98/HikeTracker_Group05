@@ -188,6 +188,10 @@ app.post('/api/startHike/:hikeId', isLoggedIn, (req, res) => {
   return hike.startHikeByHiker(req, res);
 });
 
+app.put('/api/endHike/:hikeId', isLoggedIn, (req, res) => {
+  return hike.endHikeByHiker(req, res);
+})
+
 
 app.post('/api/parkingLot', isLoggedIn, (req, res) => {
   return parkin_lot.newParkingLot(req, res);

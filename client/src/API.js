@@ -73,9 +73,25 @@ async function getHikeById(id) {
 }
 
 async function startHike(id, date_time) {
-  console.log(date_time)
   const response = await fetch(new URL('startHike/' + id, APIURL), {
     method: 'POST', 
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({date_time: date_time}),
+  });
+  if (response.ok) {
+    return null;
+  } else {
+    const errDetail = await response.json();
+    throw errDetail
+  }
+}
+
+async function endHike(id, date_time) {
+  const response = await fetch(new URL('endHike/' + id, APIURL), {
+    method: 'PUT', 
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
@@ -346,7 +362,7 @@ const API = {
   logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription, addUser, getParks,
   getParkById, newPark, getHuts, getHutById, newHut, updateHikeEndPoint, updateHikeStartPoint,
   resetHikeEndPoint, resetHikeStartPoint, addNewReferencePoint, getPreferencesByUserId, hutHikeLink,
-  setPreferences,  startHike
+  setPreferences,  startHike, endHike
 };
 
 

@@ -65,7 +65,19 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 
     const onHandleEnd = async(timestamp) => {
         handleClose();
-        console.log("passerò al backend: " + timestamp)
+        try {
+            setIsLoading(true);
+            await API.endHike(hike.id, timestamp)
+            const res = await API.getHikeById(hike.id);
+            setHike(res);
+            setIsLoading(false);
+            toast.success("Hike Ended Successfully", { position: "top-center" }, { toastId: 111 });
+
+        } catch (err) {
+            setIsLoading(false);
+            toast.error(err, { position: "top-center" }, { toastId: 120 });
+        }
+        //console.log("passerò al backend: " + timestamp)
     }
 
 

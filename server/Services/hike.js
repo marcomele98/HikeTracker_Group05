@@ -439,8 +439,57 @@ class HikeDescription {
             return res.status(422).json(message);
         }
 
+        let check_if_duplicate = await db.getHikeByHiker(hikeId, hikerId);
+
+        if (check_if_duplicate != undefined) {
+            message = "The hike has already been started";
+            return res.status(422).json(message);
+        }
+
         try {
             await db.startHikeByHiker(hikeId, hikerId, date_time);
+            return res.status(200).end();
+        }
+        catch (err) {
+            message = "Server error"
+            return res.status(503).json(err)
+        }
+    }
+
+    async endHikeByHiker(req, res) {
+        let hikeId = req.params.hikeId;
+        let hikerId = req.user.id;
+        let role = req.user.role;
+        let date_time = req.body.date_time;
+        let message = "";
+
+
+        if (role !== "hiker") {
+            return res.status(401).json("Not authenticated as a hiker.");
+        }
+
+        if (servicesUtility.isNotValidDateTime(date_time)) {
+            message = "Invalid date-time format."
+            return res.status(422).json(message);
+        }
+
+        let started_hike = await db.getHikeByHiker(hikeId, hikerId);
+
+        if(started_hike.end_time != null) {
+            message = "The hike has already been ended";
+            return res.status(422).json(message);
+        }
+
+        let start_date_time = new Date(started_hike.start_time);
+        let end_date_time = new Date(date_time);
+        
+        if(!(end_date_time > start_date_time)) {
+            message = "The end time should be after the start time"
+            return res.status(422).json(message);
+        }
+
+        try {
+            await db.endHikeByHiker(hikeId, hikerId, date_time);
             return res.status(200).end();
         }
         catch (err) {
