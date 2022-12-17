@@ -27,7 +27,7 @@ describe("hutsDao", () => {
             "INSERT INTO HUT(id,name,latitude, longitude, altitude, type, region, province, city, number_of_beds, description)\
                  VALUES (1, 'Refuge La Riposa','45.17778', '7.08337', '2185','Refuge', 'Piemonte', 'TO','Mompantero', 20, 'prova1'),\
                         (2, 'Refugio Asti'   ,'45.19177', '7.07427','2854','Refuge', 'Piemonte', 'TO','Mompantero', 15, 'prova2'),\
-                        (3, 'Rifugio Duca degli Abruzzi','45.958891','7.6441','2798.2','Refuge',"Valle d'Aosta",'AO','Breuil-Cervinia',22,'prova3')"
+                        (3, 'Rifugio Duca degli Abruzzi','45.958891','7.6441','2798.2','Refuge',\"Valle d'Aosta\",'AO','Breuil-Cervinia',22,'prova3')"
         );
     });
 

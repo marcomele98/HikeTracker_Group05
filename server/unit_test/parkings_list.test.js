@@ -15,8 +15,6 @@ function Parking(id, name, latitude, longitude, altitude, region, province, city
 }
 
 
-
-
 describe("ParkingsDao", () => {
     beforeAll(async () => {
         await daoUtility.resetDB();
@@ -24,7 +22,7 @@ describe("ParkingsDao", () => {
             "INSERT INTO PARKING_LOT(name, latitude, longitude, altitude, region, province, city)\
                 VALUES('Piazzale di Valdinferno','44.19296','7.95501','1192','Piemonte', 'CN','Garessio'),\
                       ('Parking Garessio 200','44.21653','7.94425','1392','Piemonte', 'CN','Garessio'),\
-                      ('Parcheggio di Barmasc','45.809639','7.676498','1895.081',"Valle d'Aosta",'AO','Lignod')"
+                      ('Parcheggio di Barmasc','45.809639','7.676498','1895.081', \"Valle d'Aosta\",'AO','Lignod')"
         );
     });
 
@@ -36,7 +34,7 @@ describe("ParkingsDao", () => {
         let data = await parking.getParkings();
         let parking1 = new Parking(1, 'Piazzale di Valdinferno','44.19296','7.95501','1192','Piemonte', 'CN','Garessio');
         let parking2 = new Parking(2, 'Parking Garessio 200','44.21653','7.94425','1392','Piemonte', 'CN','Garessio');
-        let parking3 = new Parking(3, 'Parcheggio di Barmasc','45.809639','7.676498','1895.081',"Valle d'Aosta",'AO','Lignod');
+        let parking3 = new Parking(3, 'Parcheggio di Barmasc','45.809639','7.676498','1895.081', "Valle d'Aosta",'AO','Lignod');
         expect(data.length).toStrictEqual(3);
         let parking_check1 = new Parking(data[0].id, data[0].name, data[0].latitude, data[0].longitude, data[0].altitude, data[0].region, data[0].province, data[0].city);
         let parking_check2 = new Parking(data[1].id, data[1].name, data[1].latitude, data[1].longitude, data[1].altitude, data[1].region, data[1].province, data[1].city);
