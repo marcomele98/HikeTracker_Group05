@@ -59,7 +59,7 @@ const Map = (props) => {
                             }
                             {props.hike.huts.map(p => <Marker key={[p.latitude, p.longitude, p.name, p.altitude]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
                                 <Popup>
-                                    Name: {p.name} <br /> Latitude: {p.latitude} <br /> Longitude: {p.longitude} <br /> Altitude: {p.altitude + " m"}
+                                    Name: {p.type + " " + p.name} <br /> Latitude: {p.latitude} <br /> Longitude: {p.longitude} <br /> Altitude: {p.altitude + " m"}
                                 </Popup>
                             </Marker>)
                             }
