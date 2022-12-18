@@ -2,16 +2,17 @@
 const {ve_hut1_img, ve_hut2_img, ve_hut3_img, ve_hut4_img, ve_hut5_img, ve_hut6_img, ve_hut7_img} = require("./images/veneto/huts/getHutImages.js");
 const {ca_hut1_img, ca_hut2_img} = require("./images/calabria/huts/getHutImages.js");
 const {va_hut1_img, va_hut2_img, va_hut3_img } = require("./images/valledaosta/huts/getHutImages.js");
+const {pm_hut1_img, pm_hut2_img, pm_hut3_img, pm_hut4_img} = require("./images/piemonte/huts/getHutImages");
 const {li_hut1_img} = require("./images/liguria/huts/getHutImages.js");
 
 let hutsvalues =
     [
 
 
-        ['La Riposa', '45.17778', '7.08337', '2185', 'Refuge', 'Piemonte', 'TO', 'Mompantero', 20, "+39 0122 675173",'rifugio.lariposa22@gmail.com', 'The Rifugio La Riposa is located in the locality of Riposa, Mompantero di Susa, at an altitude of 2185 m and can also be reached by car.'],
-        ["Ca' d'Asti", '45.19177', '7.07427', '2854', 'Refuge', 'Piemonte', 'TO', 'Mompantero', 15, "+39 0122 33192",'rifugiocadasti@libero.it', 'the refuge was built on the site where Bonifacio Rotario dAsti , who had first climbed the summit of Rocciamelone in 1358 , had built a shelter'],
-        ['Savona', '44.19940', '7.93339', '2600', 'Refuge', 'Piemonte', 'CN', 'Garessio', 10, "+39 0174 803707",'info@caisavona.it', 'Short access itinerary to the Savona refuge, perhaps preferable in summer to the one that climbs from Valdinferno, due to the possibility of carrying out the entire climb inside a cool beech forest.'],
-        ['Gallo di monte', '44.21736', '7.94432', '1392', 'Refuge', 'Piemonte', 'CN', 'Garessio', 8, "+39 338 158 6878", undefined, 'simple, well-kept and well managed, Always open in the months July August and on weekends in other periods.'],
+        ['La Riposa', '45.17778', '7.08337', '2185', 'Refuge', 'Piemonte', 'TO', 'Mompantero', 20, "+39 0122 675173",'rifugio.lariposa22@gmail.com', 'The Rifugio La Riposa is located in the locality of Riposa, Mompantero di Susa, at an altitude of 2185 m and can also be reached by car.',pm_hut1_img],
+        ["Ca' d'Asti", '45.19177', '7.07427', '2854', 'Refuge', 'Piemonte', 'TO', 'Mompantero', 15, "+39 0122 33192",'rifugiocadasti@libero.it', 'the refuge was built on the site where Bonifacio Rotario dAsti , who had first climbed the summit of Rocciamelone in 1358 , had built a shelter',pm_hut2_img],
+        ['Savona', '44.19940', '7.93339', '2600', 'Refuge', 'Piemonte', 'CN', 'Garessio', 10, "+39 0174 803707",'info@caisavona.it', 'Short access itinerary to the Savona refuge, perhaps preferable in summer to the one that climbs from Valdinferno, due to the possibility of carrying out the entire climb inside a cool beech forest.',pm_hut3_img],
+        ['Gallo di monte', '44.21736', '7.94432', '1392', 'Refuge', 'Piemonte', 'CN', 'Garessio', 8, "+39 338 158 6878", undefined, 'simple, well-kept and well managed, Always open in the months July August and on weekends in other periods.',pm_hut4_img],
         ['Nino Pernici', '45.92658', '10.76875', '1595', 'Refuge', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 23, "+39 0464 505090",'rifugiopernici@hotmail.it', 'ThePernici refugeis located in the mountains between Lake Garda and the Ledro valley, in a splendid panoramic position at 1600 meters above sea level. Easily accessible from several accesses, it offers typical cuisine and bar service.'],
         ['Capanna Grassi', '45.92', '10.78', '1043', 'Malga', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 12, "+39 0464 501181",'malgagrassi@gmail.com', 'A few steps from Riva del Garda.Opens from 8:30'],
         ['Ganischger Alm', '46.351153', '11.546513', '2011', 'Restaurant', 'Trentino-Alto Adige', 'BZ', 'Nova Ponente', undefined, "+39 328 2259537",'info@ganischgeralm.com', 'located in the heart of the skiing and hiking area Latemar Obereggen, in a sunny location with 360 degrees panoramic view of the fantastic mountains of the Dolomites.'],
