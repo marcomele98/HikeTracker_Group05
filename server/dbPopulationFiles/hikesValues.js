@@ -11,7 +11,7 @@ const { lo_file1, lo_file2, lo_file3, lo_file4, lo_file5, lo_file6, lo_file7, lo
 const {ve_h1_img, ve_h2_img, ve_h3_img, ve_h4_img, ve_h5_img, ve_h6_img, ve_h7_img, ve_h8_img} = require("./images/veneto/hikes/getImages.js");
 const {ca_h1_img, ca_h2_img, ca_h3_img, ca_h4_img, ca_h5_img, ca_h6_img, ca_h7_img, ca_h8_img} = require("./images/calabria/hikes/getImages.js");
 const {va_h1_img, va_h2_img, va_h3_img, va_h4_img, va_h5_img, va_h6_img, va_h7_img, va_h8_img} = require("./images/valledaosta/hikes/getImages.js");
-
+const {li_h1_img, li_h2_img, li_h3_img, li_h4_img, li_h5_img, li_h6_img, li_h7_img, li_h8_img, li_h9_img} = require("./images/liguria/hikes/getImages.js");
 
 let hikevalues =
   [
@@ -24,7 +24,7 @@ let hikevalues =
     ['Salita al Bric Mindino e al Colle di Prato Rotondo', 9.2, 218, 610, 'Hiker', 'Piemonte', 'CN', 'Garessio', 1,
       pm_file4, 2, 'Parking point', 2, 'Parking point', 'Intermediate Hiking Tour. Good fitness required. Mostly accessible paths. Sure-footedness required. The starting point of the Tour is right next to a parking lot.'],//endpoint:2 parking,strtpoint:2 parking
     ['Colletta di Castelbianco Loop from Veravo', 5.7, 105, 206, 'Tourist', 'Liguria', 'SV', 'Castelbianco', 1,
-      pm_file5, 3, 'Parking point', 3, 'Parking point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is right next to a parking lot.'],//endpoint:3 parking,strtpoint:3 parking
+      pm_file5, 3, 'Parking point', 3, 'Parking point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is right next to a parking lot.', li_h9_img],//endpoint:3 parking,strtpoint:3 parking
     ['Chiesa di Santa Libera Loop from Losano', 4.6, 80, 122, 'Tourist', 'Piemonte', 'TO', 'Frailino', 1,
       pm_file6, 6, 'general point', 6, 'general point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels.'],//endpoint:2 pointtable,strtpoint:3 pointtable
     ['Great War: from Malga Grassi to Rifugio Pernici', 2.5, 70, 558, 'Hiker', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 1,
@@ -44,21 +44,21 @@ let hikevalues =
     ['The forts of Monte Brione', 6.3, 180, 320, 'Tourist', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 1,
       tn_file8, 22, 'general point', 22, 'general point', 'An easy trek to explore the Austro-Hungarian border defences along the Sentiero della Pace or Peace Trail'],
     ['Portofino e San Fruttuoso da Gaixella', 17.48, 344, 1143, 'Tourist', 'Liguria', 'GE', 'Portofino', 1,
-      li_file1, 7, 'Parking point', 7, 'Parking point', 'Nice and easy hike through some of the nicest towns in Liguria. You can climb hills while looking at the sea'],
+      li_file1, 7, 'Parking point', 7, 'Parking point', 'Nice and easy hike through some of the nicest towns in Liguria. You can climb hills while looking at the sea', li_h1_img],
     ['Parco Naturale del Beigua.Il Monte Tardia da Arenzano', 14.2, 352, 933, 'Hiker', 'Liguria', 'GE', 'Arenzano', 1,
-      li_file2, 34, 'general point', 34, 'general point', 'Challenging hike that takes you into the depth of Parco Nazionale del Beigua, almost riching the peak of Monte Tardia'],
+      li_file2, 34, 'general point', 34, 'general point', 'Challenging hike that takes you into the depth of Parco Nazionale del Beigua, almost riching the peak of Monte Tardia', li_h2_img],
     ['San Lorenzo al Mare-Costarainera-Cipressa-Aregai-S. Lorenzo al Mare', 15.91, 262, 274, 'Tourist', 'Liguria', 'IM', 'San Lorenzo al Mare', 1,
-      li_file3, 41, 'general point', 41, 'general point', 'Walk through some of the nicest coasts in Liguria'],
+      li_file3, 41, 'general point', 41, 'general point', 'Walk through some of the nicest coasts in Liguria', li_h3_img],
     ['Il Grande Anello di Alassio-Tra mare e monti', 19.36, 447, 1098, 'Tourist', 'Liguria', 'SV', 'Alassio', 1,
-      li_file4, 8, 'Parking point', 8, 'Parking point', 'Discover the beatiful city of Alassio and its surroundings'],
+      li_file4, 8, 'Parking point', 8, 'Parking point', 'Discover the beatiful city of Alassio and its surroundings', li_h4_img],
     ['Torre Pisana, Santuario della Guardia e Torre di Vegliasco. Anello da Alassio.', 11.41, 284, 639, 'Tourist', 'Liguria', 'SV', 'Alassio', 1,
-      li_file5, 8, 'Parking point', 8, 'Parking point', 'A nice walk with hidden gems like a great restaurant in a road curve, a love path where walls have inscriptions dating back from 56 b.C.'],
+      li_file5, 8, 'Parking point', 8, 'Parking point', 'A nice walk with hidden gems like a great restaurant in a road curve, a love path where walls have inscriptions dating back from 56 b.C.', li_h5_img],
     ['Alassio, San Bernardo, Poggio Brea, Laigueglia, Metta, Torre Pisana e Moglio', 17.01, 400, 820, 'Tourist', 'Liguria', 'SV', 'Alassio', 1,
-      li_file6, 8, 'Parking point', 8, 'Parking point', 'A long but wonderful hike on the mountains of Alassio'],
+      li_file6, 8, 'Parking point', 8, 'Parking point', 'A long but wonderful hike on the mountains of Alassio', li_h6_img],
     ['La Foresta della Deiva(Il sentiero Natura)', 14.22, 216, 482, 'Hiker', 'Liguria', 'SV', 'Sassello', 1,
-      li_file7, 55, 'general point', 55, 'general point', 'A very rich in panoramic views and well marked hike through the Deiva Forest'],
+      li_file7, 55, 'general point', 55, 'general point', 'A very rich in panoramic views and well marked hike through the Deiva Forest', li_h7_img],
     ['Castello della Pietra e Sella Bricchetto da Vobbia', 11.11, 183, 663, 'Hiker', 'Liguria', 'GE', 'Vobbia', 1,
-      li_file8, 59, 'general point', 59, 'general point', 'Easy hike for everyone that takes you to the Castello della Pietra, a real gem of this area'],
+      li_file8, 59, 'general point', 59, 'general point', 'Easy hike for everyone that takes you to the Castello della Pietra, a real gem of this area', li_h8_img],
 
     ['Valtournenche - Lago di Cignana', 10.03, 340, 796, 'Hiker', "Valle d'Aosta", 'AO', 'Fontanaz-Valmartin', 1,
       va_file1, 68, 'general point', 68, 'general point', 'Great route for hiking lovers with a beatiful lake to see',va_h1_img],
