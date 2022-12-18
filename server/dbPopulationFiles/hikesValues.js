@@ -11,7 +11,7 @@ const { lo_file1, lo_file2, lo_file3, lo_file4, lo_file5, lo_file6, lo_file7, lo
 const {ve_h1_img, ve_h2_img, ve_h3_img, ve_h4_img, ve_h5_img, ve_h6_img, ve_h7_img, ve_h8_img} = require("./images/veneto/hikes/getImages.js");
 const {ca_h1_img, ca_h2_img, ca_h3_img, ca_h4_img, ca_h5_img, ca_h6_img, ca_h7_img, ca_h8_img} = require("./images/calabria/hikes/getImages.js");
 const {va_h1_img, va_h2_img, va_h3_img, va_h4_img, va_h5_img, va_h6_img, va_h7_img, va_h8_img} = require("./images/valledaosta/hikes/getImages.js");
-const {pm_h1_img, pm_h2_img, pm_h3_img, pm_h4_img, pm_h5_img, pm_h6_img} = require("./images/piemonte/hikes/getImages.js");
+const {pm_h1_img, pm_h2_img, pm_h3_img, pm_h4_img, pm_h5_img} = require("./images/piemonte/hikes/getImages.js");
 const {li_h1_img, li_h2_img, li_h3_img, li_h4_img, li_h5_img, li_h6_img, li_h7_img, li_h8_img, li_h9_img} = require("./images/liguria/hikes/getImages.js");
 
 let hikevalues =
@@ -27,7 +27,7 @@ let hikevalues =
     ['Colletta di Castelbianco Loop from Veravo', 5.7, 105, 206, 'Tourist', 'Liguria', 'SV', 'Castelbianco', 1,
       pm_file5, 3, 'Parking point', 3, 'Parking point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels. The starting point of the Tour is right next to a parking lot.', li_h9_img],//endpoint:3 parking,strtpoint:3 parking
     ['Chiesa di Santa Libera Loop from Losano', 4.6, 80, 122, 'Tourist', 'Piemonte', 'TO', 'Frailino', 1,
-      pm_file6, 6, 'general point', 6, 'general point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels.',pm_h6_img],//endpoint:2 pointtable,strtpoint:3 pointtable
+      pm_file6, 6, 'general point', 6, 'general point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels.',pm_h5_img],//endpoint:2 pointtable,strtpoint:3 pointtable
     ['Great War: from Malga Grassi to Rifugio Pernici', 2.5, 70, 558, 'Hiker', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 1,
       tn_file1, 5, 'Hut point', 4, 'Parking point', 'This is without doubt one of the most popular hiking trails in Garda Trentino. Short and not too hard, it leads to one of the busiest mountain huts in the area.'],
     ['Torre di Pisa', 9.7, 300, 790, 'Hiker', 'Trentino-Alto Adige', 'BZ', 'Nova Ponente', 1,
