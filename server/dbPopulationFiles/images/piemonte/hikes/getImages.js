@@ -10,5 +10,4 @@ module.exports = {
     pm_h3_img: getBase64Image(path +'hike3.jpg'),
     pm_h4_img: getBase64Image(path +'hike4.jpg'),
     pm_h5_img: getBase64Image(path +'hike5.jpg'),
-    pm_h6_img: getBase64Image(path +'hike6.jpg'),
 }
