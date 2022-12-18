@@ -2,6 +2,8 @@
 const {ve_hut1_img, ve_hut2_img, ve_hut3_img, ve_hut4_img, ve_hut5_img, ve_hut6_img, ve_hut7_img} = require("./images/veneto/huts/getHutImages.js");
 const {ca_hut1_img, ca_hut2_img} = require("./images/calabria/huts/getHutImages.js");
 const {va_hut1_img, va_hut2_img, va_hut3_img } = require("./images/valledaosta/huts/getHutImages.js");
+const {li_hut1_img} = require("./images/liguria/huts/getHutImages.js");
+
 let hutsvalues =
     [
 
@@ -19,7 +21,7 @@ let hutsvalues =
         ['Bocca Di Trat', '45.92659', '10.76872', '1598', 'Refuge', 'Trentino-Alto Adige', 'TN', 'Arco', 15, undefined, undefined, 'The spires of the Guglie di Pichea resemble a stone castle and the Rifugio Bocca di Trat “Nino Pernici” has the appearance of guardhouse in an area of enormous strategic importance for the defence of the Upper Garda during the Great War'],
         ['Valmaggiore', '46.291392', '11.646566', '1610', 'Malga', 'Trentino-Alto Adige', 'TN', 'Cavalese', 10, "+39 329 8547451", undefined, 'A typical restaurant in the magnificent scenery of Valmaggiore, the malga offers traditional Trentino cuisine and house dishes'],
         ['Ponale Alto Belvedere', '45.864402', '10.833777', '145', 'Restaurant', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', undefined, "+39 0464 567321",'ponalesrl@gmail.com', 'The restaurant is located on the road of the "ponale", unique and fabulous path. It starts from Riva del Garda, a town overlooking Lake Garda.'],
-        ['Molini', '44.31912', '9.178627', '232', 'Agririfugio', 'Liguria', 'GE', 'Fruttuoso', 11, "+39 0185 772291",'info@agririfugiomolini.it', 'Set on a hillside overlooking the Ligurian coast, this quiet, secluded farmhouse within Portofino Natural Park is only accessible via hiking trails.'],
+        ['Molini', '44.31912', '9.178627', '232', 'Agririfugio', 'Liguria', 'GE', 'Fruttuoso', 11, "+39 0185 772291",'info@agririfugiomolini.it', 'Set on a hillside overlooking the Ligurian coast, this quiet, secluded farmhouse within Portofino Natural Park is only accessible via hiking trails.', li_hut1_img],
         ['Barmasse', '45.87579', '7.593994', '2174.2', 'Refuge', "Valle d'Aosta", 'AO', 'Fontanaz-Valmartin', 25, "+39 375 687 51 14",'prenotazioni@rifugiocuney.it', 'The refuge is an excellent point of reference for summer excursions, mountain biking, lake fishing and loop trekking.',va_hut1_img],
         ['Duca degli Abruzzi all Oriondè', '45.958891', '7.6441', '2798.2', 'Refuge', "Valle d'Aosta", 'AO', 'Breuil-Cervinia', 22, "+39 349 3665318",'info@rifugiorionde.it', 'The comfort and treatment are excellent, it will feel like staying in a small hotel',va_hut2_img],
         ['Barbustel', '45.649148', '7.588452', '2188', 'Refuge', "Valle d'Aosta", 'AO', 'Covarey', 40, "+39 0166 510001", undefined, 'The refuge is located at 2200 m near the Blanc, Noir, Cornu and Vallette lakes. At lunch you can eat typical Aosta Valley cuisine.',va_hut3_img],
