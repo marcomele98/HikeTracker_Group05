@@ -17,6 +17,7 @@ exports.hike = {
     "city": "Mompantero",
     "gpx": "gpx content",
     "description": "a beautiful hike",
+    "image": "image",
     "end_point": {
         "latitude": "45.20353",
         "longitude": "7.07734",

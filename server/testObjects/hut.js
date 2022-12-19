@@ -10,7 +10,8 @@ exports.hut = {
     'number_of_beds': 20,
     'phone': "3331118888",
     'email': 'Refuge_LaRiposa@gmail.com',
-    'description': 'prova1'
+    'description': 'prova1',
+    "image": "image"
 }
 
 exports.hut1 = {
@@ -30,7 +31,8 @@ exports.hut2 = {
     'number_of_beds': 11,
     'phone': "3331118888",
     'email': 'Agririfugio_Molini@gmail.com',
-    'description': 'Set on a hillside overlooking the Ligurian coast, this quiet, secluded farmhouse within Portofino Natural Park is only accessible via hiking trails.'
+    'description': 'Set on a hillside overlooking the Ligurian coast, this quiet, secluded farmhouse within Portofino Natural Park is only accessible via hiking trails.',
+    "image": "image"
 };
 
 exports.hut3 ={
@@ -45,7 +47,8 @@ exports.hut3 ={
     'number_of_beds': 15,
     'phone': "2002198555",
     'email': 'Rifugio_Asti@gmail.com',
-    'description': 'prova2'
+    'description': 'prova2',
+    "image": "image"
 };
 
 
@@ -61,7 +64,8 @@ exports.hut4 = {
     'number_of_beds': 22,
     'phone':  "2002198555",
     'email': 'Rifugio_Duca@gmail.com',
-    'description': 'prova3'
+    'description': 'prova3',
+    "image": "image"
 }
 
 exports.hut5 = {
@@ -76,7 +80,8 @@ exports.hut5 = {
     'number_of_beds': 16,
     'phone':  "8888888888",
     'email': 'Rifugio_Sempronio@gmail.com',
-    'description': 'prova4'
+    'description': 'prova4',
+    "image": "image"
 }
 
 exports.wrongHut1 = {
