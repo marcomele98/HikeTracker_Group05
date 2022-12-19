@@ -21,3 +21,13 @@ exports.setupPreferences = async() => {
     await daoUtility.savePreferencesForGiulioLiso();
     await chaiUtility.loginHiker();
 }
+
+exports.loginHiker = async() => {
+    await this.setup();
+    await chaiUtility.postHike();
+    await chaiUtility.postHike();
+    await daoUtility.createLuigiVerdi();
+    await chaiUtility.logout();
+    await chaiUtility.loginHiker();
+
+}

@@ -4,6 +4,7 @@ chai.use(chaiHttp);
 chai.should();
 const app = require('../index');
 const user = require('../testObjects/user')
+const hikeObject = require('../testObjects/hike')
 
 exports.agent = chai.request.agent(app);
 
@@ -25,5 +26,13 @@ exports.loginHiker = async () => {
         .send(user.h1Credentials)
         .then(function (res) {
             res.should.have.status(200);
+        });
+}
+
+exports.postHike = async () => {
+    await this.agent.post('/api/hike')
+        .send(hikeObject.hike)
+        .then(function (res) {
+            res.should.have.status(201);
         });
 }

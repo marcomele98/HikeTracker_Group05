@@ -38,7 +38,6 @@ exports.isNotValidPhone = (number) => {
 }
 
 exports.isNotValidPoint = (point) => {
-    console.log(point)
     let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
     let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
 
@@ -53,7 +52,6 @@ exports.isNotValidPoint = (point) => {
 }
 
 exports.isNotValidPointUser = (point) => {
-    console.log(point)
     let regexpLatitude = new RegExp('^-?([0-8]?[0-9]|90)(\.[0-9]{1,10})?$');
     let regexpLongitude = new RegExp('^-?([0-9]{1,2}|1[0-7][0-9]|180)(\.[0-9]{1,10})?$');
 

@@ -448,7 +448,7 @@ class HikeDescription {
 
         try {
             await db.startHikeByHiker(hikeId, hikerId, date_time);
-            return res.status(200).end();
+            return res.status(201).end();
         }
         catch (err) {
             message = "Server error"
