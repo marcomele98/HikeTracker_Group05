@@ -75,3 +75,15 @@ exports.updateStart1 = {
     'start_point' : 1 ,
     'type_start' : 'Parking point'
 }
+
+exports.hikeStartDates ={
+    'date_time' : '2022-11-16 12:00:00'
+}
+
+exports.hikeEndDates ={
+    'date_time' : '2022-11-16 18:00:00'
+}
+
+exports.hikeEndDates_wrong ={
+    'date_time' : '2022-11-16 10:00:00'
+}

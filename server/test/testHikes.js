@@ -7,6 +7,7 @@ const chaiUtility = require('../utilities/chaiUtilities');
 const testUtility = require('../utilities/apiTestUtilities');
 
 
+
 describe('test hikes apis', () => {
     beforeEach(async () => {
         await testUtility.setup();
@@ -47,30 +48,69 @@ describe('test hikes apis no login', () => {
     newHikeDescription(401, hikeObject.hike);
 });
 
+describe('test hikes apis as hiker', () => {
+    beforeEach(async () => {
+        await testUtility.loginHiker();
+    });
+
+    afterEach(async () => {
+        await testUtility.reset();
+    });
+
+    getHikes(hikeObject.hike, 'hiker', 1, hikeObject.hikeStartDates, hikeObject.hikeEndDates);
+    startHikeByHiker(1, hikeObject.hikeStartDates);
+    endHikeByHiker(1, hikeObject.hikeStartDates, hikeObject.hikeEndDates);
+    endHikeByHiker(1, hikeObject.hikeStartDates, hikeObject.hikeEndDates_wrong);
+});
 
 
-function getHikes(hike) {
+
+function getHikes(hike, role, id, startDate_time, endDate_time) {
     it('Getting all hikes', function (done) {
-        chaiUtility.agent.post('/api/hike')
-            .send(hike)
-            .then(function (res) {
-                res.should.have.status(201);
-                if (res.status == 201) {
-                    chaiUtility.agent.post('/api/hike')
-                        .send(hike)
-                        .then(function (res1) {
-                            res1.should.have.status(201);
-                            if (res1.status == 201) {
-                                chaiUtility.agent.get('/api/hikes')
-                                    .then(function (res2) {
-                                        res2.should.have.status(200);
-                                        res2.body.should.have.length(2);
-                                        done();
-                                    });
-                            }
-                        })
-                }
-            });
+        if(role !== 'hiker'){
+            chaiUtility.agent.post('/api/hike')
+                .send(hike)
+                .then(function (res) {
+                    res.should.have.status(201);
+                    if (res.status == 201) {
+                        chaiUtility.agent.post('/api/hike')
+                            .send(hike)
+                            .then(function (res1) {
+                                res1.should.have.status(201);
+                                if (res1.status == 201) {
+                                    chaiUtility.agent.get('/api/hikes')
+                                        .then(function (res2) {
+                                            res2.should.have.status(200);
+                                            res2.body.should.have.length(2);
+                                            done();
+                                        });  
+                                }
+                            })
+                    }
+                });
+        }
+        else{
+            chaiUtility.agent.post('/api/startHike/'+ id)
+                .send(startDate_time)
+                .then(function (res3) {
+                    res3.should.have.status(201);
+                    if (res3.status === 201) {
+                        chaiUtility.agent.put('/api/endHike/'+ id)
+                            .send(endDate_time)
+                            .then(function (res4){
+                                if (res4.status === 200){
+                                    chaiUtility.agent.get('/api/hikes')
+                                        .then(function (res5) {
+                                            res5.should.have.status(200);
+                                            res5.body.should.have.length(2);
+                                            res5.body[0].start_time.should.equal(startDate_time.date_time);
+                                            done();
+                                        }); 
+                                }
+                            });
+                    }
+                });
+        }
     });
 };
 
@@ -103,6 +143,56 @@ function getHikeById(id, hike) {
             })
     });
 };
+
+function startHikeByHiker(hikeId, startDate_time){
+    it('start a hike', function (done) {
+        chaiUtility.agent.post('/api/startHike/'+ hikeId)
+        .send(startDate_time)
+        .then(function (res) {
+            res.should.have.status(201);
+            if (res.status === 201) {
+                chaiUtility.agent.get('/api/hike/' + hikeId)
+                    .then(function (res1) {
+                        res1.should.have.status(200);
+                        res1.body.id.should.equal(hikeId);
+                        res1.body.start_time.should.equal(startDate_time.date_time);
+                        done();
+                    });
+                }
+            });
+
+    });
+}
+
+function endHikeByHiker(hikeId, startDate_time, endDate_time){
+    it('end a hike', function (done) {
+        chaiUtility.agent.post('/api/startHike/'+ hikeId)
+        .send(startDate_time)
+        .then(function (res) {
+            res.should.have.status(201);
+            if (res.status === 201) {
+                chaiUtility.agent.put('/api/endHike/'+ hikeId)
+                    .send(endDate_time)
+                    .then(function (res2) {
+                        if (res2.status === 200) {
+                            chaiUtility.agent.get('/api/hike/' + hikeId)
+                            .then(function (res1) {
+                                res1.should.have.status(200);
+                                res1.body.id.should.equal(hikeId);
+                                res1.body.end_time.should.equal(endDate_time.date_time);
+                                done();
+                            });
+                        }
+                        else{
+                            res2.should.have.status(422);
+                            done();
+                        }
+                    });
+            }
+        });
+
+    });
+}
 
 function newHikeDescription(expectedHTTPStatus, hike) {
     it('adding a new hike description', function (done) {
