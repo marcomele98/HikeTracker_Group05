@@ -10,6 +10,7 @@ exports.resetDB = async ()=> {
     await db.run('DELETE FROM HIKER_PREFERENCES');
     await db.run('DELETE FROM USER');
     await db.run('DELETE FROM sqlite_sequence');
+    await db.run('DELETE FROM HIKE_HIKER');
 }
 
 exports.createMarioRossi = async () => {
