@@ -103,7 +103,7 @@ function getHikes(hike, role, id, startDate_time, endDate_time) {
                                         .then(function (res5) {
                                             res5.should.have.status(200);
                                             res5.body.should.have.length(2);
-                                            res5.body[0].start_time.should.equal(startDate_time.date_time);
+                                            res5.body[id - 1].start_time.should.equal(startDate_time.date_time);
                                             done();
                                         }); 
                                 }
