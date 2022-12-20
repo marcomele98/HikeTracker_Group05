@@ -91,7 +91,6 @@ const MapEvents = ({ selected, setSelected, clearAddress }) => {
 const SelectorMap = ({ onClick, positions, setPositions, clearAddress }) => {
     const [selected, setSelected] = React.useState();
     const [point, setPoint] = React.useState();
-    const [points, setPoints] = React.useState([])
 
     React.useEffect(() => {
         if (selected) {
@@ -112,13 +111,8 @@ const SelectorMap = ({ onClick, positions, setPositions, clearAddress }) => {
 
     React.useEffect(() => {
         console.log(positions)
-        // const maxHalfLength = 500;
-        // const ratio = (positions.length / maxHalfLength).toFixed();
-        // const filtered_positions =  positions.filter((el, i) => ratio<=2 || i%(ratio*2) == 0)
-        // setPoints(filtered_positions);
     }, [])
 
-    const blueIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF"
     const greenIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|2ecc71&chf=a,s,ee00FFFF"
 
     return (
@@ -144,25 +138,6 @@ const SelectorMap = ({ onClick, positions, setPositions, clearAddress }) => {
                                     pathOptions={{ fillColor: 'red', color: 'blue' }}
                                     positions={positions}
                                 />
-                                {/* {
-                                    points
-                                        .filter(p => (!selected || (selected.lat === p.lat && selected.lon === p.lon)))
-                                        .map((p, i) =>
-                                            <Marker
-                                                key={i + 1}
-                                                position={[p.lat, p.lon, p.ele]}
-                                                eventHandlers={{
-                                                    click: (e) => {
-                                                        setSelected(p)
-                                                        onClick(p)
-                                                    }
-                                                }}
-                                                icon={new Icon({ iconUrl: selected ? greenIconUrl : blueIconUrl, iconSize: [25, 41], iconAnchor: [12, 41] })}>
-                                                <Popup>
-                                                    {p.name ? ("Name: " + p.name) : ""} {p.name ? <br /> : false} {"'" + p.lat + "', '" + p.lon + "', '" + p.ele + "', "}
-                                                </Popup>
-                                            </Marker>)
-                                } */}
                                 {
                                     !point ?
                                         false
