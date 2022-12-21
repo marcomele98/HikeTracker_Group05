@@ -11,7 +11,7 @@ describe('the local guide wants to define reference points', () => {
     it('test cancel button',()=>{
         cy.contains('Add new point').click()
         cy.get('#validationCustom04').clear().type('yyyyy').should('have.value','yyyyy')
-        cy.get('button').contains('Cancel').click()
+        cy.get('button').contains('Cancel').click({force:true})
         cy.get('#validationCustom04').should('not.exist')
         cy.contains('Add new point')      
     })
