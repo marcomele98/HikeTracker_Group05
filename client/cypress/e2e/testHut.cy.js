@@ -54,7 +54,7 @@ describe('cancel button test of hutform e2e tset', () => {
 describe('search hut e2e tset', () => { 
     it('search input form test',()=>{
        cy.get(".md[type='text']").type('Vil',{force: true}).should('have.value','Vil')
-       cy.get('.list-group').should('contain','Villaggio Baffa (Hotel)','Calabria','Cotronei (KR)')
+       cy.get('.list-group').should('contain','Hotel Villaggio Baffa','Calabria','Cotronei (KR)')
     })
 
     it('see more button exist',()=>{
@@ -63,7 +63,7 @@ describe('search hut e2e tset', () => {
     })
 
    it('show all info of the hut which is searched',()=>{
-       cy.get('.titleBig').should('contain','Villaggio Baffa (Hotel)')
+       cy.get('.titleBig').should('contain','Hotel Villaggio Baffa')
        cy.get('.textGrayPrimaryItalic').should('contain','Villaggio Baffa is an excellent combination for short or long stays and at any time of the year.')
        cy.get('.textGrayPrimaryBig').should('contain','Calabria','Cotronei (KR)','Beds: 28')
     })
