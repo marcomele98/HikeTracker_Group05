@@ -57,8 +57,8 @@ function Home({ setIsLoading, user, setUser }) {
     }
 
     const setPreferences = async () => {
-        var lat = coordinates ? parseFloat(coordinates?.lat).toFixed(6) : null
-        var lon = coordinates ? parseFloat(coordinates?.lng).toFixed(6) : null
+        const lat = coordinates ? parseFloat(coordinates?.lat).toFixed(6) : null
+        const lon = coordinates ? parseFloat(coordinates?.lng).toFixed(6) : null
         try {
             setIsLoading(true);
             await API.setPreferences(
