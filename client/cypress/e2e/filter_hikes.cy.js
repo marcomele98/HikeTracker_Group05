@@ -62,15 +62,7 @@ describe('hikers can set and see the filtered hikes ', () => {
         cy.get('.rc-slider-handle').eq(4)
         .should('have.attr', 'aria-valuenow', 80) 
     })
-    it('test after clicking confirm button whether user can see the filter hike and save filters as preference', () =>{
-        cy.contains('Confirm').click({force:true})
-        cy.get('.title').contains('Path to Rocciamelone')
-        cy.get('.list-group-item').children().should('have.length', 8)
-        cy.get('.list-group-item').should('contain','Piemonte','Mompantero (TO)','Ascent: 1353 m','Length: 9 km','Expected time: 420 min','Difficulty: Professional Hiker')
-        cy.contains('Save Filters As Preferences').click({force:true})
     
-    })
-
     it('test see morde button to know the more details of filter hike', ()=>{
         cy.get('.seeMore').click()
         cy.url().should('include','/hike/1')
@@ -86,7 +78,10 @@ describe('hikers can set and see the filtered hikes ', () => {
 
     it('test function of Getting Filters From Preferences',()=>{
         cy.go('back')
-        cy.contains('Get Filters From Preferences').click({force:true})
-        cy.get('.title').should('contain','Salita al Bric Mindino e al Colle di Prato Rotondo')//get my preference filter
+        cy.contains('Get Preferences').click({force:true})
+        cy.on('window:alert', (alert) => {
+            expect(alert).to.eq('No saved preferences');
+        });
     })
+    
 })

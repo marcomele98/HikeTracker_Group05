@@ -14,6 +14,7 @@ const {va_h1_img, va_h2_img, va_h3_img, va_h4_img, va_h5_img, va_h6_img, va_h7_i
 const {pm_h1_img, pm_h2_img, pm_h3_img, pm_h4_img, pm_h5_img} = require("./images/piemonte/hikes/getImages.js");
 const {li_h1_img, li_h2_img, li_h3_img, li_h4_img, li_h5_img, li_h6_img, li_h7_img, li_h8_img, li_h9_img} = require("./images/liguria/hikes/getImages.js");
 const {tn_h1_img, tn_h2_img, tn_h3_img, tn_h4_img, tn_h5_img, tn_h6_img, tn_h7_img, tn_h8_img} = require("./images/trentino/hikes/getImages.js");
+const {lo_h1_img, lo_h2_img, lo_h3_img, lo_h4_img, lo_h5_img, lo_h6_img, lo_h7_img, lo_h8_img} = require("./images/lombardia/hikes/getImages.js");
 
 let hikevalues =
   [
@@ -108,28 +109,28 @@ let hikevalues =
 
     //hike1:
     ['Ritorno alla Cascata Del Cenghen alle Falesie dei Campelli ', 10.28, 159, 715, 'Tourist', 'Lombardia', 'LC', 'Abbadia Lariana', 1,
-      lo_file1, 128, 'general point', 128, 'general point', 'A quiet and relaxing path, suitable for all seasons.'],
+      lo_file1, 128, 'general point', 128, 'general point', 'A quiet and relaxing path, suitable for all seasons.',lo_h1_img],
     //hike2:
     ['Cantoniera della presolana monte scanapa malga lantana colle', 13.09, 412, 596, 'Tourist', 'Lombardia', 'BG', 'Colere', 1,
-      lo_file2, 26, 'Hut point', 26, 'Hut point', 'Woods, meadows, beautiful panoramas and a fabulous view of the Presolana.'],
+      lo_file2, 26, 'Hut point', 26, 'Hut point', 'Woods, meadows, beautiful panoramas and a fabulous view of the Presolana.',lo_h2_img],
     //hike3:
     ['Baita Termen-Rifugio Pian della Palù-Monte Alto-Rifugio Leonida Magnolini', 7.91, 200, 270, 'Tourist', 'Lombardia', 'BG', 'Castione della Presolana', 1,
-     lo_file3, 132, 'general point', 132, 'general point', 'Scenic routes with little difference in elevation.'],
+     lo_file3, 132, 'general point', 132, 'general point', 'Scenic routes with little difference in elevation.',lo_h3_img],
     //hike4
     ['Verceia valle dei ratti posteggio casten frasnedo rifugio frasne', 14.52, 343, 961, 'Hiker', 'Lombardia', 'BG', 'Oneta', 1,
-      lo_file4, 134, 'general point', 134, 'general point', 'Some stretches are also exposed in the final part of the descent in the woods.'],
+      lo_file4, 134, 'general point', 134, 'general point', 'Some stretches are also exposed in the final part of the descent in the woods.',lo_h4_img],
     //hike5
     ['Passeggiata pomeridiana nel Parco Regionale Spina Verde', 10.13, 163, 440, 'Tourist', 'Lombardia', 'CO', 'San Fermo della Battaglia', 1,
-     lo_file5, 136, 'general point', 136, 'general point', 'Nice ride, there are some very beautiful viewpoints over Como, the path in the woods is cool'],
+     lo_file5, 136, 'general point', 136, 'general point', 'Nice ride, there are some very beautiful viewpoints over Como, the path in the woods is cool',lo_h5_img],
     //hike6
     ['Monti Boletto, Dosmat e Bolettone da Albese', 15.77, 336, 1078, 'Tourist', 'Lombardia', 'CO', 'Albese Con Cassano', 1,
-      lo_file6, 139, 'general point', 139, 'general point', 'The paths and dirt roads I traveled do not present particular technical difficulties.'],
+      lo_file6, 139, 'general point', 139, 'general point', 'The paths and dirt roads I traveled do not present particular technical difficulties.',lo_h6_img],
     //hike7
     ['Monte Barzaghino, Croce di Pizzallo, la Selva e i Fungi di Rezzago. Anello da Asso', 12.05, 326, 827, 'Hiker', 'Lombardia', 'CO', 'Asso', 1,
-      lo_file7, 140, 'general point', 140, 'general point', 'Recommended for anyone who wants to walk in the woods and be well trained in climbing and descending.'],
+      lo_file7, 140, 'general point', 140, 'general point', 'Recommended for anyone who wants to walk in the woods and be well trained in climbing and descending.',lo_h7_img],
     //hike8
     ['Rifugio Grassi anello da Introbio', 17.43, 432, 1563, 'Hiker', 'Lombardia', 'LC', 'Introbio', 1,
-      lo_file8, 30, 'Hut point', 30, 'Hut point', 'Easy trails, but very tiring']
+      lo_file8, 30, 'Hut point', 30, 'Hut point', 'Easy trails, but very tiring',lo_h8_img]
   ];
 
 module.exports.hikevalues = hikevalues;
