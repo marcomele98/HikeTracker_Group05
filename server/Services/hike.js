@@ -543,6 +543,8 @@ class HikesView {
                         hikes[i].records = hike_hiker.map(h => { return ({ start_time: h.start_time, end_time: h.end_time }) })
                     }
                 }
+                hikes[i].image = undefined;
+                hikes[i].gpx = undefined; 
             }
             return res.status(200).json(hikes);
 
