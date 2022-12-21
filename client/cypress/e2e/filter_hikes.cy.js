@@ -61,17 +61,14 @@ describe('hikers can set and see the filtered hikes ', () => {
         .type(arrows,{force:true})
         cy.get('.rc-slider-handle').eq(4)
         .should('have.attr', 'aria-valuenow', 80) 
+        cy.contains('Confirm').click({force:true})
     })
     
-    it('test see morde button to know the more details of filter hike', ()=>{
-        cy.get('.seeMore').click()
-        cy.url().should('include','/hike/1')
-    })
 
     it('test delete button in filter page', ()=>{
         cy.go('back')
         cy.contains('Show Filters').click({force:true})
-        cy.contains('Delete').click()
+        cy.contains('Delete').click({force:true})
         cy.get("[placeholder='Insert province code']").should('have.value','')
         cy.get("[placeholder='Insert maximum distance from the selected point']").should('have.value','')
     })
@@ -82,6 +79,11 @@ describe('hikers can set and see the filtered hikes ', () => {
         cy.on('window:alert', (alert) => {
             expect(alert).to.eq('No saved preferences');
         });
+    })
+    it('test see more button to know the more details of filter hike', ()=>{
+       // cy.contains('Confirm').click()
+        cy.get('.seeMore',{ timeout: 30000 }).click({force:true})
+        cy.url().should('include','/hike/1')
     })
     
 })

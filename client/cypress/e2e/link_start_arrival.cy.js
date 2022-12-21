@@ -5,8 +5,6 @@ describe('get the hikes list', () => {
     })
 
     it('jump into certain hike page test',()=>{
-        cy.contains('Huts').click({force:true})
-        cy.contains('Hikes').click({force:true})
         cy.contains('Great War: from Malga Grassi to Rifugio Pernici',{ timeout: 30000 }).parent().parent()
         .within(() => {     
         cy.contains('see more').click({force:true})

@@ -2,21 +2,21 @@
 describe('the local guide wants to define reference points', () => { 
     it('jump into certain hike page test',()=>{
         cy.login("lg1@p.it","password")
-        cy.get('.title').contains('Alassio, San Bernardo, Poggio Brea, Laigueglia, Metta, Torre Pisana e Moglio').parent().parent()
+        cy.get('.title',{ timeout: 30000 }).contains('Alassio, San Bernardo, Poggio Brea, Laigueglia, Metta, Torre Pisana e Moglio',{ timeout: 30000 }).parent().parent()
         .within(() => {     
         cy.contains('see more').click({force:true})
         })
     })
 
     it('test cancel button',()=>{
-        cy.get('button').contains('Add new point').click()
+        cy.contains('Add new point').click()
         cy.get('#validationCustom04').clear().type('yyyyy').should('have.value','yyyyy')
         cy.get('button').contains('Cancel').click()
         cy.get('#validationCustom04').should('not.exist')
         cy.contains('Add new point')      
     })
     it('add new reference point without select a point on the map test',()=>{
-        cy.get('button').contains('Add new point').click()
+        cy.contains('Add new point').click()
         cy.get('#validationCustom04').type('wy').should('have.value','wy')
         cy.contains('Confirm point').click()
         cy.on('window:alert', (alert) => {
