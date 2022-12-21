@@ -48,10 +48,20 @@ const RoutesManager = ({
 
             <Row>
                 <Routes>
-                    
+
                     <Route
                         path="/home"
-                        element={<Home setIsLoading={setIsLoading} user={user} setUser={setUser}/>}
+                        element={<Home setIsLoading={setIsLoading} user={user} setUser={setUser} hikeStatus={"all"}/>}
+                    />
+
+                    <Route
+                        path="/completed-hikes"
+                        element={<Home setIsLoading={setIsLoading} user={user} setUser={setUser} hikeStatus={"completed"} />}
+                    />
+
+                    <Route
+                        path="/started-hikes"
+                        element={<Home setIsLoading={setIsLoading} user={user} setUser={setUser} hikeStatus={"started"} />}
                     />
 
                     <Route

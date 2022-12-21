@@ -12,6 +12,7 @@ import AddPointForm from "./AddPointForm";
 import EditDateModal from "./dateModal"
 import moment from 'moment';
 import "../App.css"
+import CompletedModal from './popupCompleted';
 
 
 let gpxParser = require('gpxparser');
@@ -20,8 +21,13 @@ function HikePage({ setIsLoading, loggedIn, user }) {
     const [editingStartPoint, setEditingStartPoint] = useState(false);
     const [editingEndPoint, setEditingEndPoint] = useState(false)
     const [hike, setHike] = useState();
+    const [lastStartTime, setLastStartTime] = useState();
+    const [lastEndTime, setLastEndTime] = useState();
+    const [timeCompleted, setTimeCompleted] = useState(0);
 
     const [show, setShow] = useState(false);
+
+    const [showRecords, setShowRecords] = useState();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -38,7 +44,6 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                 setIsLoading(true);
                 const res = await API.getHikeById(hikeId);
                 setHike(res);
-                setIsLoading(false);
             } catch (err) {
                 setIsLoading(false);
                 if (err == 404)
@@ -50,6 +55,14 @@ function HikePage({ setIsLoading, loggedIn, user }) {
         getHikesFromServer()
     }, [hikeId])
 
+    useEffect(() => {
+        if (user?.role == 'hiker' && hike?.records && hike.records.length !== 0) {
+            hike.records.sort((a, b) => moment(b.start_time).diff(moment(a.start_time), 'seconds'));            const last_record = hike.records[0];
+            setLastStartTime(last_record.start_time)
+            setLastEndTime(last_record.end_time)
+            setTimeCompleted(hike.records.filter((r) => (r.end_time != undefined)).length)
+        }
+    }, [hike, user])
 
     const onHandleStart = async (timestamp) => {
         handleClose();
@@ -81,7 +94,6 @@ function HikePage({ setIsLoading, loggedIn, user }) {
             setIsLoading(false);
             toast.error(err, { position: "top-center" }, { toastId: 121 });
         }
-        //console.log("passerò al backend: " + timestamp)
     }
 
 
@@ -107,33 +119,65 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             <div className="titleBig">{hike.title}</div>
                         </Col>
                         {
-                            (user.role === "hiker" && !hike.end_time) ?
+                            (user.role === "hiker") ?
                                 <>
-                                    <EditDateModal onHandle={!hike.start_time ? onHandleStart : onHandleEnd} start_time={hike.start_time} onHide={handleClose} show={show}></EditDateModal>
-                                    <Button className="styleButton" variant={!hike.start_time ? "outline-success" : "outline-danger"} as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2}
+                                    <EditDateModal onHandle={(!lastStartTime || lastEndTime) ? onHandleStart : onHandleEnd} start_time={lastStartTime} onHide={handleClose} show={show}></EditDateModal>
+                                    <Button className="styleButton" variant={(!lastStartTime || lastEndTime) ? "outline-success" : "outline-danger"} as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2}
                                         onClick={handleShow}>
-                                        {!hike.start_time ? "Start" : "End"}
+                                        {(!lastStartTime || lastEndTime) ? "Start" : "End"}
                                     </Button>
                                 </>
                                 : false
                         }
                     </Row>
                     {
-                        user.role !== "hiker" || !hike.start_time
+                        user.role !== "hiker" || timeCompleted === 0
+                            ?
+                            undefined
+                            :
+                            <>
+                            <CompletedModal onHide={()=>setShowRecords(false)} show={showRecords} list={hike.records}></CompletedModal>
+                                <Row className='paddingHorizontal'>
+                                    <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                                        <ClickableOpacity onClick={() => { setShowRecords(true) }}>
+                                            <div className="textCompleted">
+                                                {"COMPLETED " + timeCompleted + (timeCompleted == 1 ? " TIME" : " TIMES")}
+                                            </div>
+                                        </ClickableOpacity>
+                                    </Col>
+                                </Row>
+                            </>
+                    }
+                    {
+                        user.role !== "hiker" || !lastStartTime || lastEndTime
                             ?
                             false
                             :
                             <>
                                 <Row className='paddingHorizontal'>
                                     <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
-                                        <div className={!hike.end_time ? "textStarted" : "textCompleted"}>
-                                            {!hike.end_time ? "STARTED" : ("COMPLETED IN " + (moment(hike.end_time).diff(moment(hike.start_time), 'minutes') + " MINS"))}
+                                        <div className={"textStarted"}>
+                                            IN PROGRESS
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </>
+                        /*user.role !== "hiker" || !lastStartTime
+                            ?
+                            false
+                            :
+                            <>
+                                <Row className='paddingHorizontal'>
+                                    <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                                        <div className={!lastEndTime ? "textStarted" : "textCompleted"}>
+                                            {!lastEndTime ? "STARTED" : ("COMPLETED IN " + (moment(lastEndTime).diff(moment(lastStartTime), 'minutes') + " MINS"))}
                                         </div>
                                     </Col>
                                 </Row>
                                 <br />
-                            </>
+                            </> */
                     }
+                    <br/>
                     <Row >
                         <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                             <div className="textGrayPrimaryBig">{hike.region + " - " + hike.city + " (" + hike.province + ")"}</div>
@@ -162,37 +206,37 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
                             <div className="textGrayPrimaryBig">{"Difficulty: " + hike.difficulty}</div>
                         </Col>
-
                     </Row>
-                    {
-                        !hike.start_time ?
+
+                    {/* {
+                        !lastStartTime ?
                             false
                             :
                             <>
                                 <br />
                                 <Row >
                                     <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
-                                        <div className="textGrayPrimaryBig">{"Start date: " + hike.start_time.split(" ")[0]}</div>
+                                        <div className="textGrayPrimaryBig">{"Start date: " + lastStartTime.split(" ")[0]}</div>
                                     </Col>
                                     <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
-                                        <div className="textGrayPrimaryBig">{"Start time: " + hike.start_time.split(" ")[1]}</div>
+                                        <div className="textGrayPrimaryBig">{"Start time: " + lastStartTime.split(" ")[1]}</div>
                                     </Col>
                                     {
-                                        !hike.end_time ?
+                                        !lastEndTime ?
                                             false
                                             :
                                             <>
                                                 <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
-                                                    <div className="textGrayPrimaryBig">{"End date: " + hike.end_time.split(" ")[0]}</div>
+                                                    <div className="textGrayPrimaryBig">{"End date: " + lastEndTime.split(" ")[0]}</div>
                                                 </Col>
                                                 <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
-                                                    <div className="textGrayPrimaryBig">{"End time: " + hike.end_time.split(" ")[1]}</div>
+                                                    <div className="textGrayPrimaryBig">{"End time: " + lastEndTime.split(" ")[1]}</div>
                                                 </Col>
                                             </>
                                     }
                                 </Row>
                             </>
-                    }
+                    } */}
 
                     <br />
                     {
@@ -334,8 +378,8 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
 
                     {hike.points
-                    .filter(isNotStartOrEnd)
-                    .length === 0
+                        .filter(isNotStartOrEnd)
+                        .length === 0
                         ?
                         <div className="textGrayPrimary" style={{ marginLeft: 10 }}>No reference points for this hike</div>
                         :
