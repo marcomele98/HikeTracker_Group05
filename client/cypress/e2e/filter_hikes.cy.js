@@ -14,7 +14,6 @@ describe('hikers can set and see the filtered hikes ', () => {
     it('Set filters test',()=>{
         cy.contains('Show Filters').click({force:true})
         cy.get("[placeholder='Insert province code']").type('TO',{force:true}).should('have.value','TO')
-//cy.get("[placeholder='Insert city']").type('Frailino',{force:true}).should('have.value','Frailino')
         cy.get("[placeholder='Insert maximum distance from the selected point']").type('200',{force:true}).should('have.value','200')
         cy.get('.list-group').eq(1).trigger('click',{force:true})
     })
@@ -63,6 +62,14 @@ describe('hikers can set and see the filtered hikes ', () => {
         .should('have.attr', 'aria-valuenow', 80) 
         cy.contains('Confirm').click({force:true})
     })
+
+    it('test after clicking confirm button whether user can see the filter hike and save filters as preference', () =>{
+        cy.get('.title').contains('Path to Rocciamelone')
+        cy.get('.list-group-item').children().should('have.length', 8)
+        cy.get('.list-group-item').should('contain','Piemonte','Mompantero (TO)','Ascent: 1353 m','Length: 9 km','Expected time: 420 min','Difficulty: Professional Hiker')
+        cy.contains('Save Preferences').click({force:true})
+
+    })
     
 
     it('test delete button in filter page', ()=>{
@@ -74,14 +81,12 @@ describe('hikers can set and see the filtered hikes ', () => {
     })
 
     it('test function of Getting Filters From Preferences',()=>{
-        cy.go('back')
         cy.contains('Get Preferences').click({force:true})
         cy.on('window:alert', (alert) => {
             expect(alert).to.eq('No saved preferences');
         });
     })
     it('test see more button to know the more details of filter hike', ()=>{
-       // cy.contains('Confirm').click()
         cy.get('.seeMore',{ timeout: 30000 }).click({force:true})
         cy.url().should('include','/hike/1')
     })
