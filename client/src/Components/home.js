@@ -9,6 +9,8 @@ import { CliccableMap } from "./cliccableMap";
 import { calcCrow } from "../utilities";
 import img from "../Assets/Images/home.jpeg"
 import "../App.css"
+import CompletedModal from './popupCompleted';
+import moment from 'moment';
 
 const Slider = require('rc-slider');
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
@@ -16,7 +18,7 @@ const Range = createSliderWithTooltip(Slider.Range);
 
 
 
-function Home({ setIsLoading, user, setUser }) {
+function Home({ setIsLoading, user, setUser, hikeStatus }) {
 
     const [seeFilters, setSeeFilters] = useState(false);
     const [province, setProvince] = useState("");
@@ -32,6 +34,8 @@ function Home({ setIsLoading, user, setUser }) {
     const [minDifficulty, setMinDifficulty] = useState("Tourist");
     const [maxDifficulty, setMaxDifficulty] = useState("Professional Hiker");
     const [hikes, setHikes] = useState([]);
+    const [records, setRecords] = useState([])
+
     const navigate = useNavigate();
 
     const getPreferences = async () => {
@@ -50,7 +54,6 @@ function Home({ setIsLoading, user, setUser }) {
             setMaxDifficulty(preferences.max_difficulty ? preferences.max_difficulty : "Professional Hiker");
             setMinDifficulty(preferences.min_difficulty ? preferences.min_difficulty : "Tourist");
         } catch (err) {
-            console.log(err)
             toast.error(err === 404 ? "No saved preferences" : "Server error.", { position: "top-center" }, { toastId: 25 });
             setIsLoading(false);
         }
@@ -81,7 +84,6 @@ function Home({ setIsLoading, user, setUser }) {
             toast.success("Preferences saved correctly.", { position: "top-center" }, { toastId: 83 });
             setIsLoading(false);
         } catch (err) {
-            console.log("aaa", err)
             toast.error(err, { position: "top-center" }, { toastId: 97 });
             setIsLoading(false);
         }
@@ -162,46 +164,45 @@ function Home({ setIsLoading, user, setUser }) {
         }
     }, [user])
 
-
     return (
 
         <>
             <div className="backImage" style={{ backgroundImage: `url(${img})`, opacity: seeFilters ? 0.2 : 1 }}></div>
             <Container>
-                <br/>
+                <br />
                 <Row className="m-3" style={{ margin: 0, padding: 0, }}>
 
-                    
-                        {
-                            user.role !== 'local guide' ?
-                                false
-                                :
-                                <>
-                                    <Button className="styleButtonMargin" as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" onClick={() => navigate("/new-hike")}>New Hike</Button>
-                                </>
 
-                        }
-                        
-                        <Col style={{ margin: 0, padding: 0, marginBottom: 10 }}>
+                    {
+                        user.role !== 'local guide' ?
+                            false
+                            :
+                            <>
+                                <Button className="styleButtonMargin" as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" onClick={() => navigate("/new-hike")}>New Hike</Button>
+                            </>
+
+                    }
+
+                    <Col style={{ margin: 0, padding: 0, marginBottom: 10 }}>
                         <>
                             <Button as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-secondary" style={{ borderWidth: 3 }} onClick={() => {
                                 setSeeFilters((val) => !val);
                             }}>{seeFilters ? "Hide Filters" : "Show Filters"}</Button>
-                            </>
-                        </Col>
-    
-                        {
-                            user.role !== 'hiker' ?
-                                false
-                                :
-                                <>
-                                    <Button className="styleButtonMargin" as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success"  onClick={() => {
-                                        getPreferences();
-                                    }}>Get Preferences</Button>
-                                    <Button className="styleButtonMargin" as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success"  onClick={() => { setPreferences() }}>Save Preferences</Button>
-                                </>
+                        </>
+                    </Col>
 
-                        }
+                    {
+                        user.role !== 'hiker' ?
+                            false
+                            :
+                            <>
+                                <Button className="styleButtonMargin" as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" onClick={() => {
+                                    getPreferences();
+                                }}>Get Preferences</Button>
+                                <Button className="styleButtonMargin" as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2} type="submit" variant="outline-success" onClick={() => { setPreferences() }}>Save Preferences</Button>
+                            </>
+
+                    }
                 </Row>
                 {
                     seeFilters ?
@@ -237,13 +238,25 @@ function Home({ setIsLoading, user, setUser }) {
                         ) : undefined
 
                 }
-
+                <CompletedModal onHide={() => setRecords([])} show={records.length > 0} list={records}></CompletedModal>
                 <ListGroup>
                     <Row>
 
                         {
                             hikes
                                 .filter((h) => {
+                                    if (hikeStatus === "completed") {
+                                        if (h.records && h.records.filter(r => r.end_time != undefined).length !== 0)
+                                            return true
+                                        else
+                                            return false
+                                    }
+                                    if (hikeStatus === "started") {
+                                        if (h.records && h.records.filter(r => r.end_time == undefined).length !== 0)
+                                            return true
+                                        else
+                                            return false
+                                    }
                                     if ((province && !h.province.toLocaleLowerCase().includes(province.toLocaleLowerCase()))
                                         || (city && !h.city.toLocaleLowerCase().includes(city.toLocaleLowerCase()))
                                         || (maxAscent && maxAscent < h.ascendent_meters)
@@ -262,48 +275,71 @@ function Home({ setIsLoading, user, setUser }) {
                                     return true;
                                 })
                                 .sort((a, b) => a.title.trim().localeCompare(b.title.trim()))
-                                .map((h) => (
-                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                        <ListGroupItem style={{ height: 250, opacity: "85%" }} key={h.id} className="m-3 border-2 rounded-3 shadow">
+                                .map((h) => {
+                                    const compl_records = h.records?.filter(r => r.end_time != undefined).sort((a, b) => {
+                                        moment(b.start_time).diff(moment(a.start_time), "seconds")
+                                    })
+                                    
+                                    return (
+                                        <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                            <ListGroupItem style={{ height: 250, opacity: "85%" }} key={h.id} className="m-3 border-2 rounded-3 shadow">
 
-                                            <Row>
-                                                <div className="title">{h.title}</div>
-                                            </Row>
-                                            <Row>
-                                                <div className="textGrayPrimary">{h.region}</div>
-                                            </Row>
-                                            <Row>
-                                                <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
-                                            </Row>
-                                            <Row>
-                                                <div className="textGrayPrimary">{"Ascent: " + h.ascendent_meters + " m"}</div>
-                                            </Row>
-                                            <Row>
-                                                <div className="textGrayPrimary">{"Length: " + h.length_kms + " km"}</div>
-                                            </Row>
-                                            <Row>
-                                                <div className="textGrayPrimary">{"Expected time: " + h.expected_mins + " min"}</div>
-                                            </Row>
-                                            <Row>
-                                                <div className="textGrayPrimary">{"Difficulty: " + h.difficulty}</div>
-                                            </Row>
-                                            <Row style={{ position: "absolute", bottom: 0, paddingBottom: 10 }}>
-                                                <div className="touchableOpacityWithTextContainer">
-                                                    <ClickableOpacity
-                                                        onClick={() => {
-                                                            navigate("/hike/" + h.id)
-                                                        }}>
-                                                        <div className="seeMore">
-                                                            see more
+                                                <Row>
+                                                    <div className="title">{h.title}</div>
+                                                </Row>
+                                                <Row>
+                                                    <div className="textGrayPrimary">{h.region}</div>
+                                                </Row>
+                                                <Row>
+                                                    <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
+                                                </Row>
+                                                <Row>
+                                                    <div className="textGrayPrimary">{"Ascent: " + h.ascendent_meters + " m"}</div>
+                                                </Row>
+                                                <Row>
+                                                    <div className="textGrayPrimary">{"Length: " + h.length_kms + " km"}</div>
+                                                </Row>
+                                                <Row>
+                                                    <div className="textGrayPrimary">{"Expected time: " + h.expected_mins + " min"}</div>
+                                                </Row>
+                                                <Row>
+                                                    <div className="textGrayPrimary">{"Difficulty: " + h.difficulty}</div>
+                                                </Row>
+
+
+
+                                                <Row style={{ position: "absolute", bottom: 0, paddingBottom: 10, width: "100%" }}>
+                                                    <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6} >
+                                                        <div className="touchableOpacityWithTextContainer">
+                                                            <ClickableOpacity
+                                                                onClick={() => {
+                                                                    navigate("/hike/" + h.id)
+                                                                }}>
+                                                                <div className="seeMore">
+                                                                    see more
+                                                                </div>
+                                                            </ClickableOpacity>
                                                         </div>
-                                                    </ClickableOpacity>
-                                                </div>
-                                            </Row>
-
-                                        </ListGroupItem>
-                                    </Col>
-                                ))
-                        }
+                                                    </Col>
+                                                    {
+                                                        user.role !== "hiker" || compl_records?.length === 0
+                                                            ?
+                                                            false
+                                                            :
+                                                            <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6} style={{ display: "flex", justifyContent: "right", paddingRight: 20 }}>
+                                                                <ClickableOpacity onClick={() => { setRecords([...compl_records]) }}>
+                                                                    <div className="completedCard">
+                                                                        {"Completed " + compl_records.length + (compl_records.length == 1 ? " time" : " times")}
+                                                                    </div>
+                                                                </ClickableOpacity>
+                                                            </Col>
+                                                    }
+                                                </Row>
+                                            </ListGroupItem>
+                                        </Col>
+                                    )
+                                }
+                                )}
                     </Row>
                 </ListGroup>
 

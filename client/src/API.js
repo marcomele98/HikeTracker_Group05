@@ -51,7 +51,9 @@ async function getUserInfo() {
 
 
 async function getHikes() {
-  const response = await fetch(new URL('hikes', APIURL));
+  const response = await fetch(new URL('hikes', APIURL), {
+    credentials: 'include',
+  });
   const hikes = await response.json();
   if (response) {
     return hikes;
