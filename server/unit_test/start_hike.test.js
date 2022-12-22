@@ -31,18 +31,18 @@ describe("Start Hike tests", () => {
         let data;
 
         data = await hike.getHikeByHiker(1,2);
-        expect(data).toBe(undefined);
+        expect(data.length).toBe(0);
 
         data = await hike.getHikeByHiker(2,3);
-        expect(data).toBe(undefined);
+        expect(data.length).toBe(0);
 
         await hike.startHikeByHiker(hikeStarted1.hike_id,hikeStarted1.hiker_id,hikeStarted1.start_time);
         data = await hike.getHikeByHiker(hikeStarted1.hike_id,hikeStarted1.hiker_id);
-        expect(hikeStarted1).toEqual(data);
+        expect(hikeStarted1).toEqual(data[0]);
 
         await hike.startHikeByHiker(hikeStarted2.hike_id,hikeStarted2.hiker_id,hikeStarted2.start_time);
         data = await hike.getHikeByHiker(hikeStarted2.hike_id,hikeStarted2.hiker_id);
-        expect(hikeStarted2).toEqual(data);
+        expect(hikeStarted2).toEqual(data[0]);
         
     });
 
@@ -54,18 +54,18 @@ describe("Start Hike tests", () => {
         let data;
 
         data = await hike.getHikeByHiker(1,2);
-        expect(data.end_time).toBe(null);
+        expect(data[0].end_time).toBe(null);
 
         data = await hike.getHikeByHiker(2,3);
-        expect(data.end_time).toBe(null);
+        expect(data[0].end_time).toBe(null);
 
-        await hike.endHikeByHiker(hikeEnded1.hike_id,hikeEnded1.hiker_id,hikeEnded1.end_time);
+        await hike.endHikeByHiker(hikeEnded1.hike_id,hikeEnded1.hiker_id,hikeEnded1.start_time,hikeEnded1.end_time);
         data = await hike.getHikeByHiker(hikeEnded1.hike_id,hikeEnded1.hiker_id);
-        expect(hikeEnded1).toEqual(data);
+        expect(hikeEnded1).toEqual(data[0]);
 
-        await hike.endHikeByHiker(hikeEnded2.hike_id,hikeEnded2.hiker_id,hikeEnded2.end_time);
+        await hike.endHikeByHiker(hikeEnded2.hike_id,hikeEnded2.hiker_id,hikeEnded2.start_time,hikeEnded2.end_time);
         data = await hike.getHikeByHiker(hikeEnded2.hike_id,hikeEnded2.hiker_id);
-        expect(hikeEnded2).toEqual(data);
+        expect(hikeEnded2).toEqual(data[0]);
         
     });
 })
