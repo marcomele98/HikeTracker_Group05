@@ -4,7 +4,8 @@ const db = require('../Queries/hike');
 const pointDB = require('../Queries/point');
 const hutDB = require('../Queries/hut');
 const parkingDB = require('../Queries/parking');
-const servicesUtility = require('../utilities/servicesUtilities')
+const servicesUtility = require('../utilities/servicesUtilities');
+const { indexOf } = require('lodash');
 
 
 class HikeDescription {
@@ -442,7 +443,7 @@ class HikeDescription {
         try {
             let check_if_can_start = await db.getHikeByHiker(hikeId, hikerId);
             for (let hike of check_if_can_start) {
-                if (hike.end_time == undefined) {
+                if (hike.end_time == undefined && hike !== undefined) {
                     message = "This hike is already on-going for you";
                     return res.status(422).json(message);
                 }
