@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Row, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Image, Row } from 'react-bootstrap';
 
 function ImageComponent({ base64String }) {
     return (

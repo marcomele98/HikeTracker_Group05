@@ -10,7 +10,6 @@ function ListHuts({ setIsLoading, user }) {
 
     const [huts, setHuts] = useState([]);
     const [search, setSearch] = useState("");
-    const [searchMargin, setSearchMargin] = useState(0);
     const navigate = useNavigate();
     let search_dim = user.role === 'local guide' ? 10 : 12;
 

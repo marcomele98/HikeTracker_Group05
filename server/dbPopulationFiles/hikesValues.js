@@ -13,6 +13,8 @@ const {ca_h1_img, ca_h2_img, ca_h3_img, ca_h4_img, ca_h5_img, ca_h6_img, ca_h7_i
 const {va_h1_img, va_h2_img, va_h3_img, va_h4_img, va_h5_img, va_h6_img, va_h7_img, va_h8_img} = require("./images/valledaosta/hikes/getImages.js");
 const {pm_h1_img, pm_h2_img, pm_h3_img, pm_h4_img, pm_h5_img} = require("./images/piemonte/hikes/getImages.js");
 const {li_h1_img, li_h2_img, li_h3_img, li_h4_img, li_h5_img, li_h6_img, li_h7_img, li_h8_img, li_h9_img} = require("./images/liguria/hikes/getImages.js");
+const {tn_h1_img, tn_h2_img, tn_h3_img, tn_h4_img, tn_h5_img, tn_h6_img, tn_h7_img, tn_h8_img} = require("./images/trentino/hikes/getImages.js");
+const {lo_h1_img, lo_h2_img, lo_h3_img, lo_h4_img, lo_h5_img, lo_h6_img, lo_h7_img, lo_h8_img} = require("./images/lombardia/hikes/getImages.js");
 
 let hikevalues =
   [
@@ -29,21 +31,21 @@ let hikevalues =
     ['Chiesa di Santa Libera Loop from Losano', 4.6, 80, 122, 'Tourist', 'Piemonte', 'TO', 'Frailino', 1,
       pm_file6, 6, 'general point', 6, 'general point', 'Easy hike. Great for any fitness level. Easily-accessible paths. Suitable for all skill levels.',pm_h5_img],//endpoint:2 pointtable,strtpoint:3 pointtable
     ['Great War: from Malga Grassi to Rifugio Pernici', 2.5, 70, 558, 'Hiker', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 1,
-      tn_file1, 5, 'Hut point', 4, 'Parking point', 'This is without doubt one of the most popular hiking trails in Garda Trentino. Short and not too hard, it leads to one of the busiest mountain huts in the area.'],
+      tn_file1, 5, 'Hut point', 4, 'Parking point', 'This is without doubt one of the most popular hiking trails in Garda Trentino. Short and not too hard, it leads to one of the busiest mountain huts in the area.', tn_h1_img],
     ['Torre di Pisa', 9.7, 300, 790, 'Hiker', 'Trentino-Alto Adige', 'BZ', 'Nova Ponente', 1,
-      tn_file2, 10, 'general point', 10, 'general point', 'Loop hike between the spectacular Dolomite walls of the Latemar Massif. The tour takes its name from the leaning rock towers like the one in the Tuscan city.'],
+      tn_file2, 10, 'general point', 10, 'general point', 'Loop hike between the spectacular Dolomite walls of the Latemar Massif. The tour takes its name from the leaning rock towers like the one in the Tuscan city.', tn_h2_img],
     ['The chromatic contrast of Corno Nero and Corno Bianco', 12.6, 360, 950, 'Hiker', 'Trentino-Alto Adige', 'BZ', 'Aldino', 1,
-      tn_file3, 11, 'general point', 11, 'general point', 'Extremely panoramic hiking loop, which allows you to admire the Lagorai chain, the lower Val di Fiemme and to see the Val di Cembra in the distance. We are in Passo Oclini, where the road stops and you can only aim upwards towards the sky. The itinerary proposes the ascent of both peaks that frame the pass, but it is possible to go up just on one of them.'],
+      tn_file3, 11, 'general point', 11, 'general point', 'Extremely panoramic hiking loop, which allows you to admire the Lagorai chain, the lower Val di Fiemme and to see the Val di Cembra in the distance. We are in Passo Oclini, where the road stops and you can only aim upwards towards the sky. The itinerary proposes the ascent of both peaks that frame the pass, but it is possible to go up just on one of them.', tn_h3_img],
     ['Two days in the mountains of Garda Trentino and one night in Rifugio Pernici', 25.4, 825, 2086, 'Professional Hiker', 'Trentino-Alto Adige', 'TN', 'Arco', 1,
-      tn_file4, 15, 'general point', 15, 'general point', 'Sleeping in a mountain hut is always a thrill. This excursion has an overnight stay in the mountains followed by a super panoramic hike back down to Riva del Garda'],
+      tn_file4, 15, 'general point', 15, 'general point', 'Sleeping in a mountain hut is always a thrill. This excursion has an overnight stay in the mountains followed by a super panoramic hike back down to Riva del Garda', tn_h4_img],
     ['Cima Cece', 15.7, 420, 1100, 'Professional Hiker', 'Trentino-Alto Adige', 'TN', 'Cavalese', 1,
-      tn_file5, 19, 'general point', 19, 'general point', 'The emotion of reaching the highest peak of the Lagorai.'],
+      tn_file5, 19, 'general point', 19, 'general point', 'The emotion of reaching the highest peak of the Lagorai.', tn_h5_img],
     ['The top trek in Garda Trentino', 6.2, 180, 470, 'Tourist', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 1,
-      tn_file6, 20, 'general point', 21, 'general point', 'Ponale Trail is the best known and most popular in Garda Trentino: easy but at the same time spectacular as its winds sheer above the lake, a classic trek you cant afford to miss.'],
+      tn_file6, 20, 'general point', 21, 'general point', 'Ponale Trail is the best known and most popular in Garda Trentino: easy but at the same time spectacular as its winds sheer above the lake, a classic trek you cant afford to miss.', tn_h6_img],
     ['Bosco Caproni and Trenches of Vastre', 5.5, 140, 221, 'Tourist', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 1,
-      tn_file7, 5, 'Parking point', 5, 'Parking point', 'A nature walk which in just a few kilometres manages to give a fascinating insight into the historical events which left their mark on Garda Trentino'],
+      tn_file7, 5, 'Parking point', 5, 'Parking point', 'A nature walk which in just a few kilometres manages to give a fascinating insight into the historical events which left their mark on Garda Trentino', tn_h7_img],
     ['The forts of Monte Brione', 6.3, 180, 320, 'Tourist', 'Trentino-Alto Adige', 'TN', 'Riva del Garda', 1,
-      tn_file8, 22, 'general point', 22, 'general point', 'An easy trek to explore the Austro-Hungarian border defences along the Sentiero della Pace or Peace Trail'],
+      tn_file8, 22, 'general point', 22, 'general point', 'An easy trek to explore the Austro-Hungarian border defences along the Sentiero della Pace or Peace Trail', tn_h8_img],
     ['Portofino e San Fruttuoso da Gaixella', 17.48, 344, 1143, 'Tourist', 'Liguria', 'GE', 'Portofino', 1,
       li_file1, 7, 'Parking point', 7, 'Parking point', 'Nice and easy hike through some of the nicest towns in Liguria. You can climb hills while looking at the sea', li_h1_img],
     ['Parco Naturale del Beigua.Il Monte Tardia da Arenzano', 14.2, 352, 933, 'Hiker', 'Liguria', 'GE', 'Arenzano', 1,
@@ -107,28 +109,28 @@ let hikevalues =
 
     //hike1:
     ['Ritorno alla Cascata Del Cenghen alle Falesie dei Campelli ', 10.28, 159, 715, 'Tourist', 'Lombardia', 'LC', 'Abbadia Lariana', 1,
-      lo_file1, 128, 'general point', 128, 'general point', 'A quiet and relaxing path, suitable for all seasons.'],
+      lo_file1, 128, 'general point', 128, 'general point', 'A quiet and relaxing path, suitable for all seasons.',lo_h1_img],
     //hike2:
     ['Cantoniera della presolana monte scanapa malga lantana colle', 13.09, 412, 596, 'Tourist', 'Lombardia', 'BG', 'Colere', 1,
-      lo_file2, 26, 'Hut point', 26, 'Hut point', 'Woods, meadows, beautiful panoramas and a fabulous view of the Presolana.'],
+      lo_file2, 26, 'Hut point', 26, 'Hut point', 'Woods, meadows, beautiful panoramas and a fabulous view of the Presolana.',lo_h2_img],
     //hike3:
     ['Baita Termen-Rifugio Pian della Palù-Monte Alto-Rifugio Leonida Magnolini', 7.91, 200, 270, 'Tourist', 'Lombardia', 'BG', 'Castione della Presolana', 1,
-     lo_file3, 132, 'general point', 132, 'general point', 'Scenic routes with little difference in elevation.'],
+     lo_file3, 132, 'general point', 132, 'general point', 'Scenic routes with little difference in elevation.',lo_h3_img],
     //hike4
     ['Verceia valle dei ratti posteggio casten frasnedo rifugio frasne', 14.52, 343, 961, 'Hiker', 'Lombardia', 'BG', 'Oneta', 1,
-      lo_file4, 134, 'general point', 134, 'general point', 'Some stretches are also exposed in the final part of the descent in the woods.'],
+      lo_file4, 134, 'general point', 134, 'general point', 'Some stretches are also exposed in the final part of the descent in the woods.',lo_h4_img],
     //hike5
     ['Passeggiata pomeridiana nel Parco Regionale Spina Verde', 10.13, 163, 440, 'Tourist', 'Lombardia', 'CO', 'San Fermo della Battaglia', 1,
-     lo_file5, 136, 'general point', 136, 'general point', 'Nice ride, there are some very beautiful viewpoints over Como, the path in the woods is cool'],
+     lo_file5, 136, 'general point', 136, 'general point', 'Nice ride, there are some very beautiful viewpoints over Como, the path in the woods is cool',lo_h5_img],
     //hike6
     ['Monti Boletto, Dosmat e Bolettone da Albese', 15.77, 336, 1078, 'Tourist', 'Lombardia', 'CO', 'Albese Con Cassano', 1,
-      lo_file6, 139, 'general point', 139, 'general point', 'The paths and dirt roads I traveled do not present particular technical difficulties.'],
+      lo_file6, 139, 'general point', 139, 'general point', 'The paths and dirt roads I traveled do not present particular technical difficulties.',lo_h6_img],
     //hike7
     ['Monte Barzaghino, Croce di Pizzallo, la Selva e i Fungi di Rezzago. Anello da Asso', 12.05, 326, 827, 'Hiker', 'Lombardia', 'CO', 'Asso', 1,
-      lo_file7, 140, 'general point', 140, 'general point', 'Recommended for anyone who wants to walk in the woods and be well trained in climbing and descending.'],
+      lo_file7, 140, 'general point', 140, 'general point', 'Recommended for anyone who wants to walk in the woods and be well trained in climbing and descending.',lo_h7_img],
     //hike8
     ['Rifugio Grassi anello da Introbio', 17.43, 432, 1563, 'Hiker', 'Lombardia', 'LC', 'Introbio', 1,
-      lo_file8, 30, 'Hut point', 30, 'Hut point', 'Easy trails, but very tiring']
+      lo_file8, 30, 'Hut point', 30, 'Hut point', 'Easy trails, but very tiring',lo_h8_img]
   ];
 
 module.exports.hikevalues = hikevalues;

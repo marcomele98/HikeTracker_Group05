@@ -78,7 +78,7 @@ exports.insertParkForHike = async (hike_id, park_id) => {
 
 exports.getHikeByHiker = async (hike_id, hiker_id) => {
         const sql = "SELECT * FROM HIKE_HIKER WHERE hike_id = ? AND hiker_id = ?"
-        let result = db.get(sql, [hike_id, hiker_id]);
+        let result = db.all(sql, [hike_id, hiker_id]);
         return result;
 }
 
@@ -89,9 +89,9 @@ exports.startHikeByHiker = async (hike_id, hiker_id, start_time) => {
         return result;
 }
 
-exports.endHikeByHiker = async(hike_id, hiker_id, end_time) => {
-        const sql = "UPDATE HIKE_HIKER SET end_time = ? WHERE hike_id = ? AND hiker_id = ?"
-        let result = db.run(sql, [end_time, hike_id, hiker_id]);
+exports.endHikeByHiker = async(hike_id, hiker_id, start_time, end_time) => {
+        const sql = "UPDATE HIKE_HIKER SET end_time = ? WHERE hike_id = ? AND hiker_id = ? AND start_time = ?"
+        let result = db.run(sql, [end_time, hike_id, hiker_id, start_time]);
         return result;
 }
 

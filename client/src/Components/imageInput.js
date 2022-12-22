@@ -1,6 +1,5 @@
-import React, { useRef, useState } from 'react';
 import { Form, Row, Col} from "react-bootstrap";
-import { getCoordsDetails, loadImageContent } from "../utilities"
+import { loadImageContent } from "../utilities"
 
 
 function ImageInput({ setImagePath, imagePath, setImage }) {
@@ -21,7 +20,6 @@ function ImageInput({ setImagePath, imagePath, setImage }) {
             }
             }
           />
-          {/* <ImageCutter width={1100} height={300}></ImageCutter> */}
           <Form.Control.Feedback type="invalid">Please insert an image</Form.Control.Feedback>
         </Form.Group>
       </Col>

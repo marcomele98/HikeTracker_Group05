@@ -103,7 +103,7 @@ function getHikes(hike, role, id, startDate_time, endDate_time) {
                                         .then(function (res5) {
                                             res5.should.have.status(200);
                                             res5.body.should.have.length(2);
-                                            res5.body[0].start_time.should.equal(startDate_time.date_time);
+                                            res5.body[id - 1].records[0].start_time.should.equal(startDate_time.date_time);
                                             done();
                                         }); 
                                 }
@@ -155,7 +155,8 @@ function startHikeByHiker(hikeId, startDate_time){
                     .then(function (res1) {
                         res1.should.have.status(200);
                         res1.body.id.should.equal(hikeId);
-                        res1.body.start_time.should.equal(startDate_time.date_time);
+                        res1.body.records.should.have.length(1);
+                        res1.body.records[0].start_time.should.equal(startDate_time.date_time);
                         done();
                     });
                 }
@@ -179,7 +180,8 @@ function endHikeByHiker(hikeId, startDate_time, endDate_time){
                             .then(function (res1) {
                                 res1.should.have.status(200);
                                 res1.body.id.should.equal(hikeId);
-                                res1.body.end_time.should.equal(endDate_time.date_time);
+                                res1.body.records.should.have.length(1);
+                                res1.body.records[0].end_time.should.equal(endDate_time.date_time);
                                 done();
                             });
                         }
