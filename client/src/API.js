@@ -108,6 +108,23 @@ async function endHike(id, date_time) {
   }
 }
 
+async function refPointRecord(point_id, time) {
+  const response = await fetch(new URL('newRefPointRecord', APIURL), {
+    method: 'POST', 
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({point_id: point_id, time: time}),
+  });
+  if (response.ok) {
+    return null;
+  } else {
+    const errDetail = await response.json();
+    throw errDetail
+  }
+}
+
 async function newHikeDescription(hike) {
   let response = await fetch(new URL('hike', APIURL), {
 
@@ -364,7 +381,7 @@ const API = {
   logIn, logOut, getUserInfo, getHikes, getHikeById, newHikeDescription, addUser, getParks,
   getParkById, newPark, getHuts, getHutById, newHut, updateHikeEndPoint, updateHikeStartPoint,
   resetHikeEndPoint, resetHikeStartPoint, addNewReferencePoint, getPreferencesByUserId, hutHikeLink,
-  setPreferences,  startHike, endHike
+  setPreferences,  startHike, endHike, refPointRecord
 };
 
 

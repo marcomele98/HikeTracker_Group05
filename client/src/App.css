@@ -228,6 +228,8 @@
   text-align: left;
   padding: 0px;
   margin: 0px;
+  padding-right: 10px;
+  width: fit-content;
   color: #FFC20C
 }
 

@@ -5,8 +5,6 @@ const pointDB = require('../Queries/point');
 const hutDB = require('../Queries/hut');
 const parkingDB = require('../Queries/parking');
 const servicesUtility = require('../utilities/servicesUtilities');
-const { indexOf } = require('lodash');
-
 
 class HikeDescription {
 
@@ -397,7 +395,7 @@ class HikeDescription {
         }
 
         if (servicesUtility.isNotValidPoint(point)) {
-            let message = "Invalid point."
+            message = "Invalid point."
             return res.status(422).json(message);
         }
 
@@ -503,15 +501,39 @@ class HikeDescription {
             return res.status(503).json(err)
         }
     }
-}
+    
+    async NewRefPointHiker(req, res) {
+        let point_id = req.body.point_id;
+        let time = req.body.time;
+        let role = req.user.role;
 
+        if (!role) {
+            return res.status(401).json("Not authenticated.");
+        }
 
+        if (role !== "hiker") {
+            return res.status(401).json("Unauthorized");
+        }
 
+        if (servicesUtility.isNotValidDateTime(time)) {
+            return res.status(422).json("Invalid Time.");
+        }
 
+        try {
+            let point = await pointDB.getPointById(point_id);
 
+            if (point === undefined) {
+                return res.status(422).json("Point not found.");
+            }
+            
+            await pointDB.newRefPointHiker(point_id, req.user.id, time);
+            return res.status(201).end();
 
-class HikesView {
-
+        }
+        catch (err) {
+            return res.status(503).json("Server error")
+        }
+    }
 
     async getAllHikes(req, res) {
         try {
@@ -545,7 +567,7 @@ class HikesView {
                     }
                 }
                 hikes[i].image = undefined;
-                hikes[i].gpx = undefined; 
+                hikes[i].gpx = undefined;
             }
             return res.status(200).json(hikes);
 
@@ -610,20 +632,25 @@ class HikesView {
                 for (let id of parkingIds) {
                     let park = await parkingDB.getParkingById(id.parking_id)
                     hike.parking_lots[index] = park;
-
                     index++;
-
                 }
 
                 let points = await pointDB.getPointsByHikeId(req.params.hikeId)
                 hike.points = [];
                 hike.points = points;
 
-
                 if (req.user != undefined && req.user.role == 'hiker') {
                     let hike_hiker = await db.getHikeByHiker(hike.id, req.user.id);
                     if (hike_hiker != undefined) {
                         hike.records = hike_hiker.map(h => { return ({ start_time: h.start_time, end_time: h.end_time }) })
+                        for (let point of hike.points) {
+                            let point_details = await pointDB.getRefPointHiker(point.id, req.user.id)
+                            point.time = new Date(point_details?.time) > new Date(hike.records.find(r => r.end_time == undefined)?.start_time)
+                                ?
+                                point_details?.time
+                                :
+                                undefined
+                        }
                     }
                 }
                 console.log(hike)
@@ -631,6 +658,7 @@ class HikesView {
             }
         }
         catch (err) {
+            console.log(err)
             return res.status(500).end();
         }
     };
@@ -639,4 +667,3 @@ class HikesView {
 }
 
 module.exports.HikeDescription = HikeDescription;
-module.exports.HikesView = HikesView;

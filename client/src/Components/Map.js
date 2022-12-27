@@ -30,6 +30,8 @@ const Map = (props) => {
         // setPositions({...gpx})
         setPositions(gpx.tracks[0].points.map(p => [p.lat, p.lon]));
     }, [props.hike])
+    const blueIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF"
+    const greenIconUrl = "https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|2ecc71&chf=a,s,ee00FFFF"
     return (
         (!(props.hike?.gpx) || positions === undefined)
             ?
@@ -51,19 +53,20 @@ const Map = (props) => {
                                 pathOptions={{ fillColor: 'red', color: 'blue' }}
                                 positions={positions}
                             />
-                            {props.hike.points.map(p => <Marker key={[p.latitude, p.longitude, p.name, p.altitude]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+                            {props.hike.points.map(p => <Marker key={[p.latitude, p.longitude, p.name, p.altitude]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: p.time ? greenIconUrl : blueIconUrl, iconSize: [25, 41], iconAnchor: [12, 41] })}>
                                 <Popup>
                                     {p.name ? ("Name: " + p.name) : ""} {p.name ? <br /> : false} {p.address ? ("Address: " + p.address) : ""} {p.address ? <br /> : false} Latitude: {p.latitude} <br /> Longitude: {p.longitude} <br /> Altitude: {p.altitude + " m"}
+                                    {p.time ? <br /> : false} {p.time ? ("Reached at " + p.time) : ""}
                                 </Popup>
                             </Marker>)
                             }
-                            {props.hike.huts.map(p => <Marker key={[p.latitude, p.longitude, p.name, p.altitude]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+                            {props.hike.huts.map(p => <Marker key={[p.latitude, p.longitude, p.name, p.altitude]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: blueIconUrl, iconSize: [25, 41], iconAnchor: [12, 41] })}>
                                 <Popup>
                                     Name: {p.type + " " + p.name} <br /> Latitude: {p.latitude} <br /> Longitude: {p.longitude} <br /> Altitude: {p.altitude + " m"}
                                 </Popup>
                             </Marker>)
                             }
-                            {props.hike.parking_lots.map(p => <Marker key={[p.latitude, p.longitude, p.name, p.altitude]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })}>
+                            {props.hike.parking_lots.map(p => <Marker key={[p.latitude, p.longitude, p.name, p.altitude]} position={[p.latitude, p.longitude, p.name]} icon={new Icon({ iconUrl: blueIconUrl, iconSize: [25, 41], iconAnchor: [12, 41] })}>
                                 <Popup>
                                     Name: {p.name} <br /> Latitude: {p.latitude} <br /> Longitude: {p.longitude} <br /> Altitude: {p.altitude + " m"}
                                 </Popup>

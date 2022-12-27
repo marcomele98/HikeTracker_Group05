@@ -7,21 +7,17 @@ const cors = require('cors');
 const passport = require('passport'); // auth middleware
 const LocalStrategy = require('passport-local').Strategy; // username and password for login
 const session = require('express-session'); // enable sessions
-const crypto = require('crypto');
-
 
 const User = require('./Services/user');
 const user = new User;
 
-const { HikeDescription, HikesView } = require('./Services/hike');
+const { HikeDescription } = require('./Services/hike');
 const { ParkingLotsDescription } = require('./Services/parkin_lots');
 const { HutDescription } = require('./Services/huts');
 const { Preferences } = require('./Services/preferences');
-const bodyParser = require('body-parser');
 const parkin_lot = new ParkingLotsDescription;
 const hut = new HutDescription;
 const hike = new HikeDescription;
-const hikeviews = new HikesView;
 const preferences = new Preferences;
 
 /*** Set up Passport ***/
@@ -66,7 +62,7 @@ const port = 3001;
 
 // set-up the middlewares
 app.use(morgan('dev'));
-app.use(express.json({limit: "50mb"}));
+app.use(express.json({ limit: "50mb" }));
 const corsOptions = {
   origin: 'http://localhost:3000',
   credentials: true,
@@ -135,7 +131,7 @@ app.get('/api/sessions/current', (req, res) => {
   if (req.isAuthenticated()) {
     res.status(200).json(req.user);
   }
-  else 
+  else
     res.status(401).json({ error: 'Unauthenticated user!' });
 });
 
@@ -150,12 +146,12 @@ app.post('/api/hike', isLoggedIn, (req, res) => {
 });
 
 app.get('/api/hikes', (req, res) => {
-  return hikeviews.getAllHikes(req, res);
+  return hike.getAllHikes(req, res);
 }
 );
 
 app.get('/api/hike/:hikeId', (req, res) => {
-  return hikeviews.getHikeById(req, res);
+  return hike.getHikeById(req, res);
 }
 );
 
@@ -192,6 +188,9 @@ app.put('/api/endHike/:hikeId', isLoggedIn, (req, res) => {
   return hike.endHikeByHiker(req, res);
 })
 
+app.post('/api/newRefPointRecord', isLoggedIn, (req, res) => {
+  return hike.NewRefPointHiker(req, res);
+});
 
 app.post('/api/parkingLot', isLoggedIn, (req, res) => {
   return parkin_lot.newParkingLot(req, res);
