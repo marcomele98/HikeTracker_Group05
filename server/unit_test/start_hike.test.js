@@ -1,5 +1,6 @@
+const { expect } = require('chai');
 const hike = require('../Queries/hike');
-const db = require('../Queries/DAO');
+const point = require('../Queries/point');
 const daoUtility = require('../utilities/daoUtilities');
 
 function HikesHiker(hike_id, hiker_id,start_time,end_time) {
@@ -7,6 +8,12 @@ function HikesHiker(hike_id, hiker_id,start_time,end_time) {
     this.hiker_id = hiker_id;
     this.start_time = start_time;
     this.end_time = end_time;
+}
+
+function HikerPoint(point_id, hiker_id, time){
+    this.point_id = point_id;
+    this.hiker_id = hiker_id;
+    this.time = time;
 }
 
 describe("Start Hike tests", () => {
@@ -68,4 +75,19 @@ describe("Start Hike tests", () => {
         expect(hikeEnded2).toEqual(data[0]);
         
     });
+
+    /*test('test newRefPointHiker', async () => {
+
+        let refPointReached1 = new HikerPoint();
+        let refPointReached2 = new HikerPoint();
+        let refPointReched_wrong = new HikerPoint();
+
+        let data;
+
+        data = await point.getRefPointHiker(1,1);
+        expect(data).toBe(undefined);
+
+
+
+    });*/
 })
