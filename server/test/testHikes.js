@@ -59,6 +59,9 @@ describe('test hikes apis as hiker', () => {
 
     getHikes(hikeObject.hike, 'hiker', 1, hikeObject.hikeStartDates, hikeObject.hikeEndDates);
     startHikeByHiker(1, hikeObject.hikeStartDates);
+    newRefPointRecord(201, pointObject.refPointRecord);
+    newRefPointRecord(422, pointObject.refPointRecord_wrong);
+    newRefPointRecord(422, pointObject.refPointRecord_wrong2);
     endHikeByHiker(1, hikeObject.hikeStartDates, hikeObject.hikeEndDates);
     endHikeByHiker(1, hikeObject.hikeStartDates, hikeObject.hikeEndDates_wrong);
 });
@@ -162,6 +165,17 @@ function startHikeByHiker(hikeId, startDate_time){
                 }
             });
 
+    });
+}
+
+function newRefPointRecord(expectedHTTPStatus, refPointRecord){
+    it('reach a reference point', function (done) {
+        chaiUtility.agent.post('/api/newRefPointRecord')
+        .send(refPointRecord)
+        .then(function (res) {
+            res.should.have.status(expectedHTTPStatus);
+            done()
+        })
     });
 }
 
