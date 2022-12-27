@@ -23,3 +23,18 @@ exports.wrongPoint1 = {
     "latitude": "ciao", 
     
 }
+
+exports.refPointRecord = {
+    "point_id": 1,
+    "time": '2022-11-16 14:00:00'
+}
+
+exports.refPointRecord_wrong = {
+    "point_id": 1,
+    "time": 'wrong'
+}
+
+exports.refPointRecord_wrong2 = {
+    "point_id": 100,
+    "time": '2022-11-16 14:00:00'
+}
