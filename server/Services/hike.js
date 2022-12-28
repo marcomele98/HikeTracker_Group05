@@ -6,7 +6,7 @@ const hutDB = require('../Queries/hut');
 const parkingDB = require('../Queries/parking');
 const servicesUtility = require('../utilities/servicesUtilities');
 
-const hikeControls = (hike) => {
+const hikeControls = (hike, res) => {
     let message = "";
 
     if (servicesUtility.isNotValidBody(hike)) {
@@ -100,7 +100,7 @@ class HikeDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        hikeControls(hike);
+        hikeControls(hike, res);
 
         try {
             let hike_id = await db.newHike(hike, lg_id);

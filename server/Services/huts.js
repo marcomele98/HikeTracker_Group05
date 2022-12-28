@@ -2,7 +2,7 @@
 const hutDB = require('../Queries/hut');
 const servicesUtility = require('../utilities/servicesUtilities');
 
-const hutControls = (hut) => {
+const hutControls = (hut, res) => {
     let message = "";
 
     if (servicesUtility.isNotValidBody(hut)) {
@@ -73,7 +73,7 @@ class HutDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        hutControls(hut);
+        hutControls(hut, res);
 
         if(!hut.phone)
             hut.phone = undefined
