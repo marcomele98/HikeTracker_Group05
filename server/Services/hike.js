@@ -6,7 +6,7 @@ const hutDB = require('../Queries/hut');
 const parkingDB = require('../Queries/parking');
 const servicesUtility = require('../utilities/servicesUtilities');
 
-const hikeControls =  (hike) => {
+const hikeControls = (hike) => {
 
     if (servicesUtility.isNotValidBody(hike)) {
         message = "Invalid Body"
