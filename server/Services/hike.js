@@ -94,6 +94,7 @@ class HikeDescription {
         let hike = req.body;
         let lg_id = req.user.id;
         let role = req.user.role;
+        let message = "";
 
         if (role !== "local guide") {
             return res.status(401).json("Not authenticated.");
