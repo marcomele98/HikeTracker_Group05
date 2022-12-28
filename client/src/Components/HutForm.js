@@ -83,19 +83,19 @@ const HutForm = (props) => {
         try {
             props.setIsLoading(true);
             await API.newHut(hut);
-            toast.success("Hut added correctly.", { position: "top-center" }, { toastId: 8 });
+            toast.success("Hut added correctly.", { position: "top-center" }, { toastId: 28 });
             props.setIsLoading(false);
             navigate("/huts");
-        } catch (err) {
-            console.log(err)
-            toast.error(err, { position: "top-center" }, { toastId: 9 });
+        } catch (error) {
+            console.log(error)
+            toast.error(error, { position: "top-center" }, { toastId: 29 });
             props.setIsLoading(false);
         }
     };
 
     return (
-        <div className="p-3 mt-3">
-            <Row className="justify-content-center">
+        <div className = "p-3 mt-3">
+            <Row className = "justify-content-center">
                 <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
                     <h1>New Hut</h1>
                 </Col>

@@ -5,6 +5,7 @@ chai.should();
 const app = require('../index');
 const user = require('../testObjects/user')
 const hikeObject = require('../testObjects/hike')
+const pointObject = require('../testObjects/refPoints')
 
 exports.agent = chai.request.agent(app);
 
@@ -36,3 +37,20 @@ exports.postHike = async () => {
             res.should.have.status(201);
         });
 }
+
+exports.startHike = async () => {
+    await this.agent.post('/api/startHike/' + 1)
+        .send(hikeObject.hikeStartDates)
+        .then(function (res) {
+            res.should.have.status(201);
+        });
+}
+
+exports.recordPoint = async () => {
+    await this.agent.post('/api/newRefPointRecord')
+        .send(pointObject.refPointRecord)
+        .then(function (res) {
+            res.should.have.status(201);
+        })
+}
+

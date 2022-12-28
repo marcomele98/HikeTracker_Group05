@@ -29,5 +29,10 @@ exports.loginHiker = async() => {
     await daoUtility.createLuigiVerdi();
     await chaiUtility.logout();
     await chaiUtility.loginHiker();
+}
 
+exports.loginHikerAndStartHike = async() => {
+    await this.loginHiker()
+    await chaiUtility.startHike();
+    await chaiUtility.recordPoint();
 }

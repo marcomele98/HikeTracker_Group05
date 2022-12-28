@@ -477,7 +477,7 @@ const Point = ({ point, key, user, lastStartTime, lastEndTime, onHandleRef }) =>
                 }
                 
                 {
-                    user.role !== "hiker" || !lastStartTime || lastEndTime
+                    user?.role !== "hiker" || !lastStartTime || lastEndTime
                         ?
                         undefined
                         :

@@ -451,7 +451,7 @@ class HikeDescription {
         }
         catch (err) {
             message = "Server error"
-            return res.status(503).json(err)
+            return res.status(503).json(message)
         }
     }
 
@@ -486,7 +486,7 @@ class HikeDescription {
                 let start_date_time = new Date(started_hike.start_time);
                 let end_date_time = new Date(date_time);
 
-                if (!(end_date_time > start_date_time)) {
+                if (end_date_time < start_date_time) {
                     message = "The end time should be after the start time"
                     return res.status(422).json(message);
                 }
@@ -498,7 +498,7 @@ class HikeDescription {
         }
         catch (err) {
             message = "Server error"
-            return res.status(503).json(err)
+            return res.status(503).json(message)
         }
     }
     
@@ -653,12 +653,10 @@ class HikeDescription {
                         }
                     }
                 }
-                console.log(hike)
                 return res.status(200).json(hike);
             }
         }
         catch (err) {
-            console.log(err)
             return res.status(500).end();
         }
     };
