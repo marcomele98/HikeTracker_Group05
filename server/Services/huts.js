@@ -1,6 +1,65 @@
 "use strict"
 const hutDB = require('../Queries/hut');
-const servicesUtility = require('../utilities/servicesUtilities')
+const servicesUtility = require('../utilities/servicesUtilities');
+
+const hutControls = (hut) => {
+    let message = "";
+
+    if (servicesUtility.isNotValidBody(hut)) {
+        message = "Invalid Body"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidField(hut.name)) {
+        message = "Invalid Name"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidField(hut.type)) {
+        message = "Invalid Type"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidPoint({...hut})) {
+        message = "Invalid point"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidField(hut.region)) {
+        message = "Invalid Region"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidProvince(hut.province)) {
+        message = "Invalid Province"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidField(hut.city)) {
+        message = "Invalid City"
+        return res.status(422).json(message);
+    }
+
+    if (hut.phone && servicesUtility.isNotValidPhone(hut.phone)) {
+        message = "Invalid phone"
+        return res.status(422).json(message);
+    }
+
+    if (hut.email && servicesUtility.isNotValidEmail(hut.email)) {
+        message = "Invalid email"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidField(hut.description)) {
+        message = "Invalid Description"
+        return res.status(422).json(message);
+    }
+
+    if (hut.number_of_beds && servicesUtility.isNotValidNumber(hut.number_of_beds)) { 
+        message = "Invalid number_of_beds" 
+        return res.status(422).json(message); 
+    }
+};
 
 class HutDescription {
 
@@ -14,60 +73,7 @@ class HutDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        if (servicesUtility.isNotValidBody(hut)) {
-            message = "Invalid Body"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidField(hut.name)) {
-            message = "Invalid Name"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidField(hut.type)) {
-            message = "Invalid Type"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidPoint({...hut})) {
-            message = "Invalid point"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidField(hut.region)) {
-            message = "Invalid Region"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidProvince(hut.province)) {
-            message = "Invalid Province"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidField(hut.city)) {
-            message = "Invalid City"
-            return res.status(422).json(message);
-        }
-
-        if (hut.phone && servicesUtility.isNotValidPhone(hut.phone)) {
-            message = "Invalid phone"
-            return res.status(422).json(message);
-        }
-
-        if (hut.email && servicesUtility.isNotValidEmail(hut.email)) {
-            message = "Invalid email"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidField(hut.description)) {
-            message = "Invalid Description"
-            return res.status(422).json(message);
-        }
-
-        if (hut.number_of_beds && servicesUtility.isNotValidNumber(hut.number_of_beds)) { 
-            message = "Invalid number_of_beds" 
-            return res.status(422).json(message); 
-        }
+        hutControls(hut);
 
         if(!hut.phone)
             hut.phone = undefined
