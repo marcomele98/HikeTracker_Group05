@@ -7,6 +7,7 @@ const parkingDB = require('../Queries/parking');
 const servicesUtility = require('../utilities/servicesUtilities');
 
 const hikeControls = (hike) => {
+    let message = "";
 
     if (servicesUtility.isNotValidBody(hike)) {
         message = "Invalid Body"
@@ -72,13 +73,6 @@ const hikeControls = (hike) => {
         message = "Invalid end point"
         return res.status(422).json(message);
     }
-
-    for (let point of hike.reference_points) {
-        if (servicesUtility.isNotValidPoint(point)) {
-            let message = "Invalid reference points"
-            return res.status(422).json(message);
-        }
-    }
 };
 
 class HikeDescription {
@@ -100,8 +94,6 @@ class HikeDescription {
         let hike = req.body;
         let lg_id = req.user.id;
         let role = req.user.role;
-        let message = ""
-
 
         if (role !== "local guide") {
             return res.status(401).json("Not authenticated.");
@@ -135,9 +127,15 @@ class HikeDescription {
         let role = req.user.role;
         let message = ""
 
-
         if (role !== "local guide") {
             return res.status(401).json("Not authenticated.");
+        }
+
+        for (let point of hike.reference_points) {
+            if (servicesUtility.isNotValidPoint(point)) {
+                let message = "Invalid reference points"
+                return res.status(422).json(message);
+            }
         }
 
         if (servicesUtility.isNotValidNumber(update.start_point)) {
