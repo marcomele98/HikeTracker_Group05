@@ -6,6 +6,81 @@ const hutDB = require('../Queries/hut');
 const parkingDB = require('../Queries/parking');
 const servicesUtility = require('../utilities/servicesUtilities');
 
+const hikeControls =  (hike) => {
+
+    if (servicesUtility.isNotValidBody(hike)) {
+        message = "Invalid Body"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidField(hike.title)) {
+        message = "Invalid Title"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidNumber(hike.length_kms)) {
+        message = "Invalid Length"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidNumber(hike.expected_mins)) {
+        message = "Invalid Expected Time"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidNumber(hike.ascendent_meters)) {
+        message = "Invalid Ascent"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidDiff(hike.difficulty)) {
+        message = "Invalid Difficulty"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidField(hike.description)) {
+        message = "Invalid Description"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidField(hike.region)) {
+        message = "Invalid Region"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidProvince(hike.province)) {
+        message = "Invalid Province"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidField(hike.city)) {
+        message = "Invalid City"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidField(hike.gpx)) {
+        message = "Invalid gpx"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidPoint(hike.start_point)) {
+        message = "Invalid start point"
+        return res.status(422).json(message);
+    }
+
+    if (servicesUtility.isNotValidPoint(hike.end_point)) {
+        message = "Invalid end point"
+        return res.status(422).json(message);
+    }
+
+    for (let point of hike.reference_points) {
+        if (servicesUtility.isNotValidPoint(point)) {
+            let message = "Invalid reference points"
+            return res.status(422).json(message);
+        }
+    }
+};
+
 class HikeDescription {
 
     deleteStartEndPoint = async (hikeId, oldStartType, oldEndType, oldStartId, oldEndId) => {
@@ -32,77 +107,7 @@ class HikeDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        if (servicesUtility.isNotValidBody(hike)) {
-            message = "Invalid Body"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidField(hike.title)) {
-            message = "Invalid Title"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidNumber(hike.length_kms)) {
-            message = "Invalid Length"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidNumber(hike.expected_mins)) {
-            message = "Invalid Expected Time"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidNumber(hike.ascendent_meters)) {
-            message = "Invalid Ascent"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidDiff(hike.difficulty)) {
-            message = "Invalid Difficulty"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidField(hike.description)) {
-            message = "Invalid Description"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidField(hike.region)) {
-            message = "Invalid Region"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidProvince(hike.province)) {
-            message = "Invalid Province"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidField(hike.city)) {
-            message = "Invalid City"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidField(hike.gpx)) {
-            message = "Invalid gpx"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidPoint(hike.start_point)) {
-            message = "Invalid start point"
-            return res.status(422).json(message);
-        }
-
-        if (servicesUtility.isNotValidPoint(hike.end_point)) {
-            message = "Invalid end point"
-            return res.status(422).json(message);
-        }
-
-        for (let point of hike.reference_points) {
-            if (servicesUtility.isNotValidPoint(point)) {
-                let message = "Invalid reference points"
-                return res.status(422).json(message);
-            }
-        }
+        hikeControls(hike);
 
         try {
             let hike_id = await db.newHike(hike, lg_id);
@@ -212,10 +217,10 @@ class HikeDescription {
                 return res.status(404).json(message);
             }
             else {
-                let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
-                let oldStartId = hike.start_point
                 let oldStartType = hike.start_point_type
+                let oldEndId = hike.end_point
+                let oldStartId = hike.start_point
 
                 await this.deleteStartEndPoint(hike.id, oldEndType, oldStartType, oldEndId, oldStartId);
 
@@ -319,10 +324,10 @@ class HikeDescription {
             }
             else {
 
-                let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
-                let oldStartId = hike.start_point
                 let oldStartType = hike.start_point_type
+                let oldEndId = hike.end_point
+                let oldStartId = hike.start_point
 
                 await this.deleteStartEndPoint(hike.id, oldEndType, oldStartType, oldEndId, oldStartId);
 
