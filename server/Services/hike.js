@@ -97,8 +97,8 @@ class HikeDescription {
             return res.status(422).json(message);
         }
 
-        for (let i = 0; i < hike.reference_points.length; i++) {
-            if (servicesUtility.isNotValidPoint(hike.reference_points[i])) {
+        for (let point of hike.reference_points) {
+            if (servicesUtility.isNotValidPoint(point)) {
                 let message = "Invalid reference points"
                 return res.status(422).json(message);
             }
@@ -212,10 +212,10 @@ class HikeDescription {
                 return res.status(404).json(message);
             }
             else {
-                let oldStartId = hike.start_point
-                let oldStartType = hike.start_point_type
                 let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
+                let oldStartId = hike.start_point
+                let oldStartType = hike.start_point_type
 
                 await this.deleteStartEndPoint(hike.id, oldEndType, oldStartType, oldEndId, oldStartId);
 
@@ -319,10 +319,10 @@ class HikeDescription {
             }
             else {
 
-                let oldStartId = hike.start_point
-                let oldStartType = hike.start_point_type
                 let oldEndId = hike.end_point
                 let oldEndType = hike.end_point_type
+                let oldStartId = hike.start_point
+                let oldStartType = hike.start_point_type
 
                 await this.deleteStartEndPoint(hike.id, oldEndType, oldStartType, oldEndId, oldStartId);
 
