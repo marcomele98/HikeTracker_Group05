@@ -1,10 +1,10 @@
-import { Row, Container, Col, ListGroupItem, ListGroup, Button } from "react-bootstrap";
+import { Row, Container, Col, ListGroup, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { ClickableOpacity } from "./clickableOpacity";
 import { toast } from "react-toastify";
 import API from "../API";
 import img from "../Assets/Images/parking.jpeg"
+import { ParkCard } from "./park_card";
 
 function ListParkings({ setIsLoading, user }) {
 
@@ -51,34 +51,9 @@ function ListParkings({ setIsLoading, user }) {
 
                             parks
                                 .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                .map((p) => (
-                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                        <ListGroupItem style={{ height: 150, opacity: "85%" }} key={p.id} className="m-3 border-2 rounded-3 shadow">
-                                            <Col>
-                                                <Row>
-                                                    <div className="title">{p.name}</div>
-                                                </Row>
-                                                <Row>
-                                                    <div className="textGrayPrimary">{p.region}</div>
-                                                </Row>
-                                                <Row>
-                                                    <div className="textGrayPrimary">{p.city + " (" + p.province + ")"}</div>
-                                                </Row>
-
-                                                <Row style={{ position: "absolute", bottom: 0, paddingBottom: 10 }}>
-                                                    <div className="touchableOpacityWithTextContainer">
-                                                        <ClickableOpacity
-                                                            onClick={() => {
-                                                                navigate("/parkingLot/" + p.id)
-                                                            }}>
-                                                            <div className="seeMore">
-                                                                see more
-                                                            </div>
-                                                        </ClickableOpacity>
-                                                    </div>
-                                                </Row>
-                                            </Col>
-                                        </ListGroupItem>
+                                .map((p, i) => (
+                                    <Col key={i} xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                        <ParkCard p={p} user={user}></ParkCard>
                                     </Col>
                                 ))
                         }

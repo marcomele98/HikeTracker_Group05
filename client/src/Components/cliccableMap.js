@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, useMapEvents, Marker, Popup } from "react-leaf
 import "leaflet/dist/leaflet.css";
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from 'leaflet'
+import { getCoordsDetails } from "../utilities"
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 
 function LocationMarker({ position, setPosition }) {
@@ -34,7 +35,23 @@ function LocationMarker({ position, setPosition }) {
     )
 }
 
-const CliccableMap = ({ position, setPosition }) => {
+const CliccableMap = ({ position, setPosition, setCity, setProvince, setRegion, setErrMsg }) => {
+
+    useEffect(() => {
+        const positionChangeHandle = async () => {
+            const details = await getCoordsDetails({ latitude: position.lat, longitude: position.lng })
+            if (details.CountryCode !== "ITA") {
+                setErrMsg("At the moment are no accepted points outside ita.");
+                setPosition();
+            } else {
+                setCity(details.City)
+                setRegion(details.Region)
+                setProvince(details.SubregionCode)
+            }
+        }
+        if (position)
+            positionChangeHandle()
+    }, [position])
 
     return (
 

@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { CliccableMap } from "./cliccableMap";
 import { toast } from "react-toastify";
 import API from "../API";
-import { getCoordsDetails } from "../utilities"
 import { ImageInput } from "./imageInput"
+import { DescriptionForm } from "./form_custom";
+
 
 const HutForm = (props) => {
 
@@ -23,27 +24,9 @@ const HutForm = (props) => {
     const [validated, setValidated] = useState(false);
     const [errMsg, setErrMsg] = useState("");
     const [image, setImage] = useState();
-	const [imagePath, setImagePath] = useState("");
+    const [imagePath, setImagePath] = useState("");
 
     const navigate = useNavigate();
-
-
-
-    useEffect(() => {
-        const positionChangeHandle = async () => {
-            const details = await getCoordsDetails({ latitude: position.lat, longitude: position.lng })
-            if (details.CountryCode !== "ITA") {
-                setErrMsg("At the moment are no accepted points outside ita.");
-                setPosition();
-            } else {
-                setCity(details.City)
-                setRegion(details.Region)
-                setProvince(details.SubregionCode)
-            }
-        }
-        if (position)
-            positionChangeHandle()
-    }, [position])
 
 
     const handleSubmit = (event) => {
@@ -92,7 +75,7 @@ const HutForm = (props) => {
             number_of_beds: numberBeds,
             phone,
             email,
-            description, 
+            description,
             image
         }
 
@@ -100,19 +83,19 @@ const HutForm = (props) => {
         try {
             props.setIsLoading(true);
             await API.newHut(hut);
-            toast.success("Hut added correctly.", { position: "top-center" }, { toastId: 8 });
+            toast.success("Hut added correctly.", { position: "top-center" }, { toastId: 28 });
             props.setIsLoading(false);
             navigate("/huts");
-        } catch (err) {
-            console.log(err)
-            toast.error(err, { position: "top-center" }, { toastId: 9 });
+        } catch (error) {
+            console.log(error)
+            toast.error(error, { position: "top-center" }, { toastId: 29 });
             props.setIsLoading(false);
         }
     };
 
     return (
-        <div className="p-3 mt-3">
-            <Row className="justify-content-center">
+        <div className = "p-3 mt-3">
+            <Row className = "justify-content-center">
                 <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
                     <h1>New Hut</h1>
                 </Col>
@@ -225,29 +208,14 @@ const HutForm = (props) => {
                 </Row>
 
                 <Row className="justify-content-center">
-
-                    <Form.Group className={"mb-4"} as={Col} xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} controlId="validationCustom10">
-                        <Form.Label className={"fs-4"}>Description</Form.Label>
-                        <Form.Control
-                            required
-                            type="text"
-                            as="textarea"
-                            rows="3"
-                            placeholder="Insert description"
-                            value={description}
-                            onChange={(e) => {
-                                setDescription(e.target.value);
-                            }}
-                        />
-                        <Form.Control.Feedback type="invalid">Please insert correct description</Form.Control.Feedback>
-                    </Form.Group>
+                    <DescriptionForm description={description} setDescription={setDescription}></DescriptionForm>
                 </Row>
 
                 <ImageInput setImage={setImage} imagePath={imagePath} setImagePath={setImagePath}></ImageInput>
 
                 <Row className="justify-content-center mb-4">
                     <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
-                        <CliccableMap position={position} setPosition={setPosition}></CliccableMap>
+                        <CliccableMap position={position} setRegion={setRegion} setProvince={setProvince} setCity={setCity} setErrMsg={setErrMsg} setPosition={setPosition}></CliccableMap>
                     </Col>
                 </Row>
 

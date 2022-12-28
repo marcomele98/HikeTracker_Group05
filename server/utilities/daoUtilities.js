@@ -11,6 +11,7 @@ exports.resetDB = async ()=> {
     await db.run('DELETE FROM USER');
     await db.run('DELETE FROM sqlite_sequence');
     await db.run('DELETE FROM HIKE_HIKER');
+    await db.run('DELETE FROM HIKER_POINT');
 }
 
 exports.createMarioRossi = async () => {
@@ -55,5 +56,19 @@ exports.savePreferencesForGiulioLiso = async () => {
             max_ascendent_meters, min_ascendent_meters, max_difficulty, min_difficulty, point_latitude, point_longitude, radius,\
             region, province, city)\
             VALUES(3, 110, 60, 120, 40, 200, 100, 'Hiker','Tourist', '44.19940', '7.93339', 50, 'Piemonte', 'CN', 'Garessio')"
+    );
+}
+
+exports.createHikes = async() => {
+    await db.run("INSERT INTO HIKE(id, title, length_kms, expected_mins, ascendent_meters, difficulty, description, region, province, city, lg_id, gpx, end_point, end_point_type, start_point, start_point_type)\
+            VALUES (1, 'ROCCIAMELONE', 9, 420, 3538, 'Professional Hiker', '', 'Piemonte', 'TO', 'Montepantero', 1, 'gpx_content', 1, 'general point', 2, 'Parking point'),\
+            (2, 'Salita al Monte Antoroto', 17, 444, 400, 'Professional Hiker', '', 'Piemonte', 'CN', 'Garessio', 1, 'gpx_content', 1, 'Parking point', 3, 'Parking point')"
+    );
+}
+
+exports.insertRefPointsToRocciamelone = async() => {
+    await db.run("INSERT INTO POINT(id, latitude, longitude, altitude, name, address, hike_id)\
+                VALUES(1, '45.20353', '7.07734', '3538', 'Rocciamelone', 'Rocciamelone, Piedmont', 1),\
+                (2, '45.5000', '7.2000', '3725', 'Rocciamelone', 'Rocciamelone, Piedmont', 1)"
     );
 }

@@ -94,6 +94,8 @@ class HutDescription {
     async getAllHuts(req, res) {
         try {
             let huts = await hutDB.getHuts();
+            for (let hut of huts)
+                hut.image = undefined;
             return res.status(200).json(huts);
         }
         catch (err) {

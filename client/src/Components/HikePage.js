@@ -12,7 +12,10 @@ import AddPointForm from "./AddPointForm";
 import EditDateModal from "./dateModal"
 import moment from 'moment';
 import "../App.css"
-
+import CompletedModal from './popupCompleted';
+import Trigger from './overlay';
+import { HutCard } from './hut_card';
+import { ParkCard } from './park_card';
 
 let gpxParser = require('gpxparser');
 
@@ -20,8 +23,13 @@ function HikePage({ setIsLoading, loggedIn, user }) {
     const [editingStartPoint, setEditingStartPoint] = useState(false);
     const [editingEndPoint, setEditingEndPoint] = useState(false)
     const [hike, setHike] = useState();
+    const [lastStartTime, setLastStartTime] = useState();
+    const [lastEndTime, setLastEndTime] = useState();
+    const [timeCompleted, setTimeCompleted] = useState(0);
 
     const [show, setShow] = useState(false);
+
+    const [showRecords, setShowRecords] = useState();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -38,7 +46,6 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                 setIsLoading(true);
                 const res = await API.getHikeById(hikeId);
                 setHike(res);
-                setIsLoading(false);
             } catch (err) {
                 setIsLoading(false);
                 if (err == 404)
@@ -50,6 +57,14 @@ function HikePage({ setIsLoading, loggedIn, user }) {
         getHikesFromServer()
     }, [hikeId])
 
+    useEffect(() => {
+        if (user?.role == 'hiker' && hike?.records && hike.records.length !== 0) {
+            hike.records.sort((a, b) => moment(b.start_time).diff(moment(a.start_time), 'seconds')); const last_record = hike.records[0];
+            setLastStartTime(last_record.start_time)
+            setLastEndTime(last_record.end_time)
+            setTimeCompleted(hike.records.filter((r) => (r.end_time != undefined)).length)
+        }
+    }, [hike, user])
 
     const onHandleStart = async (timestamp) => {
         handleClose();
@@ -81,7 +96,21 @@ function HikePage({ setIsLoading, loggedIn, user }) {
             setIsLoading(false);
             toast.error(err, { position: "top-center" }, { toastId: 121 });
         }
-        //console.log("passerò al backend: " + timestamp)
+    }
+
+    const onHandleRef = async (id, time) => {
+        try {
+            setIsLoading(true);
+            await API.refPointRecord(id, time)
+            const res = await API.getHikeById(hike.id);
+            setHike(res);
+            setIsLoading(false);
+            toast.success("Reference Point record added successfully", { position: "top-center" }, { toastId: 111 });
+
+        } catch (err) {
+            setIsLoading(false);
+            toast.error(err, { position: "top-center" }, { toastId: 121 });
+        }
     }
 
 
@@ -107,33 +136,53 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                             <div className="titleBig">{hike.title}</div>
                         </Col>
                         {
-                            (user.role === "hiker" && !hike.end_time) ?
+                            (user.role === "hiker") ?
                                 <>
-                                    <EditDateModal onHandle={!hike.start_time ? onHandleStart : onHandleEnd} start_time={hike.start_time} onHide={handleClose} show={show}></EditDateModal>
-                                    <Button className="styleButton" variant={!hike.start_time ? "outline-success" : "outline-danger"} as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2}
+                                    <EditDateModal onHandle={(!lastStartTime || lastEndTime) ? onHandleStart : onHandleEnd} start_time={lastStartTime} onHide={handleClose} show={show}></EditDateModal>
+                                    <Button className="styleButton" variant={(!lastStartTime || lastEndTime) ? "outline-success" : "outline-danger"} as={Col} xs={12} sm={12} md={2} lg={2} xl={2} xxl={2}
                                         onClick={handleShow}>
-                                        {!hike.start_time ? "Start" : "End"}
+                                        {(!lastStartTime || lastEndTime) ? "Start" : "End"}
                                     </Button>
                                 </>
                                 : false
                         }
                     </Row>
                     {
-                        user.role !== "hiker" || !hike.start_time
+                        user.role !== "hiker" || timeCompleted === 0
+                            ?
+                            undefined
+                            :
+                            <>
+                                <CompletedModal onHide={() => setShowRecords(false)} show={showRecords} list={hike.records}></CompletedModal>
+                                <Row className='paddingHorizontal'>
+                                    <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
+                                        <ClickableOpacity onClick={() => { setShowRecords(true) }}>
+                                            <div className="textCompleted">
+                                                {"COMPLETED " + timeCompleted + (timeCompleted == 1 ? " TIME" : " TIMES")}
+                                            </div>
+                                        </ClickableOpacity>
+                                    </Col>
+                                </Row>
+                            </>
+                    }
+                    {
+                        user.role !== "hiker" || !lastStartTime || lastEndTime
                             ?
                             false
                             :
                             <>
                                 <Row className='paddingHorizontal'>
                                     <Col className='noMarginAndPadding' xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
-                                        <div className={!hike.end_time ? "textStarted" : "textCompleted"}>
-                                            {!hike.end_time ? "STARTED" : ("COMPLETED IN " + (moment(hike.end_time).diff(moment(hike.start_time), 'minutes') + " MINS"))}
-                                        </div>
+                                        <Trigger text={lastStartTime}>
+                                            <div className={"textStarted"}>
+                                                IN PROGRESS
+                                            </div>
+                                        </Trigger>
                                     </Col>
                                 </Row>
-                                <br />
                             </>
                     }
+                    <br />
                     <Row >
                         <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
                             <div className="textGrayPrimaryBig">{hike.region + " - " + hike.city + " (" + hike.province + ")"}</div>
@@ -162,37 +211,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                         <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
                             <div className="textGrayPrimaryBig">{"Difficulty: " + hike.difficulty}</div>
                         </Col>
-
                     </Row>
-                    {
-                        !hike.start_time ?
-                            false
-                            :
-                            <>
-                                <br />
-                                <Row >
-                                    <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
-                                        <div className="textGrayPrimaryBig">{"Start date: " + hike.start_time.split(" ")[0]}</div>
-                                    </Col>
-                                    <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
-                                        <div className="textGrayPrimaryBig">{"Start time: " + hike.start_time.split(" ")[1]}</div>
-                                    </Col>
-                                    {
-                                        !hike.end_time ?
-                                            false
-                                            :
-                                            <>
-                                                <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
-                                                    <div className="textGrayPrimaryBig">{"End date: " + hike.end_time.split(" ")[0]}</div>
-                                                </Col>
-                                                <Col xs={12} sm={12} md={6} lg={6} xl={3} xxl={3}>
-                                                    <div className="textGrayPrimaryBig">{"End time: " + hike.end_time.split(" ")[1]}</div>
-                                                </Col>
-                                            </>
-                                    }
-                                </Row>
-                            </>
-                    }
 
                     <br />
                     {
@@ -288,9 +307,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                             {
                                                 hike.huts
                                                     .sort((a, b) => (a.type.trim() + a.name.trim()).localeCompare(b.type.trim() + b.name.trim()))
-                                                    .map((h) =>
-                                                        <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                            <Hut key={h.id} hut={h} user={user}></Hut>
+                                                    .map((h, i) =>
+                                                        <Col key={i} xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                            <HutCard h={h} user={user}></HutCard>
                                                         </Col>
                                                     )
                                             }
@@ -318,9 +337,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                             {
                                                 hike.parking_lots
                                                     .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                                    .map((p) =>
-                                                        <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                            <Park key={p.id} park={p} user={user}></Park>
+                                                    .map((p, i) =>
+                                                        <Col key={i} xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                            <ParkCard p={p} user={user}></ParkCard>
                                                         </Col>
                                                     )
                                             }
@@ -334,8 +353,8 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                     <div className="textGrayPrimaryBig" style={{ marginLeft: 10 }}>{"Reference Points"}</div>
 
                     {hike.points
-                    .filter(isNotStartOrEnd)
-                    .length === 0
+                        .filter(isNotStartOrEnd)
+                        .length === 0
                         ?
                         <div className="textGrayPrimary" style={{ marginLeft: 10 }}>No reference points for this hike</div>
                         :
@@ -347,9 +366,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                             hike.points
                                                 .filter(isNotStartOrEnd)
                                                 .sort((a, b) => a.name?.trim().localeCompare(b.name?.trim()))
-                                                .map((p) =>
-                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                        <Point key={p.id} point={p}></Point>
+                                                .map((p, i) =>
+                                                    <Col key={i} xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                        <Point key={p.id} point={p} user={user} lastStartTime={lastStartTime} lastEndTime={lastEndTime} onHandleRef={onHandleRef}></Point>
                                                     </Col>
                                                 )
                                         }
@@ -372,9 +391,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 const RefPointSwitcher = ({ point, type, user }) => {
     switch (type) {
         case "Hut point":
-            return (<Hut hut={point} key={point.id} user={user} />);
+            return (<HutCard h={point} user={user} />);
         case "Parking point":
-            return (<Park park={point} key={point.id} user={user} />);
+            return (<ParkCard p={point} user={user} />);
         case "general point":
             return (<Point point={point} key={point.id} />);
         default:
@@ -384,9 +403,41 @@ const RefPointSwitcher = ({ point, type, user }) => {
 
 
 
-const Point = ({ point, key }) => {
+const Point = ({ point, key, user, lastStartTime, lastEndTime, onHandleRef }) => {
+
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const onHandle = (timestamp) => {
+        handleClose()
+        onHandleRef(point.id, timestamp)
+    }
+
+    const RecordInfo = () => {
+        return (
+            point.time
+                ?
+                <Row>
+                    <div className="textGrayPrimary">{"Reached at " + point.time}</div>
+                </Row>
+                :
+                <Row>
+                    <EditDateModal onHandle={onHandle} start_time={lastStartTime} onHide={handleClose} show={show}></EditDateModal>
+                    <div className="touchableOpacityWithTextContainer">
+                        <ClickableOpacity
+                            onClick={handleShow}>
+                            <div className="seeMore">
+                                mark as reached
+                            </div>
+                        </ClickableOpacity>
+                    </div>
+                </Row>
+        )
+    }
+
     return (
-        <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
+        <ListGroupItem style={{ opacity: "85%" }} key={key} className="m-3 border-2 rounded-3 shadow">
             <Col className='point'>
                 {
                     point.name
@@ -415,82 +466,23 @@ const Point = ({ point, key }) => {
                         :
                         undefined
                 }
-                <Row>
-                    <div className="textGrayPrimary">{"Altitude: " + point.altitude + " m"}</div>
-                </Row>
-            </Col>
-        </ListGroupItem>
-    );
-}
-
-
-const Hut = ({ hut, key, user }) => {
-    const navigate = useNavigate();
-    return (
-        <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
-            <Col className='point'>
-                <Row>
-                    <div className="pointTitle">{hut.type + " " + hut.name}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{hut.region}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{hut.city + " (" + hut.province + ")"}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{"Altitude: " + hut.altitude + " m"}</div>
-                </Row>
-                {(user && (user.role === "local guide" || user.role === "hiker")) ?
-                    <Row>
-                        <div className="touchableOpacityWithTextContainer">
-                            <ClickableOpacity
-                                onClick={() => {
-                                    navigate("/hut/" + hut.id)
-                                }}>
-                                <div className="seeMore">
-                                    see more
-                                </div>
-                            </ClickableOpacity>
-                        </div>
-                    </Row> : false
+                {
+                    !point.address && !point.name
+                        ?
+                        (<Row>
+                            <div className="pointTitle">{point.latitude + ", " + point.longitude}</div>
+                        </Row>)
+                        :
+                        undefined
                 }
-            </Col>
-        </ListGroupItem>
-    );
-}
+                
+                {
+                    user?.role !== "hiker" || !lastStartTime || lastEndTime
+                        ?
+                        undefined
+                        :
+                        <RecordInfo></RecordInfo>
 
-
-const Park = ({ park, key, user }) => {
-    const navigate = useNavigate();
-    return (
-        <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
-            <Col className='point'>
-                <Row>
-                    <div className="pointTitle">{park.name + " (Parking lot)"}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{park.region}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{park.city + " (" + park.province + ")"}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{"Altitude: " + park.altitude + " m"}</div>
-                </Row>
-                {(user && (user.role === "local guide" || user.role === "hiker")) ?
-                    <Row>
-                        <div className="touchableOpacityWithTextContainer">
-                            <ClickableOpacity
-                                onClick={() => {
-                                    navigate("/parkingLot/" + park.id)
-                                }}>
-                                <div className="seeMore">
-                                    see more
-                                </div>
-                            </ClickableOpacity>
-                        </div>
-                    </Row> : false
                 }
             </Col>
         </ListGroupItem>

@@ -16,14 +16,21 @@
   top: 50%;
   left: 0;
   z-index: 1001;
-  color:white;
-  text-align:center;
-  font-weight:bold;
-  font-size:1.5rem;        
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .seeMore {
   text-align: left;
+  color: #198754;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.completedCard {
+  text-align: right;
   color: #198754;
   font-size: 14px;
   text-decoration: underline;
@@ -41,7 +48,7 @@
   text-align: left;
 }
 
-.pointTitle{
+.pointTitle {
   font-size: 18px;
   text-align: left;
 }
@@ -53,11 +60,11 @@
   margin: 0px;
 }
 
-.marginLeft1{
+.marginLeft1 {
   margin-left: 1%
 }
 
-.marginLeft3{
+.marginLeft3 {
   margin-left: 3%
 }
 
@@ -87,72 +94,75 @@
   color: #495057;
 }
 
-.formLabel{
+.formLabel {
   font-size: 18px;
   text-align: left;
   color: #495057;
 }
 
-.filterTitleRow{
+.filterTitleRow {
   padding-left: 2%;
 }
 
-.formConfirm{
+.formConfirm {
   color: #198754;
   font-size: 18px;
 }
 
-.formCancel{
+.formCancel {
   color: #495057;
   font-size: 18px;
 }
 
-.formDelete{
+.formDelete {
   color: #DC4C64;
   font-size: 18px;
 }
 
-.marginLeft2{
+.marginLeft2 {
   margin-left: 2%;
 }
 
-.marginRight1{
+.marginRight1 {
   margin-right: 1%
 }
 
-.seePointsButton{
+.seePointsButton {
   color: #198754;
   font-size: 18px;
   text-decoration: underline;
 }
 
-.seePointsButtonContainer{
+.seePointsButtonContainer {
   margin-left: 0.4%;
 }
 
-.navigationLinkUnselected{
+.navigationLinkUnselected {
   text-align: center;
   color: #495057;
   font-size: 25px;
 }
 
-.navigationLinkSelected{
+.navigationLinkSelected {
   text-align: center;
   color: #14A44D;
   font-size: 25px;
 }
 
-.navigationLinkContainer{
+.navigationLinkContainer {
   text-align: center;
   padding-top: 15px;
-  width:fit-content;
+  width: fit-content;
 }
 
-.rowC{display:flex; flex-direction:row;}
+.rowC {
+  display: flex;
+  flex-direction: row;
+}
 
-.rowCentered{
-  display:flex; 
-  flex-direction:row;
+.rowCentered {
+  display: flex;
+  flex-direction: row;
   justify-content: center;
 }
 
@@ -163,13 +173,13 @@
 }
 
 .backImage {
-  background-position: center; 
-  background-repeat: no-repeat; 
-  background-size: cover; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 100vh;
-  position: fixed; 
-  background-attachment: fixed; 
-  z-index:-1;
+  position: fixed;
+  background-attachment: fixed;
+  z-index: -1;
 }
 
 #hikeImage {
@@ -181,7 +191,7 @@
 .styleButtonMargin {
   border-width: 3px !important;
   margin-bottom: 10px;
-  margin-right:10px
+  margin-right: 10px
 }
 
 .styleButton {
@@ -201,8 +211,8 @@
 }
 
 .noMarginAndPadding {
-  padding:0 !important; 
-  margin:0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .textCompleted {
@@ -210,7 +220,7 @@
   text-align: left;
   padding: 0px;
   margin: 0px;
-  color:#198754
+  color: #198754
 }
 
 .textStarted {
@@ -218,9 +228,16 @@
   text-align: left;
   padding: 0px;
   margin: 0px;
+  padding-right: 10px;
+  width: fit-content;
   color: #FFC20C
 }
 
-#map {height: 400px;}
+.dropdown-item:hover {
+  background-color: #198754 !important;
+  color: white !important;
+}
 
-
+#map {
+  height: 400px;
+}

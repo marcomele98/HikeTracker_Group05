@@ -90,9 +90,9 @@ db.serialize(function () {
     'CREATE TABLE IF NOT EXISTS "HIKE_HIKER" (\
         "hike_id" INTEGER NOT NULL,\
         "hiker_id" INTEGER NOT NULL,\
-        "start_time" DATETIME,\
+        "start_time" DATETIME NOT NULL,\
         "end_time" DATETIME,\
-        PRIMARY KEY("hike_id", "hiker_id")\
+        PRIMARY KEY("hike_id", "hiker_id", "start_time")\
         FOREIGN KEY("hike_id") REFERENCES "HIKE"("id") on DELETE CASCADE,\
         FOREIGN KEY("hiker_id") REFERENCES "USER"("id") on DELETE CASCADE\
     );'
@@ -277,6 +277,8 @@ db.serialize(function () {
     "INSERT OR IGNORE INTO HIKE_HIKER(hike_id, hiker_id, start_time, end_time)\
     VALUES(1, 3, '2022-11-16 12:00:00', '2022-11-16 18:00:00'),\
           (2, 3, '2022-11-09 12:00:00', '2022-11-09 18:00:00'),\
+          (2, 3, '2022-11-10 12:00:00', '2022-11-10 18:00:00'),\
+          (2, 3, '2022-11-08 12:00:00', '2022-11-08 18:00:00'),\
           (14, 4, '2022-11-09 12:00:00', NULL),\
           (12, 4, '2022-11-07 12:00:00', '2022-11-07 18:00:00'),\
           (18, 3, '2022-12-13 12:00:00', NULL),\

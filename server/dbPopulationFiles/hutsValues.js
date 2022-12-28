@@ -5,7 +5,7 @@ const {va_hut1_img, va_hut2_img, va_hut3_img } = require("./images/valledaosta/h
 const {pm_hut1_img, pm_hut2_img, pm_hut3_img, pm_hut4_img} = require("./images/piemonte/huts/getHutImages");
 const {li_hut1_img} = require("./images/liguria/huts/getHutImages.js");
 const {tn_hut1_img, tn_hut2_img, tn_hut3_img, tn_hut4_img, tn_hut5_img, tn_hut6_img, tn_hut7_img, tn_hut8_img} = require("./images/trentino/huts/getHutImages.js");
-
+const {lo_hut1_img, lo_hut2_img, lo_hut3_img, lo_hut4_img, lo_hut5_img} = require("./images/lombardia/huts/getHutImages.js");
 let hutsvalues =
     [
 
@@ -41,10 +41,10 @@ let hutsvalues =
         ['Bruto Carestiato', '46.321342', '12.070563', '1797.258522', 'Refuge', 'Veneto', 'BL', 'Agordo', 28, "+39 0437 62949",'info@rifugiocarestiato.com', 'Rifugio Bruto Carestiato is located 1,834 meters above sea level. It was built after World War II and named after Bruto Carestiato, a young man who died climbing a route on Civetta.', ve_hut6_img],
         ['Casera del Camp', '46.32289', '12.04339', '1847.074055', 'Bivouac', 'Veneto', 'BL', 'Agordo', 44, "+39 330 722855",'az.agr.frigimelica.giacomo@gmail.com', 'Very spacious bivouac, equipped with stove but no beds/mattresses', ve_hut7_img],
 
-        ['Pineta', '45.929233', '10.097330', '1260', 'Hotel', 'Lombardia', 'BG', 'Castione della Presolana', 46, "+39 0346 31121",'info@albergopineta.net', "Set in a quiet pine forest in Castione della Presolana, Hotel Pineta offers mountain views and free Wi-Fi in public areas."],//start point/end point:
-        ['Grassi', '46.009541', '9.491672', '1995', 'Refuge', 'Lombardia', 'LC', 'Introbio', 50, "+39 339 493 1340",'info@rifugiograssi.it', 'Good refuge and friendly staff'], //hut point
-        ['Casa Alpina Pio X', '46.015696', '9.477188', '1699', 'Refuge', 'Lombardia', 'LC', 'Introbio', 20, "+39 0341 284774", undefined, 'Excellent holiday, mountain home but with all the comforts'],//hut point
-        ['Baita Partrizi', '45.827348', '9.172940', '928', 'Refuge', 'Lombardia', 'BG', 'Carvico', 66,'+39 031 622550', undefined, 'The former hut Baita Patrizi (closed since 2017) is located in a wood on the southern slope of Monte Bolettone.'],//hut point
-        ['La Cascata', '45.976641', '9.453202', '631', 'Restaurant', 'Lombardia', 'LC', 'Introbio', undefined, "+39 0825849549",'ristorante.lacascata@libero.it', 'A very good restaurant.'],//start point/ end point
+        ['Pineta', '45.929233', '10.097330', '1260', 'Hotel', 'Lombardia', 'BG', 'Castione della Presolana', 46, "+39 0346 31121",'info@albergopineta.net', "Set in a quiet pine forest in Castione della Presolana, Hotel Pineta offers mountain views and free Wi-Fi in public areas.", lo_hut1_img],//start point/end point:
+        ['Grassi', '46.009541', '9.491672', '1995', 'Refuge', 'Lombardia', 'LC', 'Introbio', 50, "+39 339 493 1340",'info@rifugiograssi.it', 'Good refuge and friendly staff', lo_hut2_img], //hut point
+        ['Casa Alpina Pio X', '46.015696', '9.477188', '1699', 'Refuge', 'Lombardia', 'LC', 'Introbio', 20, "+39 0341 284774", undefined, 'Excellent holiday, mountain home but with all the comforts', lo_hut3_img],//hut point
+        ['Baita Partrizi', '45.827348', '9.172940', '928', 'Refuge', 'Lombardia', 'BG', 'Carvico', 66,'+39 031 622550', undefined, 'The former hut Baita Patrizi (closed since 2017) is located in a wood on the southern slope of Monte Bolettone.', lo_hut4_img],//hut point
+        ['La Cascata', '45.976641', '9.453202', '631', 'Restaurant', 'Lombardia', 'LC', 'Introbio', undefined, "+39 0825849549",'ristorante.lacascata@libero.it', 'A very good restaurant.',lo_hut5_img],//start point/ end point
     ];
 module.exports.hutsvalues = hutsvalues;

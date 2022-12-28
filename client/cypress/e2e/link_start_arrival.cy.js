@@ -5,7 +5,7 @@ describe('get the hikes list', () => {
     })
 
     it('jump into certain hike page test',()=>{
-        cy.contains('Great War: from Malga Grassi to Rifugio Pernici').parent().parent()
+        cy.contains('Great War: from Malga Grassi to Rifugio Pernici',{ timeout: 30000 }).parent().parent()
         .within(() => {     
         cy.contains('see more').click({force:true})
         })
@@ -30,7 +30,7 @@ describe('get the hikes list', () => {
         cy.contains('Select the hut:')
         cy.get('select')
         .eq(1)
-        .select('Rifugio Capanna', { force: true })
+        .select('Capanna', { force: true })
         .invoke('val')
         .should('deep.equal', '9')
 

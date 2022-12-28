@@ -59,6 +59,7 @@ const LogicContainer = () => {
         //resettare lo stato dell'applicazione
         setLoggedIn(false);
         setUser({});
+        navigate("/home");
     };
 
     const addUser = (newUser) => {
