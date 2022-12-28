@@ -34,6 +34,11 @@ exports.preferences2 = {
     "city": "Garessio"
 };
 
+exports. preferences3 = {
+    ...this.preferences2,
+    "user_id": 3,
+}
+
 exports.wrongPreferences1 = {
     ...this.preferences1,
     'max_length_kms': "110m",

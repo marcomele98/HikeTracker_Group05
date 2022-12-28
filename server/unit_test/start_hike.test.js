@@ -1,4 +1,3 @@
-const { expect } = require('chai');
 const hike = require('../Queries/hike');
 const point = require('../Queries/point');
 const daoUtility = require('../utilities/daoUtilities');
@@ -20,9 +19,10 @@ describe("Start Hike tests", () => {
     beforeAll(async () => {
         await daoUtility.resetDB();
         await daoUtility.createMarioRossi();
-        await daoUtility.createGiulioLiso();
         await daoUtility.createLuigiVerdi();
+        await daoUtility.createGiulioLiso();
         await daoUtility.createHikes();
+        await daoUtility.insertRefPointsToRocciamelone();
 
     });
 
@@ -76,18 +76,23 @@ describe("Start Hike tests", () => {
         
     });
 
-    /*test('test newRefPointHiker', async () => {
+    test('test newRefPointHiker', async () => {
 
-        let refPointReached1 = new HikerPoint();
-        let refPointReached2 = new HikerPoint();
-        let refPointReched_wrong = new HikerPoint();
+        let refPointReached1 = new HikerPoint(1,3,'2022-11-16 14:00:00');
+        let refPointReached2 = new HikerPoint(2,3,'2022-11-16 15:00:00');
 
         let data;
 
-        data = await point.getRefPointHiker(1,1);
+        data = await point.getRefPointHiker(refPointReached1.point_id, refPointReached1.hiker_id);
         expect(data).toBe(undefined);
 
+        await point.newRefPointHiker(refPointReached1.point_id,refPointReached1.hiker_id,refPointReached1.time);
+        data = await point.getRefPointHiker(refPointReached1.point_id, refPointReached1.hiker_id);
+        expect(refPointReached1).toEqual(data);
+        
+        await point.newRefPointHiker(refPointReached2.point_id,refPointReached2.hiker_id,refPointReached2.time);
+        data = await point.getRefPointHiker(refPointReached2.point_id, refPointReached2.hiker_id);
+        expect(refPointReached2).toEqual(data);
 
-
-    });*/
+    });
 })
