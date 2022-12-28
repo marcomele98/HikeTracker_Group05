@@ -370,13 +370,12 @@ const HikeForm = (props) => {
 							{
 								referencePoints.map((point, index) => {
 									return (
-										<>
+										<div key={index}>
 											<Row className="justify-content-center">
-
 												<Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} className="fs-4">Point n°{index + 1}<Button className="mx-4" variant="outline-danger" style={{ borderWidth: 3 }} size="sm" onClick={() => deletePoint(point)}>Delete</Button></Col>
 											</Row>
 											<ConfirmedNewPoint point={point}></ConfirmedNewPoint>
-										</>
+										</div>
 									)
 								})
 							}

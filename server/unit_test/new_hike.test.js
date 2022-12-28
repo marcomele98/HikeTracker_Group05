@@ -113,7 +113,7 @@ describe("NewHikeDao", () => {
         expect(point2).toEqual(pointToCheck);
 
         const updatedHike3 = new Hike(3, "prova3", 30, 130, 1300, "Professional Hiker", "", "Piemonte", "TO", "La Touile", lg_id, "gpx_content", point1.id, "general point", point2.id, "general point", 'image');
-        hikeIdToCheck = await hike.updateHike(point1.id, "general point", point2.id, "general point", hikeIdToCheck);
+        await hike.updateHike(point1.id, "general point", point2.id, "general point", hikeIdToCheck);
         hikeToCheck = await hike.getHikeById(3);
 
         expect(updatedHike3).toEqual(hikeToCheck);

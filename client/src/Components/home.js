@@ -275,13 +275,13 @@ function Home({ setIsLoading, user, setUser, hikeStatus }) {
                                     return true;
                                 })
                                 .sort((a, b) => a.title.trim().localeCompare(b.title.trim()))
-                                .map((h) => {
+                                .map((h, i) => {
                                     const compl_records = h.records?.filter(r => r.end_time != undefined).sort((a, b) => {
                                         moment(b.start_time).diff(moment(a.start_time), "seconds")
                                     })
                                     
                                     return (
-                                        <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                        <Col key={i} xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
                                             <ListGroupItem style={{ height: 250, opacity: "85%" }} key={h.id} className="m-3 border-2 rounded-3 shadow">
 
                                                 <Row>

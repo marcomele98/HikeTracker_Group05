@@ -88,8 +88,8 @@ function ListHuts({ setIsLoading, user }) {
                             huts
                                 .filter(searchFilter)
                                 .sort((a, b) => (a.type.trim() + a.name.trim()).localeCompare(b.type.trim() + b.name.trim()))
-                                .map((h) => (
-                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                .map((h, i) => (
+                                    <Col key={i} xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
                                         <HutCard h={h} user={user}></HutCard>
                                     </Col>
                                 ))

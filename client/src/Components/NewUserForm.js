@@ -172,8 +172,8 @@ function NewUserForm(props) {
                                 onChange={(e) => { setRole(e.target.value) }}
                                 defaultValue="hiker"
                             >
-                                {roles.map((p) => (
-                                    <option value={p}>
+                                {roles.map((p, i) => (
+                                    <option key={i} value={p}>
                                         {p}
                                     </option>
                                 ))}

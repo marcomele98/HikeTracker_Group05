@@ -51,8 +51,8 @@ function ListParkings({ setIsLoading, user }) {
 
                             parks
                                 .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                .map((p) => (
-                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                .map((p, i) => (
+                                    <Col key={i} xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
                                         <ParkCard p={p} user={user}></ParkCard>
                                     </Col>
                                 ))

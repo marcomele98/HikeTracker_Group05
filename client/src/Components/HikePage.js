@@ -307,8 +307,8 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                             {
                                                 hike.huts
                                                     .sort((a, b) => (a.type.trim() + a.name.trim()).localeCompare(b.type.trim() + b.name.trim()))
-                                                    .map((h) =>
-                                                        <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                    .map((h, i) =>
+                                                        <Col key={i} xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
                                                             <HutCard h={h} user={user}></HutCard>
                                                         </Col>
                                                     )
@@ -337,8 +337,8 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                             {
                                                 hike.parking_lots
                                                     .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
-                                                    .map((p) =>
-                                                        <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                    .map((p, i) =>
+                                                        <Col key={i} xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
                                                             <ParkCard p={p} user={user}></ParkCard>
                                                         </Col>
                                                     )
@@ -366,8 +366,8 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                             hike.points
                                                 .filter(isNotStartOrEnd)
                                                 .sort((a, b) => a.name?.trim().localeCompare(b.name?.trim()))
-                                                .map((p) =>
-                                                    <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
+                                                .map((p, i) =>
+                                                    <Col key={i} xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
                                                         <Point key={p.id} point={p} user={user} lastStartTime={lastStartTime} lastEndTime={lastEndTime} onHandleRef={onHandleRef}></Point>
                                                     </Col>
                                                 )

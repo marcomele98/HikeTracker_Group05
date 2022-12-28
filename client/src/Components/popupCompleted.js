@@ -5,8 +5,6 @@ import moment from 'moment';
 
 const CompletedModal = (props) => {
 
-    useEffect(() => console.log(props), [props])
-
     return (
         <Modal  {...props}>
             <Modal.Header closeButton>
@@ -19,8 +17,8 @@ const CompletedModal = (props) => {
                     {
                         props.list
                             ?.filter((l) => l.end_time != undefined)
-                            .map((el) =>
-                                <ListGroupItem>
+                            .map((el, i) =>
+                                <ListGroupItem key={i}>
                                     <Row className='justify-content-center'>{"Started at " + el.start_time}</Row>
                                     <Row className='justify-content-center'>{"Completed at " + el.end_time}</Row>
                                     <Row className='justify-content-center'>{"Completed in " + moment(el.end_time).diff(moment(el.start_time), 'minutes') + " mins"}</Row>
