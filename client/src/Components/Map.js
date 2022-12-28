@@ -3,7 +3,6 @@ import React from 'react';
 import { MapContainer, Polyline, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import { ListGroupItem, ListGroup } from "react-bootstrap";
 import '../App.css';
-import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from 'leaflet'
 import { calcCrow } from '../utilities';
 let gpxParser = require('gpxparser');

@@ -5,6 +5,7 @@ import { ClickableOpacity } from "./clickableOpacity";
 import { toast } from "react-toastify";
 import API from "../API";
 import img from "../Assets/Images/hut.jpg"
+import { HutCard } from "./hut_card";
 
 function ListHuts({ setIsLoading, user }) {
 
@@ -90,50 +91,7 @@ function ListHuts({ setIsLoading, user }) {
                                 .sort((a, b) => (a.type.trim() + a.name.trim()).localeCompare(b.type.trim() + b.name.trim()))
                                 .map((h) => (
                                     <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                        <ListGroupItem style={{ height: 170, opacity: "85%" }} key={h.id} className="m-3 border-2 rounded-3 shadow">
-
-                                            <Row>
-                                                <div className="title">{h.type + " "+h.name}</div>
-                                            </Row>
-                                            <Row>
-                                                <div className="textGrayPrimary">{h.region}</div>
-                                            </Row>
-                                            <Row>
-                                                <div className="textGrayPrimary">{h.city + " (" + h.province + ")"}</div>
-                                            </Row>
-                                            {
-                                                !h.phone
-                                                    ?
-                                                    false
-                                                    :
-                                                    <Row>
-                                                        <div className="textGrayPrimary">{"Phone number: " + h.phone}</div>
-                                                    </Row>
-                                            }
-                                            {
-                                                !h.email
-                                                    ?
-                                                    false
-                                                    :
-                                                    <Row>
-                                                        <div className="textGrayPrimary">{"Email: " + h.email}</div>
-                                                    </Row>
-                                            }
-
-                                            <Row style={{ position: "absolute", bottom: 0, paddingBottom: 10 }}>
-                                                <div className="touchableOpacityWithTextContainer">
-                                                    <ClickableOpacity
-                                                        onClick={() => {
-                                                            navigate("/hut/" + h.id)
-                                                        }}>
-                                                        <div className="seeMore">
-                                                            see more
-                                                        </div>
-                                                    </ClickableOpacity>
-                                                </div>
-                                            </Row>
-
-                                        </ListGroupItem>
+                                        <HutCard h={h} user={user}></HutCard>
                                     </Col>
                                 ))
                         }

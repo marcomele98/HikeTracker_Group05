@@ -14,7 +14,8 @@ import moment from 'moment';
 import "../App.css"
 import CompletedModal from './popupCompleted';
 import Trigger from './overlay';
-
+import { HutCard } from './hut_card';
+import { ParkCard } from './park_card';
 
 let gpxParser = require('gpxparser');
 
@@ -308,7 +309,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                                     .sort((a, b) => (a.type.trim() + a.name.trim()).localeCompare(b.type.trim() + b.name.trim()))
                                                     .map((h) =>
                                                         <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                            <Hut key={h.id} hut={h} user={user}></Hut>
+                                                            <HutCard h={h} user={user}></HutCard>
                                                         </Col>
                                                     )
                                             }
@@ -338,7 +339,7 @@ function HikePage({ setIsLoading, loggedIn, user }) {
                                                     .sort((a, b) => a.name.trim().localeCompare(b.name.trim()))
                                                     .map((p) =>
                                                         <Col xs={12} sm={12} md={6} lg={6} xl={4} xxl={4}>
-                                                            <Park key={p.id} park={p} user={user}></Park>
+                                                            <ParkCard p={p} user={user}></ParkCard>
                                                         </Col>
                                                     )
                                             }
@@ -390,9 +391,9 @@ function HikePage({ setIsLoading, loggedIn, user }) {
 const RefPointSwitcher = ({ point, type, user }) => {
     switch (type) {
         case "Hut point":
-            return (<Hut hut={point} key={point.id} user={user} />);
+            return (<HutCard h={point} user={user} />);
         case "Parking point":
-            return (<Park park={point} key={point.id} user={user} />);
+            return (<ParkCard p={point} user={user} />);
         case "general point":
             return (<Point point={point} key={point.id} />);
         default:
@@ -436,7 +437,7 @@ const Point = ({ point, key, user, lastStartTime, lastEndTime, onHandleRef }) =>
     }
 
     return (
-        <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
+        <ListGroupItem style={{ opacity: "85%" }} key={key} className="m-3 border-2 rounded-3 shadow">
             <Col className='point'>
                 {
                     point.name
@@ -474,9 +475,7 @@ const Point = ({ point, key, user, lastStartTime, lastEndTime, onHandleRef }) =>
                         :
                         undefined
                 }
-                <Row>
-                    <div className="textGrayPrimary">{"Altitude: " + point.altitude + " m"}</div>
-                </Row>
+                
                 {
                     user.role !== "hiker" || !lastStartTime || lastEndTime
                         ?
@@ -484,80 +483,6 @@ const Point = ({ point, key, user, lastStartTime, lastEndTime, onHandleRef }) =>
                         :
                         <RecordInfo></RecordInfo>
 
-                }
-            </Col>
-        </ListGroupItem>
-    );
-}
-
-
-const Hut = ({ hut, key, user }) => {
-    const navigate = useNavigate();
-    return (
-        <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
-            <Col className='point'>
-                <Row>
-                    <div className="pointTitle">{hut.type + " " + hut.name}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{hut.region}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{hut.city + " (" + hut.province + ")"}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{"Altitude: " + hut.altitude + " m"}</div>
-                </Row>
-                {(user && (user.role === "local guide" || user.role === "hiker")) ?
-                    <Row>
-                        <div className="touchableOpacityWithTextContainer">
-                            <ClickableOpacity
-                                onClick={() => {
-                                    navigate("/hut/" + hut.id)
-                                }}>
-                                <div className="seeMore">
-                                    see more
-                                </div>
-                            </ClickableOpacity>
-                        </div>
-                    </Row> : false
-                }
-            </Col>
-        </ListGroupItem>
-    );
-}
-
-
-const Park = ({ park, key, user }) => {
-    const navigate = useNavigate();
-    return (
-        <ListGroupItem key={key} className="m-3 border-2 rounded-3 shadow">
-            <Col className='point'>
-                <Row>
-                    <div className="pointTitle">{park.name + " (Parking lot)"}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{park.region}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{park.city + " (" + park.province + ")"}</div>
-                </Row>
-                <Row>
-                    <div className="textGrayPrimary">{"Altitude: " + park.altitude + " m"}</div>
-                </Row>
-                {(user && (user.role === "local guide" || user.role === "hiker")) ?
-                    <Row>
-                        <div className="touchableOpacityWithTextContainer">
-                            <ClickableOpacity
-                                onClick={() => {
-                                    navigate("/parkingLot/" + park.id)
-                                }}>
-                                <div className="seeMore">
-                                    see more
-                                </div>
-                            </ClickableOpacity>
-                        </div>
-                    </Row> : false
                 }
             </Col>
         </ListGroupItem>

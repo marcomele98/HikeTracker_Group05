@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Row, Col, ListGroupItem, ListGroup } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Modal, Row, ListGroupItem, ListGroup } from 'react-bootstrap';
 import moment from 'moment';
 
 
