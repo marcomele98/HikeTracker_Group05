@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Modal, Row, ListGroupItem, ListGroup } from 'react-bootstrap';
 import moment from 'moment';
 

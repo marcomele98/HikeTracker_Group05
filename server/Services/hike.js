@@ -112,9 +112,9 @@ class HikeDescription {
                 start_point_id = await pointDB.storePoint(hike.start_point, hike_id)
             }
             await db.updateHike(end_point_id, "general point", start_point_id, "general point", hike_id)
-            for (let i = 0; i < hike.reference_points.length; i++) {
-                await pointDB.storePoint(hike.reference_points[i], hike_id);
-            }
+            hike.reference_points.forEach(async point => {
+                await pointDB.storePoint(point, hike_id);
+            });
             return res.status(201).end();
         }
         catch (err) {
@@ -538,37 +538,37 @@ class HikeDescription {
     async getAllHikes(req, res) {
         try {
             let hikes = await db.getHikes();
-            for (let i = 0; i < hikes.length; i++) {
-                if (hikes[i].start_point_type == 'general point') {
-                    let startpointDetails = await pointDB.getPointById(hikes[i].start_point);
-                    hikes[i].start_point_lat = ""
-                    hikes[i].start_point_lon = ""
-                    hikes[i].start_point_lat = startpointDetails.latitude;
-                    hikes[i].start_point_lon = startpointDetails.longitude;
+            hikes.forEach(async hike => {
+                if (hike.start_point_type == 'general point') {
+                    let startpointDetails = await pointDB.getPointById(hike.start_point);
+                    hike.start_point_lat = ""
+                    hike.start_point_lon = ""
+                    hike.start_point_lat = startpointDetails.latitude;
+                    hike.start_point_lon = startpointDetails.longitude;
                 }
-                else if (hikes[i].start_point_type == 'Parking point') {
-                    let startpointDetails = await parkingDB.getParkingById(hikes[i].start_point)
-                    hikes[i].start_point_lat = ""
-                    hikes[i].start_point_lon = ""
-                    hikes[i].start_point_lat = startpointDetails.latitude;
-                    hikes[i].start_point_lon = startpointDetails.longitude;
+                else if (hike.start_point_type == 'Parking point') {
+                    let startpointDetails = await parkingDB.getParkingById(hike.start_point)
+                    hike.start_point_lat = ""
+                    hike.start_point_lon = ""
+                    hike.start_point_lat = startpointDetails.latitude;
+                    hike.start_point_lon = startpointDetails.longitude;
                 }
                 else {
-                    let startpointDetails = await hutDB.getHutById(hikes[i].start_point);
-                    hikes[i].start_point_lat = ""
-                    hikes[i].start_point_lon = ""
-                    hikes[i].start_point_lat = startpointDetails.latitude;
-                    hikes[i].start_point_lon = startpointDetails.longitude;
+                    let startpointDetails = await hutDB.getHutById(hike.start_point);
+                    hike.start_point_lat = ""
+                    hike.start_point_lon = ""
+                    hike.start_point_lat = startpointDetails.latitude;
+                    hike.start_point_lon = startpointDetails.longitude;
                 }
                 if (req.user != undefined && req.user.role == 'hiker') {
-                    let hike_hiker = await db.getHikeByHiker(hikes[i].id, req.user.id);
+                    let hike_hiker = await db.getHikeByHiker(hike.id, req.user.id);
                     if (hike_hiker != undefined) {
-                        hikes[i].records = hike_hiker.map(h => { return ({ start_time: h.start_time, end_time: h.end_time }) })
+                        hike.records = hike_hiker.map(h => { return ({ start_time: h.start_time, end_time: h.end_time }) })
                     }
                 }
-                hikes[i].image = undefined;
-                hikes[i].gpx = undefined;
-            }
+                hike.image = undefined;
+                hike.gpx = undefined; 
+            });
             return res.status(200).json(hikes);
 
         }
