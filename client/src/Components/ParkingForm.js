@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { CliccableMap } from "./cliccableMap";
 import { toast } from "react-toastify";
 import API from "../API";
-import { getCoordsDetails } from "../utilities"
 
 
 const ParkingForm = (props) => {
@@ -20,27 +19,6 @@ const ParkingForm = (props) => {
     const [errMsg, setErrMsg] = useState("");
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-
-        const positionChangeHandle = async () => {
-            const details = await getCoordsDetails({ latitude: position.lat, longitude: position.lng })
-            if (details.CountryCode !== "ITA") {
-                setErrMsg("At the moment are no accepted points outside ita.");
-                setPosition();
-            } else {
-                setCity(details.City)
-                setRegion(details.Region)
-                setProvince(details.SubregionCode)
-            }
-
-        }
-
-        if (position)
-            positionChangeHandle()
-
-    }, [position])
-
 
     const handleSubmit = (event) => {
         const form = event.currentTarget;
@@ -160,7 +138,7 @@ const ParkingForm = (props) => {
 
                 <Row className="justify-content-center mb-4">
                     <Col xs={12} sm={12} md={11} lg={11} xl={11} xxl={11}>
-                        <CliccableMap position={position} setPosition={setPosition}></CliccableMap>
+                        <CliccableMap position={position} setPosition={setPosition} setCity={setCity} setRegion={setRegion} setProvince={setProvince} setErrMsg={setErrMsg}></CliccableMap>
                     </Col>
                 </Row>
                 {

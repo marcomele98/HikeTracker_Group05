@@ -1,7 +1,6 @@
-import { Row, Container, Col, ListGroupItem, ListGroup, Button } from "react-bootstrap";
+import { Row, Container, Col, ListGroup, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { ClickableOpacity } from "./clickableOpacity";
 import { toast } from "react-toastify";
 import API from "../API";
 import img from "../Assets/Images/parking.jpeg"

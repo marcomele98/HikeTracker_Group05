@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { Map } from "./Map"
 import { getCoordsDetails } from "../utilities"
 import { ImageInput } from "./imageInput"
+import { DescriptionForm } from "./form_custom";
 let gpxParser = require('gpxparser');
 
 const HikeForm = (props) => {
@@ -226,22 +227,7 @@ const HikeForm = (props) => {
 				</Row>
 
 				<Row className="justify-content-center">
-
-					<Form.Group className={"mb-4"} as={Col} xs={12} sm={12} md={11} lg={11} xl={11} xxl={11} controlId="validationCustom10">
-						<Form.Label className={"fs-4"}>Description</Form.Label>
-						<Form.Control
-							required
-							type="text"
-							as="textarea"
-							rows="3"
-							placeholder="Insert description"
-							value={description}
-							onChange={(e) => {
-								setDescription(e.target.value);
-							}}
-						/>
-						<Form.Control.Feedback type="invalid">Please insert correct description</Form.Control.Feedback>
-					</Form.Group>
+					<DescriptionForm description={description} setDescription={setDescription}></DescriptionForm>
 				</Row>
 
 				<ImageInput setImage={setImage} imagePath={imagePath} setImagePath={setImagePath}></ImageInput>
