@@ -112,9 +112,9 @@ class HikeDescription {
                 start_point_id = await pointDB.storePoint(hike.start_point, hike_id)
             }
             await db.updateHike(end_point_id, "general point", start_point_id, "general point", hike_id)
-            hike.reference_points.forEach(async point => {
+            for (let point of hike.reference_points) {
                 await pointDB.storePoint(point, hike_id);
-            });
+            };
             return res.status(201).end();
         }
         catch (err) {
@@ -538,7 +538,7 @@ class HikeDescription {
     async getAllHikes(req, res) {
         try {
             let hikes = await db.getHikes();
-            hikes.forEach(async hike => {
+            for (let hike of hikes){
                 if (hike.start_point_type == 'general point') {
                     let startpointDetails = await pointDB.getPointById(hike.start_point);
                     hike.start_point_lat = ""
@@ -568,7 +568,7 @@ class HikeDescription {
                 }
                 hike.image = undefined;
                 hike.gpx = undefined; 
-            });
+            };
             return res.status(200).json(hikes);
 
         }
