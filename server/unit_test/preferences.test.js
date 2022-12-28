@@ -8,7 +8,9 @@ describe("Preferences test", () => {
         await daoUtility.resetDB();
         await daoUtility.createMarioRossi();
         await daoUtility.createLuigiVerdi();
+        await daoUtility.createGiulioLiso();
         await daoUtility.savePreferencesForLuigiVerdi();
+        await daoUtility.savePreferencesForGiulioLiso();
     });
 
     afterEach(async () => {
@@ -17,10 +19,15 @@ describe("Preferences test", () => {
 
     test('Test get hiker preferences', async () => {
 
-        let data = await preferences.getPreferencesByUserId(2);
+        let data;
+        let preferences_check;
 
-        let preferences_check = prefObjects.preferences1;
+        data = await preferences.getPreferencesByUserId(2);
+        preferences_check = prefObjects.preferences1;
+        expect(data).toEqual(preferences_check);
 
+        data = await preferences.getPreferencesByUserId(3);
+        preferences_check = prefObjects.preferences3;
         expect(data).toEqual(preferences_check);
 
         data = await preferences.getPreferencesByUserId(1);
