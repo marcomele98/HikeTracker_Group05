@@ -102,6 +102,13 @@ class HikeDescription {
 
         hikeControls(hike, res);
 
+        for (let point of hike.reference_points) {
+            if (servicesUtility.isNotValidPoint(point)) {
+                let message = "Invalid reference points"
+                return res.status(422).json(message);
+            }
+        }
+
         try {
             let hike_id = await db.newHike(hike, lg_id);
             let end_point_id = await pointDB.storePoint(hike.end_point, hike_id)
@@ -132,13 +139,6 @@ class HikeDescription {
             return res.status(401).json("Not authenticated.");
         }
 
-        for (let point of hike.reference_points) {
-            if (servicesUtility.isNotValidPoint(point)) {
-                let message = "Invalid reference points"
-                return res.status(422).json(message);
-            }
-        }
-
         if (servicesUtility.isNotValidNumber(update.start_point)) {
             message = "Invalid Start Point id."
             return res.status(422).json(message);
@@ -157,6 +157,7 @@ class HikeDescription {
                 return res.status(404).json(message);
             }
             else {
+                
                 let oldStartId = hike.start_point
                 let oldStartType = hike.start_point_type
                 let oldEndId = hike.end_point
