@@ -75,6 +75,34 @@ const hikeControls = (hike, res) => {
     }
 };
 
+async function minmize_UpdateStartPoint (update ,hikeId)
+{
+    if (update.type_start === 'Parking point') {
+        let old = await db.getHikesParkingsByIDs(hikeId, update.start_point)
+        if (old === undefined)
+            await db.insertParkForHike(hikeId, update.start_point)
+    }
+    else if (update.type_start === 'Hut point') {
+        let old = await db.getHikesHutsByIDs(hikeId, update.start_point)
+        if (old === undefined)
+            await db.insertHutForHike(hikeId, update.start_point)
+    }
+}
+
+async function minmize_UpdateEndPoint (update ,hikeId)
+{
+    if (update.type_end === 'Parking point') {
+        let old = await db.getHikesParkingsByIDs(hikeId, update.end_point)
+        if (old === undefined)
+            await db.insertParkForHike(hikeId, update.end_point)
+    }
+    else if (update.type_end === 'Hut point') {
+        let old = await db.getHikesHutsByIDs(hikeId, update.end_point)
+        if (old === undefined)
+            await db.insertHutForHike(hikeId, update.end_point)
+    }
+}
+
 class HikeDescription {
 
     deleteStartEndPoint = async (hikeId, oldStartType, oldEndType, oldStartId, oldEndId) => {
@@ -168,16 +196,8 @@ class HikeDescription {
                 await db.updateHike(oldEndId, oldEndType, update.start_point, update.type_start, hikeId);
 
                 if (update.type_start !== oldEndType || (update.type_start === oldEndType && update.start_point !== oldEndId)) {
-                    if (update.type_start === 'Parking point') {
-                        let old = await db.getHikesParkingsByIDs(hikeId, update.start_point)
-                        if (old === undefined)
-                            await db.insertParkForHike(hikeId, update.start_point)
-                    }
-                    else if (update.type_start === 'Hut point') {
-                        let old = await db.getHikesHutsByIDs(hikeId, update.start_point)
-                        if (old === undefined)
-                            await db.insertHutForHike(hikeId, update.start_point)
-                    }
+                   
+                    await minmize_UpdateStartPoint(update,hikeId);
                 }
                 return res.status(200).end();
             }
@@ -227,16 +247,7 @@ class HikeDescription {
                 await db.updateHike(update.end_point, update.type_end, oldStartId, oldStartType, hikeId);
 
                 if (update.type_end !== oldStartType || (update.type_end === oldStartType && update.end_point !== oldStartId)) {
-                    if (update.type_end === 'Parking point') {
-                        let old = await db.getHikesParkingsByIDs(hikeId, update.end_point)
-                        if (old === undefined)
-                            await db.insertParkForHike(hikeId, update.end_point)
-                    }
-                    else if (update.type_end === 'Hut point') {
-                        let old = await db.getHikesHutsByIDs(hikeId, update.end_point)
-                        if (old === undefined)
-                            await db.insertHutForHike(hikeId, update.end_point)
-                    }
+                   await minmize_UpdateEndPoint (update ,hikeId);
                 }
                 return res.status(200).end();
             }
@@ -644,20 +655,8 @@ class HikeDescription {
                 hike.points = [];
                 hike.points = points;
 
-                if (req.user != undefined && req.user.role == 'hiker') {
-                    let hike_hiker = await db.getHikeByHiker(hike.id, req.user.id);
-                    if (hike_hiker != undefined) {
-                        hike.records = hike_hiker.map(h => { return ({ start_time: h.start_time, end_time: h.end_time }) })
-                        for (let point of hike.points) {
-                            let point_details = await pointDB.getRefPointHiker(point.id, req.user.id)
-                            point.time = new Date(point_details?.time) > new Date(hike.records.find(r => r.end_time == undefined)?.start_time)
-                                ?
-                                point_details?.time
-                                :
-                                undefined
-                        }
-                    }
-                }
+                await getHikesofHiker(hike, req.user, req.user.role ,req.user.id);
+
                 return res.status(200).json(hike);
             }
         }
@@ -667,6 +666,24 @@ class HikeDescription {
     };
 
 
+}
+
+async function getHikesofHiker(hike, reqUser, reqUserRole ,reqUserId)
+{
+    if (reqUser != undefined && reqUserRole == 'hiker') {
+        let hike_hiker = await db.getHikeByHiker(hike.id, reqUserId);
+        if (hike_hiker != undefined) {
+            hike.records = hike_hiker.map(h => { return ({ start_time: h.start_time, end_time: h.end_time }) })
+            for (let point of hike.points) {
+                let point_details = await pointDB.getRefPointHiker(point.id, reqUserId)
+                point.time = new Date(point_details?.time) > new Date(hike.records.find(r => r.end_time == undefined)?.start_time)
+                    ?
+                    point_details?.time
+                    :
+                    undefined
+            }
+        }
+    }
 }
 
 module.exports.HikeDescription = HikeDescription;

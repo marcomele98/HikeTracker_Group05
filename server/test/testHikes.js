@@ -254,7 +254,7 @@ function newHikeDescription(expectedHTTPStatus, hike) {
 }
 
 /********************* */
-function minmizetest (id,res2, updateEnd1,park,expectedHTTPStatus)
+function minmizetest_EndPoint (id,res2, updateEnd1,park,expectedHTTPStatus)
 {
     if (id > 0 && id <= 2) {
         res2.should.have.status(200);
@@ -263,25 +263,18 @@ function minmizetest (id,res2, updateEnd1,park,expectedHTTPStatus)
                 .send(park)
                 .then(function (res3) {
                     res3.should.have.status(201);
-                    if (res3.status == 201) {
+                     (res3.status == 201) ?
                         chaiUtility.agent.put('/api/hikeEnd/' + id)
                             .send(updateEnd1)
                             .then(function (res4) {
                                 console.log(updateEnd1);
-                                if (id == 1) {
-                                    res4.should.have.status(expectedHTTPStatus);
-                                    done();
-                                }
-                                else {
-                                    res2.should.have.status(404);
-                                    done();
-                                }
+                                 (id == 1) ?
+                                    res4.should.have.status(expectedHTTPStatus): res2.should.have.status(404);
+                                done();
                             })
-                    }
-                    else {
+                    : 
                         res2.should.have.status(404);
                         done();
-                    }
                 })
 
         }
@@ -291,6 +284,36 @@ function minmizetest (id,res2, updateEnd1,park,expectedHTTPStatus)
         }
     }
 
+}
+
+function minmizetest_StartPoint (id,res2, updateStart1,park1,expectedHTTPStatus)
+{
+    if (id > 0 && id <= 2) {
+        res2.should.have.status(200);
+        if (res2.status == 200) {
+            chaiUtility.agent.post('/api/parkingLot')
+                .send(park1)
+                .then(function (res3) {
+                    res3.should.have.status(201);
+                     (res3.status == 201)? 
+                        chaiUtility.agent.put('/api/hikeStart/' + id)
+                            .send(updateStart1)
+                            .then(function (res4) {
+                                console.log(updateStart1);
+                                (id == 1) ?
+                                    res4.should.have.status(expectedHTTPStatus): res2.should.have.status(404);
+                                done();
+                            })
+                    : 
+                        res2.should.have.status(404);
+                        done();
+                })
+        }
+        else {
+            res2.should.have.status(404);
+            done();
+        }
+    }
 }
 /********************* */
 function updateEndPoint(expectedHTTPStatus, id, hike, updateEnd, updateEnd1, hut, park) {
@@ -313,7 +336,7 @@ function updateEndPoint(expectedHTTPStatus, id, hike, updateEnd, updateEnd1, hut
                                             chaiUtility.agent.put('/api/hikeEnd/' + id)
                                                 .send(updateEnd)
                                                 .then(function (res2) {
-                                                    minmizetest(id,res2, updateEnd1,park,expectedHTTPStatus);
+                                                    minmizetest_EndPoint(id,res2, updateEnd1,park,expectedHTTPStatus);
                                                     done();
                                                 });
                                         }
@@ -346,40 +369,8 @@ function updateStartPoint(expectedHTTPStatus, id, hike, updateStart, updateStart
                                             chaiUtility.agent.put('/api/hikeStart/' + id)
                                                 .send(updateStart)
                                                 .then(function (res2) {
-                                                    if (id > 0 && id <= 2) {
-                                                        res2.should.have.status(200);
-                                                        if (res2.status == 200) {
-                                                            chaiUtility.agent.post('/api/parkingLot')
-                                                                .send(park1)
-                                                                .then(function (res3) {
-                                                                    res3.should.have.status(201);
-                                                                    if (res3.status == 201) {
-                                                                        chaiUtility.agent.put('/api/hikeStart/' + id)
-                                                                            .send(updateStart1)
-                                                                            .then(function (res4) {
-                                                                                console.log(updateStart1);
-                                                                                if (id == 1) {
-                                                                                    res4.should.have.status(expectedHTTPStatus);
-                                                                                    done();
-                                                                                }
-                                                                                else {
-                                                                                    res2.should.have.status(404);
-                                                                                    done();
-                                                                                }
-                                                                            })
-                                                                    }
-                                                                    else {
-                                                                        res2.should.have.status(404);
-                                                                        done();
-                                                                    }
-                                                                })
-
-                                                        }
-                                                        else {
-                                                            res2.should.have.status(404);
-                                                            done();
-                                                        }
-                                                    }
+                                                    minmizetest_StartPoint (id,res2, updateStart1,park1,expectedHTTPStatus);
+                                                    done();
                                                 });
                                         }
                                     })
