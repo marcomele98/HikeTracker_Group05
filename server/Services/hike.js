@@ -75,8 +75,7 @@ const hikeControls = (hike, res) => {
     }
 };
 
-async function minmize_UpdateStartPoint (update ,hikeId)
-{
+async function minmize_UpdateStartPoint(update, hikeId) {
     if (update.type_start === 'Parking point') {
         let old = await db.getHikesParkingsByIDs(hikeId, update.start_point)
         if (old === undefined)
@@ -89,8 +88,7 @@ async function minmize_UpdateStartPoint (update ,hikeId)
     }
 }
 
-async function minmize_UpdateEndPoint (update ,hikeId)
-{
+async function minmize_UpdateEndPoint(update, hikeId) {
     if (update.type_end === 'Parking point') {
         let old = await db.getHikesParkingsByIDs(hikeId, update.end_point)
         if (old === undefined)
@@ -185,7 +183,7 @@ class HikeDescription {
                 return res.status(404).json(message);
             }
             else {
-                
+
                 let oldStartId = hike.start_point
                 let oldStartType = hike.start_point_type
                 let oldEndId = hike.end_point
@@ -196,8 +194,8 @@ class HikeDescription {
                 await db.updateHike(oldEndId, oldEndType, update.start_point, update.type_start, hikeId);
 
                 if (update.type_start !== oldEndType || (update.type_start === oldEndType && update.start_point !== oldEndId)) {
-                   
-                    await minmize_UpdateStartPoint(update,hikeId);
+
+                    await minmize_UpdateStartPoint(update, hikeId);
                 }
                 return res.status(200).end();
             }
@@ -247,7 +245,7 @@ class HikeDescription {
                 await db.updateHike(update.end_point, update.type_end, oldStartId, oldStartType, hikeId);
 
                 if (update.type_end !== oldStartType || (update.type_end === oldStartType && update.end_point !== oldStartId)) {
-                   await minmize_UpdateEndPoint (update ,hikeId);
+                    await minmize_UpdateEndPoint(update, hikeId);
                 }
                 return res.status(200).end();
             }
@@ -517,7 +515,7 @@ class HikeDescription {
             return res.status(503).json(message)
         }
     }
-    
+
     async NewRefPointHiker(req, res) {
         let point_id = req.body.point_id;
         let time = req.body.time;
@@ -541,7 +539,7 @@ class HikeDescription {
             if (point === undefined) {
                 return res.status(422).json("Point not found.");
             }
-            
+
             await pointDB.newRefPointHiker(point_id, req.user.id, time);
             return res.status(201).end();
 
@@ -554,7 +552,7 @@ class HikeDescription {
     async getAllHikes(req, res) {
         try {
             let hikes = await db.getHikes();
-            for (let hike of hikes){
+            for (let hike of hikes) {
                 if (hike.start_point_type == 'general point') {
                     let startpointDetails = await pointDB.getPointById(hike.start_point);
                     hike.start_point_lat = ""
@@ -583,7 +581,7 @@ class HikeDescription {
                     }
                 }
                 hike.image = undefined;
-                hike.gpx = undefined; 
+                hike.gpx = undefined;
             };
             return res.status(200).json(hikes);
 
@@ -655,7 +653,9 @@ class HikeDescription {
                 hike.points = [];
                 hike.points = points;
 
-                await getHikesofHiker(hike, req.user, req.user.role ,req.user.id);
+                if (req.user != undefined && req.user.role == 'hiker') {
+                    await getHikesofHiker(hike, req.user, req.user.role, req.user.id);
+                }
 
                 return res.status(200).json(hike);
             }
@@ -668,8 +668,7 @@ class HikeDescription {
 
 }
 
-async function getHikesofHiker(hike, reqUser, reqUserRole ,reqUserId)
-{
+async function getHikesofHiker(hike, reqUser, reqUserRole, reqUserId) {
     if (reqUser != undefined && reqUserRole == 'hiker') {
         let hike_hiker = await db.getHikeByHiker(hike.id, reqUserId);
         if (hike_hiker != undefined) {
