@@ -76,6 +76,7 @@ describe('test hikes apis as hiker 2', () => {
     });
 
     getRefPointHiker(200, 1)
+    getRefPointHiker(200, 2)
     getRefPointHiker(404, 3)
 
 });
@@ -88,37 +89,37 @@ function getHikes(hike, role, id, startDate_time, endDate_time) {
                 .send(hike)
                 .then(function (res) {
                     res.should.have.status(201);
-                        chaiUtility.agent.post('/api/hike')
-                            .send(hike)
-                            .then(function (res1) {
-                                res1.should.have.status(201);
-                                    chaiUtility.agent.get('/api/hikes')
-                                        .then(function (res2) {
-                                            res2.should.have.status(200);
-                                            res2.body.should.have.length(2);
-                                            done();
-                                        });
-                            })
+                    chaiUtility.agent.post('/api/hike')
+                        .send(hike)
+                        .then(function (res1) {
+                            res1.should.have.status(201);
+                            chaiUtility.agent.get('/api/hikes')
+                                .then(function (res2) {
+                                    res2.should.have.status(200);
+                                    res2.body.should.have.length(2);
+                                    done();
+                                });
+                        })
                 })
-        : 
+            :
             chaiUtility.agent.post('/api/startHike/' + id)
                 .send(startDate_time)
                 .then(function (res3) {
                     res3.should.have.status(201);
-                        chaiUtility.agent.put('/api/endHike/' + id)
-                            .send(endDate_time)
-                            .then(function (res4) {
-                                res4.should.have.status(200);
-                                    chaiUtility.agent.get('/api/hikes')
-                                        .then(function (res5) {
-                                            res5.should.have.status(200);
-                                            res5.body.should.have.length(2);
-                                            res5.body[id - 1].records[0].start_time.should.equal(startDate_time.date_time);
-                                            done();
-                                        });
-                            });
+                    chaiUtility.agent.put('/api/endHike/' + id)
+                        .send(endDate_time)
+                        .then(function (res4) {
+                            res4.should.have.status(200);
+                            chaiUtility.agent.get('/api/hikes')
+                                .then(function (res5) {
+                                    res5.should.have.status(200);
+                                    res5.body.should.have.length(2);
+                                    res5.body[id - 1].records[0].start_time.should.equal(startDate_time.date_time);
+                                    done();
+                                });
+                        });
                 });
-        
+
     });
 };
 
@@ -194,6 +195,14 @@ function getRefPointHiker(expectedHTTPStatus, hikeId) {
                     res.body.points.find(p => p.id == 2).should.not.have.property('time')
                     console.log(res.body.points.find(p => p.id == 2))
                     done();
+                }
+                else if (hikeId == 2) {
+                    res.should.have.status(expectedHTTPStatus);
+                    res.body.id.should.equal(hikeId);
+                    res.body.points.find(p => p.id == 5).should.not.have.property('time')
+                    res.body.points.find(p => p.id == 6).should.not.have.property('time')
+                    console.log(res.body.points.find(p => p.id == 2))
+                    done();
                 } else if (hikeId > 2) {
                     res.should.have.status(404);
                     done();
@@ -247,8 +256,7 @@ function newHikeDescription(expectedHTTPStatus, hike) {
 }
 
 /********************* */
-function minmizetest_EndPoint (id,res2, updateEnd1,park,expectedHTTPStatus)
-{
+function minmizetest_EndPoint(id, res2, updateEnd1, park, expectedHTTPStatus) {
     if (id > 0 && id <= 2) {
         res2.should.have.status(200);
         if (res2.status == 200) {
@@ -256,18 +264,18 @@ function minmizetest_EndPoint (id,res2, updateEnd1,park,expectedHTTPStatus)
                 .send(park)
                 .then(function (res3) {
                     res3.should.have.status(201);
-                     (res3.status == 201) ?
+                    (res3.status == 201) ?
                         chaiUtility.agent.put('/api/hikeEnd/' + id)
                             .send(updateEnd1)
                             .then(function (res4) {
                                 console.log(updateEnd1);
-                                 (id == 1) ?
-                                    res4.should.have.status(expectedHTTPStatus): res2.should.have.status(404);
+                                (id == 1) ?
+                                    res4.should.have.status(expectedHTTPStatus) : res2.should.have.status(404);
                                 done();
                             })
-                    : 
+                        :
                         res2.should.have.status(404);
-                        done();
+                    done();
                 })
 
         }
@@ -279,8 +287,7 @@ function minmizetest_EndPoint (id,res2, updateEnd1,park,expectedHTTPStatus)
 
 }
 
-function minmizetest_StartPoint (id,res2, updateStart1,park1,expectedHTTPStatus)
-{
+function minmizetest_StartPoint(id, res2, updateStart1, park1, expectedHTTPStatus) {
     if (id > 0 && id <= 2) {
         res2.should.have.status(200);
         if (res2.status == 200) {
@@ -288,18 +295,18 @@ function minmizetest_StartPoint (id,res2, updateStart1,park1,expectedHTTPStatus)
                 .send(park1)
                 .then(function (res3) {
                     res3.should.have.status(201);
-                     (res3.status == 201)? 
+                    (res3.status == 201) ?
                         chaiUtility.agent.put('/api/hikeStart/' + id)
                             .send(updateStart1)
                             .then(function (res4) {
                                 console.log(updateStart1);
                                 (id == 1) ?
-                                    res4.should.have.status(expectedHTTPStatus): res2.should.have.status(404);
+                                    res4.should.have.status(expectedHTTPStatus) : res2.should.have.status(404);
                                 done();
                             })
-                    : 
+                        :
                         res2.should.have.status(404);
-                        done();
+                    done();
                 })
         }
         else {
@@ -329,7 +336,7 @@ function updateEndPoint(expectedHTTPStatus, id, hike, updateEnd, updateEnd1, hut
                                             chaiUtility.agent.put('/api/hikeEnd/' + id)
                                                 .send(updateEnd)
                                                 .then(function (res2) {
-                                                    minmizetest_EndPoint(id,res2, updateEnd1,park,expectedHTTPStatus);
+                                                    minmizetest_EndPoint(id, res2, updateEnd1, park, expectedHTTPStatus);
                                                     done();
                                                 });
                                         }
@@ -362,7 +369,7 @@ function updateStartPoint(expectedHTTPStatus, id, hike, updateStart, updateStart
                                             chaiUtility.agent.put('/api/hikeStart/' + id)
                                                 .send(updateStart)
                                                 .then(function (res2) {
-                                                    minmizetest_StartPoint (id,res2, updateStart1,park1,expectedHTTPStatus);
+                                                    minmizetest_StartPoint(id, res2, updateStart1, park1, expectedHTTPStatus);
                                                     done();
                                                 });
                                         }

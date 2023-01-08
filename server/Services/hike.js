@@ -670,7 +670,7 @@ class HikeDescription {
 async function getHikesofHiker(hike, reqUser, reqUserRole, reqUserId) {
     if (reqUser != undefined && reqUserRole == 'hiker') {
         let hike_hiker = await db.getHikeByHiker(hike.id, reqUserId);
-        if (hike_hiker != undefined) {
+        if (hike_hiker.length != 0) {
             hike.records = hike_hiker.map(h => { return ({ start_time: h.start_time, end_time: h.end_time }) })
             for (let point of hike.points) {
                 let point_details = await pointDB.getRefPointHiker(point.id, reqUserId, hike.records[hike.records.length-1].start_time)
