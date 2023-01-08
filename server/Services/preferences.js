@@ -93,7 +93,10 @@ function prefrencesStructCheck (preference)
 
     message1 = prefrencesLocationCheck (preference);
 
-    (message1) ? message =  message1 : false;
+    if(message1)
+    {
+        message = message1;
+    }
 
     return message;
 }
