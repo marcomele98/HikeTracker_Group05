@@ -1,22 +1,17 @@
 //test confirm button when adding  a hut as start point of the hike
 describe('get the hikes list', () => { 
-    it('login ', () => {
+    it('jump into certain hike page and edit it test',()=>{
         cy.login("lg1@p.it","password")
-    })
-
-    it('jump into certain hike page test',()=>{
         cy.contains('Great War: from Malga Grassi to Rifugio Pernici',{ timeout: 30000 }).parent().parent()
         .within(() => {     
         cy.contains('see more').click({force:true})
         })
-    })  
-    
-    it('edit button test',() => {
         cy.contains('Start Point').parent()
         .within(() => {     
             cy.get('button').click({force:true})
             })
-    })
+        
+    })  
 
     it('adding a hut point as start point test',() =>{
         //test first select input:choose type of start point
