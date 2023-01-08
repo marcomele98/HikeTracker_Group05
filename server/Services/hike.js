@@ -654,9 +654,8 @@ class HikeDescription {
                 hike.points = points;
 
                 if (req.user != undefined && req.user.role == 'hiker') {
-                    await getHikesofHiker(hike, req.user, req.user.role, req.user.id);
+                    await getHikesofHiker(hike, req.user, req.user.role, req.user.id)
                 }
-
                 return res.status(200).json(hike);
             }
         }
@@ -674,7 +673,7 @@ async function getHikesofHiker(hike, reqUser, reqUserRole, reqUserId) {
         if (hike_hiker != undefined) {
             hike.records = hike_hiker.map(h => { return ({ start_time: h.start_time, end_time: h.end_time }) })
             for (let point of hike.points) {
-                let point_details = await pointDB.getRefPointHiker(point.id, reqUserId)
+                let point_details = await pointDB.getRefPointHiker(point.id, reqUserId, hike.records[hike.records.length-1].start_time)
                 point.time = new Date(point_details?.time) > new Date(hike.records.find(r => r.end_time == undefined)?.start_time)
                     ?
                     point_details?.time

@@ -117,7 +117,7 @@ db.serialize(function () {
         "point_id" INTEGER NOT NULL,\
         "hiker_id" INTEGER NOT NULL,\
         "time" DATETIME,\
-        PRIMARY KEY("point_id", "hiker_id")\
+        PRIMARY KEY("point_id", "hiker_id", "time")\
         FOREIGN KEY("hiker_id") REFERENCES "USER"("id") on DELETE CASCADE,\
         FOREIGN KEY("point_id") REFERENCES "POINT"("id") on DELETE CASCADE\
     );'

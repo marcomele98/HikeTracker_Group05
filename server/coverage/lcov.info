@@ -1,5 +1,5 @@
 TN:
-SF:Queries\DAO.js
+SF:Queries/DAO.js
 FN:4,(anonymous_0)
 FN:10,(anonymous_1)
 FN:11,(anonymous_2)
@@ -80,7 +80,7 @@ BRF:12
 BRH:6
 end_of_record
 TN:
-SF:Queries\hike.js
+SF:Queries/hike.js
 FN:6,(anonymous_0)
 FN:12,(anonymous_1)
 FN:17,(anonymous_2)
@@ -181,7 +181,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:Queries\hut.js
+SF:Queries/hut.js
 FN:5,(anonymous_0)
 FN:10,(anonymous_1)
 FN:15,(anonymous_2)
@@ -207,7 +207,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:Queries\parking.js
+SF:Queries/parking.js
 FN:6,(anonymous_0)
 FN:11,(anonymous_1)
 FN:17,(anonymous_2)
@@ -233,7 +233,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:Queries\point.js
+SF:Queries/point.js
 FN:6,(anonymous_0)
 FN:13,(anonymous_1)
 FN:18,(anonymous_2)
@@ -275,7 +275,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:Queries\preferences.js
+SF:Queries/preferences.js
 FN:5,(anonymous_0)
 FN:10,(anonymous_1)
 FN:24,(anonymous_2)
@@ -301,7 +301,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:Queries\user.js
+SF:Queries/user.js
 FN:6,(anonymous_0)
 FN:12,(anonymous_1)
 FN:17,(anonymous_2)
@@ -326,7 +326,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:testObjects\preferences.js
+SF:testObjects/preferences.js
 FNF:0
 FNH:0
 DA:1,1
@@ -340,7 +340,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:utilities\daoUtilities.js
+SF:utilities/daoUtilities.js
 FN:3,(anonymous_0)
 FN:17,(anonymous_1)
 FN:26,(anonymous_2)

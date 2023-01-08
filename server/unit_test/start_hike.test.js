@@ -83,15 +83,15 @@ describe("Start Hike tests", () => {
 
         let data;
 
-        data = await point.getRefPointHiker(refPointReached1.point_id, refPointReached1.hiker_id);
+        data = await point.getRefPointHiker(refPointReached1.point_id, refPointReached1.hiker_id, '2022-11-16 13:00:00');
         expect(data).toBe(undefined);
 
         await point.newRefPointHiker(refPointReached1.point_id,refPointReached1.hiker_id,refPointReached1.time);
-        data = await point.getRefPointHiker(refPointReached1.point_id, refPointReached1.hiker_id);
+        data = await point.getRefPointHiker(refPointReached1.point_id, refPointReached1.hiker_id, '2022-11-16 13:00:00');
         expect(refPointReached1).toEqual(data);
         
         await point.newRefPointHiker(refPointReached2.point_id,refPointReached2.hiker_id,refPointReached2.time);
-        data = await point.getRefPointHiker(refPointReached2.point_id, refPointReached2.hiker_id);
+        data = await point.getRefPointHiker(refPointReached2.point_id, refPointReached2.hiker_id, '2022-11-16 14:00:00');
         expect(refPointReached2).toEqual(data);
 
     });

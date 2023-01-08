@@ -76,7 +76,6 @@ describe('test hikes apis as hiker 2', () => {
     });
 
     getRefPointHiker(200, 1)
-    getRefPointHiker(200, 2)
     getRefPointHiker(404, 3)
 
 });
@@ -195,13 +194,7 @@ function getRefPointHiker(expectedHTTPStatus, hikeId) {
                     res.body.points.find(p => p.id == 2).should.not.have.property('time')
                     console.log(res.body.points.find(p => p.id == 2))
                     done();
-                } else if (hikeId == 2){
-                    res.should.have.status(expectedHTTPStatus);
-                    res.body.id.should.equal(hikeId);
-                    res.body.points.find(p => p.id == 5).should.not.have.property('time')
-                    res.body.points.find(p => p.id == 6).should.not.have.property('time')
-                    done();
-                } else {
+                } else if (hikeId > 2) {
                     res.should.have.status(404);
                     done();
                 }

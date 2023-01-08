@@ -32,7 +32,7 @@ exports.newRefPointHiker = async (point_id, hiker_id, time) => {
   return result;
 }
 
-exports.getRefPointHiker = async (point_id, hiker_id) => {
-  const sql = "SELECT * FROM HIKER_POINT WHERE point_id = ? AND hiker_id = ?"
-  return await db.get(sql, [point_id, hiker_id]);
+exports.getRefPointHiker = async (point_id, hiker_id, time) => {
+  const sql = "SELECT * FROM HIKER_POINT WHERE point_id = ? AND hiker_id = ? AND time > ?"
+  return await db.get(sql, [point_id, hiker_id, time]);
 }
