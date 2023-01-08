@@ -1,12 +1,5 @@
 //test story17:As a hiker I want to start a registered hike So that I can record an ongoing hike
 describe('The hiker start a registered hike test', () => {
-    // beforeEach(() => {
-    //     cy.login('h1@p.it', 'password')
-    // })
-    // afterEach(()=>{
-    //     cy.contains('Logout').click({force:true})
-    // })
-
     it('test Start hike button',()=>{
         cy.login("h1@p.it","password")
         cy.get('.title',{ timeout: 30000 }).contains('Colletta di Castelbianco Loop from Veravo',{ timeout: 30000 }).parent().parent()
