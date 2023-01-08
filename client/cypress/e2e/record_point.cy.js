@@ -8,11 +8,6 @@
         cy.contains('Logout').click({force:true})
     })
     it('test add a reference point in the hike',()=>{
-        // cy.get('.title',{ timeout: 30000 }).contains('Monte Zerbion da Antagnod',{ timeout: 30000 }).parent().parent()
-        // .within(() => {     
-        // cy.get('.seeMore').contains('see more').click({force:true})
-        // })
-        // cy.url().should('include', '/hike/27')
         cy.visit('http://localhost:3000/hike/15')
         cy.get('.paddingHorizontal').contains('Start').click({force:true})
         cy.wait(2000)
